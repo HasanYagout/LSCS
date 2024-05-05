@@ -10,5 +10,9 @@ class Admin extends Authenticatable
 {
     use HasFactory;
 
+    public function role()
+    {
+        return $this->hasOne(Roles::class, 'id', 'role_id');
 
+    }
 }
