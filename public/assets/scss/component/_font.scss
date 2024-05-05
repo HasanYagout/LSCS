@@ -1,0 +1,129 @@
+/* Fnot size */
+.fs-9 {
+  font-size: toRem(9);
+}
+.fs-10 {
+  font-size: toRem(10);
+}
+.fs-12 {
+  font-size: toRem(12);
+}
+.fs-13 {
+  font-size: toRem(13);
+}
+.fs-14 {
+  font-size: toRem(14);
+}
+.fs-15 {
+  font-size: toRem(15);
+}
+.fs-16 {
+  font-size: toRem(16);
+}
+.fs-18 {
+  font-size: toRem(18);
+}
+.fs-20 {
+  font-size: toRem(20);
+}
+.fs-24 {
+  font-size: toRem(24);
+}
+.fs-32 {
+  font-size: toRem(32);
+}
+.fs-36 {
+  font-size: toRem(36);
+}
+@media screen and (max-width: 575px) {
+  .fs-sm-20 {
+    font-size: toRem(20);
+  }
+}
+/* Font weight */
+.fw-100 {
+  font-weight: 100;
+}
+.fw-200 {
+  font-weight: 200;
+}
+.fw-300 {
+  font-weight: 300;
+}
+.fw-400 {
+  font-weight: 400;
+}
+.fw-500 {
+  font-weight: 500;
+}
+.fw-600 {
+  font-weight: 600;
+}
+.fw-700 {
+  font-weight: 700;
+}
+.fw-800 {
+  font-weight: 800;
+}
+.fw-900 {
+  font-weight: 900;
+}
+.fw-1000 {
+  font-weight: 1000;
+}
+/* Line Height */
+.lh-12 {
+  line-height: toRem(12);
+}
+.lh-14 {
+  line-height: toRem(14);
+}
+.lh-15 {
+  line-height: toRem(15);
+}
+.lh-16 {
+  line-height: toRem(16);
+}
+.lh-17 {
+  line-height: toRem(17);
+}
+.lh-18 {
+  line-height: toRem(18);
+}
+.lh-20 {
+  line-height: toRem(20);
+}
+.lh-22 {
+  line-height: toRem(22);
+}
+.lh-23 {
+  line-height: toRem(23);
+}
+.lh-24 {
+  line-height: toRem(24);
+}
+.lh-25 {
+  line-height: toRem(25);
+}
+.lh-28 {
+  line-height: toRem(28);
+}
+.lh-29 {
+  line-height: toRem(29);
+}
+.lh-32 {
+  line-height: toRem(32);
+}
+.lh-34 {
+  line-height: toRem(34);
+}
+.lh-38 {
+  line-height: toRem(38);
+}
+.lh-42 {
+  line-height: toRem(42);
+}
+/* Letter Spacing */
+.ls-1 {
+  letter-spacing: toRem(1);
+}

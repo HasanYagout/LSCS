@@ -1,0 +1,28 @@
+.list {
+  &-pb {
+    &-4 {
+      li {
+        padding-bottom: toRem(4);
+        &:last-child {
+          padding-bottom: 0;
+        }
+      }
+    }
+    &-13 {
+      li {
+        padding-bottom: toRem(13);
+        &:last-child {
+          padding-bottom: 0;
+        }
+      }
+    }
+    &-22 {
+      li {
+        padding-bottom: toRem(22);
+        &:last-child {
+          padding-bottom: 0;
+        }
+      }
+    }
+  }
+}

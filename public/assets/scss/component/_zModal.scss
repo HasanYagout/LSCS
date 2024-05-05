@@ -1,0 +1,59 @@
+/* Modal */
+.modal-backdrop {
+  --bs-backdrop-opacity: 0.37;
+  background-color: $text-black;
+}
+.zModalOne {
+  .modal-lg {
+    --bs-modal-width: 850px;
+  }
+  &-content {
+    border: none;
+    border-radius: toRem(25);
+  }
+  &-body {
+    padding: toRem(30) toRem(40);
+    display: flex;
+    justify-content: space-between;
+    .left {
+      position: relative;
+      flex: 1 1 toRem(480);
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: toRem(1);
+        height: 100%;
+        background-color: $border-color;
+      }
+    }
+    .right {
+      flex: 1 1 toRem(290);
+    }
+  }
+}
+.zModalTwo {
+  &-content {
+    border: none;
+    border-radius: toRem(25);
+  }
+  &-body {
+    padding: toRem(30);
+  }
+}
+.mClose {
+  .btn-close {
+    width: toRem(42);
+    height: toRem(42);
+    margin-left: auto;
+    border: toRem(1) solid $black-5;
+    border-radius: 50%;
+    background: transparent none center/1em auto no-repeat;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+}

@@ -1,0 +1,47 @@
+/* Border */
+$borders: (
+  "one": 1,
+);
+@each $key, $bd in $borders {
+  .bd-#{$key} {
+    border-width: #{$bd}px !important;
+    border-style: solid;
+  }
+}
+/* Border top */
+$borders-t: (
+  "one": 1,
+);
+@each $key, $bd in $borders-t {
+  .bd-t-#{$key} {
+    border-top-width: #{$bd}px !important;
+    border-top-style: solid;
+  }
+}
+/* Border Bottom */
+$borders-b: (
+  "one": 1,
+);
+@each $key, $bd in $borders-b {
+  .bd-b-#{$key} {
+    border-bottom-width: #{$bd}px !important;
+    border-bottom-style: solid;
+  }
+}
+/* Border Left */
+$borders-l: (
+  "one": 1,
+);
+@each $key, $bd-l in $borders-l {
+  .bd-l-#{$key} {
+    border-left-width: #{$bd-l}px !important;
+    border-left-style: solid;
+  }
+}
+/* Border Radius */
+$bdr-array: 6, 7, 8, 10, 12, 14, 20, 25;
+@each $bdr in $bdr-array {
+  .bd-ra-#{$bdr} {
+    border-radius: #{$bdr}px !important;
+  }
+}

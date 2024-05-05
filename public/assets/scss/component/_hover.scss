@@ -1,0 +1,28 @@
+.hover {
+  &-color {
+    &-one {
+      &:hover {
+        color: $hover-color !important;
+      }
+    }
+  }
+  &-bg {
+    &-one {
+      &:hover {
+        background-color: $hover-color !important;
+      }
+    }
+    &-two {
+      &:hover {
+        background-color: $primary-color !important;
+      }
+    }
+  }
+  &-border {
+    &-one {
+      &:hover {
+        border-color: $primary-color !important;
+      }
+    }
+  }
+}

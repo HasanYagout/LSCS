@@ -1,0 +1,45 @@
+.zBtn {
+  &-one {
+    @include fontFamily(15, $fw_medium, 25, $black);
+    padding: toRem(10) toRem(26);
+    border: none;
+    border-radius: toRem(12);
+    background-color: $colorSeven;
+    transition: all 0.3s;
+    &.active {
+      background-color: $primary-color;
+    }
+  }
+  &-two {
+    @include fontFamily(15, $fw_medium, 25, $black);
+    padding: toRem(10) toRem(26);
+    border: none;
+    border-radius: toRem(12);
+    background-color: $primary-color;
+    transition: all 0.3s;
+    // &.active {
+    //   background-color: $border-color;
+    // }
+  }
+  &-filter {
+    width: toRem(45);
+    height: toRem(45);
+    border: toRem(1) solid $black-5;
+    border-radius: 50%;
+    background-color: $colorThree;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &[aria-expanded="true"],
+    &:hover {
+      background-color: $text-black;
+      background-color: $text-black;
+      svg {
+        ellipse,
+        path {
+          stroke: $primary-color;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+/*===============================
+#.register-area
+=================================*/
+@import "./primary-form";
+
+.register-area {
+  @include flex-position(flex, center, center);
+  min-height: 100vh;
+}
+.register-wrap {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  max-width: toRem(1212);
+  width: 100%;
+  background-color: var(--white);
+}
+.register-left {
+  @include flex-position(flex, center, center);
+  width: 40.5%;
+  height: toRem(841);
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+  .register-left-wrap {
+    max-width: toRem(323);
+    margin: 0 auto;
+    @media screen and (max-width: 991px) {
+      padding: 0 toRem(15);
+    }
+  }
+}
+.register-right {
+  flex: 1;
+  max-width: toRem(575);
+  margin: 0 auto;
+  padding: toRem(24) 0;
+  @media screen and (max-width: 1099px) {
+    padding-left: toRem(20);
+    padding-right: toRem(20);
+  }
+}
+.otp-input-fields {
+  display: flex;
+  justify-content: space-between;
+  gap: toRem(15);
+  input {
+    flex: 1 1 auto;
+    max-width: toRem(132);
+    width: 100%;
+    height: toRem(89);
+    border: 1px solid $border-color;
+    border-radius: 12px;
+    text-align: center;
+    @media screen and (max-width: 575px) {
+      height: toRem(70);
+    }
+    &:focus,
+    &:hover {
+      border-color: $primary-color;
+    }
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
+  }
+}

@@ -1,0 +1,639 @@
+// New message
+.content-chat {
+  display: flex;
+  gap: toRem(30);
+  @media screen and (max-width: 991px) {
+    gap: toRem(10);
+  }
+  @media screen and (max-width: 767px) {
+    flex-direction: column;
+  }
+  // Chat user
+  .content-chat-user {
+    background-color: $white;
+    border: toRem(1) solid $border-color;
+    border-radius: toRem(20);
+    max-width: toRem(350);
+    width: 100%;
+    padding: toRem(25) 0 toRem(10);
+    @media screen and (max-width: 991px) {
+      max-width: 300px;
+      width: 100%;
+    }
+    @media screen and (max-width: 767px) {
+      padding: toRem(10) 0;
+      max-width: 100%;
+    }
+    .head-chat {
+      padding: 0 toRem(24) toRem(12);
+      @media screen and (max-width: 767px) {
+        display: none;
+      }
+      .title {
+        @include fontFamily(24, $fw_semiBold, 30, $text-black);
+      }
+    }
+    .search-two {
+      margin: 0 toRem(24) toRem(10);
+      max-width: 100%;
+      @media screen and (max-width: 767px) {
+        display: none;
+      }
+    }
+    .list-search-user-chat {
+      max-height: toRem(620);
+      overflow-y: auto;
+      scrollbar-gutter: stable both-edges;
+      scrollbar-width: thin;
+      &::-webkit-scrollbar {
+        width: toRem(6);
+      }
+      &::-webkit-scrollbar-track {
+        background: $scroll-track;
+        border-radius: toRem(50);
+      }
+      &::-webkit-scrollbar-thumb {
+        background: $scroll-thumb;
+        border-radius: toRem(50);
+      }
+      .user-chat {
+        display: flex;
+        gap: toRem(14);
+        padding: toRem(12) toRem(24);
+        cursor: pointer;
+        &:hover,
+        &.active {
+          background-color: $colorSeven;
+        }
+        .user-chat-img {
+          position: relative;
+          width: toRem(50);
+          height: toRem(50);
+          border-radius: 50%;
+          img {
+            width: toRem(50);
+            height: toRem(50);
+            border-radius: 50%;
+            object-fit: cover;
+          }
+          .online {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: toRem(14);
+            height: toRem(14);
+            background-color: $green;
+            border-radius: 50%;
+            border: toRem(2) solid $white;
+          }
+          .offline {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: toRem(14);
+            height: toRem(14);
+            background-color: $colorOne;
+            border-radius: 50%;
+            border: toRem(2) solid $white;
+          }
+        }
+        .user-chat-text-time {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-grow: 1;
+          gap: toRem(5);
+          .time {
+            @include fontFamily(12, $fw_regular, 17, $colorOne);
+            padding-bottom: toRem(6);
+          }
+          .notify {
+            width: toRem(20);
+            height: toRem(20);
+            border-radius: 50%;
+            background-color: $primary-color;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            @include fontFamily(11, $fw_regular, 13, $text-black);
+            margin-left: auto !important;
+          }
+        }
+        .user-chat-text {
+          .name {
+            @include fontFamily(14, $fw_medium, 24, $text-black);
+          }
+          small {
+            @include fontFamily(14, $fw_regular, 17, $colorOne);
+          }
+        }
+        .user-chat-time {
+          flex-shrink: 0;
+        }
+      }
+    }
+  }
+  // Message
+  .content-chat-message-user-wrap {
+    max-width: 100%;
+    width: 100%;
+    border: toRem(1) solid $colorTwo;
+    border-radius: toRem(20);
+    overflow: hidden;
+    .content-chat-message-user {
+      display: none;
+      background-color: $white;
+      border-bottom: none;
+      overflow: hidden;
+      &.active {
+        display: block;
+      }
+      // Head
+      .head-chat-message-user {
+        display: flex;
+        align-items: center;
+        gap: toRem(12);
+        padding: toRem(30) toRem(30) toRem(21);
+        background-color: $white;
+        border-bottom: toRem(1) solid $colorTwo;
+        @media screen and (max-width: 767px) {
+          padding: toRem(15);
+        }
+        .message-user-img {
+          position: relative;
+          img {
+            width: toRem(50);
+            height: toRem(50);
+            border-radius: 50%;
+            object-fit: cover;
+          }
+          .online {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: toRem(14);
+            height: toRem(14);
+            background-color: $green;
+            border-radius: 50%;
+            border: toRem(2) solid $white;
+          }
+          .offline {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: toRem(14);
+            height: toRem(14);
+            background-color: $colorOne;
+            border-radius: 50%;
+            border: toRem(2) solid $white;
+          }
+        }
+        .message-user-text {
+          .title {
+            @include fontFamily(16, $fw_medium, 24, $text-black);
+          }
+          .status {
+            @include fontFamily(14, $fw_regular, 17, $colorOne);
+          }
+        }
+      }
+      // body
+      .body-chat-message-user {
+        display: flex;
+        flex-direction: column;
+        gap: toRem(30);
+        box-sizing: border-box;
+        padding: toRem(15) toRem(30);
+        height: 580px;
+        overflow-y: auto;
+        scrollbar-gutter: stable both-edges;
+        scrollbar-width: thin;
+        background-color: $white;
+        @media screen and (max-width: 767px) {
+          padding: toRem(15);
+        }
+        &::-webkit-scrollbar {
+          width: 6px;
+        }
+        &::-webkit-scrollbar-track {
+          background: $scroll-track;
+          border-radius: toRem(50);
+        }
+        &::-webkit-scrollbar-thumb {
+          background: $scroll-thumb;
+          border-radius: toRem(50);
+        }
+        // Left
+        .message-user-left {
+          display: flex;
+          flex-direction: column;
+          gap: toRem(4);
+          .message-user-left-text {
+            position: relative;
+            max-width: calc(toRem(508) + 12px + 35px);
+            display: flex;
+            align-items: center;
+            gap: toRem(12);
+            @media screen and (max-width: 575px) {
+              gap: toRem(5);
+            }
+            .text {
+              padding: toRem(6) toRem(12);
+              background-color: $colorNine;
+              border: toRem(1) solid $border-color;
+              border-radius: toRem(15);
+              color: $text-black;
+              > p {
+                padding-bottom: toRem(8);
+              }
+              .time-read {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                gap: toRem(4);
+                .time {
+                  @include fontFamily(13, $fw_regular, 16, $text-black);
+                }
+              }
+            }
+            .share-icon {
+              opacity: 0;
+              visibility: hidden;
+              flex-shrink: 0;
+              width: toRem(35);
+              height: toRem(35);
+              border: none;
+              border-radius: 50%;
+              padding: 0;
+              background-color: $colorEleven;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              img {
+                max-width: toRem(15);
+              }
+            }
+            &:hover {
+              .share-icon {
+                opacity: 1;
+                visibility: visible;
+              }
+            }
+          }
+        }
+        // Right
+        .message-user-right {
+          display: flex;
+          flex-direction: column;
+          align-items: end;
+          gap: toRem(4);
+          .share-icon {
+            opacity: 0;
+            visibility: hidden;
+            flex-shrink: 0;
+            width: toRem(35);
+            height: toRem(35);
+            border: none;
+            border-radius: 50%;
+            padding: 0;
+            background-color: $colorEleven;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+              max-width: toRem(15);
+            }
+          }
+          .message-user-right-text {
+            position: relative;
+            max-width: calc(toRem(508) + toRem(12) + toRem(35));
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: toRem(12);
+            @media screen and (max-width: 575px) {
+              gap: toRem(5);
+            }
+            .text {
+              padding: toRem(6) toRem(12);
+              background-color: $color24;
+              border: toRem(1) solid $color24;
+              border-radius: toRem(15);
+              color: $text-black;
+              > p {
+                padding-bottom: toRem(8);
+              }
+              .time-read {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: toRem(4);
+                .time {
+                  @include fontFamily(13, $fw_regular, 16, $text-black);
+                }
+              }
+            }
+            &:hover {
+              .share-icon {
+                opacity: 1;
+                visibility: visible;
+              }
+            }
+          }
+        }
+      }
+    }
+    // Footer
+    .footer-chat-message-user {
+      background-color: $white;
+      border-top: toRem(1) solid $colorTwo;
+      padding: toRem(15) toRem(30) toRem(30);
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: toRem(10);
+      .footer-inputs {
+        @media screen and (max-width: 767px) {
+          position: relative;
+          gap: 0;
+          height: toRem(50);
+          background-color: $colorSeven;
+          border-radius: toRem(50);
+        }
+      }
+      @media screen and (max-width: 767px) {
+        padding: toRem(15) toRem(15) toRem(30);
+      }
+      .message-user-send {
+        flex: 1 1 auto;
+        position: relative;
+        width: 100%;
+        @media screen and (max-width: 767px) {
+          order: 1;
+        }
+        input {
+          box-sizing: border-box;
+          width: 100%;
+          padding: toRem(13) toRem(20);
+          border-radius: toRem(50);
+          outline: none;
+          border: none;
+          background-color: $colorSeven;
+          @media screen and (max-width: 767px) {
+            padding: toRem(13) toRem(45);
+          }
+        }
+      }
+      button {
+        flex: 0 0 auto;
+        border: none;
+        padding: 0;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      button.emoji-btn,
+      button.send-btn {
+        flex: 0 0 auto;
+        width: toRem(50);
+        height: toRem(50);
+        border-radius: 50%;
+        border: none;
+        background-color: $colorSeven;
+        cursor: pointer;
+        &:hover {
+          background-color: $primary-color;
+        }
+        @media screen and (max-width: 767px) {
+          z-index: 1;
+          order: 2;
+          width: toRem(31);
+          height: toRem(31);
+          background-color: $primary-color;
+          position: absolute;
+          top: 50%;
+          right: toRem(13);
+          transform: translateY(-50%);
+          img {
+            max-width: toRem(13);
+          }
+        }
+      }
+    }
+  }
+}
+.atta-btn label {
+  width: toRem(50);
+  height: toRem(50);
+  border-radius: 50%;
+  border: none;
+  background-color: $colorSeven;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-color: $primary-color;
+  }
+  @media screen and (max-width: 767px) {
+    z-index: 1;
+    width: toRem(31);
+    height: toRem(31);
+    position: absolute;
+    top: 50%;
+    left: toRem(13);
+    transform: translateY(-50%);
+    img {
+      max-width: toRem(13);
+    }
+  }
+}
+.messagePhoto {
+  margin-bottom: toRem(6);
+  gap: toRem(3);
+  grid-template-rows: 200px;
+  margin-top: 0;
+  max-height: 200px;
+  &.postPhotoItems-three,
+  &.postPhotoItems-multi {
+    grid-template-rows: toRem(100) toRem(100);
+  }
+  li {
+    border-color: $text-black;
+  }
+}
+
+@media (max-width: 767px) {
+  .content-chat {
+    .content-chat-user {
+      .list-search-user-chat {
+        box-sizing: border-box;
+        max-width: -moz-fit-content;
+        max-width: fit-content;
+        display: flex;
+        flex-direction: row;
+        margin: 0 auto;
+        overflow-x: auto;
+        max-height: -moz-fit-content;
+        max-height: fit-content;
+        margin: 0 toRem(15);
+        padding: toRem(10) 0;
+        gap: toRem(10);
+        &::-webkit-scrollbar {
+          -webkit-appearance: none;
+          &:vertical {
+            width: toRem(10);
+          }
+        }
+        &::-webkit-scrollbar-button:increment,
+        &::-webkit-scrollbar-button {
+          display: none;
+        }
+        &::-webkit-scrollbar:horizontal {
+          height: toRem(6);
+        }
+        &::-webkit-scrollbar-thumb {
+          border-radius: toRem(50);
+        }
+        &::-webkit-scrollbar-track {
+          border-radius: toRem(50);
+        }
+        .user-chat {
+          padding: 0;
+          &.active,
+          &:hover {
+            background-color: transparent;
+          }
+          .user-chat-text-time {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Attachment
+#files-names,
+#files-names2 {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  .file-block {
+    flex: 0 0 auto;
+    padding: toRem(5);
+    border: toRem(1) solid $border-color;
+    border-radius: toRem(12);
+    display: flex;
+    align-items: center;
+    gap: toRem(10);
+    .file-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: var(--black-10);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 12px;
+    }
+    .name {
+      @include fontFamily(16, $fw_medium, 20, $text-black);
+    }
+    .file-delete {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: var(--black-10);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  }
+}
+
+// Nice select
+.sf-select-without-search {
+  background-color: #fff !important;
+  border-radius: toRem(8) !important;
+  border: 1px solid $border-color !important;
+  box-sizing: border-box;
+  clear: both;
+  cursor: pointer;
+  display: block;
+  float: left;
+  font-family: inherit;
+  font-size: 14px !important;
+  font-weight: $fw_regular !important;
+  color: $text-black !important;
+  outline: none;
+  padding: toRem(28) toRem(17) !important;
+  position: relative;
+  text-align: left !important;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+  white-space: nowrap;
+  width: 100% !important;
+  margin-bottom: 0 !important;
+  line-height: 0 !important;
+  &.empty {
+    color: $text-black !important;
+  }
+  &:hover {
+    border-color: $border-color !important;
+  }
+  .option {
+    &.selected {
+      font-weight: normal !important;
+    }
+  }
+  &::after {
+    border-color: $colorOne;
+    width: 9px;
+    height: 9px;
+    right: 15px;
+    border-width: 1px;
+  }
+  &:active,
+  &.open,
+  &:focus {
+    box-shadow: 0 0 0 0 #00000000;
+  }
+  .list {
+    width: 100% !important;
+  }
+  &.open {
+    .list {
+      opacity: 1;
+      pointer-events: auto;
+      width: 100%;
+      border-radius: toRem(12);
+      border: toRem(1) solid $border-color;
+      box-shadow: 0 0 toRem(10) rgb(76 76 76 / 12%);
+      background-color: #fff;
+      padding: toRem(9);
+      max-height: toRem(200);
+      overflow-y: auto;
+      z-index: 10001;
+      li {
+        padding: 8px 10px;
+        border-radius: 5px;
+        @include fontFamily(13, $fw_medium, 16, $text-black);
+        min-height: inherit;
+        transition: all 0.3s;
+        &.focus,
+        &.selected,
+        &:hover {
+          background-color: $colorSeven !important;
+        }
+      }
+    }
+    &::after {
+      transform: rotate(45deg);
+    }
+  }
+}

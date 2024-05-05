@@ -1,0 +1,96 @@
+/* Minimum width */
+$min-w-array: 0;
+@each $min in $min-w-array {
+    .min-w-#{$min} {
+        min-width: #{$min}px !important;
+    }
+}
+/* Maximum width */
+$max-w-array: 26, 77, 146, 193, 291, 303, 370, 437, 486, 498, 548, 677, 833, 964;
+@each $max in $max-w-array {
+    .max-w-#{$max} {
+        max-width: #{$max}px !important;
+    }
+}
+$max-w-sm-array: 188;
+@each $max in $max-w-sm-array {
+    .max-w-sm-#{$max} {
+        @media screen and (min-width: 576px) {
+            max-width: #{$max}px !important;
+        }
+    }
+}
+/* Width */
+$w-array: 30, 40, 42, 50, 51;
+@each $w in $w-array {
+    .w-#{$w} {
+        width: #{$w}px !important;
+    }
+}
+/* Minimum Height */
+$min-h-array: 68, 84, 92, 157, 215;
+@each $min in $min-h-array {
+    .min-h-#{$min} {
+        min-height: #{$min}px !important;
+    }
+}
+$min-h-md-array: 68, 84, 92;
+@each $min in $min-h-md-array {
+    .min-h-md-#{$min} {
+        @media screen and (min-width: 768px) {
+            min-height: #{$min}px !important;
+        }
+    }
+}
+.min-h-auto {
+    min-height: auto;
+}
+/* Maximum Height */
+$max-h-array: 157, 215;
+@each $max in $max-h-array {
+    .max-h-#{$max} {
+        max-height: #{$max}px !important;
+    }
+}
+/* Height */
+$h-array: 30, 40, 42, 50, 51, 157, 215, 234, 341;
+@each $h in $h-array {
+    .h-#{$h} {
+        height: #{$h}px !important;
+    }
+}
+/* Top */
+$top-array: 10, 22;
+@each $t in $top-array {
+    .top-#{$t} {
+        top: #{$t}px !important;
+    }
+}
+/* Left */
+$left-array: 22;
+@each $l in $left-array {
+    .left-#{$l} {
+        left: #{$l}px !important;
+    }
+}
+/* Right */
+$right-array: 10;
+@each $r in $right-array {
+    .right-#{$r} {
+        right: #{$r}px !important;
+    }
+}
+/* Line clamp */
+$line-clamp-array: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
+@each $lc in $line-clamp-array {
+    .line-clamp-#{$lc} {
+        -webkit-line-clamp: #{$lc};
+    }
+}
+/* Text ellipsis */
+.sf-text-ellipsis {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

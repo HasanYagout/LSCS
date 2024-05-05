@@ -1,0 +1,126 @@
+.form-wrap {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: toRem(15);
+  grid-row-gap: toRem(20);
+  @media screen and (max-width: 575px) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-row-gap: 1.5rem;
+  }
+}
+.primary-form-group {
+  .primary-form-group-wrap {
+    position: relative;
+    // &:has(input.date-time-picker) {
+    //   &::after {
+    //     content: "";
+    //     position: absolute;
+    //     top: 50%;
+    //     right: 0;
+    //     transform: translateY(-50%);
+    //     width: 15px;
+    //     height: 15px;
+    //     background-color: red;
+    //     background-image: url(../../images/icon/calendar-icon.svg);
+    //   }
+    // }
+    .form-label {
+      position: absolute;
+      display: inline-block;
+      padding: 0 toRem(10);
+      margin: 0;
+      top: 0;
+      left: toRem(13);
+      background-color: var(--white);
+      transform: translateY(-50%);
+      @include fontFamily(12, $fw_regular, 16, $colorOne);
+      z-index: 1;
+    }
+    .primary-form-control {
+      width: 100%;
+      padding: toRem(16) toRem(23);
+      border-radius: toRem(12);
+      border: 1px solid $border-color;
+      font-family: $bodyFont;
+      @include fontFamily(14, $fw_medium, 24, $text-black);
+      box-shadow: none;
+      &:focus {
+        color: $text-black;
+      }
+      &:hover,
+      &:focus {
+        border-color: var(--primary-color);
+      }
+      &::placeholder {
+        @include fontFamily(14, $fw_medium, 24, $colorOne);
+      }
+      &[type="file"] {
+        cursor: pointer;
+        @include fontFamily(14, $fw_regular, 24, $black);
+        &::-webkit-file-upload-button {
+          margin-right: toRem(12);
+          padding: toRem(2) toRem(10);
+          border: 0;
+          border-radius: toRem(6);
+          background-color: $color14;
+          @include fontFamily(14, $fw_medium, 24, $black);
+        }
+        &::file-selector-button {
+          margin-right: toRem(12);
+          padding: toRem(2) toRem(10);
+          border: 0;
+          border-radius: toRem(6);
+          background-color: $color14;
+          @include fontFamily(14, $fw_medium, 24, $black);
+        }
+      }
+    }
+    select {
+      &.primary-form-control {
+        color: $colorOne;
+      }
+    }
+    // &:has(.summernoteOne) {
+    .summernoteOne ~ .note-editor {
+      border: toRem(1) solid $border-color !important;
+      border-radius: toRem(12);
+      padding: toRem(15) toRem(20);
+    }
+  }
+}
+.continue-btn-list {
+  display: flex;
+  align-items: center;
+  grid-column-gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+  .continue-btn {
+    @include flex-position(flex, center, center);
+    width: toRem(56);
+    height: toRem(56);
+    border-radius: 50%;
+    background-color: #f9f9f9;
+    transition: $transition;
+    border: none;
+    box-shadow: none;
+    img {
+      max-width: toRem(27);
+      object-fit: cover;
+    }
+    &:hover {
+      background-color: var(--primary-color);
+    }
+  }
+}
+.under-border-one {
+  &::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 1px;
+    background: var(--border-color);
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

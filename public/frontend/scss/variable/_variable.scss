@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+:root {
+  --inter-tight: "Inter Tight", sans-serif;
+  --primary-color: #cdef84;
+  --black-color: #121421;
+  --para-color: #707070;
+  --hover-color: #afd449;
+  --scroll-track: #efefef;
+  --scroll-thumb: #dadada;
+  --stroke-color: #e4e6eb;
+  --text-black: #1b1c17;
+  --text-black-10: rgb(27 28 23 / 10%);
+  --text-black-28: rgb(27 28 23 / 28%);
+  --text-black-50: rgb(27 28 23 / 50%);
+  --green: #4cbf4c;
+  --red: #f02e17;
+  --bg-one: #ededed;
+  --border-color: #ededed;
+  --color1: #383838;
+  --color2: #ebe7d5;
+  --color3: #fdedeb;
+  --color4: #f4f4f4;
+  --event-bg: #fbf9f1;
+  --body-bg: #ffffff;
+  --white: #ffffff;
+  --white-10: rgb(255 255 255 / 10%);
+  --white-15: rgb(255 255 255 / 15%);
+  --white-32: rgb(255 255 255 / 32%);
+  --white-80: rgb(255 255 255 / 70%);
+  --black: #000000;
+  --black-5: rgb(0 0 0 / 5%);
+  --black-10: rgb(0 0 0 / 10%);
+}
+
+// Font Family
+$inter-tight: var(--inter-tight);
+
+// Font Weight
+$fw_thin: 100;
+$fw_extraLight: 200;
+$fw_light: 300;
+$fw_regular: 400;
+$fw_medium: 500;
+$fw_semiBold: 600;
+$fw_bold: 700;
+$fw_extraBold: 800;
+$fw_black: 900;
+
+// Color
+$primary-color: var(--primary-color);
+$black-color: var(--black-color);
+$para-color: var(--para-color);
+$hover-color: var(--hover-color);
+$scroll-track: var(--scroll-track);
+$scroll-thumb: var(--scroll-thumb);
+$stroke-color: var(--stroke-color);
+$text-black: var(--text-black);
+$text-black-10: var(--text-black-10);
+$text-black-28: var(--text-black-28);
+$text-black-50: var(--text-black-50);
+$green: var(--green);
+$red: var(--red);
+$bg-one: var(--bg-one);
+$border-color: var(--border-color);
+$color1: var(--color1);
+$color2: var(--color2);
+$color3: var(--color3);
+$color4: var(--color4);
+$event-bg: var(--event-bg);
+$body-bg: var(--body-bg);
+$white: var(--white);
+$white-10: var(--white-10);
+$white-15: var(--white-15);
+$white-32: var(--white-32);
+$white-80: var(--white-80);
+$black: var(--black);
+$black-5: var(--black-5);
+$black-10: var(--black-10);
+
+// body var
+$bodyFont: $inter-tight;
+$fontAesome: "Font Awesome 6 Free";
+$transition: all 0.3s;

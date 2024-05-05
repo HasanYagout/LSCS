@@ -1,0 +1,51 @@
+/* Border */
+.bd-half {
+  border-width: toRem(0.5) !important;
+  border-style: solid;
+}
+.bd-one {
+  border-width: toRem(1) !important;
+  border-style: solid;
+}
+.bd-three {
+  border-width: toRem(3) !important;
+  border-style: solid;
+}
+/* Border top */
+.bd-t-one {
+  border-top-width: toRem(1) !important;
+  border-top-style: solid;
+}
+/* Border Bottom */
+.bd-b-one {
+  border-bottom-width: toRem(1) !important;
+  border-bottom-style: solid;
+}
+/* Border Radius */
+.bd-ra-4 {
+  border-radius: toRem(4) !important;
+}
+.bd-ra-6 {
+  border-radius: toRem(6) !important;
+}
+.bd-ra-7 {
+  border-radius: toRem(7) !important;
+}
+.bd-ra-8 {
+  border-radius: toRem(8) !important;
+}
+.bd-ra-10 {
+  border-radius: toRem(10) !important;
+}
+.bd-ra-12 {
+  border-radius: toRem(12) !important;
+}
+.bd-ra-15 {
+  border-radius: toRem(15) !important;
+}
+.bd-ra-20 {
+  border-radius: toRem(20) !important;
+}
+.bd-ra-25 {
+  border-radius: toRem(25) !important;
+}

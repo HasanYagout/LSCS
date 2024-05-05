@@ -1,0 +1,96 @@
+/* Padding */
+$p-array: 10, 13, 20, 30;
+@each $p in $p-array {
+    .p-#{$p} {
+        padding: #{$p}px !important;
+    }
+}
+/* Padding top & bottom */
+$py-array: 4, 6, 15, 16, 28, 32, 50, 78;
+@each $py in $py-array {
+    .py-#{$py} {
+        padding-top: #{$py}px !important;
+        padding-bottom: #{$py}px !important;
+    }
+}
+$py-md-array: 75;
+@each $py in $py-md-array {
+    .py-md-#{$py} {
+        @media screen and (min-width: 768px) {
+            padding-top: #{$py}px !important;
+            padding-bottom: #{$py}px !important;
+        }
+    }
+}
+$py-lg-array: 100;
+@each $py in $py-lg-array {
+    .py-lg-#{$py} {
+        @media screen and (min-width: 992px) {
+            padding-top: #{$py}px !important;
+            padding-bottom: #{$py}px !important;
+        }
+    }
+}
+/* Padding left & right */
+$px-array: 9, 10, 20, 24, 25, 26, 27, 30, 32;
+@each $px in $px-array {
+    .px-#{$px} {
+        padding-left: #{$px}px !important;
+        padding-right: #{$px}px !important;
+    }
+}
+/* Padding top */
+$pt-array: 5, 16, 19, 20, 21, 24, 25, 29, 51, 60, 77, 110;
+@each $pt in $pt-array {
+    .pt-#{$pt} {
+        padding-top: #{$pt}px !important;
+    }
+}
+/* Padding bottom */
+$pb-array: 2, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25,
+    26, 28, 29, 30, 32, 34, 35, 37, 38, 40, 41, 42, 45, 50, 62, 77, 110;
+@each $pba in $pb-array {
+    .pb-#{$pba} {
+        padding-bottom: #{$pba}px !important;
+    }
+}
+/* Padding Left */
+$pl-array: 7;
+@each $pl in $pl-array {
+    .pl-#{$pl} {
+        padding-left: #{$pl}px !important;
+    }
+}
+/* Padding left for lg */
+$pl-lg-array: 60, 75;
+@each $pl in $pl-lg-array {
+    .pl-lg-#{$pl} {
+        @media screen and (min-width: 992px) {
+            padding-left: #{$pl}px !important;
+        }
+    }
+}
+$pl-xl-array: 75;
+@each $pl in $pl-lg-array {
+    .pl-lg-#{$pl} {
+        @media screen and (min-width: 1200px) {
+            padding-left: #{$pl}px !important;
+        }
+    }
+}
+/* Padding Right */
+$pr-array: 0;
+@each $pr in $pr-array {
+    .pr-#{$pr} {
+        padding-right: #{$pr}px !important;
+    }
+}
+/* Padding right for lg */
+$pr-lg-array: 24;
+@each $pr in $pr-lg-array {
+    .pr-lg-#{$pr} {
+        @media screen and (min-width: 992px) {
+            padding-right: #{$pr}px !important;
+        }
+    }
+}

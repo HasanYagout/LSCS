@@ -1,0 +1,73 @@
+.zTabHead {
+    border-bottom: none;
+    flex-wrap: nowrap;
+    @media screen and (max-width: 575px) {
+        overflow-x: scroll;
+    }
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    .nav-link {
+        position: relative;
+        margin-bottom: 0;
+        border: none;
+        border-radius: 0 !important;
+        padding: 0 toRem(30) toRem(15);
+        @include fontFamily(16, $fw_medium, 20, $colorOne);
+        white-space: nowrap;
+        &.active {
+            color: $text-black;
+            &::after {
+                width: 100%;
+            }
+        }
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: toRem(1);
+            background-color: $text-black;
+            transition: all 0.3s;
+        }
+    }
+}
+.zTab {
+    &-reset {
+        --bs-nav-link-padding-x: 0;
+        --bs-nav-link-padding-y: 0;
+        --bs-nav-link-font-weight: 400;
+        --bs-nav-link-color: #fff;
+        --bs-nav-tabs-border-width: 0;
+        --bs-nav-tabs-border-color: #fff;
+        --bs-nav-tabs-border-radius: 0;
+        --bs-nav-tabs-link-active-color: #fff;
+        --bs-nav-tabs-link-active-bg: #fff;
+        flex-wrap: nowrap;
+        border-bottom: none;
+    }
+    &-three {
+        padding: toRem(7);
+        background-color: $white;
+        border: toRem(1) solid $stroke-color;
+        border-radius: toRem(12);
+        .nav {
+            &-link {
+                padding: toRem(14) toRem(28);
+                background-color: transparent;
+                border-radius: toRem(10);
+                white-space: nowrap;
+                @include fontFamily(17, $fw_semiBold, 20, $text-black);
+                &.active {
+                    background-color: $primary-color;
+                    color: $text-black;
+                }
+            }
+        }
+    }
+}
+.zTabContent {
+    border-top: toRem(1) solid $border-color;
+    padding-top: toRem(30);
+}

@@ -1,0 +1,22 @@
+/* Margin Left & Right */
+$mx-array: 0;
+@each $mx in $mx-array {
+  .mx-#{$mx} {
+    margin-left: #{$mx}px !important;
+    margin-right: #{$mx}px !important;
+  }
+}
+/* Margin top */
+$mt-array: 0;
+@each $mta in $mt-array {
+  .mt-#{$mta} {
+    margin-top: #{$mta}px !important;
+  }
+}
+/* Margin bottom */
+$mb-array: 8, 14, 16, 19, 20, 21, 22, 23, 24, 25, 29, 42, 54;
+@each $mba in $mb-array {
+  .mb-#{$mba} {
+    margin-bottom: #{$mba}px !important;
+  }
+}

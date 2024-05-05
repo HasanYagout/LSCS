@@ -1,0 +1,308 @@
+.home {
+  &-section {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    gap: toRem(30);
+    .home {
+      &-content {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 toRem(694);
+        flex: 1 1 toRem(694);
+      }
+      &-rightSide {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 toRem(406);
+        flex: 1 1 toRem(406);
+        @media screen and (max-width: 767px) {
+          display: none;
+        }
+      }
+    }
+  }
+  &-item {
+    &-one {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      gap: toRem(17);
+      .img {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 0 auto;
+        flex: 1 0 auto;
+        position: relative;
+        width: toRem(126);
+        // @media screen and (min-width: 1440px) {
+        //   max-width: toRem(126);
+        // }
+        height: toRem(132);
+        border: toRem(1) solid $text-black;
+        border-radius: toRem(15);
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        .tag {
+          position: absolute;
+          top: toRem(9);
+          left: toRem(9);
+          right: toRem(9);
+        }
+      }
+      .content {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 0 toRem(216);
+        flex: 1 0 toRem(216);
+        > * {
+          padding-bottom: toRem(6);
+          &:last-child {
+            padding-bottom: 0;
+          }
+        }
+        .title {
+          @include fontFamily(16, $fw_medium, 23, $text-black);
+        }
+      }
+    }
+  }
+}
+.postLike {
+  svg {
+    path {
+      fill: transparent;
+    }
+  }
+  &:hover,
+  &.active {
+    svg {
+      path {
+        fill: $color22;
+        stroke: $color22;
+      }
+    }
+  }
+}
+.postInput {
+  border: none;
+  border-radius: toRem(12);
+  padding: toRem(15);
+  background-color: $colorNine;
+  -webkit-box-shadow: 0 0 0 #00000000;
+  box-shadow: 0 0 0 #00000000;
+  overflow-y: auto;
+  min-height: toRem(180) !important;
+  resize: none;
+  &::-webkit-scrollbar {
+    width: toRem(6);
+  }
+  &::-webkit-scrollbar-track {
+    background: $scroll-track;
+    border-radius: toRem(50);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $scroll-thumb;
+    border-radius: toRem(50);
+  }
+  @include fontFamily(14, $fw_regular, 24, $text-black !important);
+  &:focus {
+    @include fontFamily(14, $fw_regular, 24, $text-black !important);
+    background-color: $colorNine !important;
+  }
+  &::-webkit-input-placeholder {
+    @include fontFamily(14, $fw_regular, 24, $colorOne !important);
+  }
+  &::-moz-placeholder {
+    @include fontFamily(14, $fw_regular, 24, $colorOne !important);
+  }
+  &:-ms-input-placeholder {
+    @include fontFamily(14, $fw_regular, 24, $colorOne !important);
+  }
+  &::-ms-input-placeholder {
+    @include fontFamily(14, $fw_regular, 24, $colorOne !important);
+  }
+  &::placeholder {
+    @include fontFamily(14, $fw_regular, 24, $colorOne !important);
+  }
+}
+.postCommentInput {
+  border: none;
+  border-radius: toRem(12);
+  padding: toRem(11) toRem(18) toRem(10);
+  background-color: $colorNine;
+  -webkit-box-shadow: 0 0 0 #00000000;
+  box-shadow: 0 0 0 #00000000;
+  @include fontFamily(14, $fw_regular, 24, $text-black !important);
+  &:focus {
+    @include fontFamily(14, $fw_regular, 24, $text-black !important);
+    background-color: $colorNine !important;
+  }
+  &::-webkit-input-placeholder {
+    @include fontFamily(14, $fw_regular, 24, $colorOne !important);
+  }
+  &::-moz-placeholder {
+    @include fontFamily(14, $fw_regular, 24, $colorOne !important);
+  }
+  &:-ms-input-placeholder {
+    @include fontFamily(14, $fw_regular, 24, $colorOne !important);
+  }
+  &::-ms-input-placeholder {
+    @include fontFamily(14, $fw_regular, 24, $colorOne !important);
+  }
+  &::placeholder {
+    @include fontFamily(14, $fw_regular, 24, $colorOne !important);
+  }
+}
+.postComments {
+  // max-height: toRem(200);
+  // overflow-y: auto;
+  // &::-webkit-scrollbar {
+  //   width: toRem(6);
+  // }
+  // &::-webkit-scrollbar-track {
+  //   background: $scroll-track;
+  //   border-radius: toRem(50);
+  // }
+  // &::-webkit-scrollbar-thumb {
+  //   background: $scroll-thumb;
+  //   border-radius: toRem(50);
+  // }
+  > li {
+    padding-bottom: toRem(11);
+    &:last-child {
+      padding-bottom: 0;
+    }
+  }
+}
+.postCommentReply {
+  max-width: toRem(595);
+  padding-left: toRem(49);
+  padding-top: toRem(11);
+  &:not(&:has(ul li)) {
+    .postCommentReplyInput {
+      display: none !important;
+    }
+  }
+  > ul ~ .postCommentReplyInput {
+    padding-top: toRem(11);
+    display: block;
+  }
+  // > ul li {
+  //   padding-left: toRem(49);
+  //   padding-top: toRem(11);
+  //   .postCommentReplyInput {
+  //     padding-top: toRem(11);
+  //     display: block;
+  //   }
+  // }
+}
+.postPhotoItems {
+  margin-top: toRem(20);
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: toRem(355);
+  gap: toRem(15);
+  max-height: toRem(355);
+  @media screen and (max-width: 991px) {
+    grid-template-rows: toRem(170);
+  }
+  // Chrome
+  &:has(:nth-child(2)) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  &:has(:nth-child(3)) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: toRem(100) toRem(100);
+    li:first-child {
+      grid-row: 1/3;
+    }
+  }
+  // Firefox
+  &.postPhotoItems-two {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  &.postPhotoItems-three,
+  &.postPhotoItems-multi {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: toRem(170) toRem(170);
+    li:first-child {
+      grid-row: 1/3;
+    }
+  }
+  li {
+    position: relative;
+    border: toRem(1) solid $primary-color;
+    border-radius: toRem(12);
+    overflow: hidden;
+    &:nth-child(n + 4) {
+      display: none;
+    }
+    // &:has(video) {
+    .video {
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $text-black-50;
+      }
+    }
+    img {
+      -o-object-fit: cover;
+      object-fit: cover;
+      height: 100%;
+      width: 100%;
+    }
+    .morePhotos {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: $text-black-50;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @include fontFamily(32, $fw_semiBold, 40, $white);
+    }
+    video {
+      width: 100%;
+      height: 100%;
+    }
+    .vidPly-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: toRem(64);
+      height: toRem(64);
+      border-radius: 50%;
+      background-color: $primary-color;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: none;
+      padding: 0;
+      img {
+        max-width: toRem(18);
+        max-height: toRem(21);
+      }
+    }
+  }
+}
+// Offcanvas for Right side
+.offcanvas {
+  &.offcanvas-end {
+    @media screen and (max-width: 575px) {
+      max-width: toRem(300);
+    }
+  }
+}

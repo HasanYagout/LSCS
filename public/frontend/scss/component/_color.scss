@@ -1,0 +1,49 @@
+$theme-colors: (
+  "primary-color": var(--primary-color),
+  "black-color": var(--black-color),
+  "para-color": var(--para-color),
+  "hover-color": var(--hover-color),
+  "scroll-track": var(--scroll-track),
+  "scroll-thumb": var(--scroll-thumb),
+  "stroke-color": var(--stroke-color),
+  "text-black": var(--text-black),
+  "text-black-10": var(--text-black-10),
+  "text-black-28": var(--text-black-28),
+  "text-black-50": var(--text-black-50),
+  "green": var(--green),
+  "red": var(--red),
+  "bg-one": var(--bg-one),
+  "border-color": var(--border-color),
+  "color1": var(--color1),
+  "color2": var(--color2),
+  "color3": var(--color3),
+  "color4": var(--color4),
+  "event-bg": var(--event-bg),
+  "body-bg": var(--body-bg),
+  "white": var(--white),
+  "white-10": var(--white-10),
+  "white-15": var(--white-15),
+  "white-32": var(--white-32),
+  "white-80": var(--white-80),
+  "black": var(--black),
+  "black-5": var(--black-5),
+  "black-10": var(--black-10),
+);
+/* Text color */
+@each $key, $color in $theme-colors {
+  .text-#{$key} {
+    color: $color !important;
+  }
+}
+/* Background Color */
+@each $key, $color in $theme-colors {
+  .bg-#{$key} {
+    background-color: $color !important;
+  }
+}
+/* Border Color */
+@each $key, $color in $theme-colors {
+  .bd-c-#{$key} {
+    border-color: $color !important;
+  }
+}

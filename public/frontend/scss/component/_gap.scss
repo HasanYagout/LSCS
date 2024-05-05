@@ -1,0 +1,21 @@
+/* Gap */
+$g-array: 7, 8, 10, 11, 24, 25;
+@each $g in $g-array {
+  .g-#{$g} {
+    gap: #{$g}px !important;
+  }
+}
+/* Row Gap */
+$rg-array: 10, 21, 24, 30;
+@each $rg in $rg-array {
+  .rg-#{$rg} {
+    row-gap: #{$rg}px !important;
+  }
+}
+/* Column gap */
+$cg-array: 4, 7, 8, 10, 11, 12, 14, 16, 23, 26, 42, 50, 63;
+@each $cg in $cg-array {
+  .cg-#{$cg} {
+    column-gap: #{$cg}px !important;
+  }
+}

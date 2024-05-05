@@ -1,0 +1,545 @@
+/*
+------------- Table of content ----------------
+
+Template Name: zaialumni  Responsive  HTML5 Template
+Template URI: https://zaialumni.com/
+Description: zaialumni  Responsive  HTML5 Template
+Author: Mahmudul Hasan Sohel
+Author URI: https://zainiklab.com/
+Version: 1.0
+
+---------------------- common content ----------
+1.body reset content
+#.header-area
+#.register-area
+
+
+
+
+*/
+
+/*===============================
+#.register-area
+=================================*/
+
+// variable
+@import "variable/_variable.scss";
+
+// mixin
+@import "mixin/_mixin.scss";
+
+// body reset content
+@import "reset/predefine";
+
+// component content
+@import "component/header.scss";
+@import "component/register-area";
+
+.dataTables_wrapper {
+    .tableSearch {
+        position: relative;
+        max-width: toRem(357);
+        width: 100%;
+        @media screen and (max-width: 575px) {
+            max-width: 100%;
+        }
+        .dataTables_filter {
+            position: relative;
+            width: 100%;
+            label {
+                width: 100%;
+            }
+            .searchIcon {
+                position: absolute;
+                top: 50%;
+                left: toRem(18);
+                display: flex;
+                max-height: toRem(18);
+                transform: translateY(-50%);
+            }
+            input {
+                width: 100%;
+                border: toRem(1) solid $black-5;
+                border-radius: toRem(110) !important;
+                padding: toRem(14) toRem(18) toRem(13) toRem(45) !important;
+                background-color: $colorThree !important;
+                margin-left: 0 !important;
+                @include fontFamily(14, $fw_regular, 17, $colorOne !important);
+                &::-webkit-search-cancel-button {
+                    -webkit-appearance: none;
+                    appearance: none;
+                    height: toRem(13);
+                    width: toRem(13);
+                    background-image: url(../images/icon/delete.svg);
+                    background-size: toRem(13) toRem(13);
+                }
+                &:focus {
+                    border-color: $primary-color !important;
+                }
+                &::-webkit-input-placeholder {
+                    @include fontFamily(
+                        14,
+                        $fw_regular,
+                        17,
+                        $colorOne !important
+                    );
+                }
+                &::-moz-placeholder {
+                    @include fontFamily(
+                        14,
+                        $fw_regular,
+                        17,
+                        $colorOne !important
+                    );
+                }
+                &:-ms-input-placeholder {
+                    @include fontFamily(
+                        14,
+                        $fw_regular,
+                        17,
+                        $colorOne !important
+                    );
+                }
+                &::-ms-input-placeholder {
+                    @include fontFamily(
+                        14,
+                        $fw_regular,
+                        17,
+                        $colorOne !important
+                    );
+                }
+                &::placeholder {
+                    @include fontFamily(
+                        14,
+                        $fw_regular,
+                        17,
+                        $colorOne !important
+                    );
+                }
+            }
+        }
+    }
+}
+.tableTop {
+    .row {
+        row-gap: toRem(10);
+    }
+}
+// Switch
+.zCheck {
+    &.form-switch {
+        min-height: 27px;
+        input.form-check-input {
+            width: 53px;
+            height: 27px;
+            margin-top: 0;
+            box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+            border: 1px solid $scroll-track;
+            border-radius: 100px;
+            background-color: $scroll-track;
+            background-image: url(../images/icon/switch-circle.svg);
+            background-size: 23px;
+            background-position-x: 3px;
+            &:checked {
+                background-color: $primary-color;
+                border-color: $primary-color;
+                // background-image: url(../images/icon/switch-default-check.svg);
+                // background-size: 12px;
+                background-position-x: 26px;
+            }
+        }
+    }
+    label {
+        font-size: 13px;
+        font-weight: $fw_medium;
+        line-height: 16px;
+        color: #000;
+    }
+}
+// Editor
+.summernoteOne {
+    ~ .note-editor {
+        border: none !important;
+        .note-toolbar {
+            padding: 0 5px;
+            background-color: $colorNine;
+            border-bottom: none !important;
+            // border-top: 1px solid;
+            // border-color: red;
+            border-radius: 10px;
+            > div {
+                margin-top: 0;
+            }
+            > .note-btn-group {
+                position: relative;
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 1px;
+                    height: 100%;
+                    background-color: $color23;
+                }
+                &:last-child {
+                    &::before {
+                        display: none;
+                    }
+                }
+            }
+            .note-btn {
+                color: #666f80;
+                border: none;
+                background-color: transparent;
+                border-radius: 0;
+                &::after {
+                    display: none;
+                }
+                &-group {
+                    // > * {
+                    //   margin-right: 5px;
+                    // }
+                    &.note-color {
+                        .note-btn {
+                            border-radius: 8px 0 0 8px;
+                            margin-right: 0;
+                            &.dropdown-toggle {
+                                border-radius: 0 8px 8px 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .note-statusbar {
+            display: none;
+        }
+    }
+}
+// Image preview
+.zImage-upload {
+    &-details {
+        position: relative;
+        max-width: toRem(408);
+        .zImage-inside {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+        label {
+            z-index: 10 !important;
+        }
+        .upload-img-box {
+            background-color: $colorNine;
+            border: toRem(2) dashed $colorOne;
+            border-radius: toRem(12);
+            height: toRem(185);
+            position: relative;
+            overflow: hidden;
+        }
+    }
+}
+// Profile Image preview
+.profileImage-upload {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    height: toRem(110);
+    max-width: toRem(120);
+    position: relative;
+    > img {
+        background-color: $colorNine;
+        width: toRem(110);
+        height: toRem(110);
+        border: toRem(3) solid $primary-color;
+        border-radius: 50%;
+    }
+    .icon {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 38px;
+        height: 38px;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        background-color: $color22;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        cursor: pointer;
+        img {
+            position: relative;
+            max-width: 16px;
+            max-height: 16px;
+            top: auto;
+            left: auto;
+            transform: translate(0);
+        }
+    }
+    input {
+        top: auto !important;
+        left: auto !important;
+        max-width: toRem(38);
+        height: toRem(38);
+        border: toRem(1) solid #fff;
+        border-radius: 50%;
+        background-color: $color22;
+        cursor: pointer;
+    }
+}
+// Popup
+html {
+    &:has(body.mfp-zoom-out-cur) {
+        margin-right: 0 !important;
+    }
+}
+.mfp-content {
+    max-width: toRem(1440) !important;
+    .mfp-figure {
+        &::after {
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-radius: 15px;
+        }
+    }
+    .mfp-bottom-bar {
+        margin-top: toRem(10) !important;
+    }
+    figure img {
+        border: toRem(1) solid $primary-color;
+        padding: 0;
+        border-radius: toRem(15);
+        overflow: hidden;
+    }
+}
+.mfp-arrow {
+    width: toRem(42);
+    height: toRem(42);
+    border-radius: 50%;
+    background: $white !important;
+    opacity: 1;
+    margin: 0 !important;
+    transform: translateY(-50%);
+    margin-left: toRem(30) !important;
+    margin-right: toRem(30) !important;
+    @media screen and (max-width: 991px) {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        transform: scale(0.75) translateY(-50%);
+    }
+    &::after,
+    &::before {
+        margin-top: 0;
+        margin-left: 0;
+        opacity: 1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border: none;
+        background-repeat: no-repeat;
+        width: 100%;
+        max-width: toRem(18);
+        height: 100%;
+        max-height: toRem(16);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &.mfp-arrow-right {
+        &::after {
+            background-image: url(../images/icon/arrow-right-popup.svg);
+        }
+    }
+    &.mfp-arrow-left {
+        &::after {
+            background-image: url(../images/icon/arrow-left-popup.svg);
+        }
+    }
+}
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    z-index: 9999;
+    img {
+        max-width: 22rem;
+        // animation: zoomIn 1s ease-in-out infinite;
+    }
+}
+
+#preloader-status {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    height: 100%;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+// @keyframes zoomIn {
+//   0% {
+//     transform: scale(0);
+//     opacity: 0;
+//   }
+
+//   50% {
+//     opacity: 1;
+//   }
+
+//   100% {
+//     transform: scale(1);
+//     opacity: 0;
+//   }
+// }
+
+// Calendar icon
+.calendarIcon {
+    &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: toRem(15);
+        transform: translateY(-50%);
+        width: toRem(18);
+        height: toRem(18);
+        background-image: url(../images/icon/calendar-icon-2.svg);
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+}
+.ld {
+    &-price-plan {
+        &-wrap {
+            position: relative;
+            padding-bottom: toRem(110);
+            .controlBtn {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: toRem(140);
+                height: toRem(60);
+            }
+            .swiper-button {
+                &-prev,
+                &-next {
+                    top: 0;
+                    margin-top: 0;
+                    width: toRem(60);
+                    height: toRem(60);
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: transparent;
+                    border: toRem(1) solid $stroke-color;
+                    svg {
+                        max-width: toRem(22);
+                    }
+                    &:hover {
+                        background-color: $primary-color;
+                        border-color: $primary-color;
+                        svg {
+                            path {
+                                &:nth-child(1) {
+                                    fill: $text-black;
+                                    fill-opacity: 1;
+                                }
+                                &:nth-child(2) {
+                                    stroke: $text-black;
+                                    stroke-opacity: 1;
+                                }
+                            }
+                        }
+                    }
+                    &::after {
+                        display: none;
+                    }
+                }
+                &-next {
+                    right: 0;
+                }
+                &-prev {
+                    left: 0;
+                }
+            }
+        }
+        max-width: toRem(414);
+        margin: 0 auto;
+        background-color: $white;
+        border: toRem(1) solid $stroke-color;
+        border-radius: toRem(20);
+        padding: toRem(40);
+        .icon {
+            max-width: toRem(90);
+            height: toRem(45);
+            margin-left: auto;
+            margin-bottom: toRem(14);
+            img {
+                height: 100%;
+            }
+        }
+        .priceAmount {
+            @include fontFamily(56, $fw_semiBold, 67, $text-black);
+            padding-bottom: toRem(4);
+            &-yearly {
+                display: none;
+            }
+        }
+        .priceSubscribe {
+            margin-bottom: toRem(40);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: toRem(18);
+            background-color: $primary-color;
+            border-radius: toRem(12);
+            @include fontFamily(18, $fw_semiBold, 22, $text-black);
+            &:hover {
+                background-color: $hover-color;
+            }
+            &.active {
+                background-color: $black-10;
+                cursor: no-drop;
+            }
+        }
+        &-popular {
+            position: relative;
+            .mostPopular {
+                position: absolute;
+                top: 40px;
+                left: -6px;
+                @include fontFamily(16, $fw_semiBold, 19, $white);
+                padding: 8px 26px 8px 16px;
+                background-image: url(../images/icon/most-popular.svg);
+                background-repeat: no-repeat;
+                @media screen and (max-width: 575px) {
+                    left: 0;
+                }
+            }
+        }
+    }
+}
