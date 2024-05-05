@@ -145,18 +145,18 @@ if (!function_exists("getDefaultLanguage")) {
     }
 }
 
-if (!function_exists("getCurrencySymbol")) {
-    function getCurrencySymbol($tenantId = NULL)
-    {
-        $currency = Currency::where('tenant_id', getTenantId() ?? $tenantId)->where('current_currency', STATUS_ACTIVE)->first();
-        if ($currency) {
-            $symbol = $currency->symbol;
-            return $symbol;
-        }
-
-        return '';
-    }
-}
+//if (!function_exists("getCurrencySymbol")) {
+//    function getCurrencySymbol($tenantId = NULL)
+//    {
+//        $currency = Currency::where('tenant_id', getTenantId() ?? $tenantId)->where('current_currency', STATUS_ACTIVE)->first();
+//        if ($currency) {
+//            $symbol = $currency->symbol;
+//            return $symbol;
+//        }
+//
+//        return '';
+//    }
+//}
 
 if (!function_exists("getIsoCode")) {
     function getIsoCode($tenantId = NULL)

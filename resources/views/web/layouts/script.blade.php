@@ -8,8 +8,8 @@
 @stack('script')
 
 <script>
-    var currencySymbol = "{{ getCurrencySymbol() }}";
-    var currencyPlacement = "{{ getCurrencyPlacement() }}";
+    {{--var currencySymbol = "{{ getCurrencySymbol() }}";--}}
+    {{--var currencyPlacement = "{{ getCurrencyPlacement() }}";--}}
 
     @if (Session::has('success'))
         toastr.success("{{ session('success') }}");
