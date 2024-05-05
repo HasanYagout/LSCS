@@ -65,15 +65,15 @@ class DashboardService
         return Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->where('tenant_id', $tenant_id)->count();
     }
 
-    public function memberThisMonth($tenant_id)
-    {
-        return UserMembershipPlan::whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->where('tenant_id', $tenant_id)->count();
-    }
+//    public function memberThisMonth($tenant_id)
+//    {
+//        return UserMembershipPlan::whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->where('tenant_id', $tenant_id)->count();
+//    }
 
-    public function transactionThisMonth($tenant_id)
-    {
-        return Transaction::whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->where('tenant_id', $tenant_id)->sum('amount');
-    }
+//    public function transactionThisMonth($tenant_id)
+//    {
+//        return Transaction::whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->where('tenant_id', $tenant_id)->sum('amount');
+//    }
 
     public function allTransactionList($tenant_id)
     {
@@ -95,42 +95,42 @@ class DashboardService
             ->make(true);
     }
 
-    public function dashboardDailyMembershipPaymentChart($tenant_id)
-    {
-        $first_day_of_the_current_month = Carbon::now()->startOfMonth();
-        $current_month_days_count = $first_day_of_the_current_month->diff(now());
-        $last_day_of_the_current_month = Carbon::now()->endOfMonth();
-        $transactionData = Transaction::whereBetween('payment_time', [$first_day_of_the_current_month, $last_day_of_the_current_month])
-        ->groupBy(DB::raw("DATE_FORMAT(payment_time,'%Y-%m-%d')"))
-        ->orderBy('payment_time','desc')
-        ->where('tenant_id', $tenant_id)
-        ->whereIn('type',[TRANSACTION_MEMBERSHIP, TRANSACTION_EVENT])
-        ->select(DB::raw("DATE_FORMAT(payment_time,'%b %d') as day, sum(amount) as total"))
-        ->get();
-        $price = [];
-        foreach($transactionData as $rows){
-            $price[$rows->day] = $rows->total;
-        }
-        $membershipChartData['mainData'] = $transactionData;
-        $membershipChartData['days'] = $transactionData->pluck('day')->toArray();
-        $membershipChartData['price'] = $price;
-        $membershipChartData['current_month_days_count'] = $current_month_days_count->d;
-
-        return $membershipChartData;
-    }
-    public function dashboardTopEventTicketChart($firstTenant)
-    {
-        $eventTickets = EventTicket::join('events', 'events.id', '=', 'event_tickets.event_id')
-        ->where('event_tickets.tenant_id', $firstTenant)
-        ->groupBy('event_id')
-        ->select('events.title as event_name',DB::raw("count(ticket_number) as total_ticket"))
-        ->orderBy('total_ticket','desc')
-        ->skip(0)->take(5)->get();
-       $eventTicketData['mainData'] = $eventTickets;
-        $eventTicketData['totalTicket'] =  $eventTickets->pluck('total_ticket')->toArray();
-        $eventTicketData['eventName'] =  $eventTickets->pluck('event_name')->toArray();
-        return $eventTicketData;
-    }
+//    public function dashboardDailyMembershipPaymentChart($tenant_id)
+//    {
+//        $first_day_of_the_current_month = Carbon::now()->startOfMonth();
+//        $current_month_days_count = $first_day_of_the_current_month->diff(now());
+//        $last_day_of_the_current_month = Carbon::now()->endOfMonth();
+//        $transactionData = Transaction::whereBetween('payment_time', [$first_day_of_the_current_month, $last_day_of_the_current_month])
+//        ->groupBy(DB::raw("DATE_FORMAT(payment_time,'%Y-%m-%d')"))
+//        ->orderBy('payment_time','desc')
+//        ->where('tenant_id', $tenant_id)
+//        ->whereIn('type',[TRANSACTION_MEMBERSHIP, TRANSACTION_EVENT])
+//        ->select(DB::raw("DATE_FORMAT(payment_time,'%b %d') as day, sum(amount) as total"))
+//        ->get();
+//        $price = [];
+//        foreach($transactionData as $rows){
+//            $price[$rows->day] = $rows->total;
+//        }
+//        $membershipChartData['mainData'] = $transactionData;
+//        $membershipChartData['days'] = $transactionData->pluck('day')->toArray();
+//        $membershipChartData['price'] = $price;
+//        $membershipChartData['current_month_days_count'] = $current_month_days_count->d;
+//
+//        return $membershipChartData;
+//    }
+//    public function dashboardTopEventTicketChart($firstTenant)
+//    {
+//        $eventTickets = EventTicket::join('events', 'events.id', '=', 'event_tickets.event_id')
+//        ->where('event_tickets.tenant_id', $firstTenant)
+//        ->groupBy('event_id')
+//        ->select('events.title as event_name',DB::raw("count(ticket_number) as total_ticket"))
+//        ->orderBy('total_ticket','desc')
+//        ->skip(0)->take(5)->get();
+//       $eventTicketData['mainData'] = $eventTickets;
+//        $eventTicketData['totalTicket'] =  $eventTickets->pluck('total_ticket')->toArray();
+//        $eventTicketData['eventName'] =  $eventTickets->pluck('event_name')->toArray();
+//        return $eventTicketData;
+//    }
 
     public function getSuperAdminOrderSummary()
     {

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Alumni\AlumniController;
 use App\Http\Controllers\Alumni\DashboardController;
 use App\Http\Controllers\Alumni\EventController;
+use App\Http\Controllers\Alumni\HomeController;
 use App\Http\Controllers\Alumni\JobPostController;
 use App\Http\Controllers\Alumni\MembershipController;
 use App\Http\Controllers\Alumni\MessageController;
@@ -31,8 +32,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'], function () {
-    Route::get('/', [\App\Http\Controllers\Alumni\HomeController::class, 'index'])->name('home');
-//    Route::get('home', [HomeController::class, 'index'])->name('home');
+//    Route::get('/', [\App\Http\Controllers\Alumni\HomeController::class, 'index'])->name('home');
+    Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
     Route::post('profile-update', [ProfileController::class, 'userProfileUpdate'])->name('profile_update');
     Route::post('add-institution', [ProfileController::class, 'addInstitution'])->name('add_institution');
@@ -138,9 +139,9 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
 // user news route end
 
 // Alumni Management route start
-    Route::group(['prefix' => 'alumni', 'as' => 'alumni.'], function () {
-        Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
-    });
+
+    Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
+
 
     Route::get('more-post-load', [HomeController::class, 'loadMorePost'])->name('more-post-load');
 // Alumni Management route end

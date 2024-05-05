@@ -19,6 +19,7 @@ class HomeController extends BaseController
 
     public function index(Request $request)
     {
+
         $data['pageTitle'] = __('Timeline');
         $data['activeHome'] = 'active';
         $data['upcomingEvents'] = $this->dashboardService->getUpcomingEvent()->getData()->data;

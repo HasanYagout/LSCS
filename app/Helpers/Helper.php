@@ -56,7 +56,7 @@ function getSettingImage($option_key)
             }
         }
     }
-    return asset('assets/images/no-image.jpg');
+    return asset('public/assets/images/no-image.jpg');
 }
 
 function getSettingImageCentral($option_key)
@@ -83,7 +83,7 @@ function getSettingImageCentral($option_key)
             }
         }
     }
-    return asset('assets/images/no-image.jpg');
+    return asset('public/assets/images/no-image.jpg');
 }
 
 function settingImageStoreUpdate($option_value, $requestFile)
@@ -264,7 +264,7 @@ if (!function_exists("getVideoFile")) {
             }
         }
 
-        return asset('assets/images/no-image.jpg');
+        return asset('public/images/no-image.jpg');
     }
 }
 
@@ -509,7 +509,7 @@ if (!function_exists('getFileUrl')) {
             }
         }
 
-        return asset('assets/images/no-image.jpg');
+        return asset('public/assets/images/no-image.jpg');
     }
 }
 
