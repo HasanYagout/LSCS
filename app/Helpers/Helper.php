@@ -145,18 +145,18 @@ if (!function_exists("getDefaultLanguage")) {
     }
 }
 
-if (!function_exists("getCurrencySymbol")) {
-    function getCurrencySymbol($tenantId = NULL)
-    {
-        $currency = Currency::where('tenant_id', getTenantId() ?? $tenantId)->where('current_currency', STATUS_ACTIVE)->first();
-        if ($currency) {
-            $symbol = $currency->symbol;
-            return $symbol;
-        }
-
-        return '';
-    }
-}
+//if (!function_exists("getCurrencySymbol")) {
+//    function getCurrencySymbol($tenantId = NULL)
+//    {
+//        $currency = Currency::where('tenant_id', getTenantId() ?? $tenantId)->where('current_currency', STATUS_ACTIVE)->first();
+//        if ($currency) {
+//            $symbol = $currency->symbol;
+//            return $symbol;
+//        }
+//
+//        return '';
+//    }
+//}
 
 if (!function_exists("getIsoCode")) {
     function getIsoCode($tenantId = NULL)
@@ -1063,9 +1063,11 @@ if (!function_exists('userCurrentPackage')) {
 function getTenantId()
 {
     if (isCentralDomain()) {
+
         if(isAddonInstalled('ALUSAAS')){
             return auth()->user()?->tenant_id;
         }else{
+
             return \Stancl\Tenancy\Database\Models\Domain::first()->tenant_id;
         }
     }else{
