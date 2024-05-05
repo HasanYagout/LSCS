@@ -55,7 +55,7 @@
                 <div class="dropdown notifyDropdown">
                     <button class="item-one dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <img src="{{ asset('assets/images/icon/bell.svg') }}" alt="" />
+                        <img src="{{ asset('public/assets/images/icon/bell.svg') }}" alt="" />
                         <span class="notify_no">{{ count(userNotification('unseen')) }}</span>
                     </button>
                     <div class="dropdown-menu">
@@ -113,7 +113,11 @@
 {{--                    </div>--}}
                     <div class="text-start d-none d-sm-block">
                         <p class="fs-12 fw-400 lh-15 text-707070">{{ __('Welcome') }}</p>
-{{--                        <h4 class="fs-15 fw-500 lh-18 text-1b1c17">{{ auth()->user()->name }}</h4>--}}
+                        @foreach(config('auth.guards') as $guardName => $guardConfig)
+                            @if(Auth::guard($guardName)->check())
+                        <h4 class="fs-15 fw-500 lh-18 text-1b1c17">{{ auth($guardName)->user()->first_name}}</h4>
+                            @endif
+                        @endforeach
                     </div>
                 </button>
                 <ul class="dropdown-menu dropdownItem-one">

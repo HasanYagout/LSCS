@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
-//    Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('home');
+    Route::get('/', function () {
+        return redirect()->route('admin.auth.login');
+    });
+
+    /*authentication*/
+    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('/code/captcha/{tmp}', 'LoginController@captcha')->name('default-captcha');
+        Route::get('login', [LoginController::class,'login'])->name('login');
+        Route::post('login',[LoginController::class,'submit']);
+        Route::get('logout', 'LoginController@logout')->name('logout');
+    });
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Event Route Start
