@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@include('layouts.header')
+@include('web.layouts.header')
 
 <body>
     <div class="overflow-x-hidden">
@@ -35,7 +35,7 @@
         @include('cookie-consent::index')
     </div>
     @endif
-    @include('layouts.script')
+    @include('web.layouts.script')
 </body>
 
 </html>

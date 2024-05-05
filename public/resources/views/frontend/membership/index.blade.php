@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends('web.layouts.app')
 @push('title')
     {{ $title }}
 @endpush
@@ -8,7 +8,7 @@
             <h4 class="fs-50 fw-700 lh-60 text-white pb-8">{{ $title }}</h4>
             <ul class="breadcrumb-list">
                 <li><a href="{{ route('index') }}">{{ __('Home') }}</a></li>
-                <li><a href="{{ route('all.membership') }}">{{ $title }}</a></li>
+{{--                <li><a href="{{ route('all.membership') }}">{{ $title }}</a></li>--}}
             </ul>
         </div>
     </section>

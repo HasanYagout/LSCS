@@ -64,10 +64,10 @@
                         @else
                             <a href="{{ route('login') }}"
                                 class="d-flex py-6 px-24 bg-black-color bd-ra-8 fs-18 fw-500 lh-28 text-white hover-bg-color-primary hover-color-black">{{ __('Login') }}</a>
-                            @if (!getOption('disable_registration'))
-                                <a href="{{ route('register') }}"
-                                    class="d-flex py-6 px-24 bg-white bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color hover-bg-color-primary hover-border-color-primary">{{ __('Sign Up') }}</a>
-                            @endif
+{{--                            @if (!getOption('disable_registration'))--}}
+{{--                                <a href="{{ route('register') }}"--}}
+{{--                                    class="d-flex py-6 px-24 bg-white bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color hover-bg-color-primary hover-border-color-primary">{{ __('Sign Up') }}</a>--}}
+{{--                            @endif--}}
                         @endauth
                     </div>
                 </div>
@@ -123,10 +123,10 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('all.membership') }}">
-                                                {{ __('Get Membership') }}
-                                                <span><i class="fa-solid fa-long-arrow-right"></i></span>
-                                            </a>
+{{--                                            <a class="dropdown-item" href="{{ route('all.membership') }}">--}}
+{{--                                                {{ __('Get Membership') }}--}}
+{{--                                                <span><i class="fa-solid fa-long-arrow-right"></i></span>--}}
+{{--                                            </a>--}}
                                         </li>
                                         <li>
                                             <a class="dropdown-item" href="{{ route('all.stories') }}">
@@ -203,10 +203,10 @@
                                     @else
                                         <a href="{{ route('login') }}"
                                             class="d-flex py-6 px-24 bg-black-color bd-ra-8 fs-18 fw-500 lh-28 text-white">{{ __('Login') }}</a>
-                                        @if (!getOption('disable_registration'))
-                                            <a href="{{ route('register') }}"
-                                                class="d-flex py-6 px-24 bg-transparent bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color">{{ __('Sign Up') }}</a>
-                                        @endif
+{{--                                        @if (!getOption('disable_registration'))--}}
+{{--                                            <a href="{{ route('register') }}"--}}
+{{--                                                class="d-flex py-6 px-24 bg-transparent bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color">{{ __('Sign Up') }}</a>--}}
+{{--                                        @endif--}}
                                     @endauth
                                 </div>
                             </div>

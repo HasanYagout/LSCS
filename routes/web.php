@@ -1,5 +1,14 @@
 <?php
 
+
+use App\Http\Controllers\Web\AlumniController;
+use App\Http\Controllers\Web\Auth\LoginController;
+use App\Http\Controllers\Web\ContactUsController;
+use App\Http\Controllers\Web\EventController;
+use App\Http\Controllers\Web\JobController;
+use App\Http\Controllers\Web\NewsController;
+use App\Http\Controllers\Web\NoticeController;
+use App\Http\Controllers\Web\StoryController;
 use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,8 +25,11 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'web'], function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
-    Route::get('ticket-verify/{ticket}', [TicketVerifyController::class, 'ticketPreview'])->name('ticket.verify');
+    Route::group(['namespace' => 'Web\Auth','prefix' => 'auth'],function(){
+        Route::get('login',[LoginController::class,'index'])->name('login');
+        Route::post('login',[LoginController::class,'validateLogin'])->name('submit');
 
+    });
 // alumni
     Route::get('all-alumni', [AlumniController::class, 'alumni'])->name('all.alumni');
 
@@ -33,8 +45,7 @@ Route::group(['namespace' => 'web'], function () {
     Route::get('our-notice', [NoticeController::class, 'notice'])->name('our.notice');
     Route::get('notice-view-details/{slug}', [NoticeController::class, 'noticeDetails'])->name('notice.view.details');
 
-// Membership
-    Route::get('all-membership', [MembershipController::class, 'membership'])->name('all.membership');
+
 
 // job
     Route::get('all-job', [JobController::class, 'job'])->name('all.job');

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Alumni\AlumniController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +12,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'], function () {
-    Route::get('/', [\App\Http\Controllers\Alumni\HomeController::class, 'index'])->name('home');
-    Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
-
+Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.'], function () {
+    Route::get('/', [\App\Http\Controllers\Company\HomeController::class, 'index'])->name('home');
 });

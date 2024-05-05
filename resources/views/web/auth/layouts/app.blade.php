@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@include('auth.layouts.header')
+@include('web.layouts.header')
 {!! RecaptchaV3::initJs() !!}
 
 <body>
