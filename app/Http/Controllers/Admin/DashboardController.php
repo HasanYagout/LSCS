@@ -27,7 +27,7 @@ class DashboardController extends Controller
         $data['pageTitle'] = __('Dashboard');
         $data['activeDashboard'] = 'active';
         $dashboardService = new DashboardService();
-        $data['totalAlumni'] = $dashboardService->totalAlumni($tenantId);
+//        $data['totalAlumni'] = $dashboardService->totalAlumni($tenantId);
 //        $data['currentMember'] = $dashboardService->currentMember($tenantId);
         $data['totalUpcomingEvent'] = $dashboardService->totalUpcomingEvent($tenantId);
 //        $data['memberThisMonth'] = $dashboardService->memberThisMonth($tenantId);

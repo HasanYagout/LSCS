@@ -20,11 +20,11 @@
                             <h4 class="fs-20 fw-600 lh-24 text-1b1c17 pb-26">{{ __('Create Post') }}</h4>
                             <!-- User -->
                             <div class="d-flex align-items-center cg-10 pb-20">
-{{--                                <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-cdef84 rounded-circle overflow-hidden"><img--}}
-{{--                                        src="{{ asset(getFileUrl($user->image)) }}" class="w-100"--}}
-{{--                                        alt="{{ $user->name }}" />--}}
-{{--                                </div>--}}
-{{--                                <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{ $user->name }}</h4>--}}
+                                <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-cdef84 rounded-circle overflow-hidden"><img
+                                        src="{{ asset(getFileUrl(auth('alumni')->user()->image)) }}" class="w-100"
+                                        alt="{{auth('alumni')->user()->name}}" />
+                                </div>
+                                <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{auth('alumni')->user()->name}}</h4>
                             </div>
                             <!-- Post Input -->
                             <div class="pb-15">

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @push('title')
     {{$pageTitle}}
 @endpush
@@ -20,7 +20,7 @@
                         <div class="content">
                             <h4 class="title">{{ __('Total Alumni') }}</h4>
                             <div class="d-flex justify-content-between mt-20">
-                                <h2 class="fs-5 fw-semibold mt-1 title">{{ $totalAlumni }}</h2>
+{{--                                <h2 class="fs-5 fw-semibold mt-1 title">{{ $totalAlumni }}</h2>--}}
                                 <div>
                                     <svg width="28" height="21" viewBox="0 0 25 18" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
