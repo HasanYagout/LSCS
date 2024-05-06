@@ -54,10 +54,10 @@ class JobPostService
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
                         <button onclick="getEditModal(\'' . route('jobPost.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                            <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                         </button>
                         <button onclick="deleteItem(\'' . route('jobPost.delete', $data->slug) . '\', \'jobPostDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                            <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                            <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                         </button>
                         <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
                     </li>
@@ -93,10 +93,10 @@ class JobPostService
                     return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                                 <li class="d-flex gap-2">
                                     <button onclick="getEditModal(\'' . route('jobPost.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                        <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                                     </button>
                                     <button onclick="deleteItem(\'' . route('jobPost.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                        <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                                     </button>
                                     <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
                                 </li>
@@ -149,10 +149,10 @@ class JobPostService
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
                         <button onclick="getEditModal(\'' . route('admin.jobPost.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                            <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                         </button>
                         <button onclick="deleteItem(\'' . route('admin.jobPost.delete', $data->slug) . '\', \'jobPostPendingdataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                            <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                            <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                         </button>
                         <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
                     </li>
@@ -187,7 +187,7 @@ class JobPostService
             $jobPost->employee_status = $request->employee_status;
             $jobPost->status = JOB_STATUS_PENDING;
             $jobPost->tenant_id = getTenantId();
-            $jobPost->user_id = auth()->id();
+            $jobPost->user_id = auth('admin')->id();
 
             if ($request->hasFile('company_logo')) {
                 $new_file = new FileManager();
@@ -201,6 +201,7 @@ class JobPostService
             DB::rollBack();
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
         }
+
     }
 
     public function update($oldSlug, $request)

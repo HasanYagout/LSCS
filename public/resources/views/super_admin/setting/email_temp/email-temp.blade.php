@@ -38,7 +38,7 @@
                                                             <li>
                                                                 <button
                                                                     class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white templateConfigure">
-                                                                    <img src="{{ asset('assets/images/icon/edit.svg') }}"
+                                                                    <img src="{{ asset('public/assets/images/icon/edit.svg') }}"
                                                                         alt="edit" />
                                                                 </button>
                                                             </li>

@@ -20,10 +20,10 @@ class BatchService
                 return '<ul class="align-items-center cg-5 d-flex justify-content-end">
                             <li class="d-flex gap-2">
                                 <button onclick="getEditModal(\'' . route('admin.setting.batches.edit', $data->id) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo">
-                                    <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                                 </button>
                                 <button onclick="deleteItem(\'' . route('admin.setting.batches.delete', $data->id) . '\', \'batchDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                    <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                                 </button>
                             </li>
                         </ul>';

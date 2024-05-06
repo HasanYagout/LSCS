@@ -19,11 +19,11 @@ class EventCategoryService
             ->addColumn('action', function ($data){
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                             <li class="d-flex gap-2">
-                                <button onclick="getEditModal(\'' . route('admin.event.category.info', $data->id) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                    <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                                <button onclick="getEditModal(\'' . route('admin.eventCategory.info', $data->id) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                                 </button>
-                                <button onclick="deleteItem(\'' . route('admin.event.category.delete', $data->id) . '\', \'eventCategoryDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                    <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                                <button onclick="deleteItem(\'' . route('admin.eventCategory.delete', $data->id) . '\', \'eventCategoryDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                                 </button>
                             </li>
                         </ul>';

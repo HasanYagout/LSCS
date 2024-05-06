@@ -9,7 +9,7 @@
 <!-- Page content area start -->
 <div class="p-30">
     <div>
-        <input type="hidden" id="event-category-list-route" value="{{ route('admin.event.category.index') }}">
+        <input type="hidden" id="event-category-list-route" value="{{ route('admin.eventCategory.index') }}">
 
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
             <h4 class="fs-24 fw-500 lh-34 text-black">{{$title}}</h4>
@@ -38,7 +38,7 @@
 <div class="modal fade zModalTwo" id="add-modal" aria-hidden="true" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content zModalTwo-content">
-            <form class="ajax reset" action="{{ route('admin.event.category.store') }}" method="post"
+            <form class="ajax reset" action="{{ route('admin.eventCategory.store') }}" method="post"
                 data-handler="commonResponseForModal">
                 @csrf
                 <div class="modal-body zModalTwo-body model-lg">
@@ -46,7 +46,7 @@
                    <div class="d-flex justify-content-between align-items-center pb-30">
                        <h4 class="fs-20 fw-500 lh-38 text-1b1c17">{{__('Add New')}}</h4>
                        <div class="mClose">
-                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><img src="{{asset('assets/images/icon/delete.svg')}}" alt="" /></button>
+                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><img src="{{asset('public/assets/images/icon/delete.svg')}}" alt="" /></button>
                        </div>
                    </div>
                     <div class="row">
@@ -81,5 +81,5 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('admin/js/event-category.js') }}"></script>
+<script src="{{asset('public/admin/js/event-category.js')}}"></script>
 @endpush

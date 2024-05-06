@@ -72,6 +72,10 @@ class User extends Authenticatable
         return $this->hasOne(Alumni::class);
     }
 
+    public function role()
+    {
+        return $this->hasOne(Roles::class);
+    }
     public function domain(){
         return $this->hasOne(Domain::class, 'tenant_id', 'tenant_id');
     }

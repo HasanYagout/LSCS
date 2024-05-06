@@ -57,7 +57,7 @@
                                 <td>
                                     <button type="button" class=" bg-f9f9f9 border-0 btn-action mr-1 edit"
                                         data-toggle="tooltip" title="{{__('Edit')}}" data-id="{{ $gateway->id }}">
-                                        <img src="{{asset('assets/images/icon/edit.svg')}}" alt="edit">
+                                        <img src="{{asset('public/assets/images/icon/edit.svg')}}" alt="edit">
                                     </button>
                                 </td>
                             </tr>

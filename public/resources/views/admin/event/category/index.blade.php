@@ -46,7 +46,7 @@
                    <div class="d-flex justify-content-between align-items-center pb-30">
                        <h4 class="fs-20 fw-500 lh-38 text-1b1c17">{{__('Add New')}}</h4>
                        <div class="mClose">
-                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><img src="{{asset('assets/images/icon/delete.svg')}}" alt="" /></button>
+                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><img src="{{asset('public/assets/images/icon/delete.svg')}}" alt="" /></button>
                        </div>
                    </div>
                     <div class="row">
