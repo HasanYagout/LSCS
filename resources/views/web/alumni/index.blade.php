@@ -3,7 +3,7 @@
     {{ __('Home') }}
 @endpush
 @push('style')
-    {!! RecaptchaV3::initJs() !!}
+{{--    {!! RecaptchaV3::initJs() !!}--}}
 @endpush
 @section('content')
     <div class="p-30">

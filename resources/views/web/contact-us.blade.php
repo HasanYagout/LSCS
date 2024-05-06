@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends('web.layouts.app')
 @push('title')
     {{ __($pageTitle) }}
 @endpush

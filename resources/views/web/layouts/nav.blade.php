@@ -123,10 +123,10 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('all.membership') }}">
-                                                {{ __('Get Membership') }}
-                                                <span><i class="fa-solid fa-long-arrow-right"></i></span>
-                                            </a>
+{{--                                            <a class="dropdown-item" href="{{ route('all.membership') }}">--}}
+{{--                                                {{ __('Get Membership') }}--}}
+{{--                                                <span><i class="fa-solid fa-long-arrow-right"></i></span>--}}
+{{--                                            </a>--}}
                                         </li>
                                         <li>
                                             <a class="dropdown-item" href="{{ route('all.stories') }}">

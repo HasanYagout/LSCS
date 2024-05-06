@@ -1,7 +1,14 @@
 <?php
 
-use App\Http\Controllers\Admin\StoryController;
+
+use App\Http\Controllers\Web\AlumniController;
+use App\Http\Controllers\Web\ContactUsController;
+use App\Http\Controllers\Web\EventController;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\JobController;
+use App\Http\Controllers\Web\NewsController;
+use App\Http\Controllers\Web\NoticeController;
+use App\Http\Controllers\Web\StoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,7 +42,6 @@ Route::group(['namespace' => 'web'], function () {
     Route::get('notice-view-details/{slug}', [NoticeController::class, 'noticeDetails'])->name('notice.view.details');
 
 // Membership
-    Route::get('all-membership', [MembershipController::class, 'membership'])->name('all.membership');
 
 // job
     Route::get('all-job', [JobController::class, 'job'])->name('all.job');
