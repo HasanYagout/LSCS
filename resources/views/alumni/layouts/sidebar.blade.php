@@ -83,9 +83,7 @@
                                        href="{{ route('admin.event.pending') }}">{{ __('Pending Event') }}</a>
                                 </li>
                             @endif
-                            <li><a class="{{ $activeEventCreate ?? '' }}"
-                                   href="{{ route('admin.event.create') }}">{{ __('Create Event') }}</a>
-                            </li>
+
                             <li><a class="{{ $activeMyEvent ?? '' }}"
                                    href="{{ route('admin.event.my-event') }}">{{ __('My Event') }}</a>
                             </li>
@@ -117,8 +115,7 @@
                     <div class="collapse {{ $showJobPostManagement ?? '' }}" id="jobPost"
                          data-bs-parent="#sidebarMenu">
                         <ul class="zSidebar-submenu">
-                            <li><a class="{{ $activeJobPostCreate ?? '' }}"
-                                   href="{{ route('admin.jobs.create') }}">{{ __('Create Post') }}</a></li>
+
                             @if (auth('alumni')->user()->role_id == USER_ROLE_ADMIN)
                                 <li><a class="{{ $activePendingJobPostList ?? '' }}"
                                        href="{{ route('admin.jobs.pending') }}">{{ __('Pending Post') }}</a>
@@ -158,11 +155,10 @@
                     <div class="collapse {{ $showStoryManagement ?? '' }}" id="storyMenu"
                          data-bs-parent="#sidebarMenu">
                         <ul class="zSidebar-submenu">
-                            <li><a class="{{ $activeStoryCreate ?? '' }}"
-                                   href="{{ route('admin.stories.create') }}">{{ __('Create Story') }}</a></li>
+
                             @if (auth('alumni')->user()->role_id == USER_ROLE_ADMIN)
                                 <li><a class="{{ $activePendingStoryList ?? '' }}"
-                                       href="{{ route('admin.stories.pending') }}">{{ __('Pending Story') }}</a>
+                                       href="{{ route('alumni.stories.pending') }}">{{ __('Pending Story') }}</a>
                                 </li>
                             @endif
                             <li><a class="{{ $activeMyStoryList ?? '' }}"

@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<div class="zSidebar" data-background="{{ asset('public/assets/images/sidebar-bg.png') }}">
+<div class="zSidebar" data-background="{{ asset('assets/images/sidebar-bg.png') }}">
     <div class="zSidebar-overlay"></div>
     <!-- Logo -->
     <a href="{{ route('index') }}" class="d-block mx-26 mb-27 max-w-146 pt-23">
@@ -12,8 +12,7 @@
     <!-- Menu & Logout -->
     <div class="zSidebar-fixed">
         <ul class="zSidebar-menu" id="sidebarMenu">
-
-            @if (auth('alumni')->user()->role_id == USER_ROLE_ADMIN)
+            @if (auth()->user()->role == USER_ROLE_ADMIN)
                 <li>
                     <a href="{{ route('admin.dashboard') }}"
                        class="{{ $activeDashboard ?? '' }} d-flex align-items-center cg-10">
@@ -41,7 +40,7 @@
 
             @if(!isCentralDomain() || !isAddonInstalled('ALUSAAS'))
                 <li>
-                    <a href="{{ route('alumni.home') }}" class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">
+                    <a href="{{ route('home') }}" class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">
                         <div class="d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20"
                                  fill="none">
@@ -75,22 +74,25 @@
                     </a>
                     <div class="collapse {{ $showEvent ?? '' }}" id="myEvent" data-bs-parent="#sidebarMenu">
                         <ul class="zSidebar-submenu">
-                            @if (auth('alumni')->user()->role_id == USER_ROLE_ADMIN)
+                            @if (auth()->user()->role == USER_ROLE_ADMIN)
                                 <li><a class="{{ $activeEventCategory ?? '' }}"
-                                       href="{{ route('admin.eventCategory.index') }}">{{ __('Event Category') }}</a>
+                                       href="{{ route('admin.event.category.index') }}">{{ __('Event Category') }}</a>
                                 </li>
                                 <li><a class="{{ $activeEventPending ?? '' }}"
-                                       href="{{ route('admin.event.pending') }}">{{ __('Pending Event') }}</a>
+                                       href="{{ route('admin.event.pending.index') }}">{{ __('Pending Event') }}</a>
                                 </li>
                             @endif
                             <li><a class="{{ $activeEventCreate ?? '' }}"
-                                   href="{{ route('admin.event.create') }}">{{ __('Create Event') }}</a>
+                                   href="{{ route('event.create') }}">{{ __('Create Event') }}</a>
                             </li>
                             <li><a class="{{ $activeMyEvent ?? '' }}"
-                                   href="{{ route('admin.event.my-event') }}">{{ __('My Event') }}</a>
+                                   href="{{ route('event.my-event') }}">{{ __('My Event') }}</a>
                             </li>
                             <li><a class="{{ $activeAllEvent ?? '' }}"
-                                   href="{{ route('admin.event.all') }}">{{ __('All Event') }}</a>
+                                   href="{{ route('event.all') }}">{{ __('All Event') }}</a>
+                            </li>
+                            <li><a class="{{ $activeTicket ?? '' }}"
+                                   href="{{ route('event.my-ticket') }}">{{ __('My Ticket') }}</a>
                             </li>
                         </ul>
                     </div>
@@ -118,16 +120,16 @@
                          data-bs-parent="#sidebarMenu">
                         <ul class="zSidebar-submenu">
                             <li><a class="{{ $activeJobPostCreate ?? '' }}"
-                                   href="{{ route('admin.jobs.create') }}">{{ __('Create Post') }}</a></li>
-                            @if (auth('alumni')->user()->role_id == USER_ROLE_ADMIN)
+                                   href="{{ route('jobPost.create') }}">{{ __('Create Post') }}</a></li>
+                            @if (auth()->user()->role == USER_ROLE_ADMIN)
                                 <li><a class="{{ $activePendingJobPostList ?? '' }}"
-                                       href="{{ route('admin.jobs.pending') }}">{{ __('Pending Post') }}</a>
+                                       href="{{ route('admin.jobPost.pending-job-post') }}">{{ __('Pending Post') }}</a>
                                 </li>
                             @endif
                             <li><a class="{{ $activeMyJobPostList ?? '' }}"
-                                   href="{{ route('admin.jobs.my-job-post') }}">{{ __('My Post') }}</a></li>
+                                   href="{{ route('jobPost.my-job-post') }}">{{ __('My Post') }}</a></li>
                             <li><a class="{{ $activeAllJobPostList ?? '' }}"
-                                   href="{{ route('admin.jobs.all-job-post') }}">{{ __('All Post') }}</a></li>
+                                   href="{{ route('jobPost.all-job-post') }}">{{ __('All Post') }}</a></li>
                         </ul>
                     </div>
                 </li>
@@ -159,14 +161,14 @@
                          data-bs-parent="#sidebarMenu">
                         <ul class="zSidebar-submenu">
                             <li><a class="{{ $activeStoryCreate ?? '' }}"
-                                   href="{{ route('admin.stories.create') }}">{{ __('Create Story') }}</a></li>
-                            @if (auth('alumni')->user()->role_id == USER_ROLE_ADMIN)
+                                   href="{{ route('stories.create') }}">{{ __('Create Story') }}</a></li>
+                            @if (auth()->user()->role == USER_ROLE_ADMIN)
                                 <li><a class="{{ $activePendingStoryList ?? '' }}"
                                        href="{{ route('admin.stories.pending') }}">{{ __('Pending Story') }}</a>
                                 </li>
                             @endif
                             <li><a class="{{ $activeMyStoryList ?? '' }}"
-                                   href="{{ route('admin.stories.my-story') }}">{{ __('My Story') }}</a></li>
+                                   href="{{ route('stories.my-story') }}">{{ __('My Story') }}</a></li>
                             <li><a target="_blank" href="{{ route('all.stories') }}">{{ __('All Story') }}</a></li>
                         </ul>
                     </div>
@@ -186,83 +188,107 @@
                     </a>
                 </li>
                 <li>
-
+                    <a href="{{ route('membership-package') }}"
+                       class="d-flex align-items-center cg-10 {{ $activeMembershipPack ?? '' }}">
+                        <div class="d-flex">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20.4906 9.39822C20.4906 14.0906 16.6867 17.8945 11.9943 17.8945C7.30197 17.8945 3.49805 14.0906 3.49805 9.39822C3.49805 4.70585 7.30197 0.901924 11.9943 0.901924C16.6867 0.901924 20.4906 4.70585 20.4906 9.39822Z"
+                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                                <path
+                                    d="M4.63477 13.5656L0.856444 20.1099L4.93902 19.016L6.03294 23.0985L9.3112 17.4204"
+                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                                <path d="M19.3652 13.5656L23.1436 20.1099L19.061 19.016L17.9671 23.0985L14.6888 17.4204"
+                                      stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+                                <path
+                                    d="M16.9679 14.0017C16.6749 13.1815 16.0292 12.4568 15.1311 11.9399C14.2329 11.423 13.1324 11.1429 12.0003 11.1429C10.8682 11.1429 9.76768 11.423 8.86951 11.9399C7.97134 12.4568 7.32568 13.1815 7.03266 14.0017"
+                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="11.9972" cy="6" r="2.57143" stroke="white"
+                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <span>{{ __('Membership') }}</span>
+                    </a>
                 </li>
                 <li>
-{{--                    <a href="{{ route('chats.index') }}"--}}
-{{--                       class="{{ $activeMessage ?? '' }} d-flex align-items-center cg-10">--}}
-{{--                        <div class="d-flex">--}}
-{{--                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"--}}
-{{--                                 xmlns="http://www.w3.org/2000/svg">--}}
-{{--                                <path--}}
-{{--                                    d="M20.1305 6.01848C20.8327 7.06941 20.8327 8.53239 20.8327 11.4584C20.8327 14.3843 20.8327 15.8473 20.1305 16.8982C19.8265 17.3532 19.4358 17.7438 18.9809 18.0478C18.0628 18.6613 16.8303 18.7388 14.5827 18.7486V18.75L13.431 21.0533C13.0472 21.8211 11.9515 21.8211 11.5677 21.0533L10.416 18.75V18.7486C8.16841 18.7388 6.93588 18.6613 6.01781 18.0478C5.56285 17.7438 5.17222 17.3532 4.86823 16.8982C4.16602 15.8473 4.16602 14.3843 4.16602 11.4584C4.16602 8.53239 4.16602 7.06941 4.86823 6.01848C5.17222 5.56352 5.56285 5.17289 6.01781 4.8689C7.06874 4.16669 8.53172 4.16669 11.4577 4.16669H13.541C16.467 4.16669 17.93 4.16669 18.9809 4.8689C19.4358 5.17289 19.8265 5.56352 20.1305 6.01848Z"--}}
-{{--                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"--}}
-{{--                                    stroke-linejoin="round"/>--}}
-{{--                                <path d="M9.375 9.375L15.625 9.375" stroke="white" stroke-opacity="0.7"--}}
-{{--                                      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>--}}
-{{--                                <path d="M9.375 13.5417H12.5" stroke="white" stroke-opacity="0.7" stroke-width="1.5"--}}
-{{--                                      stroke-linecap="round" stroke-linejoin="round"/>--}}
-{{--                            </svg>--}}
-{{--                        </div>--}}
-{{--                        <span>{{ __('Messages') }}</span>--}}
-{{--                    </a>--}}
+                    <a href="{{ route('chats.index') }}"
+                       class="{{ $activeMessage ?? '' }} d-flex align-items-center cg-10">
+                        <div class="d-flex">
+                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20.1305 6.01848C20.8327 7.06941 20.8327 8.53239 20.8327 11.4584C20.8327 14.3843 20.8327 15.8473 20.1305 16.8982C19.8265 17.3532 19.4358 17.7438 18.9809 18.0478C18.0628 18.6613 16.8303 18.7388 14.5827 18.7486V18.75L13.431 21.0533C13.0472 21.8211 11.9515 21.8211 11.5677 21.0533L10.416 18.75V18.7486C8.16841 18.7388 6.93588 18.6613 6.01781 18.0478C5.56285 17.7438 5.17222 17.3532 4.86823 16.8982C4.16602 15.8473 4.16602 14.3843 4.16602 11.4584C4.16602 8.53239 4.16602 7.06941 4.86823 6.01848C5.17222 5.56352 5.56285 5.17289 6.01781 4.8689C7.06874 4.16669 8.53172 4.16669 11.4577 4.16669H13.541C16.467 4.16669 17.93 4.16669 18.9809 4.8689C19.4358 5.17289 19.8265 5.56352 20.1305 6.01848Z"
+                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                                <path d="M9.375 9.375L15.625 9.375" stroke="white" stroke-opacity="0.7"
+                                      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.375 13.5417H12.5" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <span>{{ __('Messages') }}</span>
+                    </a>
                 </li>
                 @endif
                 <li>
-{{--                    <a href="{{ route('transaction.list') }}"--}}
-{{--                       class="d-flex align-items-center cg-10 {{ $activeTransactionList ?? '' }}">--}}
-{{--                        <div class="d-flex">--}}
-{{--                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"--}}
-{{--                                 xmlns="http://www.w3.org/2000/svg">--}}
-{{--                                <rect x="3.31836" y="6.94522" width="18" height="12" rx="2" stroke="white"--}}
-{{--                                      stroke-opacity="0.7" stroke-width="1.5"></rect>--}}
-{{--                                <path d="M5.31836 9.94522H8.31836" stroke="white" stroke-opacity="0.7"--}}
-{{--                                      stroke-width="1.5"--}}
-{{--                                      stroke-linecap="round"></path>--}}
-{{--                                <path d="M16.3184 15.9452H19.3184" stroke="white" stroke-opacity="0.7"--}}
-{{--                                      stroke-width="1.5"--}}
-{{--                                      stroke-linecap="round"></path>--}}
-{{--                                <circle cx="12.3184" cy="12.9452" r="2" stroke="white" stroke-opacity="0.7"--}}
-{{--                                        stroke-width="1.5"></circle>--}}
-{{--                            </svg>--}}
-{{--                        </div>--}}
-{{--                        <span class="">{{ __('Transaction List') }}</span>--}}
-{{--                    </a>--}}
+                    <a href="{{ route('transaction.list') }}"
+                       class="d-flex align-items-center cg-10 {{ $activeTransactionList ?? '' }}">
+                        <div class="d-flex">
+                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3.31836" y="6.94522" width="18" height="12" rx="2" stroke="white"
+                                      stroke-opacity="0.7" stroke-width="1.5"></rect>
+                                <path d="M5.31836 9.94522H8.31836" stroke="white" stroke-opacity="0.7"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"></path>
+                                <path d="M16.3184 15.9452H19.3184" stroke="white" stroke-opacity="0.7"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"></path>
+                                <circle cx="12.3184" cy="12.9452" r="2" stroke="white" stroke-opacity="0.7"
+                                        stroke-width="1.5"></circle>
+                            </svg>
+                        </div>
+                        <span class="">{{ __('Transaction List') }}</span>
+                    </a>
                 </li>
                 <li>
-{{--                    <a href="{{ route('profile') }}" class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">--}}
-{{--                        <div class="d-flex">--}}
-{{--                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"--}}
-{{--                                 xmlns="http://www.w3.org/2000/svg">--}}
-{{--                                <path--}}
-{{--                                    d="M19.7274 21.3923C19.2716 20.1165 18.2672 18.9892 16.8701 18.1851C15.4729 17.381 13.7611 16.9452 12 16.9452C10.2389 16.9452 8.52706 17.381 7.12991 18.1851C5.73276 18.9892 4.72839 20.1165 4.27259 21.3923"--}}
-{{--                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>--}}
-{{--                                <circle cx="12" cy="8.94522" r="4" stroke="white"--}}
-{{--                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>--}}
-{{--                            </svg>--}}
-{{--                        </div>--}}
-{{--                        <span class="">{{ __('Profile') }}</span>--}}
-{{--                    </a>--}}
+                    <a href="{{ route('profile') }}" class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">
+                        <div class="d-flex">
+                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19.7274 21.3923C19.2716 20.1165 18.2672 18.9892 16.8701 18.1851C15.4729 17.381 13.7611 16.9452 12 16.9452C10.2389 16.9452 8.52706 17.381 7.12991 18.1851C5.73276 18.9892 4.72839 20.1165 4.27259 21.3923"
+                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="12" cy="8.94522" r="4" stroke="white"
+                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <span class="">{{ __('Profile') }}</span>
+                    </a>
                 </li>
                 <li>
-{{--                    <a href="{{ route('settings') }}"--}}
-{{--                       class="{{ $activeSettings ?? '' }} d-flex align-items-center cg-10">--}}
-{{--                        <div class="d-flex">--}}
-{{--                            <svg width="20" height="22" viewBox="0 0 20 22" fill="none"--}}
-{{--                                 xmlns="http://www.w3.org/2000/svg">--}}
-{{--                                <path fill-rule="evenodd" clip-rule="evenodd"--}}
-{{--                                      d="M18.8074 6.62355L18.185 5.54346C17.6584 4.62954 16.4914 4.31426 15.5763 4.83866V4.83866C15.1406 5.09528 14.6208 5.16809 14.1314 5.04103C13.6421 4.91396 13.2233 4.59746 12.9676 4.16131C12.803 3.88409 12.7146 3.56833 12.7113 3.24598V3.24598C12.7261 2.72916 12.5311 2.22834 12.1708 1.85761C11.8104 1.48688 11.3153 1.2778 10.7982 1.27802H9.54423C9.0377 1.27801 8.55205 1.47985 8.19473 1.83888C7.83742 2.19791 7.63791 2.68453 7.64034 3.19106V3.19106C7.62533 4.23686 6.77321 5.07675 5.7273 5.07664C5.40494 5.07329 5.08919 4.98488 4.81197 4.82035V4.82035C3.89679 4.29595 2.72985 4.61123 2.20327 5.52516L1.53508 6.62355C1.00914 7.53633 1.32013 8.70255 2.23073 9.23225V9.23225C2.82263 9.57398 3.18726 10.2055 3.18726 10.889C3.18726 11.5725 2.82263 12.204 2.23073 12.5457V12.5457C1.32129 13.0719 1.00996 14.2353 1.53508 15.1453V15.1453L2.16666 16.2345C2.41338 16.6797 2.82734 17.0082 3.31693 17.1474C3.80652 17.2865 4.33137 17.2248 4.77535 16.976V16.976C5.21181 16.7213 5.73192 16.6515 6.22007 16.7821C6.70822 16.9128 7.12397 17.233 7.3749 17.6716C7.53943 17.9488 7.62784 18.2646 7.63119 18.5869V18.5869C7.63119 19.6435 8.48769 20.5 9.54423 20.5H10.7982C11.8512 20.5 12.7062 19.6491 12.7113 18.5961V18.5961C12.7088 18.088 12.9096 17.6 13.2689 17.2407C13.6282 16.8814 14.1162 16.6806 14.6243 16.6831C14.9459 16.6917 15.2604 16.7797 15.5397 16.9393V16.9393C16.4524 17.4653 17.6186 17.1543 18.1484 16.2437V16.2437L18.8074 15.1453C19.0625 14.7074 19.1325 14.1859 19.0019 13.6963C18.8714 13.2067 18.551 12.7893 18.1117 12.5366V12.5366C17.6725 12.2839 17.3521 11.8665 17.2215 11.3769C17.091 10.8872 17.161 10.3658 17.4161 9.9279C17.582 9.63827 17.8221 9.39814 18.1117 9.23225V9.23225C19.0169 8.70283 19.3271 7.54343 18.8074 6.63271V6.63271V6.62355Z"--}}
-{{--                                      stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"--}}
-{{--                                      stroke-linejoin="round"/>--}}
-{{--                                <circle cx="10.1752" cy="10.889" r="2.63616" stroke="white"--}}
-{{--                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"--}}
-{{--                                        stroke-linejoin="round"/>--}}
-{{--                            </svg>--}}
-{{--                        </div>--}}
-{{--                        <span class="">{{ __('Settings') }}</span>--}}
-{{--                    </a>--}}
+                    <a href="{{ route('settings') }}"
+                       class="{{ $activeSettings ?? '' }} d-flex align-items-center cg-10">
+                        <div class="d-flex">
+                            <svg width="20" height="22" viewBox="0 0 20 22" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M18.8074 6.62355L18.185 5.54346C17.6584 4.62954 16.4914 4.31426 15.5763 4.83866V4.83866C15.1406 5.09528 14.6208 5.16809 14.1314 5.04103C13.6421 4.91396 13.2233 4.59746 12.9676 4.16131C12.803 3.88409 12.7146 3.56833 12.7113 3.24598V3.24598C12.7261 2.72916 12.5311 2.22834 12.1708 1.85761C11.8104 1.48688 11.3153 1.2778 10.7982 1.27802H9.54423C9.0377 1.27801 8.55205 1.47985 8.19473 1.83888C7.83742 2.19791 7.63791 2.68453 7.64034 3.19106V3.19106C7.62533 4.23686 6.77321 5.07675 5.7273 5.07664C5.40494 5.07329 5.08919 4.98488 4.81197 4.82035V4.82035C3.89679 4.29595 2.72985 4.61123 2.20327 5.52516L1.53508 6.62355C1.00914 7.53633 1.32013 8.70255 2.23073 9.23225V9.23225C2.82263 9.57398 3.18726 10.2055 3.18726 10.889C3.18726 11.5725 2.82263 12.204 2.23073 12.5457V12.5457C1.32129 13.0719 1.00996 14.2353 1.53508 15.1453V15.1453L2.16666 16.2345C2.41338 16.6797 2.82734 17.0082 3.31693 17.1474C3.80652 17.2865 4.33137 17.2248 4.77535 16.976V16.976C5.21181 16.7213 5.73192 16.6515 6.22007 16.7821C6.70822 16.9128 7.12397 17.233 7.3749 17.6716C7.53943 17.9488 7.62784 18.2646 7.63119 18.5869V18.5869C7.63119 19.6435 8.48769 20.5 9.54423 20.5H10.7982C11.8512 20.5 12.7062 19.6491 12.7113 18.5961V18.5961C12.7088 18.088 12.9096 17.6 13.2689 17.2407C13.6282 16.8814 14.1162 16.6806 14.6243 16.6831C14.9459 16.6917 15.2604 16.7797 15.5397 16.9393V16.9393C16.4524 17.4653 17.6186 17.1543 18.1484 16.2437V16.2437L18.8074 15.1453C19.0625 14.7074 19.1325 14.1859 19.0019 13.6963C18.8714 13.2067 18.551 12.7893 18.1117 12.5366V12.5366C17.6725 12.2839 17.3521 11.8665 17.2215 11.3769C17.091 10.8872 17.161 10.3658 17.4161 9.9279C17.582 9.63827 17.8221 9.39814 18.1117 9.23225V9.23225C19.0169 8.70283 19.3271 7.54343 18.8074 6.63271V6.63271V6.62355Z"
+                                      stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+                                <circle cx="10.1752" cy="10.889" r="2.63616" stroke="white"
+                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <span class="">{{ __('Settings') }}</span>
+                    </a>
                 </li>
-            @if (auth('alumni')->user()->role_id == USER_ROLE_ADMIN)
+            @if (auth()->user()->role == USER_ROLE_ADMIN)
                 @if(!isCentralDomain() || !isAddonInstalled('ALUSAAS'))
                 <li class="sidebar-divider">
                     <p class="fs-9 fw-500 lh-20 text-white-32">{{ __('ADMIN MENU') }}</p>
@@ -293,7 +319,46 @@
                         </ul>
                     </div>
                 </li>
-
+                <li>
+                    <a href="#membership-admin" data-bs-toggle="collapse" role="button"
+                       aria-expanded="{{ isset($showMembership) ? 'true' : '' }}" aria-controls="membership-admin"
+                       class="d-flex align-items-center cg-10 {{ isset($showMembership) ? 'active' : 'collapsed' }}">
+                        <div class="d-flex">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20.4906 9.39822C20.4906 14.0906 16.6867 17.8945 11.9943 17.8945C7.30197 17.8945 3.49805 14.0906 3.49805 9.39822C3.49805 4.70585 7.30197 0.901924 11.9943 0.901924C16.6867 0.901924 20.4906 4.70585 20.4906 9.39822Z"
+                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                                <path
+                                    d="M4.63477 13.5656L0.856444 20.1099L4.93902 19.016L6.03294 23.0985L9.3112 17.4204"
+                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                                <path
+                                    d="M19.3652 13.5656L23.1436 20.1099L19.061 19.016L17.9671 23.0985L14.6888 17.4204"
+                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                                <path
+                                    d="M16.9679 14.0017C16.6749 13.1815 16.0292 12.4568 15.1311 11.9399C14.2329 11.423 13.1324 11.1429 12.0003 11.1429C10.8682 11.1429 9.76768 11.423 8.86951 11.9399C7.97134 12.4568 7.32568 13.1815 7.03266 14.0017"
+                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                                <circle cx="11.9972" cy="6" r="2.57143" stroke="white"
+                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <span class="">{{ __('Manage Membership') }}</span>
+                    </a>
+                    <div class="collapse {{ $showMembership ?? '' }}" id="membership-admin"
+                         data-bs-parent="#sidebarMenu">
+                        <ul class="zSidebar-submenu">
+                            <li>
+                                <a class="{{ $activeMembershipCreate ?? '' }}"
+                                   href="{{ route('admin.membership.index') }}">{{ __('Membership Plan') }}</a>
+                            </li>
+                            <li><a class="{{ $activeMemberList ?? '' }}"
+                                   href="{{ route('admin.membership.list') }}">{{ __('Member List') }}</a></li>
+                        </ul>
+                    </div>
+                </li>
                 <li>
                     <a href="#manage-notice-menu" data-bs-toggle="collapse" role="button"
                        aria-expanded="{{ isset($showManageNotice) ? 'true' : 'false' }}"
@@ -354,7 +419,48 @@
                         </ul>
                     </div>
                 </li>
+                <li>
+                    <a href="#manage-transaction-menu" data-bs-toggle="collapse" role="button"
+                       aria-expanded="{{ isset($showTransactionNotice) ? 'true' : 'false' }}"
+                       aria-controls="manage-transaction-menu"
+                       class="d-flex align-items-center cg-10 {{ isset($showTransactionNotice) ? 'active' : 'collapsed' }}">
+                        <div class="d-flex">
+                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <rect x="3.31836" y="6.94522" width="18" height="12" rx="2" stroke="white"
+                                      stroke-opacity="0.7" stroke-width="1.5"></rect>
+                                <path d="M5.31836 9.94522H8.31836" stroke="white" stroke-opacity="0.7"
+                                      stroke-width="1.5" stroke-linecap="round"></path>
+                                <path d="M16.3184 15.9452H19.3184" stroke="white" stroke-opacity="0.7"
+                                      stroke-width="1.5" stroke-linecap="round"></path>
+                                <circle cx="12.3184" cy="12.9452" r="2" stroke="white" stroke-opacity="0.7"
+                                        stroke-width="1.5"></circle>
+                            </svg>
+                        </div>
+                        <span class="">{{ __('Manage Transaction') }}</span>
+                    </a>
 
+                    <div class="collapse {{ $showTransactionNotice ?? '' }}" id="manage-transaction-menu"
+                         data-bs-parent="#sidebarMenu">
+                        <ul class="zSidebar-submenu">
+                            <li><a class="{{ $activePaymentNotice ?? '' }}"
+                                   href="{{route('admin.transactions.pending.list')}}">{{ 'Pending Transaction' }}</a>
+                            </li>
+                            <li><a class="{{ $activeTransactionNotice ?? '' }}"
+                                   href="{{route('admin.transactions.all.list')}}">{{ 'All Transaction' }}</a></li>
+                            <li><a class="{{ $activeEventNotice ?? '' }}"
+                                   href="{{route('admin.transactions.event.list')}}">{{ 'Event Transaction' }}</a></li>
+                            <li><a class="{{ $activeMembershipNotice ?? '' }}"
+                                   href="{{route('admin.transactions.membership.list')}}">{{ 'Membership Transaction' }}</a>
+                            </li>
+                            @if(isAddonInstalled('ALUSAAS'))
+                                <li><a class="{{ $activeAdminTransaction ?? '' }}"
+                                       href="{{route('admin.subscription.transaction.list')}}">{{ 'Subscription Transaction' }}</a>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+                </li>
                 <li>
                     <a href="{{ route('admin.setting.website-settings.index') }}"
                        class="{{ $activeManageWebsiteSetting ?? '' }} d-flex align-items-center cg-10">
@@ -484,15 +590,15 @@
                 </span>
             </li>
             @endif
-{{--            <a href="{{ route('logout') }}"--}}
-{{--               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"--}}
-{{--               class="d-inline-flex align-items-center cg-15 pt-17 pb-30 px-25">--}}
-{{--                <img src="{{ asset('assets/images/icon/logout.svg') }}" alt=""/>--}}
-{{--                <p class="fs-14 fw-500 lh-16 text-white-70">{{ __('Logout') }}</p>--}}
-{{--            </a>--}}
-{{--            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">--}}
-{{--                @csrf--}}
-{{--            </form>--}}
+            <a href="{{ route('logout') }}"
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+               class="d-inline-flex align-items-center cg-15 pt-17 pb-30 px-25">
+                <img src="{{ asset('assets/images/icon/logout.svg') }}" alt=""/>
+                <p class="fs-14 fw-500 lh-16 text-white-70">{{ __('Logout') }}</p>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
         </ul>
     </div>
 </div>

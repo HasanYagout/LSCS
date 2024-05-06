@@ -35,7 +35,7 @@
         @include('cookie-consent::index')
     </div>
     @endif
-    @include('layouts.script')
+    @include('alumni.layouts.script')
 </body>
 
 </html>
