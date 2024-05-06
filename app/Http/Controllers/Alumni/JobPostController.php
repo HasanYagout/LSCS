@@ -23,7 +23,7 @@ class JobPostController extends Controller
         $data['title'] = __('Create Job Post');
         $data['showJobPostManagement'] = 'show';
         $data['activeJobPostCreate'] = 'active-color-one';
-        return view('alumni.job_posts.create', $data);
+        return view('alumni.jobs.create', $data);
 
     }
 
@@ -40,12 +40,12 @@ class JobPostController extends Controller
         $data['title'] = __('My Job Post');
         $data['showJobPostManagement'] = 'show';
         $data['activeMyJobPostList'] = 'active-color-one';
-        return view('alumni.job_posts.my-job-post', $data);
+        return view('alumni.jobs.my-job-post', $data);
     }
     public function info($slug)
     {
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        return view('alumni.job_posts.edit-form', $data);
+        return view('alumni.jobs.edit-form', $data);
     }
 
     public function update(JobPostRequest $request, $slug)
@@ -61,7 +61,7 @@ class JobPostController extends Controller
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        return view('alumni.job_posts.job_post_view', $data);
+        return view('alumni.jobs.job_post_view', $data);
     }
 
     public function allJobPost(Request $request)
@@ -72,6 +72,6 @@ class JobPostController extends Controller
         $data['title'] = __('All Job Post');
         $data['showJobPostManagement'] = 'show';
         $data['activeAllJobPostList'] = 'active-color-one';
-        return view('alumni.job_posts.all-job-post', $data);
+        return view('alumni.jobs.all-job-post', $data);
     }
 }

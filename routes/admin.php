@@ -100,6 +100,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('create', [StoryController::class, 'create'])->name('create');
         Route::get('pending', [StoryController::class, 'pending'])->name('pending');
         Route::get('list', [StoryController::class, 'myStory'])->name('my-story');
+        Route::post('store', [StoryController::class, 'store'])->name('store');
 
     });
 // Stories route end

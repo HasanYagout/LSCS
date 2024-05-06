@@ -53,7 +53,7 @@ class HomeService
     }
 
     public function getJob($limit){
-        return JobPost::where('job_posts.tenant_id', getTenantId())->where('status',JOB_STATUS_APPROVED)->orderBy('id','desc')->paginate($limit);
+        return JobPost::where('jobs.tenant_id', getTenantId())->where('status',JOB_STATUS_APPROVED)->orderBy('id','desc')->paginate($limit);
     }
 
     public function getStories($limit){

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoryRequest;
 use App\Http\Services\StoryService;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
@@ -44,5 +45,8 @@ class StoryController extends Controller
         $data['activePendingStoryList'] = 'active-color-one';
         return view('admin.stories.pending', $data);
     }
-
+    public function store(StoryRequest $request)
+    {
+        return $this->storyService->store($request);
+    }
 }
