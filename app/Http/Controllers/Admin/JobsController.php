@@ -23,7 +23,7 @@ class JobsController extends Controller
         $data['title'] = __('Create Job Post');
         $data['showJobPostManagement'] = 'show';
         $data['activeJobPostCreate'] = 'active-color-one';
-        return view('admin.job_posts.create', $data);
+        return view('admin.jobs.create', $data);
 
     }
 
@@ -45,7 +45,7 @@ class JobsController extends Controller
     public function info($slug)
     {
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        return view('alumni.job_posts.edit-form', $data);
+        return view('alumni.jobs.edit-form', $data);
     }
 
     public function update(JobPostRequest $request, $slug)
@@ -61,7 +61,7 @@ class JobsController extends Controller
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        return view('alumni.job_posts.job_post_view', $data);
+        return view('alumni.jobs.job_post_view', $data);
     }
 
     public function all(Request $request)
@@ -72,6 +72,16 @@ class JobsController extends Controller
         $data['title'] = __('All Job Post');
         $data['showJobPostManagement'] = 'show';
         $data['activeAllJobPostList'] = 'active-color-one';
-        return view('alumni.job_posts.all-job-post', $data);
+        return view('admin.jobs.all-job-post', $data);
+    }
+    public function pending(Request $request)
+    {
+        if ($request->ajax()) {
+            return $this->jobPostService->getPendingJobPostList();
+        }
+        $data['title'] = __('Pending Job List');
+        $data['showJobPostManagement'] = 'show';
+        $data['activePendingJobPostList'] = 'active-color-one';
+        return view('admin.jobs.pending-job-post', $data);
     }
 }

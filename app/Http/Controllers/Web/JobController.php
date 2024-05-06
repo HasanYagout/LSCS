@@ -33,4 +33,6 @@ class JobController extends Controller
         return view('web.jobs.job_details', $data);
     }
 
+
+
 }
