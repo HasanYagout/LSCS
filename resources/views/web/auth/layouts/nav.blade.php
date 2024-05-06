@@ -8,6 +8,7 @@
                 class="bd-one bd-c-ededed bd-ra-12 w-30 h-30 d-flex justify-content-center align-items-center text-707070 p-0 bg-transparent">
                 <i class="fa-solid fa-bars"></i></button>
         </div>
+
         <!-- Alumni link -->
         <a href="{{ route('alumni.list-search-with-filter') }}"
             class="d-none d-sm-inline-block fs-15 fw-500 lh-25 text-black py-10 px-26 bg-cdef84 bd-ra-12 hover-bg-one">{{
@@ -47,15 +48,15 @@
         <div class="d-flex align-items-center cg-17">
             <div class="d-flex align-items-center cg-5">
                 <!-- Message -->
-{{--                <a href="{{ route('chats.index') }}" class="item-one">--}}
-{{--                    <img src="{{ asset('assets/images/icon/chat-one.svg') }}" alt="" />--}}
-{{--                    <span class="notify_no" id="unseen-user-message">{{ userMessageUnseen() }}</span>--}}
-{{--                </a>--}}
+                <a href="{{ route('chats.index') }}" class="item-one">
+                    <img src="{{ asset('assets/images/icon/chat-one.svg') }}" alt="" />
+                    <span class="notify_no" id="unseen-user-message">{{ userMessageUnseen() }}</span>
+                </a>
                 <!-- Notify -->
                 <div class="dropdown notifyDropdown">
                     <button class="item-one dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <img src="{{ asset('public/assets/images/icon/bell.svg') }}" alt="" />
+                        <img src="{{ asset('assets/images/icon/bell.svg') }}" alt="" />
                         <span class="notify_no">{{ count(userNotification('unseen')) }}</span>
                     </button>
                     <div class="dropdown-menu">
@@ -105,25 +106,20 @@
                 </div>
             </div>
             <!-- User -->
-
             <div class="dropdown headerUserDropdown">
                 <button class="dropdown-toggle p-0 border-0 bg-transparent d-flex align-items-center cg-8" type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-cdef84"><img
-                            src="{{ asset(getFileUrl(auth('admin')->user()->image)) }}" alt="{{ auth('admin')->user()->name}}" />
+                            src="{{ asset(getFileUrl(auth()->user()->image)) }}" alt="{{ auth()->user()->name }}" />
                     </div>
                     <div class="text-start d-none d-sm-block">
                         <p class="fs-12 fw-400 lh-15 text-707070">{{ __('Welcome') }}</p>
-                        @foreach(config('auth.guards') as $guardName => $guardConfig)
-                            @if(Auth::guard($guardName)->check())
-                        <h4 class="fs-15 fw-500 lh-18 text-1b1c17">{{ auth($guardName)->user()->first_name}}</h4>
-                            @endif
-                        @endforeach
+                        <h4 class="fs-15 fw-500 lh-18 text-1b1c17">{{ auth()->user()->name }}</h4>
                     </div>
                 </button>
                 <ul class="dropdown-menu dropdownItem-one">
                     <li>
-                        <a class="d-flex align-items-center cg-8" href="{{ route('admin.profile.index') }}">
+                        <a class="d-flex align-items-center cg-8" href="{{ route('profile') }}">
                             <div class="d-flex">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -139,7 +135,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="d-flex align-items-center cg-8" href="{{ route('admin.auth.logout') }}"
+                        <a class="d-flex align-items-center cg-8" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <div class="d-flex">
                                 <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
