@@ -1,4 +1,4 @@
-@extends('web.layouts.app')
+@extends('alumni.layouts.app')
 @push('title')
     {{ __('Home') }}
 @endpush

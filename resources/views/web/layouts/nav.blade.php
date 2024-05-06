@@ -58,17 +58,17 @@
                                 </ul>
                             </div>
                         @endif
-{{--                        @auth()--}}
-{{--                            <a href="{{ route('login') }}"--}}
-{{--                                class="d-flex py-6 px-24 bg-white bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color hover-bg-color-primary hover-border-color-primary">{{ __('Go To Community') }}</a>--}}
-{{--                        @else--}}
-{{--                            <a href="{{ route('login') }}"--}}
-{{--                                class="d-flex py-6 px-24 bg-black-color bd-ra-8 fs-18 fw-500 lh-28 text-white hover-bg-color-primary hover-color-black">{{ __('Login') }}</a>--}}
-{{--                            @if (!getOption('disable_registration'))--}}
-{{--                                <a href="{{ route('register') }}"--}}
-{{--                                    class="d-flex py-6 px-24 bg-white bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color hover-bg-color-primary hover-border-color-primary">{{ __('Sign Up') }}</a>--}}
-{{--                            @endif--}}
-{{--                        @endauth--}}
+                        @auth()
+                            <a href="{{ route('auth.login') }}"
+                                class="d-flex py-6 px-24 bg-white bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color hover-bg-color-primary hover-border-color-primary">{{ __('Go To Community') }}</a>
+                        @else
+                            <a href="{{ route('auth.login') }}"
+                                class="d-flex py-6 px-24 bg-black-color bd-ra-8 fs-18 fw-500 lh-28 text-white hover-bg-color-primary hover-color-black">{{ __('Login') }}</a>
+                            @if (!getOption('disable_registration'))
+                                <a href="{{ route('auth.register') }}"
+                                    class="d-flex py-6 px-24 bg-white bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color hover-bg-color-primary hover-border-color-primary">{{ __('Sign Up') }}</a>
+                            @endif
+                        @endauth
                     </div>
                 </div>
             </div>
