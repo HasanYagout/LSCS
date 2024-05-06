@@ -12,7 +12,7 @@
             <div class="home-content">
                 <div class="mb-3">
                     <form class="ajax reset" id="post-form" method="post" enctype="multipart/form-data"
-                          action="{{ route('posts.store') }}" data-handler="postResponse">
+{{--                          action="{{ route('posts.store') }}" data-handler="postResponse">--}}
                         @csrf
                         <!-- Create Post -->
                         <div class="p-25 bg-white bd-one bd-c-black-10 bd-ra-25">

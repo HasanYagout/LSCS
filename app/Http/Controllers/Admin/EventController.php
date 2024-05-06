@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\EventRequest;
+use App\Models\Event;
 use App\Models\EventCategory;
 use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
@@ -63,5 +65,18 @@ class EventController extends Controller
             return $this->eventService->pending();
         }
         return view('admin.event.pending.index', $data);
+    }
+    public function store(Request $request)
+    {
+        dd($request->file('thumbnail')->getClientOriginalName());
+       $event=new Event();
+       $event->event_category_id=$request->event_category_id;
+        $event->title=$request->title;
+        $event->slug=$request->$slug = getSlug($request->title) . '-' . rand(100000, 999999);
+
+        $event->title=$request->title;
+        $event->title=$request->title;
+        $event->title=$request->title;
+        $event->title=$request->title;
     }
 }
