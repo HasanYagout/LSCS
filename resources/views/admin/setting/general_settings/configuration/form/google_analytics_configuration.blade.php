@@ -3,7 +3,7 @@
         <h2>{{__('Google analytics configuration')}}</h2>
         <div class="mClose">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><img
-                    src="{{asset('assets/images/icon/delete.svg')}}" alt=""></button>
+                    src="{{asset('public/assets/images/icon/delete.svg')}}" alt=""></button>
         </div>
     </div>
     <form class="ajax" action="{{ route('admin.setting.common.settings.update') }}" method="post" class="form-horizontal"

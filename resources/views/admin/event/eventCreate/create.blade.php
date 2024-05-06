@@ -8,7 +8,7 @@
     <div class="">
       <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{$title}}</h4>
       <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
-        <form class="ajax reset" data-handler="commonResponseRedirect" data-redirect-url="{{route('event.my-event')}}" action="{{ route('event.store') }}" method="post" enctype="multipart/form-data" >
+        <form class="ajax reset" data-handler="commonResponseRedirect" data-redirect-url="{{route('admin.event.my-event')}}" action="{{ route('admin.event.store') }}" method="post" enctype="multipart/form-data" >
             @csrf
           <div class="max-w-840">
             <div class="pb-30"></div>

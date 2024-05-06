@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EventCategoryController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\JobsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,12 +34,22 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 
 // Event Route Start
     Route::group(['prefix' => 'event', 'as' => 'event.'], function () {
-        Route::get('/category', [EventCategoryController::class, 'index'])->name('category.index');
-        Route::post('/store', [EventCategoryController::class, 'store'])->name('category.store');
-        Route::get('/info/{id}', [EventCategoryController::class, 'info'])->name('category.info');
-        Route::post('/update/{id}', [EventCategoryController::class, 'update'])->name('category.update');
-        Route::post('/delete/{id}', [EventCategoryController::class, 'delete'])->name('category.delete');
-        Route::get('/pending', [EventController::class, 'pending'])->name('pending.index');
+        Route::get('my-event', [EventController::class, 'myEvent'])->name('my-event');
+        Route::get('all-event', [EventController::class, 'all'])->name('all');
+        Route::get('create', [EventController::class, 'create'])->name('create');
+        Route::post('/store', [EventController::class, 'store'])->name('store');
+        Route::get('pending', [ EventController::class, 'pending'])->name('pending');
+
+
+    });
+    Route::group(['prefix' => 'eventCategory', 'as' => 'eventCategory.'], function () {
+        Route::get('create', [EventCategoryController::class, 'create'])->name('create');
+        Route::get('/category', [EventCategoryController::class, 'index'])->name('index');
+        Route::post('/store', [EventCategoryController::class, 'store'])->name('store');
+        Route::get('/info/{id}', [EventCategoryController::class, 'info'])->name('info');
+        Route::post('/update/{id}', [EventCategoryController::class, 'update'])->name('update');
+        Route::post('/delete/{id}', [EventCategoryController::class, 'delete'])->name('delete');
+
     });
 // Event Route End
 
@@ -52,11 +65,17 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 // Membership Route End
 
 // JobPost Route Start
-    Route::group(['prefix' => 'job-post', 'as' => 'jobPost.'], function () {
-        Route::get('/pending-job-post', [JobPostController::class, 'pendingJobPost'])->name('pending-job-post');
-        Route::get('info/{slug}', [JobPostController::class, 'info'])->name('info');
-        Route::post('update/{slug}', [JobPostController::class, 'update'])->name('update');
-        Route::post('delete/{slug}', [JobPostController::class, 'delete'])->name('delete');
+    Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function () {
+        Route::post('add', [JobsController::class, 'add'])->name('add');
+        Route::get('create', [JobsController::class, 'create'])->name('create');
+        Route::get('/pending', [JobsController::class, 'pending'])->name('pending');
+        Route::get('info/{slug}', [JobsController::class, 'info'])->name('info');
+        Route::post('update/{slug}', [JobsController::class, 'update'])->name('update');
+        Route::post('delete/{slug}', [JobsController::class, 'delete'])->name('delete');
+        Route::get('all-job-post', [JobsController::class, 'all'])->name('all-job-post');
+        Route::get('my-job-post', [JobsController::class, 'myJobPost'])->name('my-job-post');
+
+
     });
 // JobPost Route End
 

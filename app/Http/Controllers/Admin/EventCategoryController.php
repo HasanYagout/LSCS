@@ -39,6 +39,7 @@ class EventCategoryController extends Controller
 
     public function store(EventCategoryRequest $request)
     {
+
         return  $this->eventCategoryService->store($request);
     }
 

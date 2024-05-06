@@ -8,9 +8,9 @@
     <div class="">
         <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{$title}}</h4>
         <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
-            <input type="hidden" id="my-job-post-route" value="{{ route('jobPost.create') }}">
+            <input type="hidden" id="my-job-post-route" value="{{ route('admin.jobs.create') }}">
             <form class="ajax reset" data-handler="commonResponseRedirect"
-                data-redirect-url="{{route('jobPost.my-job-post')}}" action="{{ route('jobPost.add-new-job-post') }}"
+                data-redirect-url="{{route('admin.jobs.my-job-post')}}" action="{{ route('admin.jobs.add') }}"
                 method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="max-w-840">

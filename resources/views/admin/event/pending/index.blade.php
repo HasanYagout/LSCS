@@ -9,12 +9,12 @@
 <!-- Page content area start -->
 <div class="p-30">
     <div>
-        <input type="hidden" id="event-pending-list-route" value="{{ route('admin.event.pending.index') }}">
+        <input type="hidden" id="event-pending-list-route" value="{{ route('admin.event.pending') }}">
 
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
             <h4 class="fs-24 fw-500 lh-34 text-black">{{$title}}</h4>
         </div>
-        <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
+         <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
             <!-- Table -->
             <div class="table-responsive zTable-responsive">
                 <table class="table zTable" id="eventPendingDataTable">

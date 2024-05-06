@@ -29,7 +29,7 @@ class EmailTemplateController extends Controller
                     return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
                         <button onclick="getEditModal(\'' . route('admin.setting.email-edit', $data->id) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo">
-                            <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                         </button>
                     </li>
                 </ul>';

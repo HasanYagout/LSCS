@@ -12,6 +12,7 @@
     <!-- Menu & Logout -->
     <div class="zSidebar-fixed">
         <ul class="zSidebar-menu" id="sidebarMenu">
+
             @if (auth('admin')->user()->role_id == USER_ROLE_ADMIN)
                 <li>
                     <a href="{{ route('admin.dashboard') }}"
@@ -40,20 +41,20 @@
 
             @if(!isCentralDomain() || !isAddonInstalled('ALUSAAS'))
                 <li>
-{{--                    <a href="{{ route('home') }}" class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">--}}
-{{--                        <div class="d-flex">--}}
-{{--                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20"--}}
-{{--                                 fill="none">--}}
-{{--                                <path d="M1.71387 11.4286L10.9996 2.14285L20.2853 11.4286" stroke="white"--}}
-{{--                                      stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"--}}
-{{--                                      stroke-linejoin="round"/>--}}
-{{--                                <path d="M4.57129 8.57144L4.57129 17.8572H17.4284V8.57144" stroke="white"--}}
-{{--                                      stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"--}}
-{{--                                      stroke-linejoin="round"/>--}}
-{{--                            </svg>--}}
-{{--                        </div>--}}
-{{--                        <span class="">{{ __('Home') }}</span>--}}
-{{--                    </a>--}}
+                    <a href="{{ route('alumni.home') }}" class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">
+                        <div class="d-flex">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20"
+                                 fill="none">
+                                <path d="M1.71387 11.4286L10.9996 2.14285L20.2853 11.4286" stroke="white"
+                                      stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+                                <path d="M4.57129 8.57144L4.57129 17.8572H17.4284V8.57144" stroke="white"
+                                      stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <span class="">{{ __('Home') }}</span>
+                    </a>
                 </li>
                 <li>
                     <a href="#myEvent" data-bs-toggle="collapse" role="button" aria-controls="myEvent"
@@ -76,24 +77,21 @@
                         <ul class="zSidebar-submenu">
                             @if (auth('admin')->user()->role_id == USER_ROLE_ADMIN)
                                 <li><a class="{{ $activeEventCategory ?? '' }}"
-                                       href="{{ route('admin.event.category.index') }}">{{ __('Event Category') }}</a>
+                                       href="{{ route('admin.eventCategory.index') }}">{{ __('Event Category') }}</a>
                                 </li>
                                 <li><a class="{{ $activeEventPending ?? '' }}"
-                                       href="{{ route('admin.event.pending.index') }}">{{ __('Pending Event') }}</a>
+                                       href="{{ route('admin.event.pending') }}">{{ __('Pending Event') }}</a>
                                 </li>
                             @endif
-{{--                            <li><a class="{{ $activeEventCreate ?? '' }}"--}}
-{{--                                   href="{{ route('admin.event.create') }}">{{ __('Create Event') }}</a>--}}
-{{--                            </li>--}}
-{{--                            <li><a class="{{ $activeMyEvent ?? '' }}"--}}
-{{--                                   href="{{ route('admin.event.my-event') }}">{{ __('My Event') }}</a>--}}
-{{--                            </li>--}}
-{{--                            <li><a class="{{ $activeAllEvent ?? '' }}"--}}
-{{--                                   href="{{ route('admin.event.all') }}">{{ __('All Event') }}</a>--}}
-{{--                            </li>--}}
-{{--                            <li><a class="{{ $activeTicket ?? '' }}"--}}
-{{--                                   href="{{ route('admin.event.my-ticket') }}">{{ __('My Ticket') }}</a>--}}
-{{--                            </li>--}}
+                            <li><a class="{{ $activeEventCreate ?? '' }}"
+                                   href="{{ route('admin.event.create') }}">{{ __('Create Event') }}</a>
+                            </li>
+                            <li><a class="{{ $activeMyEvent ?? '' }}"
+                                   href="{{ route('admin.event.my-event') }}">{{ __('My Event') }}</a>
+                            </li>
+                            <li><a class="{{ $activeAllEvent ?? '' }}"
+                                   href="{{ route('admin.event.all') }}">{{ __('All Event') }}</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -119,17 +117,17 @@
                     <div class="collapse {{ $showJobPostManagement ?? '' }}" id="jobPost"
                          data-bs-parent="#sidebarMenu">
                         <ul class="zSidebar-submenu">
-{{--                            <li><a class="{{ $activeJobPostCreate ?? '' }}"--}}
-{{--                                   href="{{ route('admin.jobPost.create') }}">{{ __('Create Post') }}</a></li>--}}
-{{--                            @if (auth()->user()->role == USER_ROLE_ADMIN)--}}
-{{--                                <li><a class="{{ $activePendingJobPostList ?? '' }}"--}}
-{{--                                       href="{{ route('admin.jobPost.pending-job-post') }}">{{ __('Pending Post') }}</a>--}}
-{{--                                </li>--}}
-{{--                            @endif--}}
-{{--                            <li><a class="{{ $activeMyJobPostList ?? '' }}"--}}
-{{--                                   href="{{ route('jobPost.my-job-post') }}">{{ __('My Post') }}</a></li>--}}
-{{--                            <li><a class="{{ $activeAllJobPostList ?? '' }}"--}}
-{{--                                   href="{{ route('jobPost.all-job-post') }}">{{ __('All Post') }}</a></li>--}}
+                            <li><a class="{{ $activeJobPostCreate ?? '' }}"
+                                   href="{{ route('admin.jobs.create') }}">{{ __('Create Post') }}</a></li>
+                            @if (auth('admin')->user()->role_id == USER_ROLE_ADMIN)
+                                <li><a class="{{ $activePendingJobPostList ?? '' }}"
+                                       href="{{ route('admin.jobs.pending') }}">{{ __('Pending Post') }}</a>
+                                </li>
+                            @endif
+                            <li><a class="{{ $activeMyJobPostList ?? '' }}"
+                                   href="{{ route('admin.jobs.my-job-post') }}">{{ __('My Post') }}</a></li>
+                            <li><a class="{{ $activeAllJobPostList ?? '' }}"
+                                   href="{{ route('admin.jobs.all-job-post') }}">{{ __('All Post') }}</a></li>
                         </ul>
                     </div>
                 </li>

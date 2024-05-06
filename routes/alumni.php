@@ -61,29 +61,22 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
 
 // event route start
     Route::group(['prefix' => 'event', 'as' => 'event.'], function () {
-        Route::get('create', [EventController::class, 'create'])->name('create');
         Route::post('store', [EventController::class, 'store'])->name('store');
         Route::get('edit/{slug}', [EventController::class, 'edit'])->name('edit');
         Route::post('update/{slug}', [EventController::class, 'update'])->name('update');
         Route::get('all-event', [EventController::class, 'all'])->name('all');
-        Route::get('my-event', [EventController::class, 'myEvent'])->name('my-event');
         Route::get('details/{slug}', [EventController::class, 'details'])->name('details');
         Route::post('delete/{id}', [EventController::class, 'delete'])->name('delete');
-        Route::get('my-ticket', [TicketController::class, 'myTicket'])->name('my-ticket');
         Route::get('single-ticket/{id}', [TicketController::class, 'singleTicket'])->name('single-ticket');
     });
 // event route end
 
 // Job Post route start
     Route::group(['prefix' => 'job-post', 'as' => 'jobPost.'], function () {
-        Route::get('create', [JobPostController::class, 'createJobPost'])->name('create');
-        Route::post('add-new-job-post', [JobPostController::class, 'addJobPost'])->name('add-new-job-post');
-        Route::get('my-job-post', [JobPostController::class, 'myJobPost'])->name('my-job-post');
         Route::get('info/{slug}', [JobPostController::class, 'info'])->name('info');
         Route::post('update/{slug}', [JobPostController::class, 'update'])->name('update');
         Route::post('delete/{slug}', [JobPostController::class, 'delete'])->name('delete');
         Route::get('details/{slug}', [JobPostController::class, 'details'])->name('details');
-        Route::get('all-job-post', [JobPostController::class, 'allJobPost'])->name('all-job-post');
     });
 // Job Post route end
 
