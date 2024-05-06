@@ -158,13 +158,13 @@
                     <div class="collapse {{ $showStoryManagement ?? '' }}" id="storyMenu"
                          data-bs-parent="#sidebarMenu">
                         <ul class="zSidebar-submenu">
-{{--                            <li><a class="{{ $activeStoryCreate ?? '' }}"--}}
-{{--                                   href="{{ route('admin.stories.create') }}">{{ __('Create Story') }}</a></li>--}}
-{{--                            @if (auth()->user()->role == USER_ROLE_ADMIN)--}}
-{{--                                <li><a class="{{ $activePendingStoryList ?? '' }}"--}}
-{{--                                       href="{{ route('admin.stories.pending') }}">{{ __('Pending Story') }}</a>--}}
-{{--                                </li>--}}
-{{--                            @endif--}}
+                            <li><a class="{{ $activeStoryCreate ?? '' }}"
+                                   href="{{ route('admin.stories.create') }}">{{ __('Create Story') }}</a></li>
+                            @if (auth('admin')->user()->role_id == USER_ROLE_ADMIN)
+                                <li><a class="{{ $activePendingStoryList ?? '' }}"
+                                       href="{{ route('admin.stories.pending') }}">{{ __('Pending Story') }}</a>
+                                </li>
+                            @endif
                             <li><a class="{{ $activeMyStoryList ?? '' }}"
                                    href="{{ route('admin.stories.my-story') }}">{{ __('My Story') }}</a></li>
                             <li><a target="_blank" href="{{ route('all.stories') }}">{{ __('All Story') }}</a></li>
@@ -186,31 +186,7 @@
                     </a>
                 </li>
                 <li>
-{{--                    <a href="{{ route('membership-package') }}"--}}
-{{--                       class="d-flex align-items-center cg-10 {{ $activeMembershipPack ?? '' }}">--}}
-{{--                        <div class="d-flex">--}}
-{{--                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"--}}
-{{--                                 xmlns="http://www.w3.org/2000/svg">--}}
-{{--                                <path--}}
-{{--                                    d="M20.4906 9.39822C20.4906 14.0906 16.6867 17.8945 11.9943 17.8945C7.30197 17.8945 3.49805 14.0906 3.49805 9.39822C3.49805 4.70585 7.30197 0.901924 11.9943 0.901924C16.6867 0.901924 20.4906 4.70585 20.4906 9.39822Z"--}}
-{{--                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"--}}
-{{--                                    stroke-linejoin="round"/>--}}
-{{--                                <path--}}
-{{--                                    d="M4.63477 13.5656L0.856444 20.1099L4.93902 19.016L6.03294 23.0985L9.3112 17.4204"--}}
-{{--                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"--}}
-{{--                                    stroke-linejoin="round"/>--}}
-{{--                                <path d="M19.3652 13.5656L23.1436 20.1099L19.061 19.016L17.9671 23.0985L14.6888 17.4204"--}}
-{{--                                      stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"--}}
-{{--                                      stroke-linejoin="round"/>--}}
-{{--                                <path--}}
-{{--                                    d="M16.9679 14.0017C16.6749 13.1815 16.0292 12.4568 15.1311 11.9399C14.2329 11.423 13.1324 11.1429 12.0003 11.1429C10.8682 11.1429 9.76768 11.423 8.86951 11.9399C7.97134 12.4568 7.32568 13.1815 7.03266 14.0017"--}}
-{{--                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>--}}
-{{--                                <circle cx="11.9972" cy="6" r="2.57143" stroke="white"--}}
-{{--                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>--}}
-{{--                            </svg>--}}
-{{--                        </div>--}}
-{{--                        <span>{{ __('Membership') }}</span>--}}
-{{--                    </a>--}}
+
                 </li>
                 <li>
 {{--                    <a href="{{ route('chats.index') }}"--}}
@@ -317,46 +293,7 @@
                         </ul>
                     </div>
                 </li>
-                <li>
-                    <a href="#membership-admin" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ isset($showMembership) ? 'true' : '' }}" aria-controls="membership-admin"
-                       class="d-flex align-items-center cg-10 {{ isset($showMembership) ? 'active' : 'collapsed' }}">
-                        <div class="d-flex">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M20.4906 9.39822C20.4906 14.0906 16.6867 17.8945 11.9943 17.8945C7.30197 17.8945 3.49805 14.0906 3.49805 9.39822C3.49805 4.70585 7.30197 0.901924 11.9943 0.901924C16.6867 0.901924 20.4906 4.70585 20.4906 9.39822Z"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"/>
-                                <path
-                                    d="M4.63477 13.5656L0.856444 20.1099L4.93902 19.016L6.03294 23.0985L9.3112 17.4204"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"/>
-                                <path
-                                    d="M19.3652 13.5656L23.1436 20.1099L19.061 19.016L17.9671 23.0985L14.6888 17.4204"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"/>
-                                <path
-                                    d="M16.9679 14.0017C16.6749 13.1815 16.0292 12.4568 15.1311 11.9399C14.2329 11.423 13.1324 11.1429 12.0003 11.1429C10.8682 11.1429 9.76768 11.423 8.86951 11.9399C7.97134 12.4568 7.32568 13.1815 7.03266 14.0017"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
-                                <circle cx="11.9972" cy="6" r="2.57143" stroke="white"
-                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <span class="">{{ __('Manage Membership') }}</span>
-                    </a>
-                    <div class="collapse {{ $showMembership ?? '' }}" id="membership-admin"
-                         data-bs-parent="#sidebarMenu">
-                        <ul class="zSidebar-submenu">
-                            <li>
-                                <a class="{{ $activeMembershipCreate ?? '' }}"
-                                   href="{{ route('admin.membership.index') }}">{{ __('Membership Plan') }}</a>
-                            </li>
-                            <li><a class="{{ $activeMemberList ?? '' }}"
-                                   href="{{ route('admin.membership.list') }}">{{ __('Member List') }}</a></li>
-                        </ul>
-                    </div>
-                </li>
+
                 <li>
                     <a href="#manage-notice-menu" data-bs-toggle="collapse" role="button"
                        aria-expanded="{{ isset($showManageNotice) ? 'true' : 'false' }}"
@@ -417,48 +354,7 @@
                         </ul>
                     </div>
                 </li>
-                <li>
-                    <a href="#manage-transaction-menu" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ isset($showTransactionNotice) ? 'true' : 'false' }}"
-                       aria-controls="manage-transaction-menu"
-                       class="d-flex align-items-center cg-10 {{ isset($showTransactionNotice) ? 'active' : 'collapsed' }}">
-                        <div class="d-flex">
-                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <rect x="3.31836" y="6.94522" width="18" height="12" rx="2" stroke="white"
-                                      stroke-opacity="0.7" stroke-width="1.5"></rect>
-                                <path d="M5.31836 9.94522H8.31836" stroke="white" stroke-opacity="0.7"
-                                      stroke-width="1.5" stroke-linecap="round"></path>
-                                <path d="M16.3184 15.9452H19.3184" stroke="white" stroke-opacity="0.7"
-                                      stroke-width="1.5" stroke-linecap="round"></path>
-                                <circle cx="12.3184" cy="12.9452" r="2" stroke="white" stroke-opacity="0.7"
-                                        stroke-width="1.5"></circle>
-                            </svg>
-                        </div>
-                        <span class="">{{ __('Manage Transaction') }}</span>
-                    </a>
 
-                    <div class="collapse {{ $showTransactionNotice ?? '' }}" id="manage-transaction-menu"
-                         data-bs-parent="#sidebarMenu">
-                        <ul class="zSidebar-submenu">
-                            <li><a class="{{ $activePaymentNotice ?? '' }}"
-                                   href="{{route('admin.transactions.pending.list')}}">{{ 'Pending Transaction' }}</a>
-                            </li>
-                            <li><a class="{{ $activeTransactionNotice ?? '' }}"
-                                   href="{{route('admin.transactions.all.list')}}">{{ 'All Transaction' }}</a></li>
-                            <li><a class="{{ $activeEventNotice ?? '' }}"
-                                   href="{{route('admin.transactions.event.list')}}">{{ 'Event Transaction' }}</a></li>
-                            <li><a class="{{ $activeMembershipNotice ?? '' }}"
-                                   href="{{route('admin.transactions.membership.list')}}">{{ 'Membership Transaction' }}</a>
-                            </li>
-                            @if(isAddonInstalled('ALUSAAS'))
-                                <li><a class="{{ $activeAdminTransaction ?? '' }}"
-                                       href="{{route('admin.subscription.transaction.list')}}">{{ 'Subscription Transaction' }}</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </div>
-                </li>
                 <li>
                     <a href="{{ route('admin.setting.website-settings.index') }}"
                        class="{{ $activeManageWebsiteSetting ?? '' }} d-flex align-items-center cg-10">

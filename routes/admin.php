@@ -1,10 +1,20 @@
 <?php
 
+use App\Http\Controllers\Admin\AlumniController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventCategoryController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\JobsController;
+use App\Http\Controllers\Admin\NewsCategoryController;
+use App\Http\Controllers\Admin\NewsController;
+use App\Http\Controllers\Admin\NewsTagController;
+use App\Http\Controllers\Admin\NoticeCategoryController;
+use App\Http\Controllers\Admin\NoticeController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\StoryController;
+use App\Http\Controllers\Admin\Website\WebsiteSettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +31,12 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/', function () {
         return redirect()->route('admin.auth.login');
+    });
+    Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+        Route::get('/', [ProfileController::class, 'myProfile'])->name('index');
+        Route::get('change-password', [ProfileController::class, 'changePassword'])->name('change-password');
+        Route::post('change-password', [ProfileController::class, 'changePasswordUpdate'])->name('change-password.update')->middleware('isDemo');
+        Route::post('update', [ProfileController::class, 'update'])->name('update')->middleware('isDemo');
     });
 
     /*authentication*/
@@ -81,6 +97,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 
 // Stories route start
     Route::group(['prefix' => 'stories', 'as' => 'stories.'], function () {
+        Route::get('create', [StoryController::class, 'create'])->name('create');
         Route::get('pending', [StoryController::class, 'pending'])->name('pending');
         Route::get('list', [StoryController::class, 'myStory'])->name('my-story');
 
@@ -228,12 +245,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         });
     });
 
-    Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
-        Route::get('/', [ProfileController::class, 'myProfile'])->name('index');
-        Route::get('change-password', [ProfileController::class, 'changePassword'])->name('change-password');
-        Route::post('change-password', [ProfileController::class, 'changePasswordUpdate'])->name('change-password.update')->middleware('isDemo');
-        Route::post('update', [ProfileController::class, 'update'])->name('update')->middleware('isDemo');
-    });
 
 //news setting
     Route::group(['prefix' => 'news', 'as' => 'news.'], function () {
