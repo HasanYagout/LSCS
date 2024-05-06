@@ -2,7 +2,7 @@
 <html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 @include('layouts.header')
-{!! RecaptchaV3::initJs() !!}
+{{--{!! RecaptchaV3::initJs() !!}--}}
 
 <body>
 
