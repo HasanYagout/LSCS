@@ -10,7 +10,7 @@
         </div>
         <!-- Alumni link -->
         <a href="{{ route('alumni.list-search-with-filter') }}"
-            class="d-none d-sm-inline-block fs-15 fw-500 lh-25 text-black py-10 px-26 bg-cdef84 bd-ra-12 hover-bg-one">{{
+            class="d-none d-sm-inline-block fs-15 fw-500 lh-25 text-black py-10 px-26 bg-orange bd-ra-12 hover-bg-one">{{
             __('Find
             an Alumni') }}</a>
     </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@include('layouts.header')
+@include('admin.layouts.header')
 {{--{!! RecaptchaV3::initJs() !!}--}}
 
 <body>
@@ -21,7 +21,7 @@
     </div>
     @endif
 
-    @include('layouts.script')
+    @include('admin.layouts.script')
 
     @stack('script')
 </body>
