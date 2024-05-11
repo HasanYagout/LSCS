@@ -133,7 +133,6 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
 
 // Alumni Management route start
 
-    Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
 
 
     Route::get('more-post-load', [HomeController::class, 'loadMorePost'])->name('more-post-load');

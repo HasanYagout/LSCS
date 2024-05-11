@@ -173,6 +173,7 @@ class JobPostService
                 $slug = getSlug($request->title);
             }
             $jobPost = new JobPost();
+            dd($jobPost);
             $jobPost->title = $request->title;
             $jobPost->slug = $slug;
             $jobPost->compensation_n_benefits = $request->compensation_n_benefits;

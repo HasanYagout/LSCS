@@ -29,6 +29,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+
+    Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
+
     Route::get('/', function () {
         return redirect()->route('admin.auth.login');
     });
@@ -55,9 +58,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('create', [EventController::class, 'create'])->name('create');
         Route::post('/store', [EventController::class, 'store'])->name('store');
         Route::get('pending', [ EventController::class, 'pending'])->name('pending');
+        Route::get('details/{slug}', [EventController::class, 'details'])->name('details');
+
 
 
     });
+
     Route::group(['prefix' => 'eventCategory', 'as' => 'eventCategory.'], function () {
         Route::get('create', [EventCategoryController::class, 'create'])->name('create');
         Route::get('/category', [EventCategoryController::class, 'index'])->name('index');
@@ -101,6 +107,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('pending', [StoryController::class, 'pending'])->name('pending');
         Route::get('list', [StoryController::class, 'myStory'])->name('my-story');
         Route::post('store', [StoryController::class, 'store'])->name('store');
+        Route::get('info/{slug}', [StoryController::class, 'info'])->name('info');
+        Route::post('delete/{slug}', [StoryController::class, 'delete'])->name('delete');
+
 
     });
 // Stories route end

@@ -56,5 +56,5 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('public/alumni/js/stories.js') }}"></script>
+    <script src="{{ asset('public/admin/js/stories.js') }}"></script>
 @endpush
