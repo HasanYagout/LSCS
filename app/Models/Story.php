@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Story extends Model
 {
-    use SoftDeletes;
+
     protected $fillable = [
         'tenant_id',
         'user_id',

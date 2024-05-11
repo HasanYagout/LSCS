@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @push('title')
     {{ $title }}
@@ -52,5 +52,5 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('alumni/js/stories.js') }}"></script>
+    <script src="{{ asset('public/admin/js/stories.js') }}"></script>
 @endpush

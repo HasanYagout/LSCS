@@ -51,6 +51,7 @@ class EventController extends Controller
         $data['title'] = __('All Event');
         $data['showEvent'] = 'show';
         $data['activeAllEvent'] = 'active';
+
         if ($request->ajax()) {
             return $this->eventService->allEvent();
         }

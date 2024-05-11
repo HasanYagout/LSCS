@@ -172,7 +172,7 @@
                     </div>
                 </li>
                 <li>
-                    <a href="{{ route('alumni.list-search-with-filter') }}"
+                    <a href="{{ route('admin.list-search-with-filter') }}"
                        class="{{ $activeAlumniList ?? '' }} d-flex align-items-center cg-10">
                         <div class="d-flex">
                             <svg width="25" height="18" viewBox="0 0 25 18" fill="none"

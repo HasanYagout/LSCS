@@ -62,7 +62,7 @@ class DashboardService
 
     public function totalUpcomingEvent($tenant_id)
     {
-        return Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->where('tenant_id', $tenant_id)->count();
+        return Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->count();
     }
 
 //    public function memberThisMonth($tenant_id)

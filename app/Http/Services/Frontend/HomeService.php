@@ -54,7 +54,7 @@ class HomeService
     }
 
     public function getStories($limit){
-        return Story::where('stories.tenant_id', getTenantId())->where('status',STATUS_ACTIVE)->orderBy('id','desc')->with('user')->paginate($limit);
+        return Story::where('status',STATUS_ACTIVE)->orderBy('id','desc')->with('user')->paginate($limit);
     }
 
 
