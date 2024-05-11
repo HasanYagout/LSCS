@@ -25,27 +25,27 @@ class DashboardService
     use ResponseTrait;
 
     public function getUpcomingEvent(){
-        $upcomingEvents = Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->with('category')->limit(2)->where('tenant_id', getTenantId())->get();
+        $upcomingEvents = Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->with('category')->limit(2)->get();
         return $this->success($upcomingEvents);
     }
 
     public function getLatestJobs(){
-        $latestJobs = JobPost::orderBy('application_deadline', 'DESC')->where('status', STATUS_ACTIVE)->where('tenant_id', getTenantId())->limit(2)->get();
+        $latestJobs = JobPost::orderBy('application_deadline', 'DESC')->where('status', STATUS_ACTIVE)->limit(2)->get();
         return $this->success($latestJobs);
     }
 
     public function getLatestNotice(){
-        $latestNotices = Notice::orderBy('id', 'DESC')->where('status', STATUS_ACTIVE)->where('tenant_id', getTenantId())->limit(2)->get();
+        $latestNotices = Notice::orderBy('id', 'DESC')->where('status', STATUS_ACTIVE)->limit(2)->get();
         return $this->success($latestNotices);
     }
 
     public function getLatestNews(){
-        $latestNews = News::orderBy('id', 'DESC')->where('status', STATUS_ACTIVE)->where('tenant_id', getTenantId())->with(['category', 'author'])->limit(2)->get();
+        $latestNews = News::orderBy('id', 'DESC')->where('status', STATUS_ACTIVE)->with(['category', 'author'])->limit(2)->get();
         return $this->success($latestNews);
     }
 
     public function getMorePost($request){
-        $data['posts'] = Post::orderBy('id', 'DESC')->where('status', STATUS_ACTIVE)->where('tenant_id', getTenantId())->with(['comments', 'likes:id', 'author', 'media.file_manager'])->withCount('replies')->paginate(4);
+        $data['posts'] = Post::orderBy('id', 'DESC')->where('status', STATUS_ACTIVE)->with(['comments', 'likes:id', 'author', 'media.file_manager'])->withCount('replies')->paginate(4);
         $response['html'] = View::make('alumni.partials.post', $data)->render();
         return $this->success($response);
     }
@@ -62,7 +62,7 @@ class DashboardService
 
     public function totalUpcomingEvent($tenant_id)
     {
-        return Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->where('tenant_id', $tenant_id)->count();
+        return Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->count();
     }
 
 //    public function memberThisMonth($tenant_id)
