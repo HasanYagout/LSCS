@@ -40,5 +40,5 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('admin/js/all-event.js') }}"></script>
+<script src="{{ asset('public/admin/js/all-event.js') }}"></script>
 @endpush

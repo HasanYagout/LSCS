@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $fillable = [
         'tenant_id',
         'event_category_id',
@@ -18,10 +18,6 @@ class Event extends Model
         'thumbnail',
         'date',
         'type',
-        'location',
-        'price',
-        'number_of_ticket',
-        'number_of_ticket_left',
         'description',
         'user_id',
         'status',

@@ -86,9 +86,9 @@
                             <li><a class="{{ $activeEventCreate ?? '' }}"
                                    href="{{ route('admin.event.create') }}">{{ __('Create Event') }}</a>
                             </li>
-                            <li><a class="{{ $activeMyEvent ?? '' }}"
-                                   href="{{ route('admin.event.my-event') }}">{{ __('My Event') }}</a>
-                            </li>
+{{--                            <li><a class="{{ $activeMyEvent ?? '' }}"--}}
+{{--                                   href="{{ route('admin.event.my-event') }}">{{ __('My Event') }}</a>--}}
+{{--                            </li>--}}
                             <li><a class="{{ $activeAllEvent ?? '' }}"
                                    href="{{ route('admin.event.all') }}">{{ __('All Event') }}</a>
                             </li>

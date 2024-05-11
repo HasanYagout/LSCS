@@ -106,8 +106,8 @@ class AlumniService
         $selectedPassingYear = $request->get('selectedPassingYear');
         $isMember = $request->get('isMember');
 
-        $alumniData = User::where('users.deleted_at','=',NULL)
-        ->where('users.status','!=', STATUS_PENDING)
+        $alumniData = User::
+        where('users.status','!=', STATUS_PENDING)
         ->join('alumnus', 'users.id', '=', 'alumnus.user_id')
         ->leftJoin('batches', 'batches.id', '=', 'alumnus.batch_id')
         ->leftJoin('passing_years', 'passing_years.id', '=', 'alumnus.passing_year_id')
