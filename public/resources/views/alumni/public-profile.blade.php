@@ -146,7 +146,7 @@
                             <ul class="zList-one">
 {{--                                <li>--}}
 {{--                                    <p>{{ __('Company Name') }} :</p>--}}
-{{--                                    <p>{{ $user->alumni?->company }}</p>--}}
+{{--                                    <p>{{ $user->alumni?->Company }}</p>--}}
 {{--                                </li>--}}
 {{--                                <li>--}}
 {{--                                    <p>{{ __('Designation') }} :</p>--}}

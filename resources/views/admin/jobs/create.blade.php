@@ -45,7 +45,7 @@
                                     <label for="jobCompensationBenefits" class="form-label">{{__('Compensation &
                                         Benefits')}} <span class="text-danger">*</span></label>
                                     <input type="text" name="compensation_n_benefits" class="primary-form-control"
-                                        id="compensation_n_benefits" placeholder="{{ __('As per company policy') }}" />
+                                        id="compensation_n_benefits" placeholder="{{ __('As per Company policy') }}" />
                                 </div>
                             </div>
                         </div>

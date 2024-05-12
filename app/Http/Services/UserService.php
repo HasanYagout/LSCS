@@ -151,7 +151,7 @@ class UserService
                 'facebook_url' => $request['facebook_url'],
                 'twitter_url' => $request['twitter_url'],
                 'instagram_url' => $request['instagram_url'],
-                'company' => $request['company'] ?? '',
+                'Company' => $request['Company'] ?? '',
                 'company_designation' => $request['company_designation'] ?? '',
                 'company_address' => $request['company_address'] ?? '',
                 'city' => $request['city'],

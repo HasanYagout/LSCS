@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\NoticeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StoryController;
+use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\Website\WebsiteSettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,14 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('change-password', [ProfileController::class, 'changePassword'])->name('change-password');
         Route::post('change-password', [ProfileController::class, 'changePasswordUpdate'])->name('change-password.update')->middleware('isDemo');
         Route::post('update', [ProfileController::class, 'update'])->name('update')->middleware('isDemo');
+    });
+
+    Route::group(['prefix' => 'students', 'as' => 'students.'], function () {
+        Route::get('/', [StudentController::class, 'index'])->name('index');
+        Route::get('list', [StudentController::class, 'list'])->name('list');
+        Route::post('change-password', [StudentController::class, 'changePasswordUpdate'])->name('change-password.update')->middleware('isDemo');
+        Route::post('update', [StudentController::class, 'update'])->name('update');
+        Route::get('info/{id}', [StudentController::class, 'info'])->name('info');
     });
 
     /*authentication*/
