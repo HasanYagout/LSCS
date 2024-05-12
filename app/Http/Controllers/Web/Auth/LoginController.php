@@ -8,9 +8,12 @@ use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Gregwar\Captcha\CaptchaBuilder;
 use App\CPU\Helpers;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Models\Admin;
 use Gregwar\Captcha\PhraseBuilder;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -82,20 +85,14 @@ class LoginController extends Controller
 //            }
 //
 //        }
+
         $alumni = Alumni::where('student_id', $request->student_id)->first();
-
-        if (isset($admin) && $admin->status != 1) {
-            return redirect()->back()->withInput($request->only('email', 'remember'))
-                ->withErrors(['You are blocked!!, contact with admin.']);
-        }else{
-
-            if (auth('alumni')->attempt(['student_id' => $request->student_id, 'password' => $request->password], $request->remember)) {
-                return redirect()->route('alumni.home');
-            }
+        if (! $alumni || ! Hash::check($request->password, $alumni->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
         }
-
-        return redirect()->back()->withInput($request->only('email', 'remember'))
-            ->withErrors(['Credentials does not match.']);
+        return redirect()->route('alumni.home');
     }
 
     public function logout(Request $request)

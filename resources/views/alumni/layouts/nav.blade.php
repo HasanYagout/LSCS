@@ -8,11 +8,7 @@
                 class="bd-one bd-c-ededed bd-ra-12 w-30 h-30 d-flex justify-content-center align-items-center text-707070 p-0 bg-transparent">
                 <i class="fa-solid fa-bars"></i></button>
         </div>
-        <!-- Alumni link -->
-        <a href="{{ route('alumni.list-search-with-filter') }}"
-            class="d-none d-sm-inline-block fs-15 fw-500 lh-25 text-black py-10 px-26 bg-cdef84 bd-ra-12 hover-bg-one">{{
-            __('Find
-            an Alumni') }}</a>
+
     </div>
     <!-- Right -->
     <div class="right d-flex justify-content-end align-items-center cg-15">
@@ -139,8 +135,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="d-flex align-items-center cg-8" href="{{ route('admin.auth.logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <a class="d-flex align-items-center cg-8" href="{{ route('alumni.auth.logout') }}">
                             <div class="d-flex">
                                 <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">

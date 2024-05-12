@@ -6,11 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Alumni;
 use App\Models\Department;
 use App\Models\Student;
+use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 
 
 class StudentController extends Controller
 {
+    use ResponseTrait;
     public function index()
     {
         $data['title'] = __('Students List');
@@ -32,9 +36,18 @@ class StudentController extends Controller
 
     public function update(Request $request)
     {
-        Alumni::create([
-            'name' => $request->name,
-        ]);
+        $student=Student::where('student_id',$request->buttonValue)->first();
+        $alumni= new Alumni();
+        $alumni->student_id=$student->student_id;
+        $alumni->first_name=$student->first_name;
+        $alumni->last_name=$student->last_name;
+        $alumni->phone=$student->number;
+        $alumni->gpa=$student->gpa;
+        $alumni->major=$student->major;
+        $alumni->password=Hash::make($student->student_id);
+        $alumni->save();
+        return $this->success([],__('Alumni added successfully'));
+
     }
 
     public function list()

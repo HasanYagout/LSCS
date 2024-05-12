@@ -68,8 +68,8 @@
                         </div>
 {{--                        <a href="{{ route('password.request') }}"--}}
 {{--                            class="d-inline-block fs-12 fw-400 lh-22 text-707070 mb-25 hover-color-one">{{ __('Forgot your Password?') }}</a>--}}
-                        <button type="submit"
-                            class="d-flex justify-content-center align-items-center w-100 border-0 fs-15 fw-500 lh-25 text-1b1c17 p-13 bd-ra-12 bg-cdef84 hover-bg-one">{{ __('Log In') }}</button>
+                        <button type="submit" class="d-flex justify-content-center align-items-center w-100 border-0 fs-15 fw-500 lh-25 text-1b1c17 p-13 bd-ra-12 bg-cdef84 hover-bg-one">{{ __('Log In') }}</button>
+                        <a href="{{route('company.auth.register')}}" class="d-flex justify-content-center align-items-center w-100 border-0 fs-15 fw-500 lh-25 text-1b1c17 p-13 bd-ra-12 bg-cdef84 hover-bg-one">{{ __('register') }}</a>
                     </form>
 
                     @if (getOption('google_login_status') == 1 || getOption('facebook_login_status') == 1)

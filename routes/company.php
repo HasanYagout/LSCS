@@ -1,10 +1,20 @@
 <?php
 
 
+use App\Http\Controllers\Company\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.'], function () {
+    Route::get('/', function () {
+        return redirect()->route('company.auth.login');
+    });
 
+    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('login', [LoginController::class,'login'])->name('login');
+        Route::post('login',[LoginController::class,'submit']);
+        Route::get('logout', [LoginController::class,'logout'])->name('logout');
+        Route::get('register', [LoginController::class,'register'])->name('register');
+    });
 });
