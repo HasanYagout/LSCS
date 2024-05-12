@@ -86,9 +86,9 @@
                             <li><a class="{{ $activeEventCreate ?? '' }}"
                                    href="{{ route('admin.event.create') }}">{{ __('Create Event') }}</a>
                             </li>
-                            <li><a class="{{ $activeMyEvent ?? '' }}"
-                                   href="{{ route('admin.event.my-event') }}">{{ __('My Event') }}</a>
-                            </li>
+{{--                            <li><a class="{{ $activeMyEvent ?? '' }}"--}}
+{{--                                   href="{{ route('admin.event.my-event') }}">{{ __('My Event') }}</a>--}}
+{{--                            </li>--}}
                             <li><a class="{{ $activeAllEvent ?? '' }}"
                                    href="{{ route('admin.event.all') }}">{{ __('All Event') }}</a>
                             </li>
@@ -172,7 +172,7 @@
                     </div>
                 </li>
                 <li>
-                    <a href="{{ route('alumni.list-search-with-filter') }}"
+                    <a href="{{ route('admin.list-search-with-filter') }}"
                        class="{{ $activeAlumniList ?? '' }} d-flex align-items-center cg-10">
                         <div class="d-flex">
                             <svg width="25" height="18" viewBox="0 0 25 18" fill="none"
@@ -243,6 +243,38 @@
 {{--                        </div>--}}
 {{--                        <span class="">{{ __('Profile') }}</span>--}}
 {{--                    </a>--}}
+                </li>
+                <li>
+                    <a href="#manage-news-menu" data-bs-toggle="collapse" role="button"
+                       aria-expanded="{{ isset($showManageStudents) ? 'true' : 'false' }}"
+                       aria-controls="manage-news-menu"
+                       class="d-flex align-items-center cg-10 {{ isset($showManageStudents) ? 'active' : 'collapsed' }}">
+                        <div class="d-flex">
+                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M1 1V15C1 15.5304 1.21071 16.0391 1.58579 16.4142C1.96086 16.7893 2.46957 17 3 17H17C17.5304 17 18.0391 16.7893 18.4142 16.4142C18.7893 16.0391 19 15.5304 19 15V5H15"
+                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                                <path
+                                    d="M1 1H15V15C15 15.5304 15.2107 16.0391 15.5858 16.4142C15.9609 16.7893 16.4696 17 17 17M11 5H5M11 9H7"
+                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <span class="">{{ __('Manage Students') }}</span>
+                    </a>
+                    <div class="collapse {{ $showManageStudents ?? '' }}" id="manage-news-menu"
+                         data-bs-parent="#sidebarMenu">
+                        <ul class="zSidebar-submenu">
+                            <li><a class="{{ $showManageStudents ?? '' }}"
+                                   href="{{ route('admin.students.index') }}">{{ __('All') }}</a></li>
+                            <li><a class="{{ $showManageStudents ?? '' }}"
+                                   href="{{ route('admin.news.categories.index') }}">{{ __('Category') }}</a></li>
+                            <li><a class="{{ $showManageStudents ?? '' }}"
+                                   href="{{ route('admin.news.index') }}">{{ __('News') }}</a></li>
+                        </ul>
+                    </div>
                 </li>
                 <li>
 {{--                    <a href="{{ route('settings') }}"--}}

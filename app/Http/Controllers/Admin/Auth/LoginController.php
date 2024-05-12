@@ -94,10 +94,16 @@ class LoginController extends Controller
             ->withErrors(['Credentials does not match.']);
     }
 
+    public function register(Request $request)
+    {
+        dd($request->all());
+    }
+
     public function logout(Request $request)
     {
-        auth()->guard('admin')->logout();
+
+        auth('admin')->logout();
         $request->session()->invalidate();
-        return redirect()->route('admin.auth.login');
+        return redirect()->route('auth.login');
     }
 }

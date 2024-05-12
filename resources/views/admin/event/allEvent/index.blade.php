@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @push('title')
 {{$title}}
@@ -22,7 +22,6 @@
                 <tr>
                     <th scope="col"><div>{{ __('Event Title') }}</div></th>
                     <th scope="col"><div>{{ __('Category') }}</div></th>
-                    <th scope="col"><div>{{ __('Type') }}</div></th>
                     <th scope="col"><div>{{ __('Date & Time') }}</div></th>
                     <th scope="col"><div>{{ __('Location') }}</div></th>
                      <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>
@@ -40,5 +39,5 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('admin/js/all-event.js') }}"></script>
+<script src="{{ asset('public/admin/js/all-event.js') }}"></script>
 @endpush

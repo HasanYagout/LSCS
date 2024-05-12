@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @push('title')
 {{$title}}
@@ -10,7 +10,6 @@
 <div class="p-30">
     <div>
         <input type="hidden" id="event-category-list-route" value="{{ route('admin.eventCategory.index') }}">
-
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
             <h4 class="fs-24 fw-500 lh-34 text-black">{{$title}}</h4>
             <button type="submit" class="py-10 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one" data-bs-toggle="modal"

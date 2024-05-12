@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @push('title')
     {{ $title }}
@@ -28,13 +28,16 @@
                         <thead>
                             <tr>
                                 <th scope="col">
-                                    <div>{{ __('Full Name') }}</div>
-                                </th>
-                                <th scope="col" class="min-w-100">
-                                    <div>{{ __('Batch') }}</div>
+                                    <div>{{ __('First Name') }}</div>
                                 </th>
                                 <th scope="col">
-                                    <div>{{ __('Passing Year') }}</div>
+                                    <div>{{ __('Last Name') }}</div>
+                                </th>
+                                <th scope="col" class="min-w-100">
+                                    <div>{{ __('Graduation Year') }}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{{ __('Major') }}</div>
                                 </th>
                                 <th scope="col">
                                     <div>{{ __('Location') }}</div>
@@ -144,5 +147,5 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('admin/js/alumni-all.js') }}"></script>
+    <script src="{{ asset('public/admin/js/alumni-all.js') }}"></script>
 @endpush

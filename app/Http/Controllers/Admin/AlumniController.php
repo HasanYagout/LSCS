@@ -26,19 +26,22 @@ class AlumniController extends Controller
     public function view($id)
     {
         $data['user'] = $this->userService->userData($id);
-        return view('alumni.public-profile', $data);
+        return view('admin.public-profile', $data);
     }
 
     public function alumniListWithAdvanceFilter(Request $request)
     {
+
         if ($request->ajax()) {
             return $this->alumniService->getAlumniListAllWithAdvanceFilter($request);
         }
+
         $data['title'] = __('Alumni List');
         $data['showAdminAlumni'] = 'show';
         $data['activeAlumniApprovedList'] = 'active-color-one';
         $data['department'] = Department::all();
         $data['passingYear'] = PassingYear::all();
+
         return view('admin.manage_alumni.alumni-list-with-search', $data);
     }
 

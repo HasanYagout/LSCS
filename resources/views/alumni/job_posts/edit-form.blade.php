@@ -41,7 +41,7 @@
                                 <span class="text-danger">*</span></label>
                             <input type="text" name="compensation_n_benefits" class="primary-form-control"
                                 id="compensation_n_benefits" value="{{$jobPostData->compensation_n_benefits??''}}"
-                                placeholder="{{ __('As per company policy') }}" required />
+                                placeholder="{{ __('As per Company policy') }}" required />
                         </div>
                     </div>
                 </div>

@@ -51,9 +51,11 @@ class EventController extends Controller
         $data['title'] = __('All Event');
         $data['showEvent'] = 'show';
         $data['activeAllEvent'] = 'active';
+
         if ($request->ajax()) {
             return $this->eventService->allEvent();
         }
+
         return view('admin.event.allEvent.index', $data);
     }
 
@@ -68,15 +70,18 @@ class EventController extends Controller
     }
     public function store(Request $request)
     {
-        dd($request->file('thumbnail')->getClientOriginalName());
-       $event=new Event();
-       $event->event_category_id=$request->event_category_id;
-        $event->title=$request->title;
-        $event->slug=$request->$slug = getSlug($request->title) . '-' . rand(100000, 999999);
 
+       $event=new Event();
+        $event->event_category_id=$request->event_category_id;
         $event->title=$request->title;
-        $event->title=$request->title;
-        $event->title=$request->title;
-        $event->title=$request->title;
+        $event->slug=$request->slug = getSlug($request->title) . '-' . rand(100000, 999999);
+        $event->thumbnail=$request->file('thumbnail')->getClientOriginalName();
+        $event->date=$request->date;
+        $event->description=$request->description;
+        $event->user_id=auth('admin')->id();
+        $event->save();
+        return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+
+
     }
 }

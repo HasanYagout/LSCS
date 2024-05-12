@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\NoticeController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StoryController;
+use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\Website\WebsiteSettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+
+    Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
+    Route::get('alumni/profile/{id}', [AlumniController::class, 'view'])->name('alumni.view');
+
     Route::get('/', function () {
         return redirect()->route('admin.auth.login');
     });
@@ -39,12 +44,21 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::post('update', [ProfileController::class, 'update'])->name('update')->middleware('isDemo');
     });
 
+    Route::group(['prefix' => 'students', 'as' => 'students.'], function () {
+        Route::get('/', [StudentController::class, 'index'])->name('index');
+        Route::get('list', [StudentController::class, 'list'])->name('list');
+        Route::post('change-password', [StudentController::class, 'changePasswordUpdate'])->name('change-password.update')->middleware('isDemo');
+        Route::post('update', [StudentController::class, 'update'])->name('update');
+        Route::get('info/{id}', [StudentController::class, 'info'])->name('info');
+    });
+
     /*authentication*/
     Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
         Route::get('/code/captcha/{tmp}', 'LoginController@captcha')->name('default-captcha');
         Route::get('login', [LoginController::class,'login'])->name('login');
         Route::post('login',[LoginController::class,'submit']);
-        Route::get('logout', 'LoginController@logout')->name('logout');
+        Route::get('logout', [LoginController::class,'logout'])->name('logout');
+        Route::get('register', [LoginController::class,'register'])->name('register');
     });
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -55,9 +69,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('create', [EventController::class, 'create'])->name('create');
         Route::post('/store', [EventController::class, 'store'])->name('store');
         Route::get('pending', [ EventController::class, 'pending'])->name('pending');
+        Route::get('details/{slug}', [EventController::class, 'details'])->name('details');
+
 
 
     });
+
     Route::group(['prefix' => 'eventCategory', 'as' => 'eventCategory.'], function () {
         Route::get('create', [EventCategoryController::class, 'create'])->name('create');
         Route::get('/category', [EventCategoryController::class, 'index'])->name('index');
@@ -101,6 +118,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('pending', [StoryController::class, 'pending'])->name('pending');
         Route::get('list', [StoryController::class, 'myStory'])->name('my-story');
         Route::post('store', [StoryController::class, 'store'])->name('store');
+        Route::get('info/{slug}', [StoryController::class, 'info'])->name('info');
+        Route::post('delete/{slug}', [StoryController::class, 'delete'])->name('delete');
+
 
     });
 // Stories route end

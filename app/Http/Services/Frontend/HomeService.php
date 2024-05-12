@@ -3,6 +3,7 @@
 
 namespace App\Http\Services\Frontend;
 
+use App\Models\Alumni;
 use App\Models\Event;
 use App\Models\JobPost;
 use App\Models\Membership;
@@ -18,7 +19,7 @@ class HomeService
     use ResponseTrait;
 
     public function getUpcomingEvent(){
-        $upcomingEvents = Event::where('events.tenant_id', getTenantId())->where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->with('category')->get();
+        $upcomingEvents = Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->with('category')->get();
         return $upcomingEvents;
     }
     public function getPhotoGalleries(){
@@ -27,17 +28,13 @@ class HomeService
     }
 
     public function getAlumni($limit){
-        return User::where('users.tenant_id', getTenantId())->where(['users.status'=> STATUS_ACTIVE])
-        ->join('alumnus', 'users.id', '=', 'alumnus.user_id')
-        ->leftJoin('batches', 'batches.id', '=', 'alumnus.batch_id')
-        ->leftJoin('departments', 'departments.id', '=', 'alumnus.department_id')
-        ->orderBy('users.created_at', 'DESC')
-        ->select('users.name', 'users.id', 'users.image', 'batches.name as batch_name', 'departments.name as department_name')
-        ->paginate($limit);
+        return Alumni::where(['status'=> STATUS_ACTIVE])
+        ->orderBy('created_at', 'DESC')
+        ->limit($limit)->get();
     }
 
     public function getEvent($limit){
-        return Event::where('events.tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->orderBy('created_at', 'desc')->paginate($limit);
+        return Event::where('status', STATUS_ACTIVE)->orderBy('created_at', 'desc')->paginate($limit);
     }
 
     public function getNews($limit){
@@ -57,7 +54,7 @@ class HomeService
     }
 
     public function getStories($limit){
-        return Story::where('stories.tenant_id', getTenantId())->where('status',STATUS_ACTIVE)->orderBy('id','desc')->with('user')->paginate($limit);
+        return Story::where('status',STATUS_ACTIVE)->orderBy('id','desc')->with('user')->paginate($limit);
     }
 
 

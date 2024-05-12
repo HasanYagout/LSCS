@@ -60,18 +60,12 @@ class EventService
 
     public function allEvent()
     {
-        $allEvent = Event::where('status', STATUS_ACTIVE)->where('tenant_id', getTenantId())->orderBy('created_at', 'desc');
+        $allEvent = Event::where('status', STATUS_ACTIVE)
+            ->orderBy('created_at', 'desc');
         return datatables($allEvent)
             ->addIndexColumn()
             ->addColumn('category', function ($data) {
                 return '<p class="min-w-130 text-center zBadge">' . htmlspecialchars($data->category->name) . '</p>';
-            })
-            ->addColumn('type', function ($data) {
-                if ($data->type == 1) {
-                    return '<span class="zBadge-free">'.__('Free').'</span>';
-                } else {
-                    return '<span class="zBadge-paid">'.__('Paid').'</span>';
-                }
             })
             ->addColumn('date', function ($data) {
                 return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->date)->format('jS F, h:i:s A');
@@ -79,11 +73,11 @@ class EventService
             ->addColumn('action', function ($data){
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                             <li class="d-flex gap-2">
-                                <a href="'. route('event.details', $data->slug) .'" class="d-block text-decoration-underline fw-600 text-1b1c17">'.__('Reservation').'</a>
+                                <a href="'. route('admin.event.details', $data->slug) .'" class="d-block text-decoration-underline fw-600 text-1b1c17">'.__('Reservation').'</a>
                             </li>
                         </ul>';
             })
-            ->rawColumns(['type', 'action', 'category', 'date'])
+            ->rawColumns(['action', 'category', 'date'])
             ->make(true);
     }
 

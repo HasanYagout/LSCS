@@ -21,9 +21,7 @@
 		columns: [
             {"data": "title", "name": "title"},
             {"data": "category", "name": "category"},
-            {"data": "type", "name": "type", responsivePriority:1},
             {"data": "date", "name": "date"},
-            {"data": "location", "name": "location"},
             {"data": "action", searchable: false, responsivePriority:2},
         ],
       });
