@@ -24,7 +24,7 @@
 {{--                                class="text-decoration-underline fw-500 text-black hover-color-one">{{__('Sign In')}}</a></h4>--}}
                     </div>
                     <!-- Form -->
-                    <form action="{{ route('company.auth.register') }}" enctype="multipart/form-data" method="post">
+                    <form action="{{ route('company.auth.store') }}" enctype="multipart/form-data" method="post">
                         @csrf
                         <div class="form-wrap pb-25">
                             <div class="primary-form-group">
@@ -71,10 +71,10 @@
                                         @endif
                                     </label>
                                     <input type="file" class="primary-form-control" id="attachmentFile"
-                                        accept="application/pdf" name="file"
+                                        accept="application/pdf" name="proposal"
                                         @if (getOption('register_file_required', 0)) @endif />
                                 </div>
-                                @error('file')
+                                @error('proposal')
                                     <span class="fs-12 text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -117,8 +117,7 @@
                             @endif
                         </div>
                         <button type="submit"
-                            class="d-flex justify-content-center align-items-center w-100 border-0 fs-15 fw-500 lh-25 text-1b1c17 p-13 bd-ra-12 bg-cdef84 hover-bg-one">{{ __('Sign
-                                                                                                                                                                                                                            Up') }}</button>
+                            class="d-flex justify-content-center align-items-center w-100 border-0 fs-15 fw-500 lh-25 text-1b1c17 p-13 bd-ra-12 bg-cdef84 hover-bg-one">{{ __('Sign Up') }}</button>
                     </form>
                 </div>
             </div>

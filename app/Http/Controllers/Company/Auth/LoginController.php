@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Company\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Gregwar\Captcha\CaptchaBuilder;
 use App\CPU\Helpers;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Models\Admin;
 use Gregwar\Captcha\PhraseBuilder;
@@ -51,35 +53,6 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6'
         ]);
-
-
-        //recaptcha validation
-//        $recaptcha = Helpers::get_business_settings('recaptcha');
-//        if (isset($recaptcha) && $recaptcha['status'] == 1) {
-//            try {
-//                $request->validate([
-//                    'g-recaptcha-response' => [
-//                        function ($attribute, $value, $fail) {
-//                            $secret_key = Helpers::get_business_settings('recaptcha')['secret_key'];
-//                            $response = $value;
-//                            $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret_key . '&response=' . $response;
-//                            $response = \file_get_contents($url);
-//                            $response = json_decode($response);
-//                            if (!$response->success) {
-//                                $fail(\App\CPU\translate('ReCAPTCHA Failed'));
-//                            }
-//                        },
-//                    ],
-//                ]);
-//            } catch (\Exception $exception) {
-//            }
-//        } else {
-//            if (strtolower($request->default_captcha_value) != strtolower(Session('default_captcha_code'))) {
-//                Session::forget('default_captcha_code');
-//                return back()->withErrors(\App\CPU\translate('Captcha Failed'));
-//            }
-//
-//        }
         $admin = Admin::where('email', $request->email)->first();
         if (isset($admin) && $admin->status != 1) {
             return redirect()->back()->withInput($request->only('email', 'remember'))
@@ -96,8 +69,21 @@ class LoginController extends Controller
 
     public function register()
     {
-
         return view('company.auth.register');
+    }
+
+    public function store(Request $request)
+    {
+        $company = new Company();
+        $company->name=$request->name;
+        $company->email=$request->email;
+        $company->password=Hash::make($request->password);
+        $company->address=$request->address;
+        $company->website=$request->website;
+        $company->phone=$request->phone;
+        $company->logo=$request->logo;
+        $company->proposal=$request->file('proposal')->getClientOriginalName();
+
     }
 
     public function logout(Request $request)
