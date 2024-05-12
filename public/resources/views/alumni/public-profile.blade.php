@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('alumni.layouts.app')
 @push('title')
 {{ __('Profile View') }}
 @endpush
@@ -17,9 +17,7 @@
                                     class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-cdef84">
                                     <img class="w-100" src="{{ asset(getFileUrl($user->image)) }}" alt="{{ $user->name }}" />
                                 </div>
-                                @if (!$user->currentMembership == null)
-                                    <div class="zBadge"><img src="{{ getFileUrl($user->currentMembership->badge)}}" alt="" /></div>
-                                @endif
+
                             </div>
                             <div class="">
                                 <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-1b1c17">{{ $user->name }}</h4>
@@ -141,42 +139,23 @@
                     <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
                         <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
                             <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-10">{{ __('Educational Info') }}</h4>
-                            @forelse ($user->institutions as $institute)
-                            <div class="{{ $loop->last ? '' : 'pb-17' }}">
-                                <p class="fs-14 fw-400 lh-17 text-707070 pb-10">{{ $institute->degree }}</p>
-                                <ul class="zList-one">
-                                    <li>
-                                        <p>{{ __('Institute') }} :</p>
-                                        <p>{{ $institute->institute }}</p>
-                                    </li>
-                                    <li>
-                                        <p>{{ __('Passing Year') }} :</p>
-                                        <p>{{ $institute->passing_year }}</p>
-                                    </li>
-                                </ul>
-                            </div>
-                            @empty
-                            <div>
-                                <p class="fs-14 fw-400 lh-17 text-707070 pb-10">{{ __('No Educational Info Found') }}
-                                </p>
-                            </div>
-                            @endforelse
+
                         </div>
                         <div class="">
                             <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-10">{{ __('Professional Info') }}</h4>
                             <ul class="zList-one">
-                                <li>
-                                    <p>{{ __('Company Name') }} :</p>
-                                    <p>{{ $user->alumni?->company }}</p>
-                                </li>
-                                <li>
-                                    <p>{{ __('Designation') }} :</p>
-                                    <p>{{ $user->alumni?->company_designation }}</p>
-                                </li>
-                                <li>
-                                    <p>{{ __('Office Address') }} :</p>
-                                    <p>{{ $user->alumni?->company_address }}</p>
-                                </li>
+{{--                                <li>--}}
+{{--                                    <p>{{ __('Company Name') }} :</p>--}}
+{{--                                    <p>{{ $user->alumni?->company }}</p>--}}
+{{--                                </li>--}}
+{{--                                <li>--}}
+{{--                                    <p>{{ __('Designation') }} :</p>--}}
+{{--                                    <p>{{ $user->alumni?->company_designation }}</p>--}}
+{{--                                </li>--}}
+{{--                                <li>--}}
+{{--                                    <p>{{ __('Office Address') }} :</p>--}}
+{{--                                    <p>{{ $user->alumni?->company_address }}</p>--}}
+{{--                                </li>--}}
                             </ul>
                         </div>
                     </div>

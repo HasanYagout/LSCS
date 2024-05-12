@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
 
     Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
+    Route::get('alumni/profile/{id}', [AlumniController::class, 'view'])->name('alumni.view');
 
     Route::get('/', function () {
         return redirect()->route('admin.auth.login');
@@ -47,7 +48,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('/code/captcha/{tmp}', 'LoginController@captcha')->name('default-captcha');
         Route::get('login', [LoginController::class,'login'])->name('login');
         Route::post('login',[LoginController::class,'submit']);
-        Route::get('logout', 'LoginController@logout')->name('logout');
+        Route::get('logout', [LoginController::class,'logout'])->name('logout');
+        Route::get('register', [LoginController::class,'register'])->name('register');
     });
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

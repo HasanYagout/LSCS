@@ -25,12 +25,12 @@ class DashboardService
     use ResponseTrait;
 
     public function getUpcomingEvent(){
-        $upcomingEvents = Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->with('category')->limit(2)->where('tenant_id', getTenantId())->get();
+        $upcomingEvents = Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->with('category')->limit(2)->get();
         return $this->success($upcomingEvents);
     }
 
     public function getLatestJobs(){
-        $latestJobs = JobPost::orderBy('application_deadline', 'DESC')->where('status', STATUS_ACTIVE)->where('tenant_id', getTenantId())->limit(2)->get();
+        $latestJobs = JobPost::orderBy('application_deadline', 'DESC')->where('status', STATUS_ACTIVE)->limit(2)->get();
         return $this->success($latestJobs);
     }
 

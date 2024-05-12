@@ -30,7 +30,7 @@ class HomeService
     public function getAlumni($limit){
         return Alumni::where(['status'=> STATUS_ACTIVE])
         ->orderBy('created_at', 'DESC')
-        ->paginate($limit);
+        ->limit($limit)->get();
     }
 
     public function getEvent($limit){

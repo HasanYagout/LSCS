@@ -141,5 +141,5 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('admin/js/alumni.js') }}"></script>
+    <script src="{{ asset('public/admin/js/alumni.js') }}"></script>
 @endpush

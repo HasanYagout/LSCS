@@ -19,15 +19,17 @@
             <!-- Items -->
             <div class="pb-62">
                 <div class="row rg-24">
+
                     @forelse ( $allAlumni as $alumni )
+
                         <div class="col-lg-3 col-md-4 col-sm-6">
                             <div class="bd-ra-25 bg-event-bg">
                                 <div class="bd-ra-25 overflow-hidden h-341">
-                                    <img class="w-100 h-100 object-fit-cover" src="{{getFileUrl($alumni->image)}}" alt="{{$alumni->name}}">
+                                    <img class="w-100 h-100 object-fit-cover" src="{{getFileUrl($alumni->image)}}" alt="{{$alumni->first_name}}">
                                 </div>
                                 <div class="pt-21 pb-23 px-10 text-center">
-                                    <h4 class="fs-20 fw-600 lh-28 text-black-color pb-2">{{$alumni->name}}</h4>
-                                    <p class="fs-18 fw-400 lh-28 text-para-color">{{$alumni->department_name}}, {{__('Batch')}} {{$alumni->batch_name}}</p>
+                                    <h4 class="fs-20 fw-600 lh-28 text-black-color pb-2">{{$alumni->first_name.' '.$alumni->last_name}}</h4>
+                                    <p class="fs-18 fw-400 lh-28 text-para-color">{{$alumni->major}}, {{__('Batch')}} {{$alumni->graduation_year}}</p>
                                 </div>
                             </div>
                         </div>
@@ -38,7 +40,7 @@
             </div>
 
             <div class="d-flex justify-content-center">
-                <a href="{{route('alumni.list-search-with-filter')}}" class="border-0 bd-ra-12 py-15 px-32 bg-primary-color d-flex align-items-center cg-16 fs-18 fw-600 lh-28 text-black-color">
+                <a href="{{route('admin.list-search-with-filter')}}" class="border-0 bd-ra-12 py-15 px-32 bg-primary-color d-flex align-items-center cg-16 fs-18 fw-600 lh-28 text-black-color">
                     {{__('View All Alumni')}}
                     <i class="fa-solid fa-long-arrow-right"></i>
                 </a>

@@ -1,8 +1,9 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @push('title')
 {{ __('Profile View') }}
 @endpush
 @section('content')
+
 <div class="p-30">
     <div class="">
         <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{ __('Alumni Profile View') }}</h4>
@@ -15,7 +16,7 @@
                             <div class="zUser-one">
                                 <div
                                     class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-cdef84">
-                                    <img class="w-100" src="{{ asset(getFileUrl($user->image)) }}" alt="{{ $user->name }}" />
+{{--                                    <img class="w-100" src="{{ asset(getFileUrl($user->image)) }}" alt="{{ $user->name }}" />--}}
                                 </div>
                                 @if (!$user->currentMembership == null)
                                     <div class="zBadge"><img src="{{ getFileUrl($user->currentMembership->badge)}}" alt="" /></div>
@@ -90,12 +91,24 @@
                         <!-- Personal Info -->
                         <ul class="zList-one">
                             <li>
-                                <p>{{ __('Full Name') }} :</p>
-                                <p>{{ $user->name }}</p>
+                                <p>{{ __('First Name') }} :</p>
+                                <p>{{ $user->first_name }}</p>
                             </li>
                             <li>
-                                <p>{{ __('Nick Name') }} :</p>
-                                <p>{{ $user->nick_name }}</p>
+                                <p>{{ __('Last Name') }} :</p>
+                                <p>{{ $user->last_name }}</p>
+                            </li>
+                            <li>
+                                <p>{{ __('GPA') }} :</p>
+                                <p>{{ $user->GPA }}</p>
+                            </li>
+                            <li>
+                                <p>{{ __('Major') }} :</p>
+                                <p>{{ $user->major }}</p>
+                            </li>
+                            <li>
+                                <p>{{ __('Graduation Year') }} :</p>
+                                <p>{{ $user->graduation_year }}</p>
                             </li>
                             @if($user->show_email_in_public == STATUS_SUCCESS)
                             <li>
@@ -109,29 +122,10 @@
                                 <p>{{ $user->mobile }}</p>
                             </li>
                             @endif
-                            <li>
-                                <p>{{ __('Blood Group') }} :</p>
-                                <p>{{ $user->alumni?->blood_group }}</p>
-                            </li>
-                            <li>
-                                <p>{{ __('Date of Birth') }} :</p>
-                                <p>{{ $user->alumni?->date_of_birth }}</p>
-                            </li>
+
                             <li>
                                 <p>{{ __('City') }} :</p>
-                                <p> {{ $user->alumni?->city }}</p>
-                            </li>
-                            <li>
-                                <p>{{ __('State') }} :</p>
-                                <p> {{ $user->alumni?->state }}</p>
-                            </li>
-                            <li>
-                                <p>{{ __('Country') }} :</p>
-                                <p>{{ $user->alumni?->country }}</p>
-                            </li>
-                            <li>
-                                <p>{{ __('Zip Code') }} :</p>
-                                <p>{{ $user->alumni?->zip }}</p>
+                                <p> {{ $user->city }}</p>
                             </li>
                         </ul>
                     </div>
@@ -141,26 +135,26 @@
                     <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
                         <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
                             <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-10">{{ __('Educational Info') }}</h4>
-                            @forelse ($user->institutions as $institute)
-                            <div class="{{ $loop->last ? '' : 'pb-17' }}">
-                                <p class="fs-14 fw-400 lh-17 text-707070 pb-10">{{ $institute->degree }}</p>
-                                <ul class="zList-one">
-                                    <li>
-                                        <p>{{ __('Institute') }} :</p>
-                                        <p>{{ $institute->institute }}</p>
-                                    </li>
-                                    <li>
-                                        <p>{{ __('Passing Year') }} :</p>
-                                        <p>{{ $institute->passing_year }}</p>
-                                    </li>
-                                </ul>
-                            </div>
-                            @empty
-                            <div>
-                                <p class="fs-14 fw-400 lh-17 text-707070 pb-10">{{ __('No Educational Info Found') }}
-                                </p>
-                            </div>
-                            @endforelse
+{{--                            @forelse ($user->institutions as $institute)--}}
+{{--                            <div class="{{ $loop->last ? '' : 'pb-17' }}">--}}
+{{--                                <p class="fs-14 fw-400 lh-17 text-707070 pb-10">{{ $institute->degree }}</p>--}}
+{{--                                <ul class="zList-one">--}}
+{{--                                    <li>--}}
+{{--                                        <p>{{ __('Institute') }} :</p>--}}
+{{--                                        <p>{{ $institute->institute }}</p>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <p>{{ __('Passing Year') }} :</p>--}}
+{{--                                        <p>{{ $institute->passing_year }}</p>--}}
+{{--                                    </li>--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
+{{--                            @empty--}}
+{{--                            <div>--}}
+{{--                                <p class="fs-14 fw-400 lh-17 text-707070 pb-10">{{ __('No Educational Info Found') }}--}}
+{{--                                </p>--}}
+{{--                            </div>--}}
+{{--                            @endforelse--}}
                         </div>
                         <div class="">
                             <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-10">{{ __('Professional Info') }}</h4>

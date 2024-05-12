@@ -38,7 +38,6 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
     Route::post('profile-update', [ProfileController::class, 'userProfileUpdate'])->name('profile_update');
     Route::post('add-institution', [ProfileController::class, 'addInstitution'])->name('add_institution');
 
-    Route::get('alumni/profile/{id}', [AlumniController::class, 'view'])->name('alumnus.view');
 
     Route::get('settings', [SettingController::class, 'settings'])->name('settings');
     Route::post('change-password', [SettingController::class, 'changePasswordUpdate'])->name('change-password')->middleware('isDemo');

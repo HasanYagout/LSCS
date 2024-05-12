@@ -26,7 +26,7 @@ class AlumniController extends Controller
     public function view($id)
     {
         $data['user'] = $this->userService->userData($id);
-        return view('alumni.public-profile', $data);
+        return view('admin.public-profile', $data);
     }
 
     public function alumniListWithAdvanceFilter(Request $request)

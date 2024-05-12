@@ -15,30 +15,40 @@
                     <div class="d-flex align-items-center cg-5">
                         <!-- Search Field -->
                         <!-- Filter Button -->
+
                     </div>
                 </div>
                 <!-- Table -->
-                <input type="hidden" id="alumni-list-advance-filter-route" value="{{ route('admin.list-search-with-filter') }}">
+                <input type="hidden" id="alumni-list-advance-filter-route"
+                    value="{{ route('admin.alumni.list-search-with-filter') }}">
+                <input type="hidden" id="alumni-status-update-route"
+                    value="{{ route('admin.alumni.change-alumni-status') }}">
                 <div class="table-responsive zTable-responsive">
-                    <table class="table zTable" id="alumni-list-filter">
+                    <table class="table zTable" id="alumni-all-list-filter">
                         <thead>
-                        <tr>
-                            <th scope="col">
-                                <div>{{ __('Full Name') }}</div>
-                            </th>
-                            <th scope="col" class="min-w-100">
-                                <div>{{ __('Batch') }}</div>
-                            </th>
-                            <th scope="col">
-                                <div>{{ __('Passing Year') }}</div>
-                            </th>
-                            <th scope="col">
-                                <div>{{ __('Location') }}</div>
-                            </th>
-                            <th scope="col" class="text-center max-w-150 ">
-                                <div>{{ __('Action') }}</div>
-                            </th>
-                        </tr>
+                            <tr>
+                                <th scope="col">
+                                    <div>{{ __('First Name') }}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{{ __('Last Name') }}</div>
+                                </th>
+                                <th scope="col" class="min-w-100">
+                                    <div>{{ __('Graduation Year') }}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{{ __('Major') }}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{{ __('Location') }}</div>
+                                </th>
+                                <th class="min-w-150 w-110" scope="col">
+                                    <div>{{ __('Change status') }}</div>
+                                </th>
+                                <th scope="col" class="text-center max-w-150 ">
+                                    <div>{{ __('Action') }}</div>
+                                </th>
+                            </tr>
                         </thead>
                     </table>
                 </div>
@@ -50,7 +60,7 @@
 
     <!-- Phone Number Modal -->
     <div class="modal fade zModalTwo" id="alumniPhoneNo" tabindex="-1" aria-labelledby="alumniPhoneNoLabel"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content zModalTwo-content">
                 <div class="modal-body zModalTwo-body">
@@ -65,7 +75,7 @@
     </div>
     <!-- Facebook Modal -->
     <div class="modal fade zModalTwo" id="alumniEmail" tabindex="-1" aria-labelledby="alumniFacebookLabel"
-         aria-hidden="true">
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content zModalTwo-content">
                 <div class="modal-body zModalTwo-body">
@@ -78,6 +88,7 @@
             </div>
         </div>
     </div>
+
     <div id="search-section">
         <div class="collapse" id="collapseExample">
             <div class="alumniFilter">
@@ -88,7 +99,7 @@
                             <div class="primary-form-group-wrap">
                                 <label for="Department" class="form-label">{{__('Department')}}</label>
                                 <select class="sf-select-without-search primary-form-control" name='department'
-                                        id='department'>
+                                    id='department'>
                                     <option selected="" value=0>{{__('All Department')}}</option>
                                     @foreach ($department as $row)
                                         <option value="{{ $row->id }}">{{ $row->name }}</option>
@@ -102,7 +113,7 @@
                             <div class="primary-form-group-wrap">
                                 <label for="passing_year" class="form-label">{{__('Passing Year')}}</label>
                                 <select class="sf-select-without-search primary-form-control" name='passing_year'
-                                        id='passing-year'>
+                                    id='passing-year'>
                                     <option selected="" value=0>{{__('All Year')}}</option>
                                     @foreach ($passingYear as $row)
                                         <option value="{{ $row->id }}">{{ $row->name }}</option>
@@ -116,7 +127,7 @@
                             <div class="primary-form-group-wrap">
                                 <label for="is_member" class="form-label">{{__('Member')}}</label>
                                 <select class="sf-select-without-search primary-form-control" name='is_member'
-                                        id='is-member'>
+                                    id='is-member'>
                                     <option value="-1" selected>{{__('All')}}</option>
                                     @foreach (getAlumniMemberStatus() as $key => $value)
                                         <option value="{{ $key }}">{{ $value }}</option>
@@ -136,5 +147,5 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('public/admin/js/alumni.js') }}"></script>
+    <script src="{{ asset('public/admin/js/alumni-all.js') }}"></script>
 @endpush

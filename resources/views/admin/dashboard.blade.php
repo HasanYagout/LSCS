@@ -34,42 +34,7 @@
                     </div>
                 </div>
 
-                <div class="col-md col-sm-12">
-                    <div class="h-100 zNews-item-one">
-                        <div class="content">
-                            <h4 class="title">{{ __('Current Members') }}</h4>
-                            <div class="d-flex justify-content-between mt-20">
-{{--                                <h2 class="fs-5 fw-semibold mt-1 title">{{ $currentMember }}</h2>--}}
-                                <div class="d-flex">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M20.4906 9.39822C20.4906 14.0906 16.6867 17.8945 11.9943 17.8945C7.30197 17.8945 3.49805 14.0906 3.49805 9.39822C3.49805 4.70585 7.30197 0.901924 11.9943 0.901924C16.6867 0.901924 20.4906 4.70585 20.4906 9.39822Z"
-                                            stroke="black" stroke-opacity="0.7" stroke-width="1.5"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"/>
-                                        <path
-                                            d="M4.63477 13.5656L0.856444 20.1099L4.93902 19.016L6.03294 23.0985L9.3112 17.4204"
-                                            stroke="black" stroke-opacity="0.7" stroke-width="1.5"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"/>
-                                        <path
-                                            d="M19.3652 13.5656L23.1436 20.1099L19.061 19.016L17.9671 23.0985L14.6888 17.4204"
-                                            stroke="black" stroke-opacity="0.7" stroke-width="1.5"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"/>
-                                        <path
-                                            d="M16.9679 14.0017C16.6749 13.1815 16.0292 12.4568 15.1311 11.9399C14.2329 11.423 13.1324 11.1429 12.0003 11.1429C10.8682 11.1429 9.76768 11.423 8.86951 11.9399C7.97134 12.4568 7.32568 13.1815 7.03266 14.0017"
-                                            stroke="black" stroke-opacity="0.7" stroke-width="1.5"
-                                            stroke-linecap="round"/>
-                                        <circle cx="11.9972" cy="6" r="2.57143" stroke="black"
-                                                stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
 
                 <div class="col-md col-sm-12">
                     <div class="h-100 zNews-item-one">
@@ -98,92 +63,9 @@
                     </div>
                 </div>
 
-                <div class="col-md col-sm-12">
-                    <div class="h-100 zNews-item-one">
-                        <div class="content">
-                            <div class="d-flex items-center justify-content-between w-full">
-                                <h4 class="title">{{ __('Member') }}</h4>
-                                <span class="fs-12">{{ now()->format('F') }}</span>
-                            </div>
-                            <div class="d-flex justify-content-between mt-20">
-{{--                                <h2 class="fs-5 fw-semibold mt-1 title">{{ $memberThisMonth }}</h2>--}}
-                                <div class="d-flex">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M20.4906 9.39822C20.4906 14.0906 16.6867 17.8945 11.9943 17.8945C7.30197 17.8945 3.49805 14.0906 3.49805 9.39822C3.49805 4.70585 7.30197 0.901924 11.9943 0.901924C16.6867 0.901924 20.4906 4.70585 20.4906 9.39822Z"
-                                            stroke="black" stroke-opacity="0.7" stroke-width="1.5"
-                                            stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path
-                                            d="M4.63477 13.5656L0.856444 20.1099L4.93902 19.016L6.03294 23.0985L9.3112 17.4204"
-                                            stroke="black" stroke-opacity="0.7" stroke-width="1.5"
-                                            stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path
-                                            d="M19.3652 13.5656L23.1436 20.1099L19.061 19.016L17.9671 23.0985L14.6888 17.4204"
-                                            stroke="black" stroke-opacity="0.7" stroke-width="1.5"
-                                            stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path
-                                            d="M16.9679 14.0017C16.6749 13.1815 16.0292 12.4568 15.1311 11.9399C14.2329 11.423 13.1324 11.1429 12.0003 11.1429C10.8682 11.1429 9.76768 11.423 8.86951 11.9399C7.97134 12.4568 7.32568 13.1815 7.03266 14.0017"
-                                            stroke="black" stroke-opacity="0.7" stroke-width="1.5"
-                                            stroke-linecap="round"/>
-                                        <circle cx="11.9972" cy="6" r="2.57143" stroke="black"
-                                                stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md col-sm-12">
-                    <div class="h-100 zNews-item-one">
-                        <div class="content">
-                            <div class="d-flex items-center justify-content-between w-full">
-                                <h4 class="title">{{ __('Transaction') }}</h4>
-                                <span class="fs-12">{{ now()->format('F') }}</span>
-                            </div>
-                            <div class="d-flex justify-content-between mt-20">
-{{--                                <h2 class="fs-5 fw-semibold mt-1 title">{{ showPrice($transactionThisMonth) }}</h2>--}}
-                                <div class="d-flex">
-                                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="3.31836" y="6.94522" width="18" height="12"
-                                              rx="2" stroke="black" stroke-opacity="0.7" stroke-width="1.5">
-                                        </rect>
-                                        <path d="M5.31836 9.94522H8.31836" stroke="black" stroke-opacity="0.7"
-                                              stroke-width="1.5" stroke-linecap="round"></path>
-                                        <path d="M16.3184 15.9452H19.3184" stroke="black" stroke-opacity="0.7"
-                                              stroke-width="1.5" stroke-linecap="round"></path>
-                                        <circle cx="12.3184" cy="12.9452" r="2" stroke="black"
-                                                stroke-opacity="0.7" stroke-width="1.5"></circle>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <div class="pt-30">
-                <div class="row rg-30">
-                    <div class="col-md-6">
-                        <div class="zNews-item-one">
-                            <div class="content">
-                                <h4 class="title mb-3">{{ __('Payment Summary') }}</h4>
-                                <div id="payment-chart"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="zNews-item-one">
-                            <div class="content">
-                                <h4 class="title mb-3">{{ __('Event Ticket Summary') }}</h4>
-                                <div id="event-ticket-chart" class="w-100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
 {{--            <input type="hidden" id="day-list" value="{{ $dayList }}">--}}
 {{--            <input type="hidden" id="price-list" value="{{ $chartPrice }}">--}}
 {{--            <input type="hidden" id="total-ticket-list" value="{{ $totalTickets }}">--}}

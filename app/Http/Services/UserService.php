@@ -26,7 +26,7 @@ class UserService
     public function userData($id = NULL)
     {
         $id = is_null($id) ? auth()->id() : $id;
-        return User::where('id', $id)->with(['alumni', 'institutions', 'currentMembership'])->first();
+        return Alumni::where('id', $id)->first();
     }
 
     public function smsSend($request)
