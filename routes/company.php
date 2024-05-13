@@ -13,7 +13,7 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
 
     Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
         Route::get('login', [LoginController::class,'login'])->name('login');
-        Route::post('login',[LoginController::class,'submit']);
+        Route::post('login',[LoginController::class,'submit'])->name('submit');
         Route::get('logout', [LoginController::class,'logout'])->name('logout');
         Route::get('register', [LoginController::class,'register'])->name('register');
         Route::post('store', [LoginController::class,'store'])->name('store');

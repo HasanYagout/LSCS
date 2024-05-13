@@ -4,14 +4,9 @@ namespace App\Http\Controllers\Company\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
-use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
-use Gregwar\Captcha\CaptchaBuilder;
-use App\CPU\Helpers;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
-use App\Models\Admin;
-use Gregwar\Captcha\PhraseBuilder;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -53,18 +48,19 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6'
         ]);
-        $admin = Admin::where('email', $request->email)->first();
-        if (isset($admin) && $admin->status != 1) {
-            return redirect()->back()->withInput($request->only('email', 'remember'))
-                ->withErrors(['You are blocked!!, contact with admin.']);
-        }else{
-            if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                return redirect()->route('admin.dashboard');
-            }
+        $company = Company::where('email', $request->email)->first();
+        if (! $company || ! Hash::check($request->password, $company->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+        elseif(Hash::check($request->password, $company->password) && $company->status==STATUS_PENDING){
+            throw ValidationException::withMessages([
+                'email' => ['Your account is pending approval.'],
+            ]);
         }
 
-        return redirect()->back()->withInput($request->only('email', 'remember'))
-            ->withErrors(['Credentials does not match.']);
+        return redirect()->route('company.home');
     }
 
     public function register()
@@ -78,12 +74,11 @@ class LoginController extends Controller
         $company->name=$request->name;
         $company->email=$request->email;
         $company->password=Hash::make($request->password);
-        $company->address=$request->address;
-        $company->website=$request->website;
-        $company->phone=$request->phone;
+        $company->phone=$request->mobile;
         $company->logo=$request->logo;
         $company->proposal=$request->file('proposal')->getClientOriginalName();
-
+        $company->status=STATUS_PENDING;
+        $company->save();
     }
 
     public function logout(Request $request)
