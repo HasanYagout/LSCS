@@ -387,135 +387,83 @@
                     </div>
                 </li>
 
-                <li>
-                    <a href="{{ route('admin.setting.website-settings.index') }}"
-                       class="{{ $activeManageWebsiteSetting ?? '' }} d-flex align-items-center cg-10">
-                        <div class="d-flex">
-                            <svg width="20" height="22" viewBox="0 0 20 22" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd"
-                                      d="M18.8074 6.62355L18.185 5.54346C17.6584 4.62954 16.4914 4.31426 15.5763 4.83866V4.83866C15.1406 5.09528 14.6208 5.16809 14.1314 5.04103C13.6421 4.91396 13.2233 4.59746 12.9676 4.16131C12.803 3.88409 12.7146 3.56833 12.7113 3.24598V3.24598C12.7261 2.72916 12.5311 2.22834 12.1708 1.85761C11.8104 1.48688 11.3153 1.2778 10.7982 1.27802H9.54423C9.0377 1.27801 8.55205 1.47985 8.19473 1.83888C7.83742 2.19791 7.63791 2.68453 7.64034 3.19106V3.19106C7.62533 4.23686 6.77321 5.07675 5.7273 5.07664C5.40494 5.07329 5.08919 4.98488 4.81197 4.82035V4.82035C3.89679 4.29595 2.72985 4.61123 2.20327 5.52516L1.53508 6.62355C1.00914 7.53633 1.32013 8.70255 2.23073 9.23225V9.23225C2.82263 9.57398 3.18726 10.2055 3.18726 10.889C3.18726 11.5725 2.82263 12.204 2.23073 12.5457V12.5457C1.32129 13.0719 1.00996 14.2353 1.53508 15.1453V15.1453L2.16666 16.2345C2.41338 16.6797 2.82734 17.0082 3.31693 17.1474C3.80652 17.2865 4.33137 17.2248 4.77535 16.976V16.976C5.21181 16.7213 5.73192 16.6515 6.22007 16.7821C6.70822 16.9128 7.12397 17.233 7.3749 17.6716C7.53943 17.9488 7.62784 18.2646 7.63119 18.5869V18.5869C7.63119 19.6435 8.48769 20.5 9.54423 20.5H10.7982C11.8512 20.5 12.7062 19.6491 12.7113 18.5961V18.5961C12.7088 18.088 12.9096 17.6 13.2689 17.2407C13.6282 16.8814 14.1162 16.6806 14.6243 16.6831C14.9459 16.6917 15.2604 16.7797 15.5397 16.9393V16.9393C16.4524 17.4653 17.6186 17.1543 18.1484 16.2437V16.2437L18.8074 15.1453C19.0625 14.7074 19.1325 14.1859 19.0019 13.6963C18.8714 13.2067 18.551 12.7893 18.1117 12.5366V12.5366C17.6725 12.2839 17.3521 11.8665 17.2215 11.3769C17.091 10.8872 17.161 10.3658 17.4161 9.9279C17.582 9.63827 17.8221 9.39814 18.1117 9.23225V9.23225C19.0169 8.70283 19.3271 7.54343 18.8074 6.63271V6.63271V6.62355Z"
-                                      stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                      stroke-linejoin="round"/>
-                                <circle cx="10.1752" cy="10.889" r="2.63616" stroke="white"
-                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                        stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <span class="">{{ __('Website Settings') }}</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#manage-application-menu" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ isset($showManageApplicationSetting) ? 'true' : '' }}"
-                       aria-controls="manage-application-menu"
-                       class="d-flex align-items-center cg-10 {{ isset($showManageApplicationSetting) ? 'active' : 'collapsed' }}">
-                        <div class="d-flex">
-                            <svg width="20" height="22" viewBox="0 0 20 22" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M18.5 6L10 1L1.5 6V16L10 21L18.5 16V6Z" stroke="white" stroke-opacity="0.7"
-                                      stroke-width="1.5" stroke-linejoin="round"/>
-                                <path d="M6 8.49902L9.9965 11L13.9975 8.49902M10 11V15.5" stroke="white"
-                                      stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                      stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <span class="">{{ __('Application Settings') }}</span>
-                    </a>
-                    <div class="collapse {{ $showManageApplicationSetting ?? '' }}" id="manage-application-menu"
-                         data-bs-parent="#sidebarMenu">
-                        <ul class="zSidebar-submenu">
-                            <li><a class="{{ $activeApplicationSetting ?? '' }}"
-                                   href="{{ route('admin.setting.application-settings') }}">{{ __('General Settings') }}</a>
-                            </li>
-                            <li><a class="{{ $activeConfigurationSetting ?? '' }}"
-                                   href="{{ route('admin.setting.configuration-settings') }}">{{ __('Configurations
-                                                                        								Settings') }}</a>
-                            </li>
-                            <li><a class="{{ $activeCurrenciesSetting ?? '' }}"
-                                   href="{{ route('admin.setting.currencies.index') }}">{{ __('Currency Settings') }}</a>
-                            </li>
-                            <li><a class="{{ $activeGatewaySetting ?? '' }}"
-                                   href="{{ route('admin.setting.gateway.index') }}">{{ __('Payment Gateways') }}</a>
-                            </li>
-                            @if(!isAddonInstalled('ALUSAAS'))
-                            <li><a class="{{ $activeLanguagesSetting ?? '' }}"
-                                   href="{{ route('admin.setting.languages.index') }}">{{ __('Language Settings') }}</a>
-                            </li>
-                            @endif
-                            <li><a class="{{ $activeBatchesSetting ?? '' }}"
-                                   href="{{ route('admin.setting.batches.index') }}">{{ __('Batch Setting') }}</a>
-                            </li>
-                            <li><a class="{{ $activeDepartmentsSetting ?? '' }}"
-                                   href="{{ route('admin.setting.departments.index') }}">{{ __('Department Setting') }}</a>
-                            </li>
-                            <li><a class="{{ $activePassingSetting ?? '' }}"
-                                   href="{{ route('admin.setting.passing_years.index') }}">{{ __('Passing Year') }}</a>
-                            </li>
-                            <li><a class="{{ $activeEmailSetting ?? '' }}"
-                                   href="{{ route('admin.setting.email-template') }}">{{ __('Email Template') }}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+{{--                <li>--}}
+{{--                    <a href="{{ route('admin.setting.website-settings.index') }}"--}}
+{{--                       class="{{ $activeManageWebsiteSetting ?? '' }} d-flex align-items-center cg-10">--}}
+{{--                        <div class="d-flex">--}}
+{{--                            <svg width="20" height="22" viewBox="0 0 20 22" fill="none"--}}
+{{--                                 xmlns="http://www.w3.org/2000/svg">--}}
+{{--                                <path fill-rule="evenodd" clip-rule="evenodd"--}}
+{{--                                      d="M18.8074 6.62355L18.185 5.54346C17.6584 4.62954 16.4914 4.31426 15.5763 4.83866V4.83866C15.1406 5.09528 14.6208 5.16809 14.1314 5.04103C13.6421 4.91396 13.2233 4.59746 12.9676 4.16131C12.803 3.88409 12.7146 3.56833 12.7113 3.24598V3.24598C12.7261 2.72916 12.5311 2.22834 12.1708 1.85761C11.8104 1.48688 11.3153 1.2778 10.7982 1.27802H9.54423C9.0377 1.27801 8.55205 1.47985 8.19473 1.83888C7.83742 2.19791 7.63791 2.68453 7.64034 3.19106V3.19106C7.62533 4.23686 6.77321 5.07675 5.7273 5.07664C5.40494 5.07329 5.08919 4.98488 4.81197 4.82035V4.82035C3.89679 4.29595 2.72985 4.61123 2.20327 5.52516L1.53508 6.62355C1.00914 7.53633 1.32013 8.70255 2.23073 9.23225V9.23225C2.82263 9.57398 3.18726 10.2055 3.18726 10.889C3.18726 11.5725 2.82263 12.204 2.23073 12.5457V12.5457C1.32129 13.0719 1.00996 14.2353 1.53508 15.1453V15.1453L2.16666 16.2345C2.41338 16.6797 2.82734 17.0082 3.31693 17.1474C3.80652 17.2865 4.33137 17.2248 4.77535 16.976V16.976C5.21181 16.7213 5.73192 16.6515 6.22007 16.7821C6.70822 16.9128 7.12397 17.233 7.3749 17.6716C7.53943 17.9488 7.62784 18.2646 7.63119 18.5869V18.5869C7.63119 19.6435 8.48769 20.5 9.54423 20.5H10.7982C11.8512 20.5 12.7062 19.6491 12.7113 18.5961V18.5961C12.7088 18.088 12.9096 17.6 13.2689 17.2407C13.6282 16.8814 14.1162 16.6806 14.6243 16.6831C14.9459 16.6917 15.2604 16.7797 15.5397 16.9393V16.9393C16.4524 17.4653 17.6186 17.1543 18.1484 16.2437V16.2437L18.8074 15.1453C19.0625 14.7074 19.1325 14.1859 19.0019 13.6963C18.8714 13.2067 18.551 12.7893 18.1117 12.5366V12.5366C17.6725 12.2839 17.3521 11.8665 17.2215 11.3769C17.091 10.8872 17.161 10.3658 17.4161 9.9279C17.582 9.63827 17.8221 9.39814 18.1117 9.23225V9.23225C19.0169 8.70283 19.3271 7.54343 18.8074 6.63271V6.63271V6.62355Z"--}}
+{{--                                      stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"--}}
+{{--                                      stroke-linejoin="round"/>--}}
+{{--                                <circle cx="10.1752" cy="10.889" r="2.63616" stroke="white"--}}
+{{--                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"--}}
+{{--                                        stroke-linejoin="round"/>--}}
+{{--                            </svg>--}}
+{{--                        </div>--}}
+{{--                        <span class="">{{ __('Website Settings') }}</span>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--                <li>--}}
+{{--                    <a href="#manage-application-menu" data-bs-toggle="collapse" role="button"--}}
+{{--                       aria-expanded="{{ isset($showManageApplicationSetting) ? 'true' : '' }}"--}}
+{{--                       aria-controls="manage-application-menu"--}}
+{{--                       class="d-flex align-items-center cg-10 {{ isset($showManageApplicationSetting) ? 'active' : 'collapsed' }}">--}}
+{{--                        <div class="d-flex">--}}
+{{--                            <svg width="20" height="22" viewBox="0 0 20 22" fill="none"--}}
+{{--                                 xmlns="http://www.w3.org/2000/svg">--}}
+{{--                                <path d="M18.5 6L10 1L1.5 6V16L10 21L18.5 16V6Z" stroke="white" stroke-opacity="0.7"--}}
+{{--                                      stroke-width="1.5" stroke-linejoin="round"/>--}}
+{{--                                <path d="M6 8.49902L9.9965 11L13.9975 8.49902M10 11V15.5" stroke="white"--}}
+{{--                                      stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"--}}
+{{--                                      stroke-linejoin="round"/>--}}
+{{--                            </svg>--}}
+{{--                        </div>--}}
+{{--                        <span class="">{{ __('Application Settings') }}</span>--}}
+{{--                    </a>--}}
+{{--                    <div class="collapse {{ $showManageApplicationSetting ?? '' }}" id="manage-application-menu"--}}
+{{--                         data-bs-parent="#sidebarMenu">--}}
+{{--                        <ul class="zSidebar-submenu">--}}
+{{--                            <li><a class="{{ $activeApplicationSetting ?? '' }}"--}}
+{{--                                   href="{{ route('admin.setting.application-settings') }}">{{ __('General Settings') }}</a>--}}
+{{--                            </li>--}}
+{{--                            <li><a class="{{ $activeConfigurationSetting ?? '' }}"--}}
+{{--                                   href="{{ route('admin.setting.configuration-settings') }}">{{ __('Configurations--}}
+{{--                                                                        								Settings') }}</a>--}}
+{{--                            </li>--}}
+{{--                            <li><a class="{{ $activeCurrenciesSetting ?? '' }}"--}}
+{{--                                   href="{{ route('admin.setting.currencies.index') }}">{{ __('Currency Settings') }}</a>--}}
+{{--                            </li>--}}
+{{--                            <li><a class="{{ $activeGatewaySetting ?? '' }}"--}}
+{{--                                   href="{{ route('admin.setting.gateway.index') }}">{{ __('Payment Gateways') }}</a>--}}
+{{--                            </li>--}}
+{{--                            @if(!isAddonInstalled('ALUSAAS'))--}}
+{{--                            <li><a class="{{ $activeLanguagesSetting ?? '' }}"--}}
+{{--                                   href="{{ route('admin.setting.languages.index') }}">{{ __('Language Settings') }}</a>--}}
+{{--                            </li>--}}
+{{--                            @endif--}}
+{{--                            <li><a class="{{ $activeBatchesSetting ?? '' }}"--}}
+{{--                                   href="{{ route('admin.setting.batches.index') }}">{{ __('Batch Setting') }}</a>--}}
+{{--                            </li>--}}
+{{--                            <li><a class="{{ $activeDepartmentsSetting ?? '' }}"--}}
+{{--                                   href="{{ route('admin.setting.departments.index') }}">{{ __('Department Setting') }}</a>--}}
+{{--                            </li>--}}
+{{--                            <li><a class="{{ $activePassingSetting ?? '' }}"--}}
+{{--                                   href="{{ route('admin.setting.passing_years.index') }}">{{ __('Passing Year') }}</a>--}}
+{{--                            </li>--}}
+{{--                            <li><a class="{{ $activeEmailSetting ?? '' }}"--}}
+{{--                                   href="{{ route('admin.setting.email-template') }}">{{ __('Email Template') }}</a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </li>--}}
                 @endif
-                @if(isAddonInstalled('ALUSAAS'))
-                    <li>
-                        <a href="{{ route('admin.subscription.index') }}"
-                           class="{{ $activeSubscription ?? '' }} d-flex align-items-center cg-10">
-                            <div class="d-flex">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" fill="none">
-                                    <path d="M12.3398 0.61335L20.2461 5.17693C20.7646 5.47689 21.0846 6.02985 21.0846 6.62881V15.7569C21.0847 16.0514 21.0073 16.3407 20.8601 16.5957C20.7129 16.8508 20.5011 17.0625 20.2461 17.2098L12.3398 21.7733C12.085 21.9207 11.7957 21.9983 11.5013 21.9983C11.2069 21.9983 10.9176 21.9207 10.6628 21.7733L2.75651 17.2088C2.50164 17.0617 2.28998 16.85 2.14279 16.5952C1.9956 16.3403 1.91806 16.0512 1.91797 15.7569V6.62881C1.91797 6.02985 2.23805 5.47689 2.75651 5.17693L10.6628 0.61335C10.9176 0.465967 11.2069 0.388367 11.5013 0.388367C11.7957 0.388367 12.085 0.465967 12.3398 0.61335ZM11.3815 1.85727L4.07422 6.07585L11.5013 10.3634L18.9284 6.07585L11.6211 1.85727C11.5847 1.83605 11.5434 1.82487 11.5013 1.82487C11.4592 1.82487 11.4179 1.83605 11.3815 1.85727ZM12.2201 20.1835L19.5273 15.9649C19.5637 15.9439 19.5939 15.9137 19.6149 15.8774C19.6359 15.8411 19.6471 15.7999 19.6471 15.7579V7.32072L12.2201 11.6083V20.1835ZM3.35547 7.32168V15.7579C3.35547 15.8441 3.40147 15.9227 3.47526 15.9649L10.7826 20.1835V11.6093L3.35547 7.32168Z" fill="white" fill-opacity="0.7"/>
-                                </svg>
-                            </div>
-                            <span class="">{{ __('My Subscriptions') }}</span>
-                        </a>
-                    </li>
-                    @if(getPackageLimit(PACKAGE_RULE_CUSTOM_DOMAIN))
-                        <li>
-                            <a href="{{ route('admin.custom_domain.index') }}"
-                               class="{{ $activeCustomDomainRequest ?? '' }} d-flex align-items-center cg-10">
-                                <div class="d-flex">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M7.84308 3.80211C9.8718 2.6007 10.8862 2 12 2C13.1138 2 14.1282 2.6007 16.1569 3.80211L16.8431 4.20846C18.8718 5.40987 19.8862 6.01057 20.4431 7C21 7.98943 21 9.19084 21 11.5937V12.4063C21 14.8092 21 16.0106 20.4431 17C19.8862 17.9894 18.8718 18.5901 16.8431 19.7915L16.1569 20.1979C14.1282 21.3993 13.1138 22 12 22C10.8862 22 9.8718 21.3993 7.84308 20.1979L7.15692 19.7915C5.1282 18.5901 4.11384 17.9894 3.55692 17C3 16.0106 3 14.8092 3 12.4063V11.5937C3 9.19084 3 7.98943 3.55692 7C4.11384 6.01057 5.1282 5.40987 7.15692 4.20846L7.84308 3.80211Z"
-                                            stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round" />
-                                        <circle cx="12" cy="12" r="3" stroke="white" stroke-width="1.5"
-                                                stroke-opacity="0.7" />
-                                    </svg>
-                                </div>
-                                <span class="">{{ __('Domain Setting') }}</span>
-                            </a>
-                        </li>
-                    @endif
-                @endif
-                @if(!isAddonInstalled('ALUSAAS'))
-                    <li>
-                        <a href="{{ route('admin.version-update') }}"
-                           class="{{ $activeVersionUpdate ?? '' }} d-flex align-items-center cg-10">
-                            <div class="d-flex">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"
-                                     fill="none">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                          d="M8.27884 4.92549C10.0763 3.88705 12.1654 3.46843 14.2242 3.73408C16.283 3.99973 18.1974 4.93491 19.6723 6.39559C21.1474 7.8563 22.1012 9.76146 22.387 11.8176C22.4661 12.3865 22.069 12.9118 21.5 12.9908C20.9311 13.0699 20.4058 12.6728 20.3268 12.1039C20.1038 10.4996 19.3597 9.01321 18.2088 7.87359C17.0581 6.73393 15.5644 6.00424 13.958 5.79697C12.3516 5.58971 10.7218 5.91633 9.31934 6.72653C8.39658 7.25961 7.60597 7.98262 6.99568 8.8407H8.87688C9.45125 8.8407 9.91688 9.30633 9.91688 9.8807C9.91688 10.4551 9.45125 10.9207 8.87688 10.9207H5.26014C5.24439 10.921 5.2286 10.921 5.21279 10.9207H4.71688C4.1425 10.9207 3.67688 10.4551 3.67688 9.8807V5.7207C3.67688 5.14633 4.1425 4.6807 4.71688 4.6807C5.29126 4.6807 5.75688 5.14633 5.75688 5.7207V7.04449C6.46258 6.20169 7.31439 5.48266 8.27884 4.92549ZM4.57373 13.0107C5.14264 12.9316 5.66792 13.3287 5.74698 13.8976C5.96993 15.5018 6.71412 16.9882 7.86498 18.1279C9.01582 19.2676 10.5094 19.9972 12.1157 20.2045C13.722 20.4118 15.352 20.0851 16.7545 19.2749C17.6772 18.7418 18.4679 18.0188 19.0782 17.1607H17.1969C16.6225 17.1607 16.1569 16.6951 16.1569 16.1207C16.1569 15.5463 16.6225 15.0807 17.1969 15.0807H20.8136C20.8294 15.0804 20.8451 15.0804 20.861 15.0807H21.3569C21.9313 15.0807 22.3969 15.5463 22.3969 16.1207V20.2807C22.3969 20.8551 21.9313 21.3207 21.3569 21.3207C20.7825 21.3207 20.3169 20.8551 20.3169 20.2807V18.957C19.6112 19.7998 18.7594 20.5189 17.7949 21.076C15.9975 22.1144 13.9083 22.533 11.8495 22.2673C9.79073 22.0017 7.87638 21.0665 6.40137 19.6059C4.92637 18.1451 3.97252 16.24 3.68678 14.1839C3.60772 13.6151 4.00482 13.0897 4.57373 13.0107Z"
-                                          fill="white" fill-opacity="0.7"/>
-                                </svg>
-                            </div>
-                            <span class="">{{ __('Version Update') }}</span>
-                        </a>
-                    </li>
-                @endif
+
             @endif
         </ul>
         <ul>
-            @if(!isAddonInstalled('ALUSAAS'))
-            <li class="d-inline-flex align-items-center cg-15 pt-17 px-25">
-                <span class="align-items-center cg-10 has-subMenu-arrow">
-                    {{ __('Version') }} : {{ getOption('current_version', 'v1.0') }}
-                </span>
-            </li>
-            @endif
+
 {{--            <a href="{{ route('logout') }}"--}}
 {{--               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"--}}
 {{--               class="d-inline-flex align-items-center cg-15 pt-17 pb-30 px-25">--}}
