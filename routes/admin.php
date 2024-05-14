@@ -76,8 +76,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     });
 
     Route::group(['prefix' => 'eventCategory', 'as' => 'eventCategory.'], function () {
-        Route::get('create', [EventCategoryController::class, 'create'])->name('create');
         Route::get('/category', [EventCategoryController::class, 'index'])->name('index');
+        Route::get('create', [EventCategoryController::class, 'create'])->name('create');
         Route::post('/store', [EventCategoryController::class, 'store'])->name('store');
         Route::get('/info/{id}', [EventCategoryController::class, 'info'])->name('info');
         Route::post('/update/{id}', [EventCategoryController::class, 'update'])->name('update');

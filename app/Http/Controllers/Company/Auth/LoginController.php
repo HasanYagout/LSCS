@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -44,6 +45,7 @@ class LoginController extends Controller
 
     public function submit(Request $request)
     {
+
         $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6'
@@ -70,13 +72,19 @@ class LoginController extends Controller
 
     public function store(Request $request)
     {
+        $folderName = Str::slug($request->name.'_'.now(), '_');
+        $file= $request->file('proposal');
+        $extension = $file->getClientOriginalExtension();
+        $fileName = $folderName . '.' . $extension;
+        $filePath = $file->storeAs('public/storage/company/proposal' . $fileName);
+
         $company = new Company();
         $company->name=$request->name;
         $company->email=$request->email;
         $company->password=Hash::make($request->password);
         $company->phone=$request->mobile;
         $company->logo=$request->logo;
-        $company->proposal=$request->file('proposal')->getClientOriginalName();
+        $company->proposal=$fileName;
         $company->status=STATUS_PENDING;
         $company->save();
     }

@@ -185,10 +185,24 @@
                         <span class="">{{ __('Alumni') }}</span>
                     </a>
                 </li>
-                <li>
+                    <li>
+                        <a href="{{ route('company.index') }}" class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">
+                            <div class="d-flex">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20"
+                                     fill="none">
+                                    <path d="M1.71387 11.4286L10.9996 2.14285L20.2853 11.4286" stroke="white"
+                                          stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                    <path d="M4.57129 8.57144L4.57129 17.8572H17.4284V8.57144" stroke="white"
+                                          stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <span class="">{{ __('Companies') }}</span>
+                        </a>
+                    </li>
 
-                </li>
-                <li>
+                    <li>
 {{--                    <a href="{{ route('chats.index') }}"--}}
 {{--                       class="{{ $activeMessage ?? '' }} d-flex align-items-center cg-10">--}}
 {{--                        <div class="d-flex">--}}
@@ -276,38 +290,7 @@
                         </ul>
                     </div>
                 </li>
-                <li>
-                    <a href="#manage-companies-menu" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ isset($showManageCompanies) ? 'true' : 'false' }}"
-                       aria-controls="manage-companies-menu"
-                       class="d-flex align-items-center cg-10 {{ isset($showManageCompanies) ? 'active' : 'collapsed' }}">
-                        <div class="d-flex">
-                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M1 1V15C1 15.5304 1.21071 16.0391 1.58579 16.4142C1.96086 16.7893 2.46957 17 3 17H17C17.5304 17 18.0391 16.7893 18.4142 16.4142C18.7893 16.0391 19 15.5304 19 15V5H15"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"/>
-                                <path
-                                    d="M1 1H15V15C15 15.5304 15.2107 16.0391 15.5858 16.4142C15.9609 16.7893 16.4696 17 17 17M11 5H5M11 9H7"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <span class="">{{ __('Manage Companies') }}</span>
-                    </a>
-                    <div class="collapse {{ $showManageCompanies ?? '' }}" id="manage-companies-menu"
-                         data-bs-parent="#sidebarMenu">
-                        <ul class="zSidebar-submenu">
-                            <li><a class="{{ $showManageCompanies ?? '' }}"
-                                   href="{{ route('admin.students.index') }}">{{ __('All') }}</a></li>
-                            <li><a class="{{ $showManageCompanies ?? '' }}"
-                                   href="{{ route('admin.news.categories.index') }}">{{ __('Category') }}</a></li>
-                            <li><a class="{{ $showManageCompanies ?? '' }}"
-                                   href="{{ route('admin.news.index') }}">{{ __('News') }}</a></li>
-                        </ul>
-                    </div>
-                </li>
+
                 <li>
 {{--                    <a href="{{ route('settings') }}"--}}
 {{--                       class="{{ $activeSettings ?? '' }} d-flex align-items-center cg-10">--}}
