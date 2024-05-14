@@ -11,10 +11,11 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
     Route::get('/', function () {
         return redirect()->route('company.auth.login');
     });
-    Route::get('index', [DashboardController::class,'index'])->name('index');
+    Route::get('dashboard', [DashboardController::class,'index'])->name('dashboard');
     Route::get('all', [DashboardController::class,'all'])->name('all');
     Route::get('info/{id}', [DashboardController::class,'info'])->name('info');
     Route::get('proposal/{id}', [DashboardController::class,'view'])->name('view');
+    Route::post('status', [DashboardController::class,'status'])->name('status');
 
 
     Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {

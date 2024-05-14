@@ -32,7 +32,7 @@
             { "data": "website", "name": "company.website", responsivePriority: 3 },
             { "data": "phone", "name": "company.phone"},
             { "data": "logo", "name": "company.logo" },
-            { "data": "status","name":"company.status", searchable: false, responsivePriority: 2},
+            { "data": "status", searchable: false, responsivePriority: 3 },
             { "data": "action", searchable: false, responsivePriority: 3 },
         ],
         "initComplete": function( settings, json ) {

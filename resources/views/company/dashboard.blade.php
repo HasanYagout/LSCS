@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('company.layouts.app')
 @push('title')
     {{$pageTitle}}
 @endpush
@@ -18,25 +18,23 @@
                             <thead>
                             <tr>
                                 <th scope="col">
-                                    <div>{{ __('Name') }}</div>
+                                    <div>{{ __('Title') }}</div>
                                 </th>
                                 <th scope="col">
-                                    <div>{{ __('email') }}</div>
+                                    <div>{{ __('Company Logo') }}</div>
                                 </th>
                                 <th scope="col">
-                                    <div>{{ __('address') }}</div>
+                                    <div>{{ __('Location') }}</div>
+                                </th>
+
+                                <th scope="col">
+                                    <div>{{ __('Application Deadline') }}</div>
                                 </th>
                                 <th scope="col">
-                                    <div>{{ __('website') }}</div>
+                                    <div>{{ __('Application Deadline') }}</div>
                                 </th>
                                 <th scope="col">
-                                    <div>{{ __('phone') }}</div>
-                                </th>
-                                <th scope="col">
-                                    <div>{{ __('logo') }}</div>
-                                </th>
-                                <th scope="col">
-                                    <div>{{ __('status') }}</div>
+                                    <div>{{ __('Status') }}</div>
                                 </th>
                                 <th scope="col">
                                     <div>{{ __('action') }}</div>
@@ -60,7 +58,30 @@
 @endsection
 
 @push('script')
+
     <script>
+        $(document).ready(function () {
+            $('body').on('change', '.form-check-input', function () {
+                var checked = $(this).prop('checked');
+                var dataId = $(this).data('id');
+
+                $.ajax({
+                    url: '{{ route('company.status') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        checked: checked,
+                        data_id: dataId
+                    },
+                    success: function (response) {
+                        // Handle the success response
+                    },
+                    error: function (xhr) {
+                        // Handle the error response
+                    }
+                });
+            });
+        });
         function openPdfViewer(file) {
             window.open('/LSCS/public/storage/company/proposal/' + encodeURIComponent(file), '_blank');
         }

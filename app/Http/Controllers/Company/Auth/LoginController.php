@@ -51,18 +51,16 @@ class LoginController extends Controller
             'password' => 'required|min:6'
         ]);
         $company = Company::where('email', $request->email)->first();
-        if (! $company || ! Hash::check($request->password, $company->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
-        }
-        elseif(Hash::check($request->password, $company->password) && $company->status==STATUS_PENDING){
-            throw ValidationException::withMessages([
-                'email' => ['Your account is pending approval.'],
-            ]);
+        if (isset($company) && $company->status != 1) {
+            return redirect()->back()->withInput($request->only('email', 'remember'))
+                ->withErrors(['You are blocked!!, contact with admin.']);
+        }else{
+            if (auth('company')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+                return redirect()->route('company.dashboard');
+            }
         }
 
-        return redirect()->route('company.home');
+        return redirect()->route('company.dashboard');
     }
 
     public function register()

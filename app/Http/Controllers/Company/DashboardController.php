@@ -33,6 +33,13 @@ class DashboardController extends Controller
         return view('company.dashboard', $data);
     }
 
+    public function status(Request $request)
+    {
+        $company=Company::findOrFail($request->data_id);
+        $company->update(['status'=>$request->checked?1:0]);
+
+    }
+
     public function all(Request $request)
     {
         $companies = Company::orderBy('id','DESC');
@@ -41,14 +48,25 @@ class DashboardController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($data) {
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                    <li class="d-flex gap-2">
-                           <button onclick="openPdfViewer('. "'$data->proposal'" .')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Edit').'">
-                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                         </button>
-                    </li>
-                </ul>';
+            <li class="d-flex gap-2">
+                <button onclick="openPdfViewer('. "'$data->proposal'" .')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Edit').'">
+                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
+                </button>
+            </li>
+        </ul>';
             })
-            ->rawColumns(['action'])
+            ->addColumn('status', function ($data) {
+                $checked = $data->status ? 'checked' : '';
+                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+            <li class="d-flex gap-2">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" data-id="'.$data->id.'" '.$checked.'>
+                    <label class="form-check-label" for="flexSwitchCheckChecked"></label>
+                </div>
+            </li>
+        </ul>';
+            })
+            ->rawColumns(['action', 'status'])
             ->make(true);
     }
 
