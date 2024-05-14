@@ -30,7 +30,7 @@ class NewsController extends Controller
     {
         $data['title'] = __('News');
         $data['news'] = $this->newsService->getNewsBySlug($slug);;
-        return view('frontend.news.news_details', $data);
+        return view('web.news.news_details', $data);
     }
 
 }

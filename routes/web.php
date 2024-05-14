@@ -5,11 +5,11 @@ use App\Http\Controllers\Web\AlumniController;
 use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\ContactUsController;
 use App\Http\Controllers\Web\EventController;
+use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\JobController;
 use App\Http\Controllers\Web\NewsController;
 use App\Http\Controllers\Web\NoticeController;
 use App\Http\Controllers\Web\StoryController;
-use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,11 +25,16 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'web'], function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
-    Route::group(['namespace' => 'Web\Auth','prefix' => 'auth'],function(){
-        Route::get('login',[LoginController::class,'index'])->name('login');
-        Route::post('login',[LoginController::class,'validateLogin'])->name('submit');
 
+
+    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('login', [LoginController::class,'login'])->name('login');
+        Route::post('login',[LoginController::class,'submit'])->name('submit');
+        Route::post('register',[LoginController::class,'register'])->name('register');
+        Route::get('logout', 'LoginController@logout')->name('logout');
     });
+    Route::get('ticket-verify/{ticket}', [TicketVerifyController::class, 'ticketPreview'])->name('ticket.verify');
+
 // alumni
     Route::get('all-alumni', [AlumniController::class, 'alumni'])->name('all.alumni');
 
@@ -45,7 +50,7 @@ Route::group(['namespace' => 'web'], function () {
     Route::get('our-notice', [NoticeController::class, 'notice'])->name('our.notice');
     Route::get('notice-view-details/{slug}', [NoticeController::class, 'noticeDetails'])->name('notice.view.details');
 
-
+// Membership
 
 // job
     Route::get('all-job', [JobController::class, 'job'])->name('all.job');

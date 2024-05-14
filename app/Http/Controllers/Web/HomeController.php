@@ -45,7 +45,7 @@ class HomeController extends Controller
     {
         $data['pageTitle'] = __(getOption($slug.'_title'));
         $data['description'] = getOption($slug.'_description');
-        return view('frontend.page', $data);
+        return view('web.page', $data);
     }
 
 }

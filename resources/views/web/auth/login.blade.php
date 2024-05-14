@@ -21,25 +21,26 @@
                     <!-- Title -->
                     <div class="pb-40">
                         <h2 class="fs-32 fw-600 lh-38 text-1b1c17 pb-3">{{ __('Log In') }}</h2>
-{{--                        @if (getOption('disable_registration') != 1)--}}
+                        @if (getOption('disable_registration') != 1)
 {{--                            <h4 class="fs-16 fw-400 lh-25">{{ __('Don’t have an account?') }} <a--}}
 {{--                                    href="{{ route('register') }}"--}}
 {{--                                    class="text-decoration-underline fw-500 text-black hover-color-one">{{ __('Sign up') }}</a>--}}
 {{--                            </h4>--}}
-{{--                        @endif--}}
+                        @endif
 
                     </div>
                     <!-- Form -->
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('auth.submit') }}">
                         @csrf
                         <div class="form-wrap pb-14">
                             <div class="primary-form-group">
                                 <div class="primary-form-group-wrap">
-                                    <label for="EmailAddress" class="form-label">{{ __('Email Address') }}</label>
-                                    <input type="text" class="primary-form-control" id="EmailAddress" name="email"
-                                        value="{{ old(' email') }}" placeholder="{{ __(' Your Email') }}" required />
+
+                                    <label for="student_id" class="form-label">{{ __('Student Id') }}></label>
+                                    <input type="number" class="primary-form-control" id="student_id" name="student_id"
+                                                                           value="{{ old('student_id') }}" placeholder="{{ __(' Your ID') }}" required />
                                 </div>
-                                @error('email')
+                                @error('student_id')
                                     <span class="fs-12 text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

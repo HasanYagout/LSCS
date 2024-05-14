@@ -55,7 +55,7 @@
                 <div class="dropdown notifyDropdown">
                     <button class="item-one dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <img src="{{ asset('assets/images/icon/bell.svg') }}" alt="" />
+                        <img src="{{ asset('public/assets/images/icon/bell.svg') }}" alt="" />
                         <span class="notify_no">{{ count(userNotification('unseen')) }}</span>
                     </button>
                     <div class="dropdown-menu">

@@ -30,7 +30,7 @@ class NoticeController extends Controller
     {
         $data['title'] = __('Notice Board');
         $data['notice'] = $this->noticeService->getNoticeBySlug($slug);;
-        return view('frontend.notice.notice_details', $data);
+        return view('web.notice.notice_details', $data);
     }
 
 }

@@ -30,7 +30,7 @@ class StoryController extends Controller
     {
         $data['title'] = __('Story');
         $data['story'] = $this->storyService->getBySlug($slug);
-        return view('frontend.stories.view', $data);
+        return view('web.stories.view', $data);
     }
 
 }

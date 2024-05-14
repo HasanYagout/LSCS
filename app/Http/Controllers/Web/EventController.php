@@ -30,7 +30,7 @@ class EventController extends Controller
     {
         $data['title'] = __('Event');
         $data['event'] = $this->eventService->getEvent($slug);
-        return view('frontend.events.event_details', $data);
+        return view('web.events.event_details', $data);
     }
 
 }

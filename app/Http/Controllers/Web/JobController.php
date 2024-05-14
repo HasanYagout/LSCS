@@ -30,7 +30,9 @@ class JobController extends Controller
     {
         $data['title'] = __('Job Details');
         $data['jobPostData'] = $this->jobService->getBySlug($slug);;
-        return view('frontend.jobs.job_details', $data);
+        return view('web.jobs.job_details', $data);
     }
+
+
 
 }

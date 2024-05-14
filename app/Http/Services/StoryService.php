@@ -24,7 +24,7 @@ class StoryService
 
     public function allPendingList()
     {
-        $pendingStory = Story::orderBy('id', 'desc')->where('status', STATUS_PENDING)->where('tenant_id', getTenantId());
+        $pendingStory = Story::orderBy('id', 'desc')->where('status', STATUS_PENDING);
         return datatables($pendingStory)
             ->addIndexColumn()
             ->addColumn('thumbnail', function ($data) {
@@ -37,10 +37,10 @@ class StoryService
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
                         <button onclick="getEditModal(\'' . route('stories.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Edit') . '">
-                            <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                         </button>
                         <button onclick="deleteItem(\'' . route('stories.delete', $data->slug) . '\', \'storyDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
-                            <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                            <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                         </button>
                     </li>
                 </ul>';
@@ -51,7 +51,9 @@ class StoryService
 
     public function getMyStoryList()
     {
-        $features = Story::where('user_id', auth()->id())->where('tenant_id', getTenantId())->orderBy('id', 'desc')->get();
+
+        $features = Story::where('user_id', auth('admin')->id())->orderBy('id', 'desc')->get();
+
         return datatables($features)
             ->addIndexColumn()
             ->addColumn('thumbnail', function ($data) {
@@ -67,11 +69,11 @@ class StoryService
             ->addColumn('action', function ($data) {
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
-                        <button onclick="getEditModal(\'' . route('stories.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Edit') . '">
-                            <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                        <button onclick="getEditModal(\'' . route('admin.stories.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Edit') . '">
+                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                         </button>
-                        <button onclick="deleteItem(\'' . route('stories.delete', $data->slug) . '\', \'storyDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
-                            <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                        <button onclick="deleteItem(\'' . route('admin.stories.delete', $data->slug) . '\', \'storyDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
+                            <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                         </button>
                     </li>
                 </ul>';
@@ -103,10 +105,10 @@ class StoryService
                     return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                                 <li class="d-flex gap-2">
                                     <button onclick="getEditModal(\'' . route('jobPost.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="' . __('Edit') . '">
-                                        <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                                     </button>
                                     <button onclick="deleteItem(\'' . route('jobPost.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
-                                        <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                                     </button>
                                     <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
                                 </li>
@@ -155,10 +157,10 @@ class StoryService
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
                         <button onclick="getEditModal(\'' . route('admin.jobPost.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="' . __('Edit') . '">
-                            <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                         </button>
                         <button onclick="deleteItem(\'' . route('admin.jobPost.delete', $data->slug) . '\', \'jobPostPendingdataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
-                            <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                            <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                         </button>
                         <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
                     </li>
@@ -256,6 +258,6 @@ class StoryService
 
     public function getAll($limit)
     {
-        return Story::orderBy('stories.id', 'DESC')->where('tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->paginate($limit);
+        return Story::orderBy('stories.id', 'DESC')->where('status', STATUS_ACTIVE)->paginate($limit);
     }
 }

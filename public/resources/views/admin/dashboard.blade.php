@@ -227,7 +227,7 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('common/js/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('admin/js/charts.js') }}"></script>
-    <script src="{{ asset('admin/js/admin-dashboard.js') }}?ver={{ env('VERSION' ,0) }}"></script>
+    <script src="{{ asset('public/common/js/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('public/admin/js/charts.js') }}"></script>
+    <script src="{{ asset('public/admin/js/admin-dashboard.js') }}?ver={{ env('VERSION' ,0) }}"></script>
 @endpush

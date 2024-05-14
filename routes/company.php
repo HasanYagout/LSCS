@@ -1,17 +1,28 @@
 <?php
 
+
+use App\Http\Controllers\Company\Auth\LoginController;
+use App\Http\Controllers\Company\DashboardController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+
+
 Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.'], function () {
-    Route::get('/', [\App\Http\Controllers\Company\HomeController::class, 'index'])->name('home');
+    Route::get('/', function () {
+        return redirect()->route('company.auth.login');
+    });
+    Route::get('dashboard', [DashboardController::class,'index'])->name('dashboard');
+    Route::get('all', [DashboardController::class,'all'])->name('all');
+    Route::get('info/{id}', [DashboardController::class,'info'])->name('info');
+    Route::get('proposal/{id}', [DashboardController::class,'view'])->name('view');
+    Route::post('status', [DashboardController::class,'status'])->name('status');
+
+
+    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('login', [LoginController::class,'login'])->name('login');
+        Route::post('login',[LoginController::class,'submit'])->name('submit');
+        Route::get('logout', [LoginController::class,'logout'])->name('logout');
+        Route::get('register', [LoginController::class,'register'])->name('register');
+        Route::post('store', [LoginController::class,'store'])->name('store');
+    });
 });

@@ -41,11 +41,11 @@ class EventService
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                             <li class="d-flex gap-2">
                                 <button onclick="getEditModal(\'' . route('event.edit', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                    <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                                 </button>
 
                                 <button onclick="deleteItem(\'' . route('event.delete', $data->id) . '\', \'eventPendingDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                    <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                                 </button>
                                 <a href="'. route('event.details', $data->slug) .'" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View">
                                     <img src="' . asset('assets/images/icon/eye.svg') . '" alt="view">
@@ -60,18 +60,12 @@ class EventService
 
     public function allEvent()
     {
-        $allEvent = Event::where('status', STATUS_ACTIVE)->where('tenant_id', getTenantId())->orderBy('created_at', 'desc');
+        $allEvent = Event::where('status', STATUS_ACTIVE)
+            ->orderBy('created_at', 'desc');
         return datatables($allEvent)
             ->addIndexColumn()
             ->addColumn('category', function ($data) {
                 return '<p class="min-w-130 text-center zBadge">' . htmlspecialchars($data->category->name) . '</p>';
-            })
-            ->addColumn('type', function ($data) {
-                if ($data->type == 1) {
-                    return '<span class="zBadge-free">'.__('Free').'</span>';
-                } else {
-                    return '<span class="zBadge-paid">'.__('Paid').'</span>';
-                }
             })
             ->addColumn('date', function ($data) {
                 return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->date)->format('jS F, h:i:s A');
@@ -79,11 +73,11 @@ class EventService
             ->addColumn('action', function ($data){
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                             <li class="d-flex gap-2">
-                                <a href="'. route('event.details', $data->slug) .'" class="d-block text-decoration-underline fw-600 text-1b1c17">'.__('Reservation').'</a>
+                                <a href="'. route('admin.event.details', $data->slug) .'" class="d-block text-decoration-underline fw-600 text-1b1c17">'.__('Reservation').'</a>
                             </li>
                         </ul>';
             })
-            ->rawColumns(['type', 'action', 'category', 'date'])
+            ->rawColumns(['action', 'category', 'date'])
             ->make(true);
     }
 
@@ -119,11 +113,11 @@ class EventService
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                             <li class="d-flex gap-2">
                                 <button onclick="getEditModal(\'' . route('event.edit', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                    <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                                 </button>
 
                                 <button onclick="deleteItem(\'' . route('event.delete', $data->id) . '\', \'myEventDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                    <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                                 </button>
 
                                 <a href="'. route('event.details', $data->slug) .'" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="view">

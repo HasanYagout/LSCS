@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<div class="zSidebar" data-background="{{ asset('assets/images/sidebar-bg.png') }}">
+<div class="zSidebar" data-background="{{ asset('public/assets/images/sidebar-bg.png') }}">
     <div class="zSidebar-overlay"></div>
     <!-- Logo -->
     <a href="{{ route('index') }}" class="d-block mx-26 mb-27 max-w-146 pt-23">

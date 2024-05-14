@@ -33,7 +33,7 @@ class TestimonialSettingService
                     <button type="button" class="btn p-1 tbl-action-btn edit text-end"
                     onclick="getEditModal(\'' . route('admin.frontend-setting.testimonial.info', $data->id) . '\'' . ', \'#edit-modal\')" type="button" class="btn p-1 tbl-action-btn edit text-end" data-id="' . $data->id . '" title="' . __('Edit') . '"><i class="fa-regular fa-pen-to-square"></i></button>
                     <button onclick="deleteItem(\'' . route('admin.frontend-setting.testimonial.delete', $data->id) . '\', \'testimonialDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="Delete">
-                                    <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                     </button>
                 </div>';
             })

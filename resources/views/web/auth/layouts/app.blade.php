@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@include('web.layouts.header')
-{!! RecaptchaV3::initJs() !!}
+@include('web.auth.layouts.header')
+{{--{!! RecaptchaV3::initJs() !!}--}}
 
 <body>
 
@@ -21,7 +21,7 @@
     </div>
     @endif
 
-    @include('web.layouts.script')
+    @include('web.auth.layouts.script')
 
     @stack('script')
 </body>

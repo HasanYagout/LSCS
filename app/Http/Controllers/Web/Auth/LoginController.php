@@ -3,40 +3,102 @@
 namespace App\Http\Controllers\Web\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
-use App\Models\User;
+use App\Models\Alumni;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
-use App\Providers\RouteServiceProvider;
-use App\Rules\ReCaptcha;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
+use Gregwar\Captcha\CaptchaBuilder;
+use App\CPU\Helpers;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use App\Models\Admin;
+use Gregwar\Captcha\PhraseBuilder;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-
-    public function index()
+    public function __construct()
     {
+        $this->middleware('guest:admin', ['except' => ['logout']]);
+    }
+
+    public function captcha($tmp)
+    {
+
+        $phrase = new PhraseBuilder;
+        $code = $phrase->build(4);
+        $builder = new CaptchaBuilder($code, $phrase);
+        $builder->setBackgroundColor(220, 210, 230);
+        $builder->setMaxAngle(25);
+        $builder->setMaxBehindLines(0);
+        $builder->setMaxFrontLines(0);
+        $builder->build($width = 100, $height = 40, $font = null);
+        $phrase = $builder->getPhrase();
+
+        if(Session::has('default_captcha_code')) {
+            Session::forget('default_captcha_code');
+        }
+        Session::put('default_captcha_code', $phrase);
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Content-Type:image/jpeg");
+        $builder->output();
+    }
+
+    public function login()
+    {
+
         return view('web.auth.login');
     }
 
-    /**
-     * Validate the user login request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    protected function validateLogin(Request $request)
+    public function submit(Request $request)
     {
         $request->validate([
-            'email' => 'required',
-            'password' => 'required|min:8'
+            'student_id' => 'required|digits:8',
+            'password' => 'required|min:6'
         ]);
-        $user = User::Where(['email' => $request->email])->first();
 
-        dd($request->all());
+
+        //recaptcha validation
+//        $recaptcha = Helpers::get_business_settings('recaptcha');
+//        if (isset($recaptcha) && $recaptcha['status'] == 1) {
+//            try {
+//                $request->validate([
+//                    'g-recaptcha-response' => [
+//                        function ($attribute, $value, $fail) {
+//                            $secret_key = Helpers::get_business_settings('recaptcha')['secret_key'];
+//                            $response = $value;
+//                            $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret_key . '&response=' . $response;
+//                            $response = \file_get_contents($url);
+//                            $response = json_decode($response);
+//                            if (!$response->success) {
+//                                $fail(\App\CPU\translate('ReCAPTCHA Failed'));
+//                            }
+//                        },
+//                    ],
+//                ]);
+//            } catch (\Exception $exception) {
+//            }
+//        } else {
+//            if (strtolower($request->default_captcha_value) != strtolower(Session('default_captcha_code'))) {
+//                Session::forget('default_captcha_code');
+//                return back()->withErrors(\App\CPU\translate('Captcha Failed'));
+//            }
+//
+//        }
+
+        $alumni = Alumni::where('student_id', $request->student_id)->first();
+        if (! $alumni || ! Hash::check($request->password, $alumni->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+        return redirect()->route('alumni.home');
     }
 
+    public function logout(Request $request)
+    {
+        auth()->guard('admin')->logout();
+        $request->session()->invalidate();
+        return redirect()->route('admin.auth.login');
+    }
 }

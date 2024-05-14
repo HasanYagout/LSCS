@@ -28,10 +28,10 @@ class NoticeCategoryService
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                             <li class="d-flex gap-2">
                                 <button onclick="getEditModal(\'' . route('admin.notices.categories.info', $data->id) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                    <img src="' . asset('assets/images/icon/edit.svg') . '" alt="edit" />
+                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                                 </button>
                                 <button onclick="deleteItem(\'' . route('admin.notices.categories.delete', $data->id) . '\', \'noticeCategoryDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                    <img src="' . asset('assets/images/icon/delete-1.svg') . '" alt="delete">
+                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                                 </button>
                             </li>
                         </ul>';
