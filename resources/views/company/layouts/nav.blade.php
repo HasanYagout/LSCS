@@ -105,9 +105,9 @@
             <div class="dropdown headerUserDropdown">
                 <button class="dropdown-toggle p-0 border-0 bg-transparent d-flex align-items-center cg-8" type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-cdef84"><img
-                            src="{{ asset(getFileUrl(auth('company')->user()->logo)) }}" alt="{{ auth('company')->user()->name}}" />
-                    </div>
+{{--                    <div class="w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-cdef84"><img--}}
+{{--                            src="{{ asset(getFileUrl(auth('company')->user()->logo)) }}" alt="{{ auth('company')->user()->name}}" />--}}
+{{--                    </div>--}}
                     <div class="text-start d-none d-sm-block">
                         <p class="fs-12 fw-400 lh-15 text-707070">{{ __('Welcome') }}</p>
                         @foreach(config('auth.guards') as $guardName => $guardConfig)
