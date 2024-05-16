@@ -67,8 +67,7 @@ class NoticeService
             $notice->notice_category_id = $request->category_id;
             $notice->details = $request->details;
             $notice->status = $request->status;
-            $notice->tenant_id = getTenantId();
-            $notice->created_by = auth()->id();
+            $notice->created_by = auth('admin')->id();
 
             if ($request->hasFile('image')) {
                 $new_file = new FileManager();

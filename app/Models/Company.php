@@ -15,4 +15,5 @@ class Company extends Authenticatable
         return $this->hasOne(Roles::class, 'id', 'role_id');
 
     }
+
 }

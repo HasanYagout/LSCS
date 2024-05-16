@@ -5,12 +5,14 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventCategoryController;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\JobsController;
 use App\Http\Controllers\Admin\NewsCategoryController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\NewsTagController;
 use App\Http\Controllers\Admin\NoticeCategoryController;
 use App\Http\Controllers\Admin\NoticeController;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StoryController;
@@ -33,6 +35,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 
     Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
     Route::get('alumni/profile/{id}', [AlumniController::class, 'view'])->name('alumni.view');
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     Route::get('/', function () {
         return redirect()->route('admin.auth.login');
@@ -43,7 +46,20 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::post('change-password', [ProfileController::class, 'changePasswordUpdate'])->name('change-password.update')->middleware('isDemo');
         Route::post('update', [ProfileController::class, 'update'])->name('update')->middleware('isDemo');
     });
-
+    Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
+        Route::post('store', [PostController::class, 'store'])->name('store');
+        Route::delete('delete', [PostController::class, 'delete'])->name('delete');
+        Route::post('like', [PostController::class, 'likeDislike'])->name('like');
+        Route::get('edit', [PostController::class, 'edit'])->name('edit');
+        Route::PUT('update', [PostController::class, 'update'])->name('update');
+        Route::get('single-post', [PostController::class, 'getSinglePost'])->name('single');
+        Route::get('load-post-body', [PostController::class, 'getSinglePostBody'])->name('single.body');
+        Route::get('load-post-like', [PostController::class, 'getSinglePostLike'])->name('single.likes');
+        Route::get('load-post-comment', [PostController::class, 'getSinglePostComment'])->name('single.comments');
+        Route::post('posts/comments', [PostController::class, 'postComment'])->name('comments.store');
+        Route::delete('posts/comments/delete', [PostController::class, 'postCommentDelete'])->name('comments.delete');
+        Route::PUT('posts/comments/update', [PostController::class, 'postCommentUpdate'])->name('comments.update');
+    });
     Route::group(['prefix' => 'students', 'as' => 'students.'], function () {
         Route::get('/', [StudentController::class, 'index'])->name('index');
         Route::get('list', [StudentController::class, 'list'])->name('list');
@@ -107,11 +123,15 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::post('delete/{slug}', [JobsController::class, 'delete'])->name('delete');
         Route::get('all-job-post', [JobsController::class, 'all'])->name('all-job-post');
         Route::get('my-job-post', [JobsController::class, 'myJobPost'])->name('my-job-post');
+        Route::get('details/{slug}', [JobsController::class, 'details'])->name('details');
 
 
     });
 // JobPost Route End
-
+    Route::get('all-notice', [NoticeController::class, 'allNotice'])->name('all.notice');
+    Route::get('notice-details/{slug}', [NoticeController::class, 'noticeDetails'])->name('notice.details');
+    Route::get('all-news', [NewsController::class, 'allNews'])->name('all.news');
+    Route::get('news-details/{slug}', [NewsController::class, 'newsDetails'])->name('news.details');
 // Stories route start
     Route::group(['prefix' => 'stories', 'as' => 'stories.'], function () {
         Route::get('create', [StoryController::class, 'create'])->name('create');

@@ -19,6 +19,7 @@
                             <!-- Title -->
                             <h4 class="fs-20 fw-600 lh-24 text-1b1c17 pb-26">{{ __('Create Post') }}</h4>
                             <!-- User -->
+
                             <div class="d-flex align-items-center cg-10 pb-20">
                                 <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-cdef84 rounded-circle overflow-hidden"><img
                                         src="{{ asset(getFileUrl(auth('alumni')->user()->image)) }}" class="w-100"
@@ -44,13 +45,13 @@
                                         <p class="fs-16 lh-18 fw-500 text-707070">{{ __('Add to your post') }}:</p>
                                         <div class="align-items-center cg-10 d-flex flex-shrink-0">
                                             <label for="mAttachment1"><img
-                                                    src="{{ asset('assets/images/icon/post-photo.svg') }}"
+                                                    src="{{ asset('public/assets/images/icon/post-photo.svg') }}"
                                                     alt="" /></label>
                                             <input type="file" name="file[]"
                                                 accept=".png,.jpg,.svg,.jpeg,.gif,.mp4,.mov,.avi,.mkv,.webm,.flv"
                                                 id="mAttachment1" class="d-none" multiple />
                                             <label for="mAttachment1"><img
-                                                    src="{{ asset('assets/images/icon/post-video.svg') }}"
+                                                    src="{{ asset('public/assets/images/icon/post-video.svg') }}"
                                                     alt="" /></label>
                                         </div>
                                     </div>
@@ -75,7 +76,7 @@
                             <!-- Title -->
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Upcoming Events') }}</h4>
-                                <a href="{{ route('event.all') }}"
+                                <a href="{{ route('alumni.event.all') }}"
                                     class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -110,12 +111,12 @@
                                                 <!-- Location -->
                                                 <div class="d-flex align-items-center cg-5">
                                                     <div class="d-flex max-w-10"><img
-                                                            src="{{ asset('assets/images/icon/location.svg') }}"
+                                                            src="{{ asset('public/assets/images/icon/location.svg') }}"
                                                             alt="" /></div>
-                                                    <p class="fs-14 fw-400 lh-17 text-707070">{{ $event->location }}</p>
+
                                                 </div>
                                                 <!-- Link -->
-                                                <a href="{{ route('event.details', $event->slug) }}"
+                                                <a href="{{ route('alumni.event.details', $event->slug) }}"
                                                     class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('Reservation') }}</a>
                                             </div>
                                         </div>
@@ -130,7 +131,7 @@
                             <!-- Title -->
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Jobs') }}</h4>
-                                <a href="{{ route('jobPost.all-job-post') }}"
+                                <a href="{{ route('alumni.jobs.all-job-post') }}"
                                     class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -140,18 +141,19 @@
                             <ul class="zList-five">
                                 @foreach ($latestJobs as $job)
                                     <li>
+
                                         <!-- Logo - User -->
                                         <div class="d-flex align-items-center cg-10 pb-10">
                                             <div
                                                 class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img src="{{ asset(getFileUrl($job->company_logo)) }}"
+                                                <img src="{{ asset(getFileUrl($job->company->logo)) }}"
                                                     alt="{{ $job->title }}" />
                                             </div>
                                             <div class="">
                                                 <h4 class="fs-16 fw-500 lh-18 text-1b1c17 pb-4">{{ $job->title }}</h4>
                                                 <div class="d-flex align-items-center cg-5">
                                                     <div class="d-flex"><img
-                                                            src="{{ asset('assets/images/icon/calendar-icon.svg') }}"
+                                                            src="{{ asset('public/assets/images/icon/calendar-icon.svg') }}"
                                                             alt="">
                                                     </div>
                                                     <p class="fs-12 fw-400 lh-15 text-707070">
@@ -169,27 +171,27 @@
                                             class="d-flex justify-content-between align-items-center flex-wrap cg-20 rg-10 pb-20">
                                             <li class="d-flex align-items-center cg-7">
                                                 <div class="d-flex"><img
-                                                        src="{{ asset('assets/images/icon/suitcase.svg') }}"
+                                                        src="{{ asset('public/assets/images/icon/suitcase.svg') }}"
                                                         alt="" /></div>
                                                 <p class="fs-14 fw-400 lh-16 text-707070">
-                                                    {{ getEmployeeStatus($job->employee_status) }}</p>
+                                                    {{ $job->employee_status}}</p>
                                             </li>
                                             <li class="d-flex align-items-center cg-7">
                                                 <div class="d-flex"><img
-                                                        src="{{ asset('assets/images/icon/location.svg') }}"
+                                                        src="{{ asset('public/assets/images/icon/location.svg') }}"
                                                         alt="" /></div>
                                                 <p class="fs-14 fw-400 lh-16 text-707070">{{ $job->location }}</p>
                                             </li>
                                             <li class="d-flex align-items-center cg-7">
                                                 <div class="d-flex"><img
-                                                        src="{{ asset('assets/images/icon/dollar-coin.svg') }}"
+                                                        src="{{ asset('public/assets/images/icon/dollar-coin.svg') }}"
                                                         alt="" />
                                                 </div>
                                                 <p class="fs-14 fw-400 lh-16 text-707070">{{ $job->salary }}</p>
                                             </li>
                                         </ul>
                                         <!-- Link -->
-                                        <a href="{{ route('jobPost.details', $job->slug) }}"
+                                        <a href="{{ route('alumni.jobs.details', $job->slug) }}"
                                             class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
                                     </li>
                                 @endforeach
@@ -202,7 +204,7 @@
                             <!-- Title -->
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Notice') }}</h4>
-                                <a href="{{ route('all.notice') }}"
+                                <a href="{{ route('alumni.all.notice') }}"
                                     class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -229,7 +231,7 @@
                                                 <p class="fs-14 fw-400 lh-17 text-707070">
                                                     {{ getSubText($notice->details, 150) }}</p>
                                                 <!-- Link -->
-                                                <a href="{{ route('notice.details', $notice->slug) }}"
+                                                <a href="{{ route('alumni.notice.details', $notice->slug) }}"
                                                     class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
                                             </div>
                                         </div>
@@ -244,7 +246,7 @@
                             <!-- Title -->
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Latest News') }}</h4>
-                                <a href="{{ route('all.news') }}"
+                                <a href="{{ route('alumni.all.news') }}"
                                     class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -280,7 +282,7 @@
                                                     </p>
                                                 </div>
                                                 <!-- Link -->
-                                                <a href="{{ route('news.details', $news->slug) }}"
+                                                <a href="{{ route('alumni.news.details', $news->slug) }}"
                                                     class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
                                             </div>
                                         </div>
@@ -304,7 +306,7 @@
                         <!-- Title -->
                         <div class="d-flex justify-content-between align-items-center pb-30">
                             <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Upcoming Events') }}</h4>
-                            <a href="{{ route('event.all') }}"
+                            <a href="{{ route('alumni.event.all') }}"
                                 class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                 <span>{{ __('See All') }}</span>
                                 <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -339,12 +341,12 @@
                                             <!-- Location -->
                                             <div class="d-flex align-items-center cg-5">
                                                 <div class="d-flex max-w-10"><img
-                                                        src="{{ asset('assets/images/icon/location.svg') }}"
+                                                        src="{{ asset('public/assets/images/icon/location.svg') }}"
                                                         alt="" /></div>
-                                                <p class="fs-14 fw-400 lh-17 text-707070">{{ $event->location }}</p>
+{{--                                                <p class="fs-14 fw-400 lh-17 text-707070">{{ $event->location }}</p>--}}
                                             </div>
                                             <!-- Link -->
-                                            <a href="{{ route('event.details', $event->slug) }}"
+                                            <a href="{{ route('alumni.event.details', $event->slug) }}"
                                                 class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('Reservation') }}</a>
                                         </div>
                                     </div>
@@ -359,7 +361,7 @@
                         <!-- Title -->
                         <div class="d-flex justify-content-between align-items-center pb-30">
                             <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Jobs') }}</h4>
-                            <a href="{{ route('jobPost.all-job-post') }}"
+                            <a href="{{ route('alumni.jobs.all-job-post') }}"
                                 class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                 <span>{{ __('See All') }}</span>
                                 <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -370,17 +372,18 @@
                             @foreach ($latestJobs as $job)
                                 <li>
                                     <!-- Logo - User -->
+
                                     <div class="d-flex align-items-center cg-10 pb-10">
                                         <div
                                             class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                            <img src="{{ asset(getFileUrl($job->company_logo)) }}"
+                                            <img src="{{ asset(getFileUrl($job->company->logo)) }}"
                                                 alt="{{ $job->title }}" />
                                         </div>
                                         <div class="">
                                             <h4 class="fs-16 fw-500 lh-18 text-1b1c17 pb-4">{{ $job->title }}</h4>
                                             <div class="d-flex align-items-center cg-5">
                                                 <div class="d-flex"><img
-                                                        src="{{ asset('assets/images/icon/calendar-icon.svg') }}"
+                                                        src="{{ asset('public/assets/images/icon/calendar-icon.svg') }}"
                                                         alt="">
                                                 </div>
                                                 <p class="fs-12 fw-400 lh-15 text-707070">
@@ -397,27 +400,27 @@
                                     <ul
                                         class="d-flex justify-content-between align-items-center flex-wrap cg-20 rg-10 pb-20">
                                         <li class="d-flex align-items-center cg-7">
-                                            <div class="d-flex"><img src="{{ asset('assets/images/icon/suitcase.svg') }}"
+                                            <div class="d-flex"><img src="{{ asset('public/assets/images/icon/suitcase.svg') }}"
                                                     alt="" />
                                             </div>
                                             <p class="fs-14 fw-400 lh-16 text-707070">
-                                                {{ getEmployeeStatus($job->employee_status) }}</p>
+                                                {{$job->employee_status}}</p>
                                         </li>
                                         <li class="d-flex align-items-center cg-7">
-                                            <div class="d-flex"><img src="{{ asset('assets/images/icon/location.svg') }}"
+                                            <div class="d-flex"><img src="{{ asset('public/assets/images/icon/location.svg') }}"
                                                     alt="" />
                                             </div>
                                             <p class="fs-14 fw-400 lh-16 text-707070">{{ $job->location }}</p>
                                         </li>
                                         <li class="d-flex align-items-center cg-7">
                                             <div class="d-flex"><img
-                                                    src="{{ asset('assets/images/icon/dollar-coin.svg') }}"
+                                                    src="{{ asset('public/assets/images/icon/dollar-coin.svg') }}"
                                                     alt="" /></div>
                                             <p class="fs-14 fw-400 lh-16 text-707070">{{ $job->salary }}</p>
                                         </li>
                                     </ul>
                                     <!-- Link -->
-                                    <a href="{{ route('jobPost.details', $job->slug) }}"
+                                    <a href="{{ route('alumni.jobs.details', $job->slug) }}"
                                         class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
                                 </li>
                             @endforeach
@@ -430,7 +433,7 @@
                         <!-- Title -->
                         <div class="d-flex justify-content-between align-items-center pb-30">
                             <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Notice') }}</h4>
-                            <a href="{{ route('all.notice') }}"
+                            <a href="{{ route('alumni.all.notice') }}"
                                 class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                 <span>{{ __('See All') }}</span>
                                 <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -456,7 +459,7 @@
                                             <p class="fs-14 fw-400 lh-17 text-707070">
                                                 {{ getSubText($notice->details, 150) }}</p>
                                             <!-- Link -->
-                                            <a href="{{ route('notice.details', $notice->slug) }}"
+                                            <a href="{{ route('alumni.notice.details', $notice->slug) }}"
                                                 class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
                                         </div>
                                     </div>
@@ -471,7 +474,7 @@
                         <!-- Title -->
                         <div class="d-flex justify-content-between align-items-center pb-30">
                             <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Latest News') }}</h4>
-                            <a href="{{ route('all.news') }}"
+                            <a href="{{ route('alumni.all.news') }}"
                                 class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                 <span>{{ __('See All') }}</span>
                                 <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -506,7 +509,7 @@
                                                 <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->name }}</p>
                                             </div>
                                             <!-- Link -->
-                                            <a href="{{ route('news.details', $news->slug) }}"
+                                            <a href="{{ route('alumni.news.details', $news->slug) }}"
                                                 class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
                                         </div>
                                     </div>
@@ -588,5 +591,5 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('alumni/js/posts.js') }}?ver={{ env('VERSION' ,0) }}"></script>
+    <script src="{{ asset('public/alumni/js/posts.js') }}?ver={{ env('VERSION' ,0) }}"></script>
 @endpush

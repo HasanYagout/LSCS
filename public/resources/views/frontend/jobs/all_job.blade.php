@@ -51,7 +51,7 @@
                                 <div class="d-flex align-items-center flex-wrap cg-8 rg-21 pb-30">
                                     <div class="d-flex align-items-center cg-7">
                                         <div class="d-flex"><img
-                                                src="{{ asset('/frontend/images/icon/bag-suitcase.svg') }}" alt="">
+                                                src="{{ asset('public/frontend/images/icon/bag-suitcase.svg') }}" alt="">
                                         </div>
                                         <p class="fs-18 fw-400 lh-16 text-para-color">
                                             {{ getEmployeeStatus($job->employee_status) }}, </p>

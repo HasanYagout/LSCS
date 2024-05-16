@@ -75,8 +75,8 @@ class NewsService
             $news->news_category_id = $request->category_id;
             $news->details = $request->details;
             $news->status = $request->status;
-            $news->tenant_id = getTenantId();
-            $news->created_by = auth()->id();
+
+            $news->created_by = auth('admin')->id();
 
             if ($request->hasFile('image')) {
                 $new_file = new FileManager();

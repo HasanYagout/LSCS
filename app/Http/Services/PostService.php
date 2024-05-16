@@ -17,12 +17,13 @@ class PostService
     {
         DB::beginTransaction();
         try {
-            $user = auth()->user();
+            $user = auth('admin')->user();
             $post = new Post();
+
             $post->body = htmlspecialchars($request->body);
             $post->slug = getSlug(getSubText($request->body, 40)).rand(1000, 999999);
-            $post->tenant_id = getTenantId();
-            $post->created_by = $user->id;
+            $post->user_id = $user->id;
+            $post->created_by = 'admin';
             $post->save();
 
             //post media

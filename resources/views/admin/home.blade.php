@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @push('title')
     {{ __('Home') }}
 @endpush
 @push('style')
-{!! RecaptchaV3::initJs() !!}
+{{--{!! RecaptchaV3::initJs() !!}--}}
 @endpush
 @section('content')
     <div class="p-30">
@@ -12,19 +12,20 @@
             <div class="home-content">
                 <div class="mb-3">
                     <form class="ajax reset" id="post-form" method="post" enctype="multipart/form-data"
-                        action="{{ route('posts.store') }}" data-handler="postResponse">
+                        action="{{ route('admin.posts.store') }}" data-handler="postResponse">
                         @csrf
                         <!-- Create Post -->
                         <div class="p-25 bg-white bd-one bd-c-black-10 bd-ra-25">
                             <!-- Title -->
                             <h4 class="fs-20 fw-600 lh-24 text-1b1c17 pb-26">{{ __('Create Post') }}</h4>
                             <!-- User -->
+
                             <div class="d-flex align-items-center cg-10 pb-20">
                                 <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-cdef84 rounded-circle overflow-hidden"><img
-                                        src="{{ asset(getFileUrl($user->image)) }}" class="w-100"
-                                        alt="{{ $user->name }}" />
+                                        src="{{ asset(getFileUrl(auth('admin')->user()->image)) }}" class="w-100"
+                                        alt="{{auth('admin')->user()->name}}" />
                                 </div>
-                                <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{ $user->name }}</h4>
+                                <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{auth('admin')->user()->name}}</h4>
                             </div>
                             <!-- Post Input -->
                             <div class="pb-15">
@@ -75,7 +76,7 @@
                             <!-- Title -->
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Upcoming Events') }}</h4>
-                                <a href="{{ route('event.all') }}"
+                                <a href="{{ route('admin.event.all') }}"
                                     class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -112,10 +113,10 @@
                                                     <div class="d-flex max-w-10"><img
                                                             src="{{ asset('public/assets/images/icon/location.svg') }}"
                                                             alt="" /></div>
-                                                    <p class="fs-14 fw-400 lh-17 text-707070">{{ $event->location }}</p>
+
                                                 </div>
                                                 <!-- Link -->
-                                                <a href="{{ route('event.details', $event->slug) }}"
+                                                <a href="{{ route('admin.event.details', $event->slug) }}"
                                                     class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('Reservation') }}</a>
                                             </div>
                                         </div>
@@ -130,7 +131,7 @@
                             <!-- Title -->
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Jobs') }}</h4>
-                                <a href="{{ route('jobPost.all-job-post') }}"
+                                <a href="{{ route('admin.jobs.all-job-post') }}"
                                     class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -140,11 +141,12 @@
                             <ul class="zList-five">
                                 @foreach ($latestJobs as $job)
                                     <li>
+
                                         <!-- Logo - User -->
                                         <div class="d-flex align-items-center cg-10 pb-10">
                                             <div
                                                 class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img src="{{ asset(getFileUrl($job->company_logo)) }}"
+                                                <img src="{{ asset(getFileUrl($job->company->logo)) }}"
                                                     alt="{{ $job->title }}" />
                                             </div>
                                             <div class="">
@@ -172,7 +174,7 @@
                                                         src="{{ asset('public/assets/images/icon/suitcase.svg') }}"
                                                         alt="" /></div>
                                                 <p class="fs-14 fw-400 lh-16 text-707070">
-                                                    {{ getEmployeeStatus($job->employee_status) }}</p>
+                                                    {{ $job->employee_status}}</p>
                                             </li>
                                             <li class="d-flex align-items-center cg-7">
                                                 <div class="d-flex"><img
@@ -189,7 +191,7 @@
                                             </li>
                                         </ul>
                                         <!-- Link -->
-                                        <a href="{{ route('jobPost.details', $job->slug) }}"
+                                        <a href="{{ route('admin.jobs.details', $job->slug) }}"
                                             class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
                                     </li>
                                 @endforeach
@@ -202,7 +204,7 @@
                             <!-- Title -->
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Notice') }}</h4>
-                                <a href="{{ route('all.notice') }}"
+                                <a href="{{ route('admin.all.notice') }}"
                                     class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -229,7 +231,7 @@
                                                 <p class="fs-14 fw-400 lh-17 text-707070">
                                                     {{ getSubText($notice->details, 150) }}</p>
                                                 <!-- Link -->
-                                                <a href="{{ route('notice.details', $notice->slug) }}"
+                                                <a href="{{ route('admin.notice.details', $notice->slug) }}"
                                                     class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
                                             </div>
                                         </div>
@@ -244,7 +246,7 @@
                             <!-- Title -->
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Latest News') }}</h4>
-                                <a href="{{ route('all.news') }}"
+                                <a href="{{ route('admin.all.news') }}"
                                     class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -280,7 +282,7 @@
                                                     </p>
                                                 </div>
                                                 <!-- Link -->
-                                                <a href="{{ route('news.details', $news->slug) }}"
+                                                <a href="{{ route('admin.news.details', $news->slug) }}"
                                                     class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
                                             </div>
                                         </div>
@@ -304,7 +306,7 @@
                         <!-- Title -->
                         <div class="d-flex justify-content-between align-items-center pb-30">
                             <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Upcoming Events') }}</h4>
-                            <a href="{{ route('event.all') }}"
+                            <a href="{{ route('admin.event.all') }}"
                                 class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                 <span>{{ __('See All') }}</span>
                                 <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -341,10 +343,10 @@
                                                 <div class="d-flex max-w-10"><img
                                                         src="{{ asset('public/assets/images/icon/location.svg') }}"
                                                         alt="" /></div>
-                                                <p class="fs-14 fw-400 lh-17 text-707070">{{ $event->location }}</p>
+{{--                                                <p class="fs-14 fw-400 lh-17 text-707070">{{ $event->location }}</p>--}}
                                             </div>
                                             <!-- Link -->
-                                            <a href="{{ route('event.details', $event->slug) }}"
+                                            <a href="{{ route('admin.event.details', $event->slug) }}"
                                                 class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('Reservation') }}</a>
                                         </div>
                                     </div>
@@ -359,7 +361,7 @@
                         <!-- Title -->
                         <div class="d-flex justify-content-between align-items-center pb-30">
                             <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Jobs') }}</h4>
-                            <a href="{{ route('jobPost.all-job-post') }}"
+                            <a href="{{ route('admin.jobs.all-job-post') }}"
                                 class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                 <span>{{ __('See All') }}</span>
                                 <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -370,10 +372,11 @@
                             @foreach ($latestJobs as $job)
                                 <li>
                                     <!-- Logo - User -->
+
                                     <div class="d-flex align-items-center cg-10 pb-10">
                                         <div
                                             class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                            <img src="{{ asset(getFileUrl($job->company_logo)) }}"
+                                            <img src="{{ asset(getFileUrl($job->company->logo)) }}"
                                                 alt="{{ $job->title }}" />
                                         </div>
                                         <div class="">
@@ -401,7 +404,7 @@
                                                     alt="" />
                                             </div>
                                             <p class="fs-14 fw-400 lh-16 text-707070">
-                                                {{ getEmployeeStatus($job->employee_status) }}</p>
+                                                {{$job->employee_status}}</p>
                                         </li>
                                         <li class="d-flex align-items-center cg-7">
                                             <div class="d-flex"><img src="{{ asset('public/assets/images/icon/location.svg') }}"
@@ -417,7 +420,7 @@
                                         </li>
                                     </ul>
                                     <!-- Link -->
-                                    <a href="{{ route('jobPost.details', $job->slug) }}"
+                                    <a href="{{ route('admin.jobs.details', $job->slug) }}"
                                         class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
                                 </li>
                             @endforeach
@@ -430,7 +433,7 @@
                         <!-- Title -->
                         <div class="d-flex justify-content-between align-items-center pb-30">
                             <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Notice') }}</h4>
-                            <a href="{{ route('all.notice') }}"
+                            <a href="{{ route('admin.all.notice') }}"
                                 class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                 <span>{{ __('See All') }}</span>
                                 <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -456,7 +459,7 @@
                                             <p class="fs-14 fw-400 lh-17 text-707070">
                                                 {{ getSubText($notice->details, 150) }}</p>
                                             <!-- Link -->
-                                            <a href="{{ route('notice.details', $notice->slug) }}"
+                                            <a href="{{ route('admin.notice.details', $notice->slug) }}"
                                                 class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
                                         </div>
                                     </div>
@@ -471,7 +474,7 @@
                         <!-- Title -->
                         <div class="d-flex justify-content-between align-items-center pb-30">
                             <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Latest News') }}</h4>
-                            <a href="{{ route('all.news') }}"
+                            <a href="{{ route('admin.all.news') }}"
                                 class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                 <span>{{ __('See All') }}</span>
                                 <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -506,7 +509,7 @@
                                                 <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->name }}</p>
                                             </div>
                                             <!-- Link -->
-                                            <a href="{{ route('news.details', $news->slug) }}"
+                                            <a href="{{ route('admin.news.details', $news->slug) }}"
                                                 class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
                                         </div>
                                     </div>
@@ -524,7 +527,7 @@
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content zModalTwo-content">
-                <form action="{{ route('posts.update') }}" id="post-edit-form" class="ajax reset" method="POST"
+                <form action="{{ route('admin.posts.update') }}" id="post-edit-form" class="ajax reset" method="POST"
                     data-handler="postUpdateResponse">
                     @csrf
                     @method('PUT')
@@ -545,7 +548,7 @@
                 <div class="align-items-center d-flex justify-content-between ps-4 pt-17">
                     <h4 class="fs-18 fw-500 lh-20 text-1b1c17">{{ __('Update Comment') }}</h4>
                 </div>
-                <form action="{{ route('posts.comments.update') }}" data-handler="postCommentUpdateResponse"
+                <form action="{{ route('admin.posts.comments.update') }}" data-handler="postCommentUpdateResponse"
                     method="POST" class="ajax reset">
                     @method('put')
                     @csrf
@@ -568,18 +571,18 @@
         </div>
     </div>
 
-    <input type="hidden" id="more-post-route" value="{{ route('more-post-load') }}">
-    <input type="hidden" id="delete-post-route" value="{{ route('posts.delete') }}">
-    <input type="hidden" id="post-like-route" value="{{ route('posts.like') }}">
-    <input type="hidden" id="post-edit" value="{{ route('posts.edit') }}">
-    <input type="hidden" id="post-update" value="{{ route('posts.update') }}">
-    <input type="hidden" id="post-comment-store" value="{{ route('posts.comments.store') }}">
-    <input type="hidden" id="load-single-post" value="{{ route('posts.single') }}">
-    <input type="hidden" id="load-post-body" value="{{ route('posts.single.body') }}">
-    <input type="hidden" id="load-likes" value="{{ route('posts.single.likes') }}">
-    <input type="hidden" id="load-comments" value="{{ route('posts.single.comments') }}">
-    <input type="hidden" id="post-comment-delete" value="{{ route('posts.comments.delete') }}">
-    <input type="hidden" id="post-comment-update" value="{{ route('posts.comments.update') }}">
+{{--    <input type="hidden" id="more-post-route" value="{{ route('more-post-load') }}">--}}
+    <input type="hidden" id="delete-post-route" value="{{ route('admin.posts.delete') }}">
+    <input type="hidden" id="post-like-route" value="{{ route('admin.posts.like') }}">
+    <input type="hidden" id="post-edit" value="{{ route('alumni.posts.edit') }}">
+    <input type="hidden" id="post-update" value="{{ route('alumni.posts.update') }}">
+    <input type="hidden" id="post-comment-store" value="{{ route('alumni.posts.comments.store') }}">
+    <input type="hidden" id="load-single-post" value="{{ route('alumni.posts.single') }}">
+    <input type="hidden" id="load-post-body" value="{{ route('alumni.posts.single.body') }}">
+    <input type="hidden" id="load-likes" value="{{ route('alumni.posts.single.likes') }}">
+    <input type="hidden" id="load-comments" value="{{ route('alumni.posts.single.comments') }}">
+    <input type="hidden" id="post-comment-delete" value="{{ route('alumni.posts.comments.delete') }}">
+    <input type="hidden" id="post-comment-update" value="{{ route('alumni.posts.comments.update') }}">
     @if (!empty(getOption('cookie_status')) && getOption('cookie_status') == STATUS_ACTIVE)
         <div class="cookie-consent-wrap shadow-lg">
             @include('cookie-consent::index')

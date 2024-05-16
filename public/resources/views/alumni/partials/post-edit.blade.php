@@ -36,9 +36,9 @@
             <p class="fs-16 lh-18 fw-500 text-707070">{{ __('Add to your post') }}:</p>
             <div class="d-flex align-items-center cg-10">
                 <div class="align-items-center cg-10 d-flex flex-shrink-0">
-                    <label for="mAttachment3"><img src="{{ asset('assets/images/icon/post-photo.svg')}}" alt="" /></label>
+                    <label for="mAttachment3"><img src="{{ asset('public/assets/images/icon/post-photo.svg')}}" alt="" /></label>
                     <input type="file" name="file[]" accept=".png,.jpg,.svg,.jpeg,.gif,.mp4,.mov,.avi,.mkv,.webm,.flv" id="mAttachment3" class="d-none" multiple />
-                    <label for="mAttachment3"><img src="{{ asset('assets/images/icon/post-video.svg')}}" alt="" /></label>
+                    <label for="mAttachment3"><img src="{{ asset('public/assets/images/icon/post-video.svg')}}" alt="" /></label>
                 </div>
             </div>
         </div>

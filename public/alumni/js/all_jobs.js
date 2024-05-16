@@ -26,6 +26,7 @@
         },
         dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"d-flex align-items-center cg-5"<"tableSearch float-start"f><"z-filter-button">>><"col-sm-6"<"tableLengthInput float-end"l>><"col-sm-12"<"z-filter-block">>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
         columns: [
+            { "data": "company_logo", "name": "job.company_logo", responsivePriority: 1 },
             { "data": "title", "name": "job.title", responsivePriority: 1 },
             { "data": "employee_status", "name": "job.employee_status", responsivePriority: 1 },
             { "data": "salary", "name": "job.salary", responsivePriority: 2 },

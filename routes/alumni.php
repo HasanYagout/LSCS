@@ -71,11 +71,13 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
 // event route end
 
 // Job Post route start
-    Route::group(['prefix' => 'job-post', 'as' => 'jobPost.'], function () {
+    Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function () {
         Route::get('info/{slug}', [JobPostController::class, 'info'])->name('info');
         Route::post('update/{slug}', [JobPostController::class, 'update'])->name('update');
         Route::post('delete/{slug}', [JobPostController::class, 'delete'])->name('delete');
         Route::get('details/{slug}', [JobPostController::class, 'details'])->name('details');
+        Route::get('all-job-post', [JobPostController::class, 'all'])->name('all-job-post');
+        Route::get('my-job-post', [JobPostController::class, 'myJobPost'])->name('my-job-post');
     });
 // Job Post route end
 
