@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Alumni;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\UserService;
+use App\Models\Alumni;
 use App\Models\User;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
@@ -66,5 +67,52 @@ class ProfileController extends Controller
         ]);
         return $this->userService->smsVerify($request);
     }
+
+    public function list_cvs(Request $request){
+        if ($request->ajax()) {
+            $cvs = Alumni::where('id',auth('alumni')->id())->orderBy('id','desc')->get();
+            dd($cvs);
+            return datatables($jobs)
+                ->addIndexColumn()
+                ->addColumn('company_logo', function ($data) {
+                    return '<img src="' . $data->company->logo . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                })
+                ->addColumn('action', function ($data) {
+                    if(auth('alumni')->user()->role_id == USER_ROLE_COMPANY){
+                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                                <li class="d-flex gap-2">
+                                    <button onclick="getEditModal(\'' . route('admin.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
+                                    </button>
+                                    <button onclick="deleteItem(\'' . route('admin.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
+                                    </button>
+                                    <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+                                </li>
+                            </ul>';
+                    }
+                    else{
+                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                    <li class="d-flex gap-2">
+                        <a href="' . route('alumni.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+                    </li>
+                </ul>';
+                    }
+
+                })
+
+                ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'salary', 'application_deadline'])
+                ->make(true);
+        }
+        $data['title'] = __('All Job Post');
+        $data['showJobPostManagement'] = 'show';
+        $data['activeAllJobPostList'] = 'active-color-one';
+        return view('alumni.jobs.all-job-post', $data);
+    }
+
+
+
+
+
 
 }

@@ -224,21 +224,45 @@
 {{--                        <span class="">{{ __('Transaction List') }}</span>--}}
 {{--                    </a>--}}
                 </li>
+
                 <li>
-                    <a href="{{ route('alumni.profile') }}" class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">
+                    <a href="#cvs" data-bs-toggle="collapse" role="button"
+                       aria-expanded="{{ isset($showCvManagement) ? 'true' : '' }}" aria-controls="cvs"
+                       class="d-flex align-items-center cg-10 {{ isset($showCvManagement) ? 'active' : 'collapsed' }}">
                         <div class="d-flex">
-                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                            <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M19.7274 21.3923C19.2716 20.1165 18.2672 18.9892 16.8701 18.1851C15.4729 17.381 13.7611 16.9452 12 16.9452C10.2389 16.9452 8.52706 17.381 7.12991 18.1851C5.73276 18.9892 4.72839 20.1165 4.27259 21.3923"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
-                                <circle cx="12" cy="8.94522" r="4" stroke="white"
-                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                                <rect x="5.20801" y="5.11185" width="14.5833" height="17.7083" rx="2"
+                                      stroke="white" stroke-opacity="0.7" stroke-width="1.5"/>
+                                <path d="M9.375 10.3202H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                      stroke-linecap="round"/>
+                                <path d="M9.375 14.4868H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                      stroke-linecap="round"/>
+                                <path d="M9.375 18.6535H13.5417" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                      stroke-linecap="round"/>
                             </svg>
                         </div>
-                        <span class="">{{ __('Profile') }}</span>
+                        <span class="">{{__('CVs')}}</span>
                     </a>
+                    <div class="collapse {{ $showJobPostManagement ?? '' }}" id="cvs"
+                         data-bs-parent="#sidebarMenu">
+                        <ul class="zSidebar-submenu">
+
+                            @if (auth('alumni')->user()->role_id == USER_ROLE_ADMIN)
+                                <li><a class="{{ $activePendingJobPostList ?? '' }}"
+                                       href="{{ route('alumni.jobs.pending') }}">{{ __('Pending Post') }}</a>
+                                </li>
+                            @endif
+                            <li><a href="{{ route('alumni.profile.index') }}" class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">{{ __('Profile') }}</a>
+                            </li>
+                            <li><a class="{{ $activeMyJobPostList ?? '' }}"
+                                   href="{{ route('alumni.cvs.all') }}">{{ __('Manage CVs') }}</a></li>
+                            <li><a class="{{ $activeAllJobPostList ?? '' }}"
+                                   href="{{ route('alumni.cvs.create') }}">{{ __('Create Cv') }}</a></li>
+                        </ul>
+                    </div>
                 </li>
+
                 <li>
 {{--                    <a href="{{ route('settings') }}"--}}
 {{--                       class="{{ $activeSettings ?? '' }} d-flex align-items-center cg-10">--}}

@@ -52,11 +52,14 @@ class StudentController extends Controller
 
     public function list()
     {
-        $students = Student::orderBy('id','DESC');
-
+        $students = Student::with('major')->orderBy('id','DESC');
         return datatables($students)
             ->addIndexColumn()
+            ->addColumn('major', function ($data) {
+                return $data->major->name; // Access the name property of the associated major
+            })
             ->addColumn('action', function ($data) {
+
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
                         <button class="editStudent" value="' . $data->student_id . '">

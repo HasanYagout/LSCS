@@ -171,7 +171,7 @@
                     tabindex="0">
                     <div class="max-w-840">
                         <form method="POST" class="ajax" data-handler="commonResponseRedirect"
-                            data-redirect-url="{{ route('alumni.profile') }}" action="{{ route('alumni.profile_update') }}">
+                            data-redirect-url="{{ route('alumni.profile.index') }}" action="{{ route('alumni.profile.update') }}">
                             @csrf
                             <!-- Photo -->
                             <div class="pb-40"></div>
@@ -591,8 +591,25 @@
         </div>
     </div>
 </div>
+
+<input type="hidden" id="job-post-list-route" value="{{ route('alumni.cvs.all') }}">
+
+<table class="table zTable" id="cvsTable">
+    <thead>
+    <tr>
+        <th scope="col"><div>{{ __('Company') }}</div></th>
+        <th scope="col"><div>{{ __('Job Title') }}</div></th>
+        <th scope="col"><div>{{ __('Employee Status') }}</div></th>
+        <th scope="col"><div>{{ __('Salary') }}</div></th>
+        <th scope="col"><div>{{ __('Application Deadline') }}</div></th>
+        {{-- <th scope="col"><div>{{ __('Status') }}</div></th> --}}
+        <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>
+    </tr>
+    </thead>
+</table>
 @endsection
 
 @push('script')
-<script src="{{ asset('alumni/js/profile.js') }}"></script>
+<script src="{{ asset('public/alumni/js/profile.js') }}"></script>
+<script src="{{ asset('public/alumni/js/cvs.js') }}"></script>
 @endpush

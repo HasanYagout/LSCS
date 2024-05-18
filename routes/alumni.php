@@ -34,10 +34,19 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'], function () {
 //    Route::get('/', [\App\Http\Controllers\Alumni\HomeController::class, 'index'])->name('home');
     Route::get('home', [HomeController::class, 'index'])->name('home');
-    Route::get('profile', [ProfileController::class, 'profile'])->name('profile');
-    Route::post('profile-update', [ProfileController::class, 'userProfileUpdate'])->name('profile_update');
+
     Route::post('add-institution', [ProfileController::class, 'addInstitution'])->name('add_institution');
 
+    Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+        Route::get('/', [ProfileController::class, 'profile'])->name('index');
+        Route::post('update', [ProfileController::class, 'userProfileUpdate'])->name('update');
+    });
+
+
+    Route::group(['prefix' => 'cvs', 'as' => 'cvs.'], function () {
+        Route::get('all', [ProfileController::class, 'list_cvs'])->name('all');
+        Route::get('create', [ProfileController::class, 'cv_create'])->name('create');
+    });
 
     Route::get('settings', [SettingController::class, 'settings'])->name('settings');
     Route::post('change-password', [SettingController::class, 'changePasswordUpdate'])->name('change-password')->middleware('isDemo');
@@ -154,4 +163,6 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::get('single-user-chat', [MessageController::class, 'getSingleChat'])->name('single_user_chat');
         Route::post('send-message', [MessageController::class, 'send'])->name('send_message');
     });
+
+
 });
