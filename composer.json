@@ -10,6 +10,7 @@
         "laravel/framework": "^10.0",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "mpdf/mpdf": "*",
         "spatie/laravel-permission": "^6.7",
         "stancl/tenancy": "^3.8",
         "yajra/laravel-datatables-oracle": "^10.11"

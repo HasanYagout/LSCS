@@ -157,5 +157,5 @@
 </div>
 @endsection
 @push('script')
-<script src="{{ asset('alumni/js/job_post.js') }}"></script>
+<script src="{{ asset('admin/js/job_post.js') }}"></script>
 @endpush

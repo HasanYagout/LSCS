@@ -45,7 +45,8 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
 
     Route::group(['prefix' => 'cvs', 'as' => 'cvs.'], function () {
         Route::get('all', [ProfileController::class, 'list_cvs'])->name('all');
-        Route::get('create', [ProfileController::class, 'cv_create'])->name('create');
+        Route::get('create', [ProfileController::class, 'create_cv'])->name('create');
+        Route::post('submit', [ProfileController::class, 'store_cv'])->name('submit');
     });
 
     Route::get('settings', [SettingController::class, 'settings'])->name('settings');

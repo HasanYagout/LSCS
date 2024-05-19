@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Alumni;
 
+use App\CPU\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Services\UserService;
 use App\Models\Alumni;
 use App\Models\User;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use PragmaRX\Google2FAQRCode\Google2FA;
 use App\Http\Requests\ProfileRequest;
 
@@ -70,25 +72,23 @@ class ProfileController extends Controller
 
     public function list_cvs(Request $request){
         if ($request->ajax()) {
-            $cvs = Alumni::where('id',auth('alumni')->id())->orderBy('id','desc')->get();
-            dd($cvs);
-            return datatables($jobs)
+            $cvs = Alumni::where('id',auth('alumni')->id())->select('cvs')->orderBy('id','desc')->get();
+
+            return datatables($cvs)
                 ->addIndexColumn()
-                ->addColumn('company_logo', function ($data) {
-                    return '<img src="' . $data->company->logo . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
-                })
+
                 ->addColumn('action', function ($data) {
-                    if(auth('alumni')->user()->role_id == USER_ROLE_COMPANY){
+                    if(auth('alumni')->user()->role_id == USER_ROLE_ALUMNI){
                         return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                                <li class="d-flex gap-2">
-                                    <button onclick="getEditModal(\'' . route('admin.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                                    </button>
-                                    <button onclick="deleteItem(\'' . route('admin.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                                    </button>
-                                    <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
-                                </li>
+//                                <li class="d-flex gap-2">
+//                                    <button onclick="getEditModal(\'' . route('admin.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+//                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
+//                                    </button>
+//                                    <button onclick="deleteItem(\'' . route('admin.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+//                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
+//                                    </button>
+//                                    <a href="' . route('alumni.cvs.details') . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+//                                </li>
                             </ul>';
                     }
                     else{
@@ -110,8 +110,20 @@ class ProfileController extends Controller
         return view('alumni.jobs.all-job-post', $data);
     }
 
+    public function create_cv()
+    {
+        return view('alumni.cvs.create');
+    }
 
 
+    public function store_cv(Request $request)
+    {
+        $alumni = Alumni::where('id', auth('alumni')->id())->first();
+        $mpdf_view = View::make('alumni.cvs.cv');
+        $file_prefix = 'order_invoice_';
+        $file_postfix = 'sadsad';
+        gen_mpdf($mpdf_view, $file_prefix, $file_postfix);
+    }
 
 
 

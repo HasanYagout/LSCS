@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Alumni;
 use App\Models\Currency;
 use App\Models\EmailTemplate;
 use App\Models\FileManager;
@@ -18,6 +19,7 @@ use App\Mail\EmailNotify;
 use App\Models\Chat;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
 
 if (!function_exists("getOption")) {
     function getOption($option_key, $default = NULL)
@@ -555,6 +557,27 @@ function currentCurrencyIcon()
     $currentCurrency = Currency::where('tenant_id', getTenantId())->where('current_currency', 1)->first();
     return $currentCurrency->symbol;
 }
+
+/**
+ * @throws \Mpdf\MpdfException
+ */
+function gen_mpdf($view, $file_prefix, $file_postfix)
+{
+    $mpdf = new \Mpdf\Mpdf(['default_font' => 'FreeSerif', 'mode' => 'utf-8', 'format' => [190, 250]]);
+    $mpdf->autoScriptToLang = true;
+    $mpdf->autoLangToFont = true;
+
+    $mpdf_view = $view->render(); // Render the view directly
+    $mpdf->WriteHTML($mpdf_view);
+
+    // Set headers for inline display
+    header('Content-Type: application/pdf');
+    header('Content-Disposition: inline; filename="cv.pdf"');
+
+    $mpdf->Output( 'dsa',\Mpdf\Output\Destination::DOWNLOAD );
+}
+
+
 
 function convertCurrencySwap($amount, $to = 'USD', $from = 'USD')
 {
