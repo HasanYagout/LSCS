@@ -561,20 +561,24 @@ function currentCurrencyIcon()
 /**
  * @throws \Mpdf\MpdfException
  */
-function gen_mpdf($view, $file_prefix, $file_postfix)
+function gen_mpdf($view, $file_path)
 {
-    $mpdf = new \Mpdf\Mpdf(['default_font' => 'FreeSerif', 'mode' => 'utf-8', 'format' => [190, 250]]);
+    $mpdf = new \Mpdf\Mpdf(['default_font' => 'FreeSerif', 'mode' => 'utf-8', 'format' => 'A4-P']);
+
+    //  $mpdf->AddPage('XL', '', '', '', '', 10, 10, 5, '', '300', '');
+
     $mpdf->autoScriptToLang = true;
+
     $mpdf->autoLangToFont = true;
 
-    $mpdf_view = $view->render(); // Render the view directly
+    $mpdf_view = $view;
+
+    $mpdf_view = $mpdf_view->render();
+
     $mpdf->WriteHTML($mpdf_view);
+    $file_path = 'public/cv/' . $file_path . '.pdf'; // Specify the folder and file path relative to the 'public' directory
 
-    // Set headers for inline display
-    header('Content-Type: application/pdf');
-    header('Content-Disposition: inline; filename="cv.pdf"');
-
-    $mpdf->Output( 'dsa',\Mpdf\Output\Destination::DOWNLOAD );
+    Storage::put($file_path, $mpdf->Output('', 'S')); // Save the file to the specified location
 }
 
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Alumni;
 
 use App\Http\Controllers\Controller;
+use App\Models\CV;
 use App\Models\JobPost;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -62,7 +63,14 @@ class JobPostController extends Controller
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
+        $data['cvs']=CV::where('alumni_id',auth('alumni')->id())->get();
+
         return view('alumni.jobs.job_post_view', $data);
+    }
+
+    public function apply(Request $request)
+    {
+        dd($request->all());
     }
 
     public function all(Request $request)
@@ -75,21 +83,9 @@ class JobPostController extends Controller
                 ->addColumn('company_logo', function ($data) {
                     return '<img src="' . $data->company->logo . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
                 })
-//            ->addColumn('title', function ($data) {
-//                return htmlspecialchars($data->title);
-//            })
-//            ->addColumn('employee_status', function ($data) {
-//                return $this->getEmployeeStatusById($data->employee_status);
-//            })
-//            ->addColumn('salary', function ($data) {
-//                return htmlspecialchars($data->salary);
-//            })
-//            ->addColumn('application_deadline', function ($data) {
-//               return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
-//            })
-//
+
                 ->addColumn('action', function ($data) {
-                    if(auth('alumni')->user()->role_id == USER_ROLE_COMPANY){
+                    if(auth('alumni')->user()->role_id == USER_ROLE_ALUMNI){
                         return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                                 <li class="d-flex gap-2">
                                     <button onclick="getEditModal(\'' . route('admin.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">

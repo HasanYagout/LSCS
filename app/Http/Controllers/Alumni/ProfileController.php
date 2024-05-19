@@ -6,10 +6,13 @@ use App\CPU\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Services\UserService;
 use App\Models\Alumni;
+use App\Models\CV;
 use App\Models\User;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use PragmaRX\Google2FAQRCode\Google2FA;
 use App\Http\Requests\ProfileRequest;
 
@@ -72,35 +75,25 @@ class ProfileController extends Controller
 
     public function list_cvs(Request $request){
         if ($request->ajax()) {
-            $cvs = Alumni::where('id',auth('alumni')->id())->select('cvs')->orderBy('id','desc')->get();
+            $cvs = CV::where('alumni_id',auth('alumni')->id())->orderBy('id','desc')->get();
 
             return datatables($cvs)
                 ->addIndexColumn()
-
+                ->addColumn('name',function ($data){
+                    return $data->name;
+                })
                 ->addColumn('action', function ($data) {
-                    if(auth('alumni')->user()->role_id == USER_ROLE_ALUMNI){
+
                         return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-//                                <li class="d-flex gap-2">
-//                                    <button onclick="getEditModal(\'' . route('admin.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-//                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-//                                    </button>
-//                                    <button onclick="deleteItem(\'' . route('admin.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-//                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-//                                    </button>
-//                                    <a href="' . route('alumni.cvs.details') . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
-//                                </li>
+                                <li class="d-flex gap-2">
+                                    <a href="'.route('alumni.cvs.view',$data->slug).'">
+                                        <img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="edit" />
+                                    </a>
+                                </li>
                             </ul>';
-                    }
-                    else{
-                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                    <li class="d-flex gap-2">
-                        <a href="' . route('alumni.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
-                    </li>
-                </ul>';
-                    }
+
 
                 })
-
                 ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'salary', 'application_deadline'])
                 ->make(true);
         }
@@ -118,11 +111,46 @@ class ProfileController extends Controller
 
     public function store_cv(Request $request)
     {
-        $alumni = Alumni::where('id', auth('alumni')->id())->first();
+        $uniqueId=uniqid();
+        $cv= new CV();
+        $cv->name=$request->name;
+        $cv->slug=$request->name.'_'.$uniqueId;
+        $cv->alumni_id=auth('alumni')->id();
+        $cv->first_name=$request->fname;
+        $cv->last_name=$request->lname;
+        $cv->email=$request->email;
+        $cv->phone=$request->phone;
+        $cv->address=$request->address;
+        $cv->education=$request->education;
+        $cv->experience=$request->experience;
+        $cv->skills=$request->skills;
+        $cv->additional_info=$request->additional;
+        $cv->status=0;
+        $cv->save();
+
+
         $mpdf_view = View::make('alumni.cvs.cv');
-        $file_prefix = 'order_invoice_';
-        $file_postfix = 'sadsad';
-        gen_mpdf($mpdf_view, $file_prefix, $file_postfix);
+        $file_name = $request->name.'_'.$uniqueId;
+        gen_mpdf($mpdf_view, $file_name);
+
+
+
+    }
+
+    public function view($slug)
+    {
+        $cv = CV::where('alumni_id', auth('alumni')->id())
+            ->where('slug', $slug)
+            ->first();
+
+        $name = url('storage/cv/' . $cv->slug . '.pdf');
+        $headers = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $name . '"',
+        ];
+
+        // Return the response with the file
+        return response()->file(public_path('storage/cv/' . $cv->slug . '.pdf'), $headers);
     }
 
 

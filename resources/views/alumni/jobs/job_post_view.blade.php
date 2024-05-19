@@ -48,9 +48,22 @@
                             {{ isset($jobPostData->application_deadline) ? \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $jobPostData->application_deadline)->format('l, F j, Y') : '' }}
                         </p>
                     </div>
+                    <div class="col-6">
+                        <form action="{{route('alumni.jobs.apply')}}" method="POST">
+                            @csrf
+                            <select class="primary-form-control sf-select-without-search" name="cv_id" id="event_category_id">
+                                <option selected="">{{__('Select CV')}}</option>
+                                @foreach ($cvs as $cv)
+                                    <option value="{{ $cv->id }}">{{ $cv->name }}</option>
+                                @endforeach
+                            </select>
+                            <button
+                                class="d-inline-block px-30 py-13 bg-cdef84 bd-ra-12 fs-15 fw-500 lh-25 text-1b1c17">{{ __('Apply Now') }}</button>
+                        </form>
+                    </div>
                 </div>
-                <a href="{{ $jobPostData->post_link ?? '' }}" target="_blank"
-                    class="d-inline-block px-30 py-13 bg-cdef84 bd-ra-12 fs-15 fw-500 lh-25 text-1b1c17">{{ __('Apply Now') }}</a>
+
+
             </div>
         </div>
     </div>

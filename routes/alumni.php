@@ -47,6 +47,8 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::get('all', [ProfileController::class, 'list_cvs'])->name('all');
         Route::get('create', [ProfileController::class, 'create_cv'])->name('create');
         Route::post('submit', [ProfileController::class, 'store_cv'])->name('submit');
+        Route::get('view/{slug}', [ProfileController::class, 'view'])->name('view');
+
     });
 
     Route::get('settings', [SettingController::class, 'settings'])->name('settings');
@@ -88,6 +90,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::get('details/{slug}', [JobPostController::class, 'details'])->name('details');
         Route::get('all-job-post', [JobPostController::class, 'all'])->name('all-job-post');
         Route::get('my-job-post', [JobPostController::class, 'myJobPost'])->name('my-job-post');
+        Route::post('apply', [JobPostController::class, 'apply'])->name('apply');
     });
 // Job Post route end
 
