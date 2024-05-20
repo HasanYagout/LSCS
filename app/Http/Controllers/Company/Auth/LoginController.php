@@ -91,6 +91,6 @@ class LoginController extends Controller
     {
         auth()->guard('admin')->logout();
         $request->session()->invalidate();
-        return redirect()->route('admin.auth.login');
+        return redirect()->route('company.auth.login');
     }
 }

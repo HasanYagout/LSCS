@@ -7,6 +7,7 @@ use App\Models\Alumni;
 use App\Models\Department;
 use App\Models\Student;
 use App\Traits\ResponseTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
@@ -36,14 +37,15 @@ class StudentController extends Controller
 
     public function update(Request $request)
     {
-        $student=Student::where('student_id',$request->buttonValue)->first();
+        $student=Student::with('major')->where('student_id',$request->buttonValue)->first();
         $alumni= new Alumni();
         $alumni->student_id=$student->student_id;
         $alumni->first_name=$student->first_name;
         $alumni->last_name=$student->last_name;
         $alumni->phone=$student->number;
         $alumni->gpa=$student->gpa;
-        $alumni->major=$student->major;
+        $alumni->major=$student->major->name;
+        $alumni->graduation_year=Carbon::now()->format('o');
         $alumni->password=Hash::make($student->student_id);
         $alumni->save();
         return $this->success([],__('Alumni added successfully'));

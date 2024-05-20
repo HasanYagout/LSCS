@@ -15,5 +15,9 @@ class Company extends Authenticatable
         return $this->hasOne(Roles::class, 'id', 'role_id');
 
     }
+    public function appliedJobs()
+    {
+        return $this->hasMany(AppliedJobs::class, 'company_id');
+    }
 
 }

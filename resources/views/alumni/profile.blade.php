@@ -597,12 +597,7 @@
 <table class="table zTable" id="cvsTable">
     <thead>
     <tr>
-        <th scope="col"><div>{{ __('Company') }}</div></th>
-        <th scope="col"><div>{{ __('Job Title') }}</div></th>
-        <th scope="col"><div>{{ __('Employee Status') }}</div></th>
-        <th scope="col"><div>{{ __('Salary') }}</div></th>
-        <th scope="col"><div>{{ __('Application Deadline') }}</div></th>
-        {{-- <th scope="col"><div>{{ __('Status') }}</div></th> --}}
+        <th scope="col"><div>{{ __('Name') }}</div></th>
         <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>
     </tr>
     </thead>

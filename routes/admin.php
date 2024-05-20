@@ -154,7 +154,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     // Manage Alumni Route End
 
     Route::group(['prefix' => 'setting', 'as' => 'setting.'], function () {
-        Route::group(['middleware' => []], function () {
+        Route::group([], function () {
             Route::get('application-settings', [SettingController::class, 'applicationSetting'])->name('application-settings');
             Route::get('configuration-settings', [SettingController::class, 'configurationSetting'])->name('configuration-settings');
             Route::get('configuration-settings/configure', [SettingController::class, 'configurationSettingConfigure'])->name('configuration-settings.configure');

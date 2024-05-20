@@ -8,6 +8,12 @@
         <form method="POST" action="{{route('alumni.cvs.submit')}}">
             @csrf
             <div class="row mt-4">
+                <div class="col-md-6 m-auto">
+                    <label for="fileName" class="form-label">File Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+            </div>
+            <div class="row mt-4">
                 <div class="col-md-6">
                     <label for="fname" class="form-label">First Name:</label>
                     <input type="text" id="fname" name="fname" class="form-control" required>

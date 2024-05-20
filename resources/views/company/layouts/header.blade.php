@@ -66,6 +66,8 @@
     <link rel="stylesheet" href="{{ asset('public/assets/scss/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/css/responsive.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/css/summernote/summernote-lite.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/assets/select2/css/select2.min.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="{{ asset('public/assets/js/modernizr-3.11.2.min.js') }}"></script>
     @stack('style')
 
@@ -73,6 +75,7 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ getOption('google_analytics_tracking_id') }}"></script>
     <script>
+
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
