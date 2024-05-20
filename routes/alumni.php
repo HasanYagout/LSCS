@@ -33,6 +33,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'], function () {
 //    Route::get('/', [\App\Http\Controllers\Alumni\HomeController::class, 'index'])->name('home');
+    Route::get('/', function () {
+        return redirect()->route('auth.login');
+    });
     Route::get('home', [HomeController::class, 'index'])->name('home');
 
     Route::post('add-institution', [ProfileController::class, 'addInstitution'])->name('add_institution');
@@ -87,10 +90,10 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::get('info/{slug}', [JobPostController::class, 'info'])->name('info');
         Route::post('update/{slug}', [JobPostController::class, 'update'])->name('update');
         Route::post('delete/{slug}', [JobPostController::class, 'delete'])->name('delete');
-        Route::get('details/{slug}', [JobPostController::class, 'details'])->name('details');
+        Route::get('details/{company}/{slug}', [JobPostController::class, 'details'])->name('details');
         Route::get('all-job-post', [JobPostController::class, 'all'])->name('all-job-post');
         Route::get('my-job-post', [JobPostController::class, 'myJobPost'])->name('my-job-post');
-        Route::post('apply', [JobPostController::class, 'apply'])->name('apply');
+        Route::post('apply/{company}/{slug}', [JobPostController::class, 'apply'])->name('apply');
     });
 // Job Post route end
 

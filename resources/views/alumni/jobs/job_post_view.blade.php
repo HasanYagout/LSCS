@@ -49,10 +49,10 @@
                         </p>
                     </div>
                     <div class="col-6">
-                        <form action="{{route('alumni.jobs.apply')}}" method="POST">
+                        <form action="{{route('alumni.jobs.apply',['company'=>$company,'slug'=>$slug])}}" method="POST">
                             @csrf
                             <select class="primary-form-control sf-select-without-search" name="cv_id" id="event_category_id">
-                                <option selected="">{{__('Select CV')}}</option>
+                                <option selected="" disabled>{{__('Select CV')}}</option>
                                 @foreach ($cvs as $cv)
                                     <option value="{{ $cv->id }}">{{ $cv->name }}</option>
                                 @endforeach

@@ -10,4 +10,8 @@ class Alumni extends Authenticatable
 {
     use HasFactory;
     protected $fillable=['cvs'];
+    public function appliedJobs()
+    {
+        return $this->hasMany(AppliedJobs::class, 'job_id');
+    }
 }

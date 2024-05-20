@@ -36,7 +36,8 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
         Route::post('delete/{slug}', [JobsController::class, 'delete'])->name('delete');
         Route::get('all-job-post', [JobsController::class, 'all'])->name('all-job-post');
         Route::get('my-job-post', [JobsController::class, 'myJobPost'])->name('my-job-post');
-        Route::get('details/{slug}', [JobsController::class, 'details'])->name('details');
+        Route::get('details/{company}/{slug}', [JobsController::class, 'details'])->name('details');
+        Route::get('applied/{id}', [JobsController::class, 'applied'])->name('applied');
 
 
     });

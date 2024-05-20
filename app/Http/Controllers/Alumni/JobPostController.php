@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Alumni;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppliedJobs;
+use App\Models\Company;
 use App\Models\CV;
 use App\Models\JobPost;
 use App\Models\User;
@@ -58,19 +60,29 @@ class JobPostController extends Controller
     {
         return $this->jobPostService->deleteById($slug);
     }
-    public function details($slug)
+    public function details(Company $company,$slug)
     {
+
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
         $data['cvs']=CV::where('alumni_id',auth('alumni')->id())->get();
-
+        $data['company']=$company;
+        $data['slug']=$slug;
         return view('alumni.jobs.job_post_view', $data);
     }
 
-    public function apply(Request $request)
+    public function apply(Request $request,$company,$slug)
     {
-        dd($request->all());
+        $job = new AppliedJobs();
+        $job->alumni_id = auth('alumni')->id();
+        $job->company_id = $company;
+        $job->cv_id=$request->cv_id;
+        $jobPost = JobPost::where('slug', $slug)->first();
+        $job->job_id = $jobPost->id;
+        $jobPost->applied_by += 1; // Increment the applied_by field by 1
+        $jobPost->save(); // Save the updated job post
+        $job->save();
     }
 
     public function all(Request $request)
@@ -99,9 +111,10 @@ class JobPostController extends Controller
                             </ul>';
                     }
                     else{
+
                         return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
-                        <a href="' . route('alumni.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+                        <a href="' . route('alumni.jobs.details', ['company'=>$data->company_id,'slug'=>$data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
                     </li>
                 </ul>';
                     }
