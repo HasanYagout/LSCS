@@ -563,13 +563,30 @@ function currentCurrencyIcon()
  */
 function gen_mpdf($view, $file_path)
 {
-    $mpdf = new \Mpdf\Mpdf(['default_font' => 'FreeSerif', 'mode' => 'utf-8', 'format' => 'A4-P']);
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8', // Set character encoding
+        'format' => 'A4', // Page format
+        'orientation' => 'P', // Portrait orientation
+        'margin_top' => 0, // Top margin
+        'margin_bottom' => 0, // Bottom margin
+        'margin_left' => 0, // Left margin
+        'margin_right' => 0 // Right margin
+
+    ]);
 
     //  $mpdf->AddPage('XL', '', '', '', '', 10, 10, 5, '', '300', '');
 
     $mpdf->autoScriptToLang = true;
 
     $mpdf->autoLangToFont = true;
+    $mpdf->SetProtection(array('print'));
+    $mpdf->SetTitle("Acme Trading Co. - Invoice");
+    $mpdf->SetAuthor("Acme Trading Co.");
+    $mpdf->SetWatermarkText("Paid");
+    $mpdf->showWatermarkText = true;
+    $mpdf->watermark_font = 'DejaVuSansCondensed';
+    $mpdf->watermarkTextAlpha = 0.1;
+    $mpdf->SetDisplayMode('fullwidth');
 
     $mpdf_view = $view;
 
