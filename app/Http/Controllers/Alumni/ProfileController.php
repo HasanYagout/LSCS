@@ -111,21 +111,83 @@ class ProfileController extends Controller
 
     public function store_cv(Request $request)
     {
-        $uniqueId=uniqid();
-        $cv= new CV();
-        $cv->name=$request->name;
-        $cv->slug=$request->name.'_'.$uniqueId;
-        $cv->alumni_id=auth('alumni')->id();
-        $cv->first_name=$request->fname;
-        $cv->last_name=$request->lname;
-        $cv->email=$request->email;
-        $cv->phone=$request->phone;
-        $cv->address=$request->address;
-        $cv->education=$request->education;
-        $cv->experience=$request->experience;
+        $uniqueId = uniqid();
+        $cv = new CV();
+        $cv->name = $request->name;
+        $cv->slug = $request->name . '_' . $uniqueId;
+        $cv->alumni_id = auth('alumni')->id();
+        $cv->first_name = $request->fname;
+        $cv->last_name = $request->lname;
+        $cv->email = $request->email;
+        $cv->phone = $request->phone;
+        $cv->address = $request->address;
+        $workExperiences = []; // Initialize an empty array to store work experiences
+// Loop through the work experience fields and save the data
+        for ($i = 1; $i <= $request->experienceCount; $i++) {
+            $workExperience = [
+                'company' => $request->input('work_experience_name'.$i),
+                'position' => $request->input('work_experience_position'.$i),
+                'start_date' => $request->input('work_experience_start_date'.$i),
+                'end_date' => $request->input('work_experience_end_date'.$i),
+                'details' => $request->input('work_experience_details'.$i),
+            ];
+
+            $workExperiences[] = $workExperience; // Add the work experience to the array
+        }
+
+// Create the JSON object
+        $workExperienceData = [
+            'work_experiences' => $workExperiences,
+        ];
+
+// Convert the JSON object to a string
+        $workExperienceDataJson = json_encode($workExperienceData);
+
+// Save high school data
+        $highSchool = [
+            'name' => $request->highschool_name,
+            'start_date' => $request->highschool_start_date,
+            'end_date' => $request->highschool_end_date,
+            'details' => $request->highschool_details,
+        ];
+
+// Save university data
+        $university = [
+            'name' => $request->university_name,
+            'start_date' => $request->university_start_date,
+            'end_date' => $request->university_end_date,
+            'details' => $request->university_details,
+        ];
+
+// Save other education data
+        $otherEducation = [
+            'name' => $request->other_education_name,
+            'start_date' => $request->other_education_start_date,
+            'end_date' => $request->other_education_end_date,
+            'details' => $request->other_education_details,
+        ];
+
+// Create the JSON object
+        $educationData = [
+            'high_school' => $highSchool,
+            'university' => $university,
+            'other_education' => $otherEducation,
+        ];
+
+// Convert the JSON object to a string
+        $educationDataJson = json_encode($educationData);
+
+// Save the education data in the CV object
+        $cv->education = $educationDataJson;
+
+// Save the work experience data in the CV object
+        $cv->experience = $workExperienceDataJson;
+
+
         $cv->skills=$request->skills;
         $cv->additional_info=$request->additional;
         $cv->status=0;
+
         $cv->save();
 
 
