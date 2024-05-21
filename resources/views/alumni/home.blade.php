@@ -191,8 +191,8 @@
                                             </li>
                                         </ul>
                                         <!-- Link -->
-                                        <a href="{{ route('alumni.jobs.details', $job->slug) }}"
-                                            class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
+{{--                                        <a href="{{ route('alumni.jobs.details', $job->slug) }}"--}}
+{{--                                            class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>--}}
                                     </li>
                                 @endforeach
                             </ul>
@@ -420,8 +420,8 @@
                                         </li>
                                     </ul>
                                     <!-- Link -->
-                                    <a href="{{ route('alumni.jobs.details', $job->slug) }}"
-                                        class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
+{{--                                    <a href="{{ route('alumni.jobs.details', $job->slug) }}"--}}
+{{--                                        class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>--}}
                                 </li>
                             @endforeach
                         </ul>
