@@ -66,6 +66,7 @@
     <link rel="stylesheet" href="{{ asset('public/assets/scss/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/css/responsive.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/css/summernote/summernote-lite.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/assets/css/fontawesome/css/all.css') }}" />
     <script src="{{ asset('public/assets/js/modernizr-3.11.2.min.js') }}"></script>
     @stack('style')
 

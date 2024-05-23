@@ -591,7 +591,6 @@ function gen_mpdf($view, $file_path)
     $mpdf_view = $view;
 
     $mpdf_view = $mpdf_view->render();
-
     $mpdf->WriteHTML($mpdf_view);
     $file_path = 'public/cv/' . $file_path . '.pdf'; // Specify the folder and file path relative to the 'public' directory
 

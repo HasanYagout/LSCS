@@ -121,6 +121,7 @@ class ProfileController extends Controller
         $cv->email = $request->email;
         $cv->phone = $request->phone;
         $cv->address = $request->address;
+
         $workExperiences = []; // Initialize an empty array to store work experiences
 // Loop through the work experience fields and save the data
         for ($i = 1; $i <= $request->experienceCount; $i++) {
@@ -136,41 +137,39 @@ class ProfileController extends Controller
         }
 
 // Create the JSON object
-        $workExperienceData = [
-            'work_experiences' => $workExperiences,
-        ];
+
 
 // Convert the JSON object to a string
-        $workExperienceDataJson = json_encode($workExperienceData);
+        $workExperienceDataJson = json_encode($workExperiences);
 
 // Save high school data
         $highSchool = [
             'name' => $request->highschool_name,
+            'title' => $request->highschool_title,
             'start_date' => $request->highschool_start_date,
             'end_date' => $request->highschool_end_date,
-            'details' => $request->highschool_details,
         ];
 
 // Save university data
         $university = [
             'name' => $request->university_name,
+            'title' => $request->university_title,
             'start_date' => $request->university_start_date,
             'end_date' => $request->university_end_date,
-            'details' => $request->university_details,
         ];
 
 // Save other education data
         $otherEducation = [
             'name' => $request->other_education_name,
+            'title' => $request->other_education_title,
             'start_date' => $request->other_education_start_date,
             'end_date' => $request->other_education_end_date,
-            'details' => $request->other_education_details,
         ];
 
 // Create the JSON object
         $educationData = [
-            'high_school' => $highSchool,
             'university' => $university,
+            'high_school' => $highSchool,
             'other_education' => $otherEducation,
         ];
 
@@ -183,15 +182,37 @@ class ProfileController extends Controller
 // Save the work experience data in the CV object
         $cv->experience = $workExperienceDataJson;
 
+        $firstLanguageName = $request->first_language_name;
+        $firstLanguageLevel = $request->first_language_level;
+        $secondLanguageName = $request->second_language_name;
+        $secondLanguageLevel = $request->second_language_level;
+
+        $languages = [
+            [
+                'name' => $firstLanguageName,
+                'level' => $firstLanguageLevel,
+            ],
+            [
+                'name' => $secondLanguageName,
+                'level' => $secondLanguageLevel,
+            ],
+        ];
+
+
+
+        $languageDataJson = json_encode($languages);
+
+        $cv->languages = $languageDataJson;
 
         $cv->skills=$request->skills;
         $cv->additional_info=$request->additional;
+        $cv->profile=$request->profile;
         $cv->status=0;
 
+
+
+        $mpdf_view = View::make('alumni.cvs.cv',compact('cv'));
         $cv->save();
-
-
-        $mpdf_view = View::make('alumni.cvs.cv');
         $file_name = $request->name.'_'.$uniqueId;
         gen_mpdf($mpdf_view, $file_name);
 

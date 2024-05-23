@@ -2,7 +2,12 @@
 <html>
 <head>
 <style>
-
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
 </style>
 </head>
 <body>
@@ -30,55 +35,71 @@
 
 <table width="100%" style="font-family: serif;" cellpadding="10">
     <tr>
-        <td width="45%" style="border: 0.1mm solid #888888; ">
-            <table  style="font-family: serif; background-color: #003147" cellpadding="10">
-                <tr style="width: 50%">
+        <td width="30%" style="border: 0.1mm solid #888888;background-color: #003147 ">
+            <table  style="font-family: serif; " cellpadding="10">
+                <tr style="width: 100%">
                 <tr>
-                    <td>Name: hasdadsadsjh</td>
+                    <td>
+                        <span style="font-size: 50px; color: white">{{$cv->first_name}}<br>{{$cv->last_name}}</span>
+                    </td>
                     <hr>
                 </tr>
                 <tr>
-                    <td style="color: white; font-weight: bold">Contact Info</td>
+                    <td><span style="font-size: 30px; color: white; font-weight: bold">
+                            Contact Info
+                        </span>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Phone:</td>
+                    <td>Phone:
+                        <span>{{$cv->phone}}</span></td>
                 </tr>
                 <tr>
-                    <td>Email:</td>
+                    <td>Email:
+                        <i class="fas fa-envelope"></i>
+                        <i class="fas fa-envelope"></i>
+                        <i class="fas fa-envelope"></i>
+
+                        <span>{{$cv->email}}</span></td>
+
                 </tr>
                 <tr>
-                    <td>Address:</td>
+                    <td>Address:
+                    {{$cv->address}}</td>
                 </tr>
-                <tr>
-                    <td>Email:</td>
-                </tr>
+
                 <tr>
                     <td style="color: white; font-weight: bold">Education</td>
                 </tr>
-                <tr style="margin: 0; padding: 0">
-                    <td style="margin: 0; padding: 0">2015-2016</td>
-                </tr>
-                <tr style="margin: 0; padding: 0">
-                    <td style="margin: 0; padding: 0">Master Degree in Information Technology</td>
-                </tr>
-                <tr style="margin: 0; padding: 0">
-                    <td style="margin: 0; padding: 0">Liu University</td>
-                </tr>
+                @foreach(json_decode($cv->education) as $education)
+                    <tr style="margin: 0; padding: 0">
+                        <td style="margin: 0; padding: 0">{{$education->start_date.' -- '.$education->end_date}}</td>
+                    </tr>
+
+                    <tr style="margin: 0; padding: 0">
+                        <td style="margin: 0; padding: 0">{{$education->title}}</td>
+                    </tr>
+                    <tr style="margin: 0; padding: 0">
+                        <td style="margin: 0; padding: 0">{{$education->name}}</td>
+                    </tr>
+
+                @endforeach
                 <tr>
                     <td style="color: white; font-weight: bold">Language</td>
                 </tr>
-                <tr>
-                    <td>English</td>
-                </tr>
-                <tr class="progress-bar" style="width: 100%;position: relative;background-color:#081921;height: 6px">
-                    <td style="width: 100%; position: absolute; background-color: #03a9f4; height: 6px; right: 0;"></td>
-                </tr>
-                <tr>
-                    <td>Arabic</td>
-                </tr>
-                <tr class="progress-bar2" style="width: 100%;position: relative;background-color:#081921;height: 6px">
-                    <td style="width: 100%; position: absolute; background-color: #03a9f4; height: 100%;"></td>
-                </tr>
+                @foreach(json_decode($cv->languages) as $language)
+
+                    <tr style="margin: 0; padding: 0">
+                        <td style="margin: 0; padding: 0">{{$language->name}}</td>
+
+                    </tr>
+
+                    <tr style="margin: 0; padding: 0">
+                        <td style="margin: 0; padding: 0">{{$language->level}}</td>
+                    </tr>
+
+
+                @endforeach
 
 
 
@@ -90,270 +111,35 @@
                     <td>Profile</td>
                 </tr>
                 <tr>
-                    <td>sadadsadassadadsadassada
-                        dsadassadadsadassadadsad
-                        assadadsadassad
-                        adsadassadadsadass
-                        adadsadas</td>
+                    {!! $cv->profile !!}
                 </tr>
+
                 <tr>
-                    <td>
+                    <li>
                         Experience
-                    </td>
+                    </li>
                 </tr>
                 <table>
+                        @foreach(json_decode($cv->experience) as $experience)
                     <tr>
-                        <td>
-                            2020-present
-                            <span>fdf</span>
-                        </td>
-                        <td>
-                            senior UX design
-                            <span>ahdsjsakdhsakjdhsakjhdkjsahdsahkj</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            2020-present
-                            <span>fdf</span>
-                        </td>
-                        <td>
-                            senior UX design
-                            <span>ahdsjsakdhsakjdhsakjhdkjsahdsahkj</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            2020-present
-                            <span>fdf</span>
-                        </td>
-                        <td>
-                            senior UX design
-                            <span>ahdsjsakdhsakjdhsakjhdkjsahdsahkj</span>
-                        </td>
-                    </tr>
-                </table>
-                <tr>
-                    <td>
-                        PROFESSIONAL SKILLS
-                    </td>
-                </tr>
-                <table>
-                    <tr>
-                        <td>
-                            HTML
-                        </td>
+                            <td>
+                                {{$experience->start_date.' -- '.$experience->end_date}}<br>
+                                <span>{{$experience->company}}</span>
+                                {{$experience->position}}<br>
+                                <span>{{$experience->details}}</span>
+                            </td>
 
                     </tr>
-                    <tr>
-                        <td>
-                            CSS
-                        </td>
-                    </tr>
-                    <td>
-                        Javascript
-                    </td>
+                        @endforeach
+
+{{dd('adaad')}}
 
                 </table>
+
             </table>
         </td>
     </tr>
 
 </table>
-
-<br />
-
-<table class="items" width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8">
-<thead>
-<tr>
-<td width="15%">Ref. No.</td>
-<td width="10%">Quantity</td>
-<td width="45%">Description</td>
-<td width="15%">Unit Price</td>
-<td width="15%">Amount</td>
-</tr>
-</thead>
-<tbody>
-<!-- ITEMS HERE -->
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<tr>
-<td align="center">MF1234567</td>
-<td align="center">10</td>
-<td>Large pack Hoover bags</td>
-<td class="cost">&pound;2.56</td>
-<td class="cost">&pound;25.60</td>
-</tr>
-<tr>
-<td align="center">MX37801982</td>
-<td align="center">1</td>
-<td>Womans waterproof jacket<br />Options - Red and charcoal.</td>
-<td class="cost">&pound;102.11</td>
-<td class="cost">&pound;102.11</td>
-</tr>
-<tr>
-<td align="center">MR7009298</td>
-<td align="center">25</td>
-<td>Steel nails; oval head; 30mm x 3mm. Packs of 1000.</td>
-<td class="cost">&pound;12.26</td>
-<td class="cost">&pound;325.60</td>
-</tr>
-<!-- END ITEMS HERE -->
-<tr>
-<td class="blanktotal" colspan="3" rowspan="6"></td>
-<td class="totals">Subtotal:</td>
-<td class="totals cost">&pound;1825.60</td>
-</tr>
-<tr>
-<td class="totals">Tax:</td>
-<td class="totals cost">&pound;18.25</td>
-</tr>
-<tr>
-<td class="totals">Shipping:</td>
-<td class="totals cost">&pound;42.56</td>
-</tr>
-<tr>
-<td class="totals"><b>TOTAL:</b></td>
-<td class="totals cost"><b>&pound;1882.56</b></td>
-</tr>
-<tr>
-<td class="totals">Deposit:</td>
-<td class="totals cost">&pound;100.00</td>
-</tr>
-<tr>
-<td class="totals"><b>Balance due:</b></td>
-<td class="totals cost"><b>&pound;1782.56</b></td>
-</tr>
-</tbody>
-</table>
-
-
-<div style="text-align: center; font-style: italic;">Payment terms: payment due in 30 days</div>
-
-
 </body>
 </html>
