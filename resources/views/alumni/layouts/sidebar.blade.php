@@ -259,6 +259,8 @@
                                    href="{{ route('alumni.cvs.all') }}">{{ __('Manage CVs') }}</a></li>
                             <li><a class="{{ $activeAllJobPostList ?? '' }}"
                                    href="{{ route('alumni.cvs.create') }}">{{ __('Create Cv') }}</a></li>
+                                <li><a class="{{ $activeAllJobPostList ?? '' }}"
+                                       href="{{ route('alumni.images') }}">{{ __('Graduation Images') }}</a></li>
                         </ul>
                     </div>
                 </li>

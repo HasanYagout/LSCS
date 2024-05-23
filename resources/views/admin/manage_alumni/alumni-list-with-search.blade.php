@@ -59,17 +59,10 @@
     <!-- Page content area End -->
 
     <!-- Phone Number Modal -->
-    <div class="modal fade zModalTwo" id="alumniPhoneNo" tabindex="-1" aria-labelledby="alumniPhoneNoLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content zModalTwo-content">
-                <div class="modal-body zModalTwo-body">
-                    <div class="text-center py-30">
-                        <p class="fs-14 fw-500 lh-18 text-707070 pb-10">{{ __('Contact with') }} <span
-                                class="contact-name"></span></p>
-                        <h4 class="fs-32 fw-500 lh-42 text-black show-phone"></h4>
-                    </div>
-                </div>
+    <div class="modal fade" id="edit-modal" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+
             </div>
         </div>
     </div>

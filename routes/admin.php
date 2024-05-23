@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AlumniController;
 use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventCategoryController;
 use App\Http\Controllers\Admin\EventController;
@@ -33,6 +34,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
 
+    Route::group(['prefix' => 'company', 'as' => 'company.'], function () {
+        Route::get('/', [CompanyController::class, 'all'])->name('all');
+        Route::post('update/{company}', [CompanyController::class, 'update'])->name('update');
+
+    });
     Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
     Route::get('alumni/profile/{id}', [AlumniController::class, 'view'])->name('alumni.view');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -150,6 +156,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
         Route::get('list-pending-alumni-with-filter', [AlumniController::class, 'alumniPendingListWithAdvanceFilter'])->name('list-pending-alumni-with-filter');
         Route::post('change-alumni-status', [AlumniController::class, 'alumniChangeStatus'])->name('change-alumni-status');
+        Route::get('gallery/{alumni}', [AlumniController::class, 'gallery'])->name('gallery');
+        Route::post('gallery/store', [AlumniController::class, 'gallery_store'])->name('gallery.store');
+
     });
     // Manage Alumni Route End
 

@@ -236,6 +236,13 @@ class ProfileController extends Controller
         return response()->file(public_path('storage/cv/' . $cv->slug . '.pdf'), $headers);
     }
 
+    public function images()
+    {
+
+        $images= Alumni::where('id',auth('alumni')->id())->value('graduation_images');
+        return view('alumni.images',compact('images'));
+    }
+
 
 
 }

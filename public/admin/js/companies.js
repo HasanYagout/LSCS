@@ -28,12 +28,21 @@
         columns: [
             { "data": "name", "name": "company.name", responsivePriority: 1 },
             { "data": "email", "name": "company.email", responsivePriority: 1 },
-            { "data": "address", "name": "company.address", responsivePriority: 2 },
-            { "data": "website", "name": "company.website", responsivePriority: 3 },
-            { "data": "phone", "name": "company.phone"},
-            { "data": "logo", "name": "company.logo" },
-            { "data": "status", searchable: false, responsivePriority: 3 },
-            { "data": "action", searchable: false, responsivePriority: 3 },
+            { "data": "phone", "name": "company.phone" },
+            {
+                "data": "status",
+                "name": "company.status",
+                searchable: false,
+                responsivePriority: 3,
+                render: function(data, type, row, meta) {
+                    var checked = data ? 'checked' : '';
+
+                    return '<div class="form-check  form-switch">' +
+                        '<input class="form-check-input status-toggle" type="checkbox" role="switch" data-id="' + row.id + '" ' + checked + '>' +
+                        '<label class="form-check-label" for="flexSwitchCheck' + row.id + '"></label>' +
+                        '</div>';
+                }
+            }
         ],
         "initComplete": function( settings, json ) {
             $('.z-filter-block').html($('#search-section').html());
@@ -54,34 +63,4 @@
 		</button>`);
         },
     });
-    $(document).on('click','.editCompany',function(e){
-
-                var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                var buttonValue = $('.editCompany').val();
-                $.ajax({
-                    type: 'POST',
-                    url: 'edit',
-                    data: {
-                        // 'selectedStatus':selectedStatus,
-                        // 'alumniUserId':alumniUserId,
-                        '_token':csrfToken,
-                        'buttonValue': buttonValue // Include the button value in the data
-
-                    },
-                    success: function (response) {
-                        if (response.status === true) {
-                            toastr.success(response.message);
-                        }
-
-                        $('#alumni-all-list-filter').DataTable().ajax.reload();
-                    },
-                    error: function (error) {
-                        toastr.error(error.responseJSON.message)
-                    }
-                })
-
-                // $('#alumni-all-list-filter').DataTable().ajax.reload();
-
-
-    })
-})(jQuery)
+  })(jQuery)

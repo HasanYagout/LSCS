@@ -10,7 +10,7 @@ use App\Traits\ResponseTrait;
 use App\Http\Requests\JobPostRequest;
 use App\Http\Services\NoticeCategoryService;
 
-class JobsController extends Controller
+class   JobsController extends Controller
 {
     use ResponseTrait;
     public $jobPostService ;

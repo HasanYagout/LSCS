@@ -30,8 +30,8 @@
 			{ "data": "last_name", "name": "alumni.last_name"},
 			{ "data": "graduation_year", "name": "alumni.graduation_year"},
 			{ "data": "major", "name": "alumni.major" },
-            { "data": "address", "name": "alumnus.address" },
-            { "data": "change_status", searchable: false, responsivePriority: 2},
+            // { "data": "address", "name": "alumnus.address" },
+            // { "data": "change_status", searchable: false, responsivePriority: 2},
 			{ "data": "action", searchable: false, responsivePriority: 2 },
 		],
 		"initComplete": function( settings, json ) {

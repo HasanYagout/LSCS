@@ -37,6 +37,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         return redirect()->route('auth.login');
     });
     Route::get('home', [HomeController::class, 'index'])->name('home');
+    Route::get('images', [ProfileController::class, 'images'])->name('images');
 
     Route::post('add-institution', [ProfileController::class, 'addInstitution'])->name('add_institution');
 
