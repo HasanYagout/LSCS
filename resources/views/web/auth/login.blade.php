@@ -7,15 +7,15 @@
 @section('content')
     <div class="register-area">
         <div class="register-wrap">
-            <div class="register-left section-bg-img"
-                style="background-image: url({{ getSettingImage('login_left_image') }})">
-                <div class="register-left-wrap">
-                    <a class="d-inline-block mb-26 max-w-150" href="{{ route('index') }}"><img
-                            src="{{ getSettingImage('app_logo') }}" alt="{{ getOption('app_name') }}" /></a>
-                    <h2 class="fs-36 fw-600 lh-34 text-white pb-8">{{ getOption('sign_up_left_text_title') }}</h2>
-                    <p class="fs-16 fw-400 lh-24 text-white">{{ getOption('sign_up_left_text_subtitle') }}</p>
-                </div>
-            </div>
+{{--            <div class="register-left section-bg-img"--}}
+{{--                style="background-image: url({{ getSettingImage('login_left_image') }})">--}}
+{{--                <div class="register-left-wrap">--}}
+{{--                    <a class="d-inline-block mb-26 max-w-150" href="{{ route('index') }}"><img--}}
+{{--                            src="{{ getSettingImage('app_logo') }}" alt="{{ getOption('app_name') }}" /></a>--}}
+{{--                    <h2 class="fs-36 fw-600 lh-34 text-white pb-8">{{ getOption('sign_up_left_text_title') }}</h2>--}}
+{{--                    <p class="fs-16 fw-400 lh-24 text-white">{{ getOption('sign_up_left_text_subtitle') }}</p>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div class="register-right">
                 <div class="primary-form">
                     <!-- Title -->

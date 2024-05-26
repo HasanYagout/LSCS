@@ -1,13 +1,16 @@
 <!-- Sidebar -->
-<div class="zSidebar" data-background="{{ asset('public/assets/images/sidebar-bg.png') }}">
+    @if(auth('admin')->user()->role_id==USER_ROLE_ADMIN)
+    <div class="zSidebar" data-background="{{ asset('public/assets/images/sidebar-bg.png') }}">
     <div class="zSidebar-overlay"></div>
     <!-- Logo -->
+
+
     <a href="{{ route('index') }}" class="d-block mx-26 mb-27 max-w-146 pt-23">
-        @if(centralDomain() && isAddonInstalled('ALUSAAS'))
-        <img class="max-h-35" src="{{ getSettingImageCentral('app_logo') }}" alt="{{ getOption('app_name') }}"/>
-        @else
-        <img class="max-h-35" src="{{ getSettingImage('app_logo') }}" alt="{{ getOption('app_name') }}"/>
-        @endif
+{{--        @if(centralDomain() && isAddonInstalled('ALUSAAS'))--}}
+{{--        <img class="max-h-35" src="{{ getSettingImageCentral('app_logo') }}" alt="{{ getOption('app_name') }}"/>--}}
+{{--        @else--}}
+{{--        <img class="max-h-35" src="{{ getSettingImage('app_logo') }}" alt="{{ getOption('app_name') }}"/>--}}
+{{--        @endif--}}
     </a>
     <!-- Menu & Logout -->
     <div class="zSidebar-fixed">
@@ -491,4 +494,6 @@
 {{--            </form>--}}
         </ul>
     </div>
+
 </div>
+    @endif

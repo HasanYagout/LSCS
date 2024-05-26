@@ -94,9 +94,9 @@
                                 <select class="sf-select-without-search primary-form-control" name='department'
                                     id='department'>
                                     <option selected="" value=0>{{__('All Department')}}</option>
-                                    @foreach ($department as $row)
-                                        <option value="{{ $row->id }}">{{ $row->name }}</option>
-                                    @endforeach
+{{--                                    @foreach ($department as $row)--}}
+{{--                                        <option value="{{ $row->id }}">{{ $row->name }}</option>--}}
+{{--                                    @endforeach--}}
                                 </select>
                             </div>
                         </div>
@@ -108,9 +108,9 @@
                                 <select class="sf-select-without-search primary-form-control" name='passing_year'
                                     id='passing-year'>
                                     <option selected="" value=0>{{__('All Year')}}</option>
-                                    @foreach ($passingYear as $row)
-                                        <option value="{{ $row->id }}">{{ $row->name }}</option>
-                                    @endforeach
+{{--                                    @foreach ($passingYear as $row)--}}
+{{--                                        <option value="{{ $row->id }}">{{ $row->name }}</option>--}}
+{{--                                    @endforeach--}}
                                 </select>
                             </div>
                         </div>

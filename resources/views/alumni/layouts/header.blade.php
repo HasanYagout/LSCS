@@ -8,9 +8,9 @@
     @hasSection('meta')
     @stack('meta')
     @else
-    @php
-    $metaData = getMeta('home');
-    @endphp
+{{--    @php--}}
+{{--    $metaData = getMeta('home');--}}
+{{--    @endphp--}}
 
     <meta name="description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">
     <meta name="keywords" content="{{ __($metaData['meta_keyword']) }}">

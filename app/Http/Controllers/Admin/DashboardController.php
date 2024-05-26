@@ -20,16 +20,16 @@ class DashboardController extends Controller
 
     public function index(Request $request)
     {
-        $tenantId = getTenantId();
-        if ($request->ajax()) {
-            return $this->dashboardService->allTransactionList($tenantId);
-        }
+//        $tenantId = getTenantId();
+//        if ($request->ajax()) {
+//            return $this->dashboardService->allTransactionList($tenantId);
+//        }
         $data['pageTitle'] = __('Dashboard');
         $data['activeDashboard'] = 'active';
         $dashboardService = new DashboardService();
 //        $data['totalAlumni'] = $dashboardService->totalAlumni($tenantId);
 //        $data['currentMember'] = $dashboardService->currentMember($tenantId);
-        $data['totalUpcomingEvent'] = $dashboardService->totalUpcomingEvent($tenantId);
+//        $data['totalUpcomingEvent'] = $dashboardService->totalUpcomingEvent($tenantId);
 //        $data['memberThisMonth'] = $dashboardService->memberThisMonth($tenantId);
 //        $data['transactionThisMonth'] = $dashboardService->transactionThisMonth($tenantId);
 //        $data['chart'] = $dashboardService->dashboardDailyMembershipPaymentChart($tenantId);

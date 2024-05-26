@@ -80,8 +80,8 @@ class AlumniController extends Controller
         $data['title'] = __('Alumni List');
         $data['showAdminAlumni'] = 'show';
         $data['activeAlumniApprovedList'] = 'active-color-one';
-        $data['department'] = Department::all();
-        $data['passingYear'] = PassingYear::all();
+//        $data['department'] = Department::all();
+//        $data['passingYear'] = PassingYear::all();
 
         return view('admin.manage_alumni.alumni-list-with-search', $data);
     }

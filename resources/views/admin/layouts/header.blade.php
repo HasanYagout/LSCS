@@ -8,48 +8,48 @@
     @hasSection('meta')
     @stack('meta')
     @else
-    @php
-    $metaData = getMeta('home');
-    @endphp
+{{--    @php--}}
+{{--    $metaData = getMeta('home');--}}
+{{--    @endphp--}}
 
-    <meta name="description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">
-    <meta name="keywords" content="{{ __($metaData['meta_keyword']) }}">
+{{--    <meta name="description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">--}}
+{{--    <meta name="keywords" content="{{ __($metaData['meta_keyword']) }}">--}}
 
     <!-- Open Graph meta tags for social sharing -->
     <meta property="og:type" content="{{ __('Alumni') }}">
-    <meta property="og:title" content="{{ __($metaData['meta_title']) ?? getOption('app_name') }}">
-    <meta property="og:description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">
-    @if(centralDomain() && isAddonInstalled('ALUSAAS'))
-        <meta property="og:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">
-    @else
-        <meta property="og:image" content="{{ __($metaData['og_image']) ?? getSettingImageCentral('app_logo') }}">
-    @endif
+{{--    <meta property="og:title" content="{{ __($metaData['meta_title']) ?? getOption('app_name') }}">--}}
+{{--    <meta property="og:description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">--}}
+{{--    @if(centralDomain() && isAddonInstalled('ALUSAAS'))--}}
+{{--        <meta property="og:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">--}}
+{{--    @else--}}
+{{--        <meta property="og:image" content="{{ __($metaData['og_image']) ?? getSettingImageCentral('app_logo') }}">--}}
+{{--    @endif--}}
     <meta property="og:url" content="{{ url()->current() }}">
 
     <meta property="og:site_name" content="{{ __(getOption('app_name')) }}">
 
     <!-- Twitter Card meta tags for Twitter sharing -->
     <meta name="twitter:card" content="{{ __('Alumni') }}">
-    <meta name="twitter:title" content="{{ __($metaData['meta_title']) ?? getOption('app_name') }}">
-    <meta name="twitter:description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">
-    @if(centralDomain() && isAddonInstalled('ALUSAAS'))
-        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImageCentral('app_logo') }}">
-    @else
-        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">
-    @endif
+{{--    <meta name="twitter:title" content="{{ __($metaData['meta_title']) ?? getOption('app_name') }}">--}}
+{{--    <meta name="twitter:description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">--}}
+{{--    @if(centralDomain() && isAddonInstalled('ALUSAAS'))--}}
+{{--        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImageCentral('app_logo') }}">--}}
+{{--    @else--}}
+{{--        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">--}}
+{{--    @endif--}}
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     @endif
 
     <!-- Place favicon.ico in the root directory -->
     @if(centralDomain() && isAddonInstalled('ALUSAAS'))
-        <link rel="icon" href="{{ getSettingImageCentral('app_fav_icon') }}" type="image/png" sizes="16x16">
-        <link rel="shortcut icon" href="{{ getSettingImageCentral('app_fav_icon') }}" type="image/x-icon">
-        <link rel="shortcut icon" href="{{ getSettingImageCentral('app_fav_icon') }}">
+{{--        <link rel="icon" href="{{ getSettingImageCentral('app_fav_icon') }}" type="image/png" sizes="16x16">--}}
+{{--        <link rel="shortcut icon" href="{{ getSettingImageCentral('app_fav_icon') }}" type="image/x-icon">--}}
+{{--        <link rel="shortcut icon" href="{{ getSettingImageCentral('app_fav_icon') }}">--}}
     @else
-        <link rel="icon" href="{{ getSettingImage('app_fav_icon') }}" type="image/png" sizes="16x16">
-        <link rel="shortcut icon" href="{{ getSettingImage('app_fav_icon') }}" type="image/x-icon">
-        <link rel="shortcut icon" href="{{ getSettingImage('app_fav_icon') }}">
+{{--        <link rel="icon" href="{{ getSettingImage('app_fav_icon') }}" type="image/png" sizes="16x16">--}}
+{{--        <link rel="shortcut icon" href="{{ getSettingImage('app_fav_icon') }}" type="image/x-icon">--}}
+{{--        <link rel="shortcut icon" href="{{ getSettingImage('app_fav_icon') }}">--}}
     @endif
     <!-- fonts file -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
