@@ -5,7 +5,7 @@
 
 @section('content')
 
-    <div class="p-30">
+    <div class="pl-50">
         <div class="">
             <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{ __($pageTitle) }}</h4>
             <!-- Items -->
@@ -109,7 +109,7 @@
 
         </div>
     </div>
-    <input type="hidden" id="recommendation_route" value="{{ route('admin.recommendation') }}">
+{{--    <input type="hidden" id="recommendation_route" value="{{ route('admin.recommendation') }}">--}}
 @endsection
 
 @push('script')

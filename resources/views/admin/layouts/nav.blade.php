@@ -1,5 +1,5 @@
 <div
-    class="main-header pt-28 pb-27 px-30 bd-one bd-c-ebedf0 bg-white d-flex justify-content-between align-items-center">
+    class="main-header pt-28 pb-27 px-30  bg-002a5c d-flex justify-content-between align-items-center">
     <!-- Left -->
     <div class="d-flex align-items-center cg-15">
         <!-- Mobile Menu Button -->
@@ -10,9 +10,8 @@
         </div>
         <!-- Alumni link -->
         <a href="{{ route('admin.list-search-with-filter') }}"
-            class="d-none d-sm-inline-block fs-15 fw-500 lh-25 text-black py-10 px-26 bg-orange bd-ra-12 hover-bg-one">{{
-            __('Find
-            an Alumni') }}</a>
+            class="d-none  d-sm-inline-block fs-15 fw-500 lh-25 text-white  py-10 px-26 bg-f1a527 bd-ra-12 hover-bg-one">{{
+            __('Find an Alumni') }}</a>
     </div>
     <!-- Right -->
     <div class="right d-flex justify-content-end align-items-center cg-15">

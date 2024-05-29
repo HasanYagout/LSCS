@@ -2,10 +2,10 @@
 ------------- Table of content ----------------
 
 Template Name: Zaialumni Website Responsive  HTML5 Template
-Template URI: 
+Template URI:
 Description: Zaialumni Website Responsive  HTML5 Template
 Author: Mahmudul Hasan Sohel
-Author URI: 
+Author URI:
 Version: 1.0
 */
 /*===============================
@@ -14,7 +14,8 @@ Version: 1.0
 @import url("https://fonts.googleapis.com/css2?family=Inter+Tight:wght@100;200;300;400;500;600;700;800;900&display=swap");
 :root {
   --inter-tight: "Inter Tight", sans-serif;
-  --primary-color: #cdef84;
+    --primary-color: #002a5c;
+    --secondary-color: #f1a527;
   --black-color: #121421;
   --para-color: #707070;
   --hover-color: #afd449;

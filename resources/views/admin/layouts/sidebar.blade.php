@@ -1,6 +1,6 @@
 <!-- Sidebar -->
     @if(auth('admin')->user()->role_id==USER_ROLE_ADMIN)
-    <div class="zSidebar" data-background="{{ asset('public/assets/images/sidebar-bg.png') }}">
+    <div class="zSidebar">
     <div class="zSidebar-overlay"></div>
     <!-- Logo -->
 

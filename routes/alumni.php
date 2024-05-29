@@ -13,6 +13,7 @@ use App\Http\Controllers\Alumni\NotificationController;
 use App\Http\Controllers\Alumni\OrderController;
 use App\Http\Controllers\Alumni\PostController;
 use App\Http\Controllers\Alumni\ProfileController;
+use App\Http\Controllers\Alumni\RecommendationController;
 use App\Http\Controllers\Alumni\SettingController;
 use App\Http\Controllers\Alumni\StoryController;
 use App\Http\Controllers\Alumni\TicketController;
@@ -38,6 +39,12 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
     });
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('images', [ProfileController::class, 'images'])->name('images');
+
+    Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function () {
+        Route::get('/', [RecommendationController::class, 'index'])->name('index');
+        Route::get('/list', [RecommendationController::class, 'list'])->name('list');
+        Route::get('/create', [RecommendationController::class, 'create'])->name('create');
+    });
 
     Route::post('add-institution', [ProfileController::class, 'addInstitution'])->name('add_institution');
 
