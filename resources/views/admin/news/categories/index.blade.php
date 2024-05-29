@@ -8,7 +8,7 @@
 @section('content')
 <!-- Page content area start -->
 
-<div class="p-30">
+<div class="p-30" style="margin-left:250px;">
     <div>
         <input type="hidden" id="news-category-list-route" value="{{ route('admin.news.categories.index') }}">
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">

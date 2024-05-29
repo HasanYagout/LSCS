@@ -14,4 +14,8 @@ class Alumni extends Authenticatable
     {
         return $this->hasMany(AppliedJobs::class, 'job_id');
     }
+    public function recommendations()
+    {
+        return $this->hasMany(Recommendation::class, 'alumni_id');
+    }
 }

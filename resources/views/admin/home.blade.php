@@ -6,7 +6,7 @@
 {{--{!! RecaptchaV3::initJs() !!}--}}
 @endpush
 @section('content')
-    <div class="p-30">
+    <div class="p-30" style="margin-left:250px;">
         <section class="home-section">
             <!-- Posts -->
             <div class="home-content">
@@ -22,7 +22,7 @@
 
                             <div class="d-flex align-items-center cg-10 pb-20">
                                 <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-cdef84 rounded-circle overflow-hidden"><img
-                                        src="{{ asset(getFileUrl(auth('admin')->user()->image)) }}" class="w-100"
+                                        src="{{ asset('public/storage/admin'.'/'.auth('admin')->user()->image) }}" class="w-100"
                                         alt="{{auth('admin')->user()->name}}" />
                                 </div>
                                 <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{auth('admin')->user()->name}}</h4>
@@ -215,7 +215,7 @@
                                 @foreach ($latestNotice as $notice)
                                     <li>
                                         <div class="home-item-one">
-                                            <div class="img"><img src="{{ asset(getFileUrl($notice->image)) }}"
+                                            <div class="img"><img src="{{ asset('public/storage/notice'.'/'.$notice->image) }}"
                                                     alt="{{ $notice->title }}" />
                                             </div>
                                             <div class="content">
@@ -257,7 +257,7 @@
                                 @foreach ($latestNews as $news)
                                     <li>
                                         <div class="home-item-one">
-                                            <div class="img"><img src="{{ asset(getFileUrl($news->image)) }}"
+                                            <div class="img"><img src="{{ asset('public/storage/news'.'/'.$news->image) }}"
                                                     alt="{{ $news->title }}" />
                                             </div>
                                             <div class="content">
@@ -275,7 +275,7 @@
                                                 <div class="d-flex align-items-center cg-5">
                                                     <div
                                                         class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
-                                                        <img src="{{ asset(getFileUrl($news->author->image)) }}"
+                                                        <img src="{{ asset('public/storage/admin'.'/'.$news->author->image)}}"
                                                             alt="{{ $news->author->name }}" />
                                                     </div>
                                                     <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->name }}
@@ -318,7 +318,7 @@
                                 <li>
                                     <div class="home-item-one">
                                         <div class="img">
-                                            <img src="{{ asset(getFileUrl($event->thumbnail)) }}"
+                                            <img src="{{ asset('public/storage/events'.'/'.$event->thumbnail) }}"
                                                 alt="{{ $event->title }}">
                                             <ul class="tag d-flex flex-wrap cg-2 rg-5">
                                                 <li><a
@@ -444,7 +444,7 @@
                             @foreach ($latestNotice as $notice)
                                 <li>
                                     <div class="home-item-one">
-                                        <div class="img"><img src="{{ asset(getFileUrl($notice->image)) }}"
+                                        <div class="img"><img src="{{ asset('public/storage/notice'.'/'.$notice->image) }}"
                                                 alt="{{ $notice->title }}" /></div>
                                         <div class="content">
                                             <!-- Tab - Date -->
@@ -485,7 +485,7 @@
                             @foreach ($latestNews as $news)
                                 <li>
                                     <div class="home-item-one">
-                                        <div class="img"><img src="{{ asset(getFileUrl($news->image)) }}"
+                                        <div class="img"><img src="{{ asset('public/storage/news'.'/'.$news->image) }}"
                                                 alt="{{ $news->title }}" />
                                         </div>
                                         <div class="content">
@@ -503,7 +503,7 @@
                                             <div class="d-flex align-items-center cg-5">
                                                 <div
                                                     class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
-                                                    <img src="{{ asset(getFileUrl($news->author->image)) }}"
+                                                    <img src="{{ asset('public/storage/news'.'/'.$news->author->image) }}"
                                                         alt="{{ $news->author->name }}" />
                                                 </div>
                                                 <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->name }}</p>

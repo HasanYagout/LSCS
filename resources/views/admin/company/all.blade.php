@@ -8,7 +8,7 @@
 
 
     <!-- Page content area start -->
-    <div class="p-30">
+    <div class="p-30" style="margin-left:250px;">
         <div>
             <input type="hidden" id="companies-route" value="{{ route('admin.company.all') }}">
             <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">

@@ -5,18 +5,6 @@
 
 <body>
     <div class="overflow-x-hidden">
-        @if (getOption('app_preloader_status', 0) == STATUS_ACTIVE)
-        <div id="preloader">
-            <div id="preloader_status">
-{{--                @if(centralDomain() && isAddonInstalled('ALUSAAS'))--}}
-{{--                    <img src="{{ getSettingImageCentral('app_preloader') }}" alt="{{ getOption('app_name') }}" />--}}
-{{--                @else--}}
-{{--                    <img src="{{ getSettingImage('app_preloader') }}" alt="{{ getOption('app_name') }}" />--}}
-{{--                @endif--}}
-            </div>
-        </div>
-        @endif
-
         <!-- Main Content -->
         <div class="zMain-wrap">
             <!-- Sidebar -->

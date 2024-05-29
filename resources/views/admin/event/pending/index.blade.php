@@ -7,7 +7,7 @@
 
 @section('content')
 <!-- Page content area start -->
-<div class="p-30">
+<div class="p-30" style="margin-left:250px;">
     <div>
         <input type="hidden" id="event-pending-list-route" value="{{ route('admin.event.pending') }}">
 
