@@ -262,7 +262,7 @@ Version: 1.0
   color: var(--white-70) !important;
 }
 
-.text-cdef84 {
+.text-002a5c {
   color: var(--primary-color) !important;
 }
 
@@ -4338,8 +4338,8 @@ scrollUp
 }
 .tablePagi .paginate_button.current, .tablePagi .paginate_button:hover {
   color: var(--text-black) !important;
-  background: var(--primary-color) !important;
-  border-color: var(--primary-color) !important;
+  background: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button {

@@ -17,76 +17,46 @@ class RecommendationController extends Controller
     public function list(Request $request)
     {
         if ($request->ajax()) {
-            $recomendations = Recommendation::with('alumni','admin')->where('alumni_id',auth('alumni')->id())->get();
+            $recommendations = Recommendation::with(['alumni', 'admin'])
+                ->where('alumni_id', auth('alumni')->id())
+                ->get();
 
-            return datatables($recomendations)
+            return datatables($recommendations)
                 ->addIndexColumn()
                 ->addColumn('name', function ($data) {
-                    return  $data->admin->first_name.' '.$data->admin->last_name;
+                    return $data->admin->first_name . ' ' . $data->admin->last_name;
                 })
                 ->addColumn('status', function ($data) {
                     $status = $data->status;
                     $color = '';
+                    $statusText = '';
 
                     switch ($status) {
                         case '1':
-                            $color = 'background-color: green; color: white;';
+                            $color = 'background-color: rgba(0, 0, 255, 0.6); color: white;'; // blue with opacity
+                            $statusText = 'Confirmed';
                             break;
-                        case 'Pending':
-                            $color = 'background-color: yellow; color: black;';
+                        case '2':
+                            $color = 'background-color: rgba(0, 128, 0, 0.6); color: white;'; // green with opacity
+                            $statusText = 'Done';
+                            break;
+                        case '3':
+                            $color = 'background-color: rgba(255, 0, 0, 0.6); color: white;'; // red with opacity
+                            $statusText = 'Rejected';
                             break;
                         case '0':
-                            $color = 'background-color: red; color: white;';
-                            break;
                         default:
-                            $color = 'background-color: gray; color: white;';
+                            $color = 'background-color: rgba(255, 255, 0, 0.6); color: black;'; // yellow with opacity
+                            $statusText = 'Pending';
                             break;
                     }
 
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                                <li style="'.$color.'" class="d-flex gap-2"></li>
-
-                            </ul>';
+                    return '<span class="p-2 rounded-5" style="' . $color . '">' . $statusText . '</span>';
                 })
-//            ->addColumn('title', function ($data) {
-//                return htmlspecialchars($data->title);
-//            })
-//            ->addColumn('employee_status', function ($data) {
-//                return $this->getEmployeeStatusById($data->employee_status);
-//            })
-//            ->addColumn('salary', function ($data) {
-//                return htmlspecialchars($data->salary);
-//            })
-//            ->addColumn('application_deadline', function ($data) {
-//               return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
-//            })
-//
-//                ->addColumn('action', function ($data) {
-//                    if(auth('admin')->user()->role_id == USER_ROLE_COMPANY){
-//                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-//                                <li class="d-flex gap-2">
-//                                    <button onclick="getEditModal(\'' . route('admin.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-//                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-//                                    </button>
-//                                    <button onclick="deleteItem(\'' . route('admin.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-//                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-//                                    </button>
-//                                    <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
-//                                </li>
-//                            </ul>';
-//                    }else{
-//                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-//                    <li class="d-flex gap-2">
-//                        <a href="' . route('company.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
-//                    </li>
-//                </ul>';
-//                    }
-//
-//                })
-
-                ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'salary', 'application_deadline'])
+                ->rawColumns(['status'])
                 ->make(true);
         }
+
 
     }
 

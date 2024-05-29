@@ -12,9 +12,9 @@
                     <table class="table zTable" id="recommendationTable">
                         <thead>
                         <tr>
-                            <th scope="col"><div>{{ __('Instructor') }}</div></th>
-                            <th scope="col"><div>{{ __('Status') }}</div></th>
-                            <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a text-002a5c">{{ __('Instructor') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a text-002a5c">{{ __('Status') }}</div></th>
+                            <th class="w-110 text-center" scope="col"><div class="bg-f5b40a text-002a5c">{{ __('Action') }}</div></th>
                         </tr>
                         </thead>
                     </table>
