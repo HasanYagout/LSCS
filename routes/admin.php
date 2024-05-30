@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StoryController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\Website\WebsiteSettingController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('/code/captcha/{tmp}', 'LoginController@captcha')->name('default-captcha');
+        Route::get('login', [LoginController::class,'login'])->name('login');
+        Route::post('login',[LoginController::class,'submit']);
+        Route::get('logout', [LoginController::class,'logout'])->name('logout');
+        Route::get('register', [LoginController::class,'register'])->name('register');
+    });
+    Route::get('/', function () {
+        return redirect()->route('admin.auth.login');
+    });
+
+    Route::group(['middleware' => ['admin']], function () {
+
+        Route::group(['prefix' => 'instructor', 'as' => 'instructor.'], function () {
+            Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function () {
+                Route::get('/edit/{id}', [DashboardController::class, 'recommendation_edit'])->name('edit');
+                Route::post('store', [DashboardController::class, 'store'])->name('store');
+            });
+                Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+            Route::post('/status', [DashboardController::class, 'status_update'])->name('status.update');
+
+        });
+
 
     Route::group(['prefix' => 'company', 'as' => 'company.'], function () {
         Route::get('/', [CompanyController::class, 'all'])->name('all');
@@ -43,9 +67,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::get('alumni/profile/{id}', [AlumniController::class, 'view'])->name('alumni.view');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-    Route::get('/', function () {
-        return redirect()->route('admin.auth.login');
-    });
+
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::get('/', [ProfileController::class, 'myProfile'])->name('index');
         Route::get('change-password', [ProfileController::class, 'changePassword'])->name('change-password');
@@ -75,13 +97,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     });
 
     /*authentication*/
-    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
-        Route::get('/code/captcha/{tmp}', 'LoginController@captcha')->name('default-captcha');
-        Route::get('login', [LoginController::class,'login'])->name('login');
-        Route::post('login',[LoginController::class,'submit']);
-        Route::get('logout', [LoginController::class,'logout'])->name('logout');
-        Route::get('register', [LoginController::class,'register'])->name('register');
-    });
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Event Route Start
@@ -109,14 +124,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 // Event Route End
 
 // Membership Route Start
-    Route::group(['prefix' => 'membership', 'as' => 'membership.'], function () {
-        Route::get('index', [MembershipController::class, 'index'])->name('index');
-        Route::post('store', [MembershipController::class, 'store'])->name('store');
-        Route::get('edit/{slug}', [MembershipController::class, 'edit'])->name('edit');
-        Route::post('update/{slug}', [MembershipController::class, 'update'])->name('update');
-        Route::post('delete/{id}', [MembershipController::class, 'delete'])->name('delete');
-        Route::get('list', [MembershipController::class, 'list'])->name('list');
-    });
 // Membership Route End
 
 // JobPost Route Start
@@ -185,22 +192,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
                 Route::get('refund-policy', [WebsiteSettingController::class, 'refundPolicy'])->name('refund-policy');
                 Route::get('contact-us', [WebsiteSettingController::class, 'contactUs'])->name('contact-us');
 
-                Route::group(['prefix' => 'image-galleries', 'as' => 'image_galleries.'], function () {
-                    Route::get('', [ImageGalleryController::class, 'index'])->name('index');
-                    Route::post('', [ImageGalleryController::class, 'store'])->name('store');
-                    Route::get('edit/{id}', [ImageGalleryController::class, 'edit'])->name('edit');
-                    Route::patch('update/{id}', [ImageGalleryController::class, 'update'])->name('update');
-                    Route::post('delete/{id}', [ImageGalleryController::class, 'delete'])->name('delete');
-                });
+
             });
 
-            Route::group(['prefix' => 'currency', 'as' => 'currencies.'], function () {
-                Route::get('', [CurrencyController::class, 'index'])->name('index');
-                Route::post('currency', [CurrencyController::class, 'store'])->name('store');
-                Route::get('edit/{id}', [CurrencyController::class, 'edit'])->name('edit');
-                Route::patch('update/{id}', [CurrencyController::class, 'update'])->name('update');
-                Route::post('delete/{id}', [CurrencyController::class, 'delete'])->name('delete');
-            });
+
 
             Route::get('storage-settings', [SettingController::class, 'storageSetting'])->name('storage.index');
             Route::post('storage-settings', [SettingController::class, 'storageSettingsUpdate'])->name('storage.update');
@@ -236,12 +231,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('storage-link', [SettingController::class, 'storageLink'])->name('storage.link');
         Route::get('security-settings', [SettingController::class, 'securitySettings'])->name('security.settings');
 
-        Route::group(['prefix' => 'gateway', 'as' => 'gateway.'], function () {
-            Route::get('/', [GatewayController::class, 'index'])->name('index');
-            Route::post('store', [GatewayController::class, 'store'])->name('store')->middleware('isDemo');
-            Route::get('get-info', [GatewayController::class, 'getInfo'])->name('get.info');
-            Route::get('get-currency-by-gateway', [GatewayController::class, 'getCurrencyByGateway'])->name('get.currency');
-        });
 
         //Features Settings
         Route::get('cookie-settings', [SettingController::class, 'cookieSetting'])->name('cookie-settings');
@@ -256,43 +245,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('email-edit/{id}', [EmailTemplateController::class, 'emailTempEdit'])->name('email-edit');
         Route::post('email-temp-update/{id}', [EmailTemplateController::class, 'emailTempUpdate'])->name('email-temp-update');
 
-        Route::group(['prefix' => 'batch', 'as' => 'batches.'], function () {
-            Route::get('', [BatchController::class, 'index'])->name('index');
-            Route::post('batch', [BatchController::class, 'store'])->name('store');
-            Route::get('edit/{id}', [BatchController::class, 'edit'])->name('edit');
-            Route::patch('update/{id}', [BatchController::class, 'update'])->name('update');
-            Route::post('delete/{id}', [BatchController::class, 'delete'])->name('delete');
-        });
 
-        Route::group(['prefix' => 'department', 'as' => 'departments.'], function () {
-            Route::get('', [DepartmentController::class, 'index'])->name('index');
-            Route::post('department', [DepartmentController::class, 'store'])->name('store');
-            Route::get('edit/{id}', [DepartmentController::class, 'edit'])->name('edit');
-            Route::patch('update/{id}', [DepartmentController::class, 'update'])->name('update');
-            Route::post('delete/{id}', [DepartmentController::class, 'delete'])->name('delete');
-        });
-
-        Route::group(['prefix' => 'passing-years', 'as' => 'passing_years.'], function () {
-            Route::get('', [PassingYearController::class, 'index'])->name('index');
-            Route::post('passing-years', [PassingYearController::class, 'store'])->name('store');
-            Route::get('edit/{id}', [PassingYearController::class, 'edit'])->name('edit');
-            Route::patch('update/{id}', [PassingYearController::class, 'update'])->name('update');
-            Route::post('delete/{id}', [PassingYearController::class, 'delete'])->name('delete');
-        });
-
-        Route::group(['prefix' => 'language', 'as' => 'languages.'], function () {
-            Route::get('/', [LanguageController::class, 'index'])->name('index');
-            Route::post('store', [LanguageController::class, 'store'])->name('store');
-            Route::get('edit/{id}/{iso_code?}', [LanguageController::class, 'edit'])->name('edit');
-            Route::post('update/{id}', [LanguageController::class, 'update'])->name('update');
-            Route::get('translate/{id}', [LanguageController::class, 'translateLanguage'])->name('translate');
-            Route::post('update-translate/{id}', [LanguageController::class, 'updateTranslate'])->name('update.translate');
-            Route::post('delete/{id}', [LanguageController::class, 'delete'])->name('delete');
-            Route::post('update-language/{id}', [LanguageController::class, 'updateLanguage'])->name('update-language');
-            Route::get('translate/{id}/{iso_code?}', [LanguageController::class, 'translateLanguage'])->name('translate');
-            Route::get('update-translate/{id}', [LanguageController::class, 'updateTranslate'])->name('update.translate');
-            Route::post('import', [LanguageController::class, 'import'])->name('import')->middleware('isDemo');
-        });
     });
 
 
@@ -321,15 +274,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::post('delete/{id}', [NewsController::class, 'delete'])->name('delete');
     });
 
-//transactions
-    Route::group(['prefix' => 'transactions', 'as' => 'transactions.'], function () {
-        Route::get('pending-list', [TransactionController::class, 'pendingTransaction'])->name('pending.list');
-        Route::get('all-transactions', [TransactionController::class, 'allTransaction'])->name('all.list');
-        Route::get('event-transaction', [TransactionController::class, 'eventTransaction'])->name('event.list');
-        Route::get('membership-transaction', [TransactionController::class, 'membershipTransaction'])->name('membership.list');
-        Route::post('change-transaction-status', [TransactionController::class, 'transactionChangeStatus'])->name('change-status');
 
-    });
 
 
 //notice setting
@@ -349,54 +294,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::post('update/{id}', [NoticeController::class, 'update'])->name('update');
         Route::post('delete/{id}', [NoticeController::class, 'delete'])->name('delete');
     });
-
-//users
-    Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
-        Route::get('list', [UserController::class, 'userList'])->name('list');
-        Route::get('add-new', [UserController::class, 'userAdd'])->name('add-new');
-        Route::post('store', [UserController::class, 'store'])->name('store');
-        Route::get('details-{id}', [UserController::class, 'userDetails'])->name('details');
-        Route::get('edit-{id}', [UserController::class, 'userEdit'])->name('edit');
-        Route::post('update', [UserController::class, 'userUpdate'])->name('update')->middleware('isDemo');
-        Route::get('wallet-{id}', [UserController::class, 'userWallet'])->name('wallet');
-        Route::get('accounting-{id}', [UserController::class, 'userAccounting'])->name('accounting');
-        Route::get('suspend-{id}', [UserController::class, 'userSuspend'])->name('suspend');
-        Route::post('delete-{id}', [UserController::class, 'userDelete'])->name('delete');
-        Route::get('activity-{id}', [UserController::class, 'userActivity'])->name('activity');
     });
 
-    if(!isAddonInstalled('ALUSAAS')) {
-// version update
-        Route::get('version-update', [VersionUpdateController::class, 'versionFileUpdate'])->name('version-update');
-        Route::post('version-update', [VersionUpdateController::class, 'versionFileUpdateStore'])->name('version-update-store');
-        Route::get('version-update-execute', [VersionUpdateController::class, 'versionUpdateExecute'])->name('version-update-execute');
-        Route::get('version-delete', [VersionUpdateController::class, 'versionFileUpdateDelete'])->name('version-delete');
-
-        Route::group(['prefix' => 'addon', 'as' => 'addon.'], function () {
-            Route::get('details/{code}', [AddonUpdateController::class, 'addonDetails'])->name('details')->withoutMiddleware(['addon']);
-            Route::post('store', [AddonUpdateController::class, 'addonFileStore'])->name('store')->withoutMiddleware(['addon']);
-            Route::post('execute', [AddonUpdateController::class, 'addonFileExecute'])->name('execute')->withoutMiddleware(['addon']);
-            Route::get('delete/{code}', [AddonUpdateController::class, 'addonFileDelete'])->name('delete')->withoutMiddleware(['addon']);
-        });
-    }else{
-        //subscription
-        Route::group(['prefix' => 'subscription', 'as' => 'subscription.'], function () {
-            Route::get('/', [SubscriptionController::class, 'index'])->name('index');
-            Route::get('checkout', [OrderController::class, 'checkout'])->name('checkout');
-            Route::post('pay', [OrderController::class, 'pay'])->name('pay');
-            Route::get('get-currency-by-gateway', [OrderController::class, 'getCurrencyByGateway'])->name('get.currency');
-            Route::get('checkout/success', [OrderController::class, 'checkoutSuccess'])->name('checkout.success');
-            Route::get('get-package', [SubscriptionController::class, 'getPackage'])->name('get.package');
-            Route::post('cancel', [SubscriptionController::class, 'cancel'])->name('cancel');
-            Route::get('transaction-list', [SubscriptionController::class, 'transactionList'])->name('transaction.list');
-        });
-
-//custom domain
-        Route::group(['prefix' => 'custom-domain', 'as' => 'custom_domain.'], function () {
-            Route::get('/', [CustomDomainRequestController::class, 'index'])->name('index');
-            Route::post('store', [CustomDomainRequestController::class, 'store'])->name('store');
-            Route::get('info/{id}', [CustomDomainRequestController::class, 'info'])->name('info');
-            Route::POST('update/{id}', [CustomDomainRequestController::class, 'update'])->name('update');
-        });
-    }
 });

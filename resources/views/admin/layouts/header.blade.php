@@ -38,7 +38,7 @@
 {{--        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">--}}
 {{--    @endif--}}
 
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+        <meta name="csrf-token" content="{{ csrf_token() }}">
     @endif
 
     <!-- Place favicon.ico in the root directory -->

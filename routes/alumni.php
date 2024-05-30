@@ -37,6 +37,9 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
     Route::get('/', function () {
         return redirect()->route('auth.login');
     });
+    Route::group(['middleware' => 'alumni'], function () {
+
+
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('images', [ProfileController::class, 'images'])->name('images');
 
@@ -180,5 +183,5 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::post('send-message', [MessageController::class, 'send'])->name('send_message');
     });
 
-
+    });
 });

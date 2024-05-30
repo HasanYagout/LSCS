@@ -4,6 +4,7 @@
 @include('admin.layouts.header')
 
 <body>
+
     <div class="overflow-x-hidden">
         <!-- Main Content -->
         <div class="zMain-wrap">
@@ -24,6 +25,7 @@
     </div>
     @endif
     @include('admin.layouts.script')
+    {!! Toastr::message() !!}
 </body>
 
 </html>
