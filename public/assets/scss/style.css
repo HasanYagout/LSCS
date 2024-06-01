@@ -23,6 +23,7 @@ Version: 1.0
 :root {
     --primary-color: #002a5c;
     --secondary-color: #f1a527;
+    --light-secondary-color:#ffbd4f;
   --hover-color: #f1a527;
   --bColor: #707070;
   --colorOne: #707070;
@@ -325,9 +326,12 @@ Version: 1.0
 .text-0fa958-10 {
   color: var(--colorTwelve-10) !important;
 }
+.text-f1a527{
+    color: var(--secondary-color) !important;
 
+}
 .text-f5b40a {
-  color: var(--color13) !important;
+  color: var(--secondary-color) !important;
 }
 
 .text-f5b40a-10 {
@@ -442,7 +446,9 @@ Version: 1.0
 .bg-f1a527 {
   background-color: var(--hover-color) !important;
 }
-
+.bg-light{
+    background-color: var(--light-secondary-color) !important;
+}
 .bg-707070 {
   background-color: var(--bColor) !important;
 }

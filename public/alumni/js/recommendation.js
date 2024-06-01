@@ -40,7 +40,7 @@
             // { "data": "action", "name": "job.action"},
             // { "data": "major", "name": "student.major" },
             // { "data": "credits_left", searchable: false, responsivePriority: 2},
-            // { "data": "action", searchable: false, responsivePriority: 3 },
+            { "data": "action", searchable: false, responsivePriority: 3 },
         ],
         "initComplete": function( settings, json ) {
             $('.z-filter-block').html($('#search-section').html());

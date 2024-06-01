@@ -32,12 +32,12 @@
         dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"d-flex align-items-center cg-5"<"tableSearch float-start"f><"z-filter-button">>><"col-sm-6"<"tableLengthInput float-end"l>><"col-sm-12"<"z-filter-block">>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
         columns: [
             { data: 'checkbox', name: 'checkbox', orderable: false, searchable: false },
-            { data: 'id', name: 'id' },
+            { data: 'id', name: 'id' ,orderable: true, searchable: true },
             { data: 'name', name: 'name' },
             { data: 'gpa', name: 'gpa' },
+            { data: 'recommendation_count', name: 'recommendation' },
             { data: 'status', name: 'status' },
             { data: 'action', name: 'action' },
-            // ... other columns ...
         ],
         "initComplete": function( settings, json ) {
             $('.z-filter-block').html($('#search-section').html());

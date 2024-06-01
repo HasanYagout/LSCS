@@ -47,7 +47,11 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::get('/', [RecommendationController::class, 'index'])->name('index');
         Route::get('/list', [RecommendationController::class, 'list'])->name('list');
         Route::get('/create', [RecommendationController::class, 'create'])->name('create');
+        Route::get('/edit/{id}', [RecommendationController::class, 'edit'])->name('edit');
         Route::post('/store', [RecommendationController::class, 'store'])->name('store');
+        Route::get('view/{file}', [RecommendationController::class,'view'])->name('view');
+        Route::get('download/{file}', [RecommendationController::class,'download'])->name('download');
+
     });
 
     Route::post('add-institution', [ProfileController::class, 'addInstitution'])->name('add_institution');

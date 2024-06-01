@@ -65,5 +65,38 @@
         })
     }
 
-
+    window.deleteItem = function (url, id) {
+        Swal.fire({
+            title: 'Sure! You want to delete?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Delete It!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function (data) {
+                        Swal.fire({
+                            title: 'Deleted',
+                            html: ' <span style="color:red">Item has been deleted</span> ',
+                            timer: 2000,
+                            icon: 'success'
+                        })
+                        toastr.success(data.message);
+                        $('#' + id).DataTable().ajax.reload();
+                    },
+                    error: function (error) {
+                        toastr.error(error.responseJSON.message)
+                    }
+                })
+            }
+        })
+    }
 })(jQuery)

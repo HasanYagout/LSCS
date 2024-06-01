@@ -17,7 +17,7 @@
   color: var(--primary-color) !important;
 }
 .text-f1a527 {
-  color: var(--hover-color) !important;
+  color: var(--secondary-color) !important;
 }
 .text-707070 {
   color: var(--bColor) !important;
@@ -62,7 +62,7 @@
   color: var(--colorTwelve-10) !important;
 }
 .text-f5b40a {
-  color: var(--color13) !important;
+  color: var(--secondary-color) !important;
 }
 .text-f5b40a-10 {
   color: var(--color13-10) !important;
@@ -148,6 +148,9 @@
 }
 .bg-f1a527 {
   background-color: var(--secondary-color) !important;
+}
+.bg-light{
+    background-color: var(--light-secondary-color) !important;
 }
 .bg-707070 {
   background-color: var(--bColor) !important;

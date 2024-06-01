@@ -21,6 +21,13 @@
                 </div>
 
             </div>
+            <div class="modal fade" id="edit-modal" aria-hidden="true" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

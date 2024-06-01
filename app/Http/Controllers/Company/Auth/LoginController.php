@@ -78,6 +78,7 @@ class LoginController extends Controller
 
         $company = new Company();
         $company->name=$request->name;
+        $company->slug=Str::slug($request->name).'_'.uniqid();
         $company->email=$request->email;
         $company->password=Hash::make($request->password);
         $company->phone=$request->mobile;

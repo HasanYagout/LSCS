@@ -29,19 +29,12 @@ class NewsRequest extends FormRequest
             'title' => [
                 'bail',
                 'required',
-                new UniqueWithConditions('news', 'title', $this->id, 'id', ['tenant_id' => getTenantId()])
             ],
             'category_id' => 'required',
-//            'tag_ids.0' => 'required',
             'details' => 'required',
         ];
 
-        if($this->id){
-            $rules['image'] = 'bail|nullable|mimes:jpg,jpeg,png';
-        }
-        else{
-            $rules['image'] = 'bail|required|mimes:jpg,jpeg,png';
-        }
+
         return $rules;
     }
 }

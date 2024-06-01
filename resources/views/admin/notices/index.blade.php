@@ -165,5 +165,5 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('admin/js/notices.js') }}"></script>
+<script src="{{ asset('public/admin/js/notices.js') }}"></script>
 @endpush

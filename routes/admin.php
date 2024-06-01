@@ -61,6 +61,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::group(['prefix' => 'company', 'as' => 'company.'], function () {
         Route::get('/', [CompanyController::class, 'all'])->name('all');
         Route::post('update/{company}', [CompanyController::class, 'update'])->name('update');
+        Route::get('/info/{slug}', [CompanyController::class, 'details'])->name('details');
 
     });
     Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
@@ -90,7 +91,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     });
     Route::group(['prefix' => 'students', 'as' => 'students.'], function () {
         Route::get('/', [StudentController::class, 'index'])->name('index');
-        Route::get('list', [StudentController::class, 'list'])->name('list');
         Route::post('change-password', [StudentController::class, 'changePasswordUpdate'])->name('change-password.update')->middleware('isDemo');
         Route::post('update', [StudentController::class, 'update'])->name('update');
         Route::get('info/{id}', [StudentController::class, 'info'])->name('info');
@@ -169,95 +169,11 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     });
     // Manage Alumni Route End
 
-    Route::group(['prefix' => 'setting', 'as' => 'setting.'], function () {
-        Route::group([], function () {
-            Route::get('application-settings', [SettingController::class, 'applicationSetting'])->name('application-settings');
-            Route::get('configuration-settings', [SettingController::class, 'configurationSetting'])->name('configuration-settings');
-            Route::get('configuration-settings/configure', [SettingController::class, 'configurationSettingConfigure'])->name('configuration-settings.configure');
-            Route::get('configuration-settings/help', [SettingController::class, 'configurationSettingHelp'])->name('configuration-settings.help');
-            Route::post('application-settings-update', [SettingController::class, 'applicationSettingUpdate'])->name('application-settings.update');
-            Route::post('configuration-settings-update', [SettingController::class, 'configurationSettingUpdate'])->name('configuration-settings.update');
-            Route::post('application-env-update', [SettingController::class, 'saveSetting'])->name('settings_env.update');
-            Route::get('color-settings', [SettingController::class, 'colorSettings'])->name('color-settings');
 
-            //website settings
-            Route::group(['prefix' => 'website-settings', 'as' => 'website-settings.'], function () {
-                Route::get('/', [WebsiteSettingController::class, 'commonSetting'])->name('index');
-                Route::get('banner-setting', [WebsiteSettingController::class, 'bannerSetting'])->name('banner.setting');
-                Route::get('why-you-should-join-us', [WebsiteSettingController::class, 'whyYouShouldJoinUs'])->name('why-you-should-join-us');
-                Route::get('about-us', [WebsiteSettingController::class, 'aboutUs'])->name('about-us');
-                Route::get('privacy-policy', [WebsiteSettingController::class, 'privacyPolicy'])->name('privacy-policy');
-                Route::get('cookie-policy', [WebsiteSettingController::class, 'cookiePolicy'])->name('cookie-policy');
-                Route::get('terms-condition', [WebsiteSettingController::class, 'termsCondition'])->name('terms-condition');
-                Route::get('refund-policy', [WebsiteSettingController::class, 'refundPolicy'])->name('refund-policy');
-                Route::get('contact-us', [WebsiteSettingController::class, 'contactUs'])->name('contact-us');
-
-
-            });
-
-
-
-            Route::get('storage-settings', [SettingController::class, 'storageSetting'])->name('storage.index');
-            Route::post('storage-settings', [SettingController::class, 'storageSettingsUpdate'])->name('storage.update');
-            Route::get('google-recaptcha-settings', [SettingController::class, 'googleRecaptchaSetting'])->name('google-recaptcha');
-            Route::get('google-analytics-settings', [SettingController::class, 'googleAnalyticsSetting'])->name('google.analytics');
-
-            Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
-                Route::get('/', [UserController::class, 'index'])->name('index');
-                Route::get('create', [UserController::class, 'create'])->name('create');
-                Route::post('store', [UserController::class, 'store'])->name('store')->middleware('isDemo');
-                Route::get('edit/{id}', [UserController::class, 'edit'])->name('edit');
-                Route::post('update/{id}', [UserController::class, 'update'])->name('update')->middleware('isDemo');
-                Route::get('delete/{id}', [UserController::class, 'delete'])->name('delete')->middleware('isDemo');
-            });
-        });
-
-        Route::get('mail-configuration', [SettingController::class, 'mailConfiguration'])->name('mail-configuration');
-        Route::post('mail-configuration', [SettingController::class, 'mailConfiguration'])->name('mail-configuration');
-        Route::post('mail-test', [SettingController::class, 'mailTest'])->name('mail.test');
-
-        Route::get('sms-configuration', [SettingController::class, 'smsConfiguration'])->name('sms-configuration');
-        Route::post('sms-configuration', [SettingController::class, 'smsConfigurationStore'])->name('sms-configuration');
-        Route::post('sms-test', [SettingController::class, 'smsTest'])->name('sms.test');
-
-
-        //Start:: Maintenance Mode
-        Route::get('maintenance-mode-changes', [SettingController::class, 'maintenanceMode'])->name('maintenance');
-        Route::post('maintenance-mode-changes', [SettingController::class, 'maintenanceModeChange'])->name('maintenance.change');
-        //End:: Maintenance Mode
-
-        Route::get('cache-settings', [SettingController::class, 'cacheSettings'])->name('cache-settings');
-        Route::get('cache-update/{id}', [SettingController::class, 'cacheUpdate'])->name('cache-update');
-        Route::get('storage-link', [SettingController::class, 'storageLink'])->name('storage.link');
-        Route::get('security-settings', [SettingController::class, 'securitySettings'])->name('security.settings');
-
-
-        //Features Settings
-        Route::get('cookie-settings', [SettingController::class, 'cookieSetting'])->name('cookie-settings');
-        Route::post('cookie-settings-update', [SettingController::class, 'cookieSettingUpdated'])->name('cookie.settings.update');
-        Route::get('live-chat-settings', [SettingController::class, 'liveChatSettings'])->name('live.chat.settings');
-
-        //common setting update
-        Route::post('common-settings-update', [SettingController::class, 'commonSettingUpdate'])->name('common.settings.update')->middleware('isDemo');
-
-        Route::get('email-template', [EmailTemplateController::class, 'emailTemplate'])->name('email-template');
-        Route::get('email-edit', [EmailTemplateController::class, 'emailTempEdit'])->name('email-edit');
-        Route::get('email-edit/{id}', [EmailTemplateController::class, 'emailTempEdit'])->name('email-edit');
-        Route::post('email-temp-update/{id}', [EmailTemplateController::class, 'emailTempUpdate'])->name('email-temp-update');
-
-
-    });
 
 
 //news setting
     Route::group(['prefix' => 'news', 'as' => 'news.'], function () {
-        Route::group(['prefix' => 'tags', 'as' => 'tags.'], function () {
-            Route::get('list', [NewsTagController::class, 'index'])->name('index');
-            Route::post('store', [NewsTagController::class, 'store'])->name('store');
-            Route::get('info/{id}', [NewsTagController::class, 'info'])->name('info');
-            Route::post('update/{id}', [NewsTagController::class, 'update'])->name('update');
-            Route::post('delete/{id}', [NewsTagController::class, 'delete'])->name('delete');
-        });
 
         Route::group(['prefix' => 'categories', 'as' => 'categories.'], function () {
             Route::get('list', [NewsCategoryController::class, 'index'])->name('index');
@@ -272,6 +188,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('info/{id}', [NewsController::class, 'info'])->name('info');
         Route::post('update/{id}', [NewsController::class, 'update'])->name('update');
         Route::post('delete/{id}', [NewsController::class, 'delete'])->name('delete');
+        Route::get('details/{slug}', [NewsController::class, 'details'])->name('details');
+
     });
 
 

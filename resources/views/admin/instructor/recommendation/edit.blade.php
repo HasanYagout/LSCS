@@ -1,5 +1,4 @@
-<form class="ajax reset" action="{{ route('admin.instructor.recommendation.store', $recommendation->id) }}" method="post"
-      data-handler="commonResponseForModal">
+<form class="ajax reset" action="{{ route('admin.instructor.recommendation.store', $recommendation->id) }}" method="post" enctype="multipart/form-data" data-handler="commonResponseForModal">
     @csrf
     <div class="modal-body zModalTwo-body model-lg">
         <!-- Header -->
@@ -15,7 +14,7 @@
                 <div class="primary-form-group mt-2">
                     <div class="primary-form-group-wrap">
                         <div class="mb-3">
-                            <input name="recommendations[]" class="form-control" type="file" id="formFileMultiple" accept=".pdf" multiple>
+                            <input name="recommendations[]" class="form-control" type="file" accept=".pdf" multiple>
                         </div>
                     </div>
                 </div>

@@ -52,7 +52,6 @@ class NewsCategoryService
             $newsCategory->name = $request->name;
             $newsCategory->slug = $slug;
             $newsCategory->status = $request->status;
-            $newsCategory->tenant_id = getTenantId();
             $newsCategory->save();
             DB::commit();
             return $this->success([], getMessage(CREATED_SUCCESSFULLY));

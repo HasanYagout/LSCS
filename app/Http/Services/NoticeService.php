@@ -14,11 +14,11 @@ class NoticeService
 
     public function list()
     {
-        $features = Notice::where('tenant_id', getTenantId())->with(['category'])->orderBy('id','DESC');
+        $features = Notice::with(['category'])->orderBy('id','DESC');
         return datatables($features)
             ->addIndexColumn()
             ->addColumn('image', function ($data) {
-                return '<img src="' . getFileUrl($data->image) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                return '<img src="' . asset('public/storage/admin/notice'.'/'.$data->image) . '" alt="icon" class="rounded avatar-xs max-h-35">';
             })
             ->addColumn('user', function ($data) {
                 return htmlspecialchars($data->user->name);
@@ -94,7 +94,7 @@ class NoticeService
             } else {
                 $slug = getSlug($request->title);
             }
-            $notice = Notice::where('tenant_id', getTenantId())->where('id', $id)->firstOrFail();
+            $notice = Notice::where('id', $id)->firstOrFail();
             $notice->title = $request->title;
             $notice->slug = $slug;
             $notice->notice_category_id = $request->category_id;
@@ -119,17 +119,17 @@ class NoticeService
 
     public function getById($id)
     {
-        return Notice::where('tenant_id', getTenantId())->with(['category'])->where('id', $id)->firstOrFail();
+        return Notice::with(['category'])->where('id', $id)->firstOrFail();
     }
 
     public function getNoticeBySlug($slug)
     {
-        return Notice::where('tenant_id', getTenantId())->where('slug', $slug)->with(['category'])->firstOrFail();
+        return Notice::where('slug', $slug)->with(['category'])->firstOrFail();
     }
 
     public function getFirst()
     {
-        return Notice::where('tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->with(['category'])->first();
+        return Notice::where('status', STATUS_ACTIVE)->with(['category'])->first();
     }
 
     public function deleteById($id)
@@ -152,9 +152,9 @@ class NoticeService
     {
         $first = $this->getFirst()?->id;
         if(is_null($limit)){
-            return Notice::where('tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->where('id', '!=', $first)->with(['category'])->paginate(6);
+            return Notice::where('status', STATUS_ACTIVE)->where('id', '!=', $first)->with(['category'])->paginate(6);
         }else{
-            return Notice::where('tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->limit($limit)->with(['category'])->get();
+            return Notice::where('status', STATUS_ACTIVE)->limit($limit)->with(['category'])->get();
         }
     }
 }

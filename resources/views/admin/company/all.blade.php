@@ -11,6 +11,7 @@
     <div class="p-30" style="margin-left:250px;">
         <div>
             <input type="hidden" id="companies-route" value="{{ route('admin.company.all') }}">
+            <input type="hidden" id="companies-update-route" value="{{ route('admin.company.update',':id') }}">
             <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
                 <h4 class="fs-24 fw-500 lh-34 text-black">{{$title}}</h4>
             </div>

@@ -204,25 +204,7 @@
                         <span class="">{{ __('Companies') }}</span>
                     </a>
                 </li>
-                <li>
-                    {{--                    <a href="{{ route('chats.index') }}"--}}
-                    {{--                       class="{{ $activeMessage ?? '' }} d-flex align-items-center cg-10">--}}
-                    {{--                        <div class="d-flex">--}}
-                    {{--                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none"--}}
-                    {{--                                 xmlns="http://www.w3.org/2000/svg">--}}
-                    {{--                                <path--}}
-                    {{--                                    d="M20.1305 6.01848C20.8327 7.06941 20.8327 8.53239 20.8327 11.4584C20.8327 14.3843 20.8327 15.8473 20.1305 16.8982C19.8265 17.3532 19.4358 17.7438 18.9809 18.0478C18.0628 18.6613 16.8303 18.7388 14.5827 18.7486V18.75L13.431 21.0533C13.0472 21.8211 11.9515 21.8211 11.5677 21.0533L10.416 18.75V18.7486C8.16841 18.7388 6.93588 18.6613 6.01781 18.0478C5.56285 17.7438 5.17222 17.3532 4.86823 16.8982C4.16602 15.8473 4.16602 14.3843 4.16602 11.4584C4.16602 8.53239 4.16602 7.06941 4.86823 6.01848C5.17222 5.56352 5.56285 5.17289 6.01781 4.8689C7.06874 4.16669 8.53172 4.16669 11.4577 4.16669H13.541C16.467 4.16669 17.93 4.16669 18.9809 4.8689C19.4358 5.17289 19.8265 5.56352 20.1305 6.01848Z"--}}
-                    {{--                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"--}}
-                    {{--                                    stroke-linejoin="round"/>--}}
-                    {{--                                <path d="M9.375 9.375L15.625 9.375" stroke="white" stroke-opacity="0.7"--}}
-                    {{--                                      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>--}}
-                    {{--                                <path d="M9.375 13.5417H12.5" stroke="white" stroke-opacity="0.7" stroke-width="1.5"--}}
-                    {{--                                      stroke-linecap="round" stroke-linejoin="round"/>--}}
-                    {{--                            </svg>--}}
-                    {{--                        </div>--}}
-                    {{--                        <span>{{ __('Messages') }}</span>--}}
-                    {{--                    </a>--}}
-                </li>
+
                 <li>
                     {{--                    <a href="{{ route('profile') }}" class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">--}}
                     {{--                        <div class="d-flex">--}}
@@ -239,44 +221,8 @@
                     {{--                    </a>--}}
                 </li>
                 <li>
-                    <a href="#manage-students-menu" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ isset($showManageStudents) ? 'true' : 'false' }}"
-                       aria-controls="manage-students-menu"
-                       class="d-flex align-items-center cg-10 {{ isset($showManageStudents) ? 'active' : 'collapsed' }}">
-                        <div class="d-flex">
-                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M1 1V15C1 15.5304 1.21071 16.0391 1.58579 16.4142C1.96086 16.7893 2.46957 17 3 17H17C17.5304 17 18.0391 16.7893 18.4142 16.4142C18.7893 16.0391 19 15.5304 19 15V5H15"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"/>
-                                <path
-                                    d="M1 1H15V15C15 15.5304 15.2107 16.0391 15.5858 16.4142C15.9609 16.7893 16.4696 17 17 17M11 5H5M11 9H7"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <span class="">{{ __('Manage Students') }}</span>
-                    </a>
-                    <div class="collapse {{ $showManageStudents ?? '' }}" id="manage-students-menu"
-                         data-bs-parent="#sidebarMenu">
-                        <ul class="zSidebar-submenu">
-                            <li><a class="{{ $showManageStudents ?? '' }}"
-                                   href="{{ route('admin.students.index') }}">{{ __('All') }}</a></li>
-                            <li><a class="{{ $showManageStudents ?? '' }}"
-                                   href="{{ route('admin.news.categories.index') }}">{{ __('Category') }}</a></li>
-                            <li><a class="{{ $showManageStudents ?? '' }}"
-                                   href="{{ route('admin.news.index') }}">{{ __('News') }}</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="sidebar-divider">
-                    <p class="fs-9 fw-500 lh-20 text-white-32">{{ __('ADMIN MENU') }}</p>
-                </li>
-                <li>
-                    <a href="#alumni-admin" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ isset($showAdminAlumni) ? 'true' : '' }}" aria-controls="membership-admin"
-                       class="d-flex align-items-center cg-10 {{ isset($showAdminAlumni) ? 'active' : 'collapsed' }}">
+                    <a href="{{ route('admin.students.index') }}"
+                       class="{{ $showManageStudents ?? '' }} d-flex align-items-center cg-10">
                         <div class="d-flex">
                             <svg width="25" height="18" viewBox="0 0 25 18" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
@@ -285,19 +231,12 @@
                                     fill="white" fill-opacity="0.7"/>
                             </svg>
                         </div>
-                        <span class="">{{ __('Manage Alumni') }}</span>
+                        <span class="">{{ __('Students') }}</span>
                     </a>
-                    <div class="collapse {{ $showAdminAlumni ?? '' }}" id="alumni-admin"
-                         data-bs-parent="#sidebarMenu">
-                        <ul class="zSidebar-submenu">
-                            <li><a class="{{ $activeAlumniApprovedList ?? '' }}"
-                                   href="{{ route('admin.alumni.list-search-with-filter') }}">{{ __('All List') }}</a>
-                            </li>
-                            <li><a class="{{ $activeAlumniPendingList ?? '' }}"
-                                   href="{{ route('admin.alumni.list-pending-alumni-with-filter') }}">{{ __('Pending List') }}</a>
-                            </li>
-                        </ul>
-                    </div>
+                </li>
+
+                <li class="sidebar-divider">
+                    <p class="fs-9 fw-500 lh-20 text-white-32">{{ __('ADMIN MENU') }}</p>
                 </li>
                 <li>
                     <a href="#manage-notice-menu" data-bs-toggle="collapse" role="button"
@@ -350,8 +289,6 @@
                     <div class="collapse {{ $showManageNews ?? '' }}" id="manage-news-menu"
                          data-bs-parent="#sidebarMenu">
                         <ul class="zSidebar-submenu">
-                            <li><a class="{{ $activeNewsTag ?? '' }}"
-                                   href="{{ route('admin.news.tags.index') }}">{{ __('Tag') }}</a></li>
                             <li><a class="{{ $activeNewsCategory ?? '' }}"
                                    href="{{ route('admin.news.categories.index') }}">{{ __('Category') }}</a></li>
                             <li><a class="{{ $activeManageNews ?? '' }}"

@@ -28,7 +28,6 @@ class NewsCategoryRequest extends FormRequest
             'name' => [
                 'bail',
                 'required',
-                new UniqueWithConditions('news_categories', 'name', $this->id, 'id', ['tenant_id' => getTenantId()])
             ]
         ];
     }

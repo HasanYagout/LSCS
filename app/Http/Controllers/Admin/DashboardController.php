@@ -47,6 +47,15 @@ class DashboardController extends Controller
 
                     return $data->alumni->GPA;
                 })
+                ->addColumn('recommendation_count', function ($data) {
+                    if (!is_null($data->recommendation) && !empty($data->recommendation)) {
+                        $decodedRecommendations = json_decode($data->recommendation, true);
+                        if (is_array($decodedRecommendations)) {
+                            return count($decodedRecommendations);
+                        }
+                    }
+                    return 0;
+                })
                 ->addColumn('status', function ($data) {
 
                     $status = $data->status;
@@ -110,67 +119,48 @@ class DashboardController extends Controller
 
     public function store(Request $request)
     {
+
+        // Ensure files are present in the request
         if ($request->hasFile('recommendations')) {
-            $files = $request->file('recommendations');
+            $files = array_filter($request->file('recommendations')); // Filter out null values
             $recommendation = Recommendation::with('alumni')->find($request->id);
             $id = $recommendation->alumni->student_id;
 
-            $existingRecommendations = $recommendation->recommendation ?: [];
+            // Get existing recommendations and decode them
+            $existingRecommendations = json_decode($recommendation->recommendation, true) ?: [];
 
-            if (!empty($existingRecommendations)) {
-                $decodedRecommendations = json_decode($existingRecommendations, true);
+            // Check the limit for the number of recommendations
+            $recommendationLimit = 3;
+            $remainingSlots = $recommendationLimit - count($existingRecommendations);
 
-                // Check the limit for the number of recommendations
-                $recommendationLimit = 3;
-                $remainingSlots = $recommendationLimit - count($decodedRecommendations);
-
-                if ($remainingSlots <= 0) {
-                    Toastr::error('Limit reached. You can\'t upload more recommendations.');
-                    return redirect()->back();
-                }
-                $newRecommendations = [];
-
-                // Add existing recommendations to the new array
-                foreach ($decodedRecommendations as $existingRecommendation) {
-                    $newRecommendations[] = $existingRecommendation;
-                }
-                foreach ($files as $file) {
-                    $randomSlug = Str::random(10);
-                    $fileName = $id . '_' . $randomSlug . '.pdf';
-
-                    // Store the file
-                    Storage::disk('public')->putFileAs('alumni/recommendation', $file, $fileName);
-
-                    $newRecommendations[] = $fileName;
-
-                    $remainingSlots--;
-
-                    if ($remainingSlots <= 0) {
-                        break; // Reached the limit, exit the loop
-                    }
-                }
-
-                // Update the recommendation field
-                $recommendation->recommendation = json_encode($newRecommendations);
-                $recommendation->save();
-
-                Toastr::success('Files uploaded successfully');
-                return redirect()->route('admin.instructor.dashboard');
-            } else {
-                $newRecommendations = [];
-                foreach ($files as $file) {
-                    $randomSlug = Str::random(10);
-                    $fileName = $id . '_' . $randomSlug . '.pdf';
-                    $newRecommendations[] = $fileName;
-                    // Store the file
-                    Storage::disk('public')->putFileAs('alumni/recommendation', $file, $fileName);
-                    $recommendation->recommendation = json_encode($newRecommendations);
-                    $recommendation->save();
-                }
-
-                Toastr::success('Files uploaded successfully');
-                return redirect()->route('admin.instructor.dashboard');
+            if (count($files) > $remainingSlots) {
+                Toastr::error('Limit reached. You can upload only ' . $remainingSlots . ' more recommendation(s).');
+                return redirect()->back();
             }
+
+            $newRecommendations = $existingRecommendations;
+
+            foreach ($files as $file) {
+                if ($remainingSlots <= 0) {
+                    break; // Reached the limit, exit the loop
+                }
+
+                $randomSlug = Str::random(10);
+                $fileName = $id . '_' . $randomSlug . '.pdf';
+
+                // Store the file
+                $file->move(storage_path('app/public/alumni/recommendation'), $fileName);
+
+                $newRecommendations[] = $fileName;
+                $remainingSlots--;
+            }
+
+            // Update the recommendation field
+            $recommendation->recommendation = json_encode($newRecommendations);
+            $recommendation->save();
+
+            Toastr::success('Files uploaded successfully');
+            return redirect()->route('admin.instructor.dashboard');
         }
 
         Toastr::error('No files were uploaded.');

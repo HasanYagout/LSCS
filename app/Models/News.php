@@ -13,12 +13,9 @@ class News extends Model
 
     protected $fillable = ['tenant_id', 'title', 'description', 'status'];
 
-    public function tags(){
-        return $this->belongsToMany(NewsTag::class, 'news_tag', 'news_id', 'tag_id');
-    }
 
     public function author(){
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(Admin::class, 'posted_by');
     }
 
     public function category(){

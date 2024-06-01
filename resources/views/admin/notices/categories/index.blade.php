@@ -89,5 +89,5 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('admin/js/noticeCategory.js') }}"></script>
+<script src="{{ asset('public/admin/js/noticeCategory.js') }}"></script>
 @endpush

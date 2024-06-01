@@ -8,7 +8,7 @@
 
 
 <!-- Page content area start -->
-<div class="p-30" style="margin-left:250px;">
+<div class="p-30">
     <div>
         <input type="hidden" id="job-post-list-route" value="{{ route('company.jobs.all-job-post') }}">
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">

@@ -29,14 +29,15 @@
                                 <div>{{ __('Title') }}</div>
                             </th>
                             <th scope="col">
+                                <div>{{ __('Author') }}</div>
+                            </th>
+                            <th scope="col">
                                 <div>{{ __('Category') }}</div>
                             </th>
                             <th scope="col">
                                 <div>{{ __('Status') }}</div>
                             </th>
-                            <th scope="col">
-                                <div>{{ __('Name') }}</div>
-                            </th>
+
                             <th class="w-110 text-center" scope="col">
                                 <div>{{ __('Action') }}</div>
                             </th>
@@ -55,7 +56,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content zModalTwo-content">
             <form class="ajax reset" action="{{ route('admin.news.store') }}" method="post"
-                data-handler="commonResponseForModal">
+                data-handler="commonResponseForModal" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body zModalTwo-body model-lg">
                     <!-- Header -->
@@ -92,20 +93,7 @@
                             </div>
                         </div>
 
-                            <div class="col-md-6">
-                                <div class="primary-form-group">
-                                    <div class="primary-form-group-wrap">
-                                        <label for="sf-select-news-tag" class="form-label">{{ __('Tag') }} <span
-                                                class="text-danger">*</span></label>
-                                        <select name="tag_ids[]" multiple id="sf-select-news-tag"
-                                            class="primary-form-control tag_ids">
-                                            @foreach ($tags as $tag)
-                                                <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+
 
                         <div class="col-md-6">
                             <div class="primary-form-group">
@@ -145,8 +133,8 @@
                                             class="text-danger">*</span></label>
                                     <div class="upload-img-box">
                                         <img src="">
-                                        <input type="file" id="news-image" name="image" accept="image/*"
-                                            onchange="previewFile(this)">
+                                        <input type="file" id="image" name="image" accept=".jpg,.jpeg,.png" onchange="previewFile(this)">
+
                                     </div>
                                 </div>
                             </div>
@@ -177,5 +165,5 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('admin/js/news.js') }}"></script>
+<script src="{{ asset('public/admin/js/news.js') }}"></script>
 @endpush

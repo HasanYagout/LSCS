@@ -139,6 +139,9 @@
                                         <div>{{ __('GPA') }}</div>
                                     </th>
                                     <th scope="col">
+                                        <div>{{ __('Recommendations') }}</div>
+                                    </th>
+                                    <th scope="col">
                                         <div>{{ __('Status') }}</div>
                                     </th>
                                     <th scope="col">
