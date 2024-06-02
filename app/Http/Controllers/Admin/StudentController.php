@@ -77,7 +77,7 @@ class StudentController extends Controller
             $alumni->password = Hash::make($student->student_id);
             $alumni->save();
 
-            return response()->json(['success' => true, 'message' => __('Alumni added successfully')]);
+        return response()->json(['success' => true, 'message' => __('Alumni added successfully')]);
         }
 
         return response()->json(['success' => false, 'message' => __('Student not found')]);

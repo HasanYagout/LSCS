@@ -3,7 +3,7 @@
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
 
-<form class="ajax reset" action="{{ route('admin.jobPost.update', $jobPostData->slug) }}" method="post"
+<form class="ajax reset" action="{{ route('admin.jobs.update', $jobPostData->slug) }}" method="post"
     data-handler="commonResponseForModal">
     @csrf
     <div class="modal-body model-lg">
@@ -111,6 +111,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-12">
                     <div class="primary-form-group">
                         <div class="primary-form-group-wrap">

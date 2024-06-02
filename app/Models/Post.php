@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use SoftDeletes;
 
     protected $fillable = [
         'tenant_id',
@@ -22,15 +21,36 @@ class Post extends Model
         return $this->hasMany(PostMedia::class);
     }
 
+    public function creator()
+    {
+        if ($this->created_by === 'admin') {
+            return $this->belongsTo(Admin::class, 'user_id');
+        } else {
+            return $this->belongsTo(Company::class, 'user_id');
+        }
+    }
+
+    // Optional: Separate methods if you need to specifically fetch the type
+    public function getCreatorAttribute()
+    {
+        return $this->created_by === 'admin' ? $this->admin : $this->company;
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'user_id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'user_id');
+    }
     public function comments()
     {
         return $this->hasMany(PostComment::class)->whereNull('parent_id');
     }
 
-    public function author()
-    {
-        return $this->belongsTo(User::class, 'created_by');
-    }
+
 
     public function likes()
     {

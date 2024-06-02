@@ -456,6 +456,10 @@ ul {
   background-color: var(--primary-color) !important;
 }
 
+.bg-secondary-color {
+    background-color: var(--secondary-color) !important;
+}
+
 .bg-black-color {
   background-color: var(--black-color) !important;
 }

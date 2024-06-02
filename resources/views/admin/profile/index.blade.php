@@ -1,9 +1,9 @@
-@extends('alumni.layouts.app')
+@extends('admin.layouts.app')
 @push('title')
 {{ __('Profile') }}
 @endpush
 @section('content')
-<div class="p-30">
+<div class="p-30" style="margin-left:250px;">
     <div class="">
         <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{ __('Profile') }}</h4>
         <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
@@ -31,43 +31,44 @@
                         <div class="d-flex align-items-center flex-wrap g-18">
 
                             <div class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-cdef84">
-                                <img class="w-100" src="{{ asset('public/storage/alumni').'/'.auth('alumni')->user()->image }}"
-                                    alt="{{auth('alumni')->user()->first_name.' '.auth('alumni')->user()->last_name}}" />
+                                <img class="w-100" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
+                                     src="{{ asset('public/storage/admin').'/'.auth('admin')->user()->image}}"
+                                    alt="{{auth('admin')->user()->first_name.' '.auth('admin')->user()->last_name}}" />
                             </div>
 
                             <div class="">
-                                <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-1b1c17">{{auth('alumni')->user()->first_name.' '.auth('alumni')->user()->last_name}}</h4>
+                                <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-1b1c17">{{auth('admin')->user()->first_name.' '.auth('admin')->user()->last_name}}</h4>
                                 <p class="fs-14 fw-400 lh-17 text-707070 pb-10">
-                                    {{auth('alumni')->user()?->company_designation }}
+                                    {{auth('admin')->user()?->company_designation }}
                                 </p>
                             </div>
                         </div>
                         <!-- Social Link -->
                         <ul class="d-flex align-items-center cg-7">
-                            @if (auth('alumni')->user()?->facebook_url != null && auth('alumni')->user()?->facebook_url != '')
+                            @if (auth('admin')->user()?->facebook_url != null && auth('admin')->user()?->facebook_url != '')
                             <li>
-                                <a target="__blank" href="{{ auth('alumni')->user()?->facebook_url }}"
+                                <a target="__blank" href="{{ auth('admin')->user()?->facebook_url }}"
                                     class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
                                         src="{{ asset('assets/images/icon/facebook.svg') }}" alt="" /></a>
                             </li>
                             @endif
-                            @if (auth('alumni')->user()?->twitter_url != null && auth('alumni')->user()?->twitter_url != '')
+                            @if (auth('admin')->user()?->twitter_url != null && auth('admin')->user()?->twitter_url != '')
                             <li>
-                                <a target="__blank" href="{{ $user->alumni?->twitter_url }}"
+                                <a target="__blank" href="{{ $user->admin?->twitter_url }}"
                                     class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
                                         src="{{ asset('assets/images/icon/twitter.svg') }}" alt="" /></a>
                             </li>
                             @endif
-                            @if (auth('alumni')->user()?->linkedin_url != null && auth('alumni')->user()?->linkedin_url != '')
+                            @if (auth('admin')->user()?->linkedin_url != null && auth('admin')->user()?->linkedin_url != '')
                             <li>
-                                <a target="__blank" href="{{ auth('alumni')->user()?->linkedin_url }}"
+                                <a target="__blank" href="{{ auth('admin')->user()?->linkedin_url }}"
                                     class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
                                         src="{{ asset('assets/images/icon/linkedin.svg') }}" alt="" /></a>
                             </li>
                             @endif
-                            @if (auth('alumni')->user()?->instagram_url != null && auth('alumni')->user()?->instagram_url != '')
+                            @if (auth('admin')->user()?->instagram_url != null && auth('admin')->user()?->instagram_url != '')
                             <li>
-                                <a target="__blank" href="{{ auth('alumni')->user()?->instagram_url }}"
+                                <a target="__blank" href="{{ auth('admin')->user()?->instagram_url }}"
                                     class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
                                         src="{{ asset('assets/images/icon/instagram.svg') }}" alt="" /></a>
                             </li>
@@ -82,35 +83,35 @@
                                 <!-- Bio text -->
                                 <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
                                     <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-10">{{ __('Profile Bio') }}</h4>
-                                    <p class="fs-14 fw-400 lh-24 text-707070 pb-12">{!! auth('alumni')->user()?->about_me !!}</p>
+                                    <p class="fs-14 fw-400 lh-24 text-707070 pb-12">{!! auth('admin')->user()?->about_me !!}</p>
                                 </div>
                                 <!-- Personal Info -->
                                 <ul class="zList-one">
                                     <li>
                                         <p>{{ __('Full Name') }} :</p>
-                                        <p>{{ auth('alumni')->user()->first_name.' '.auth('alumni')->user()->last_name }}</p>
+                                        <p>{{ auth('admin')->user()->first_name.' '.auth('admin')->user()->last_name }}</p>
                                     </li>
 
-                                    @if (auth('alumni')->user()->show_email_in_public == STATUS_SUCCESS)
+                                    @if (auth('admin')->user()->show_email_in_public == STATUS_SUCCESS)
                                     <li>
                                         <p>{{ __('Email') }} :</p>
-                                        <p>{{auth('alumni')->user()->email}}</p>
+                                        <p>{{auth('admin')->user()->email}}</p>
                                     </li>
                                     @endif
-                                    @if (auth('alumni')->user()->show_phone_in_public == STATUS_SUCCESS)
+                                    @if (auth('admin')->user()->show_phone_in_public == STATUS_SUCCESS)
                                     <li>
                                         <p>{{ __('Phone') }} :</p>
-                                        <p>{{auth('alumni')->user()->phone}}</p>
+                                        <p>{{auth('admin')->user()->phone}}</p>
                                     </li>
                                     @endif
 
                                     <li>
                                         <p>{{ __('City') }} :</p>
-                                        <p> {{ auth('alumni')->user()?->city }}</p>
+                                        <p> {{ auth('admin')->user()?->city }}</p>
                                     </li>
                                     <li>
                                         <p>{{ __('Country') }} :</p>
-                                        <p>{{ auth('alumni')->user()?->country }}</p>
+                                        <p>{{ auth('admin')->user()?->country }}</p>
                                     </li>
 
                                 </ul>
@@ -119,24 +120,20 @@
                         <!-- Info -->
                         <div class="col-lg-4">
                             <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
-                                <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                    <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-10">{{ __('Educational Info') }}</h4>
-
-                                </div>
                                 <div class="">
                                     <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-10">{{ __('Professional Info') }}</h4>
                                     <ul class="zList-one">
                                         <li>
                                             <p>{{ __('Company Name') }} :</p>
-                                            <p>{{ auth('alumni')->user()?->company }}</p>
+                                            <p>{{ auth('admin')->user()?->company }}</p>
                                         </li>
                                         <li>
                                             <p>{{ __('Designation') }} :</p>
-                                            <p>{{ auth('alumni')->user()?->company_designation }}</p>
+                                            <p>{{ auth('admin')->user()?->company_designation }}</p>
                                         </li>
                                         <li>
                                             <p>{{ __('Office Address') }} :</p>
-                                            <p>{{ auth('alumni')->user()?->company_address }}</p>
+                                            <p>{{ auth('admin')->user()?->company_address }}</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -149,7 +146,7 @@
                     tabindex="0">
                     <div class="max-w-840">
                         <form method="POST" class="ajax" data-handler="commonResponseRedirect"
-                            data-redirect-url="{{ route('alumni.profile.index') }}" action="{{ route('alumni.profile.update') }}">
+                            data-redirect-url="{{ route('admin.profile.index') }}" action="{{ route('admin.profile.update') }}">
                             @csrf
                             <!-- Photo -->
                             <div class="pb-40"></div>
@@ -161,7 +158,7 @@
                                     <div class="pb-40">
                                         <div class="upload-img-box profileImage-upload">
                                             <div class="icon"><img src="assets/images/icon/edit-2.svg" alt="" /></div>
-                                            <img src="{{ asset('public/storage/alumni').'/'.auth('alumni')->user()->image }}" />
+                                            <img src="{{ asset('public/storage/admin').'/'.auth('admin')->user()->image }}" />
                                             <input type="file" name="image" id="zImageUpload" accept="image/*,video/*"
                                                 onchange="previewFile(this)" />
                                         </div>
@@ -172,31 +169,19 @@
                                             <div class="primary-form-group-wrap">
                                                 <label for="epFullName" class="form-label">{{ __('Full Name') }}</label>
                                                 <input type="text" class="primary-form-control" id="epFullName"
-                                                    value="{{auth('alumni')->user()->first_name}}" name="name"
+                                                    value="{{auth('admin')->user()->first_name}}" name="name"
                                                     placeholder="{{ __('Your Name') }}" />
                                             </div>
                                         </div>
                                     </div>
 
-
-                                    <div class="col-md-6">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epBirthDate" class="form-label">{{ __('Birth Date')
-                                                    }}</label>
-                                                <input type="date" class="primary-form-control"
-                                                    value="{{ auth('alumni')->user()?->date_of_birth }}" name="date_of_birth"
-                                                    id="epBirthDate" />
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="col-md-12">
                                         <div class="primary-form-group">
                                             <div class="primary-form-group-wrap">
                                                 <label for="epAbout" class="form-label">{{ __('About Me') }}</label>
                                                 <textarea class="primary-form-control min-h-180" id="epAbout"
                                                     name="about_me"
-                                                    placeholder="{{ __('Type about yourself') }}">{!! auth('alumni')->user()?->about_me !!}</textarea>
+                                                    placeholder="{{ __('Type about yourself') }}">{!! auth('admin')->user()?->about_me !!}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -211,7 +196,7 @@
                                             <div class="primary-form-group-wrap">
                                                 <label for="epPhoneNumber" class="form-label">{{ __('Phone Number')
                                                     }}</label>
-                                                <input type="mobile" value="{{auth('alumni')->user()->mobile}}" name="mobile"
+                                                <input type="mobile" value="{{auth('admin')->user()->mobile}}" name="mobile"
                                                     class="primary-form-control" id="epPhoneNumber"
                                                     placeholder="eg: (+880) 1254 8593" />
                                             </div>
@@ -222,7 +207,7 @@
                                             <div class="primary-form-group-wrap">
                                                 <label for="epEmail" class="form-label">{{ __('Personal Email Address')
                                                     }}</label>
-                                                <input type="email" value="{{auth('alumni')->user()->email}}" name="email" disabled
+                                                <input type="email" value="{{auth('admin')->user()->email}}" name="email" disabled
                                                     class="primary-form-control" id="epEmail"
                                                     placeholder="{{ __('Your Email') }}" />
                                             </div>
@@ -232,7 +217,7 @@
                                         <div class="primary-form-group">
                                             <div class="primary-form-group-wrap">
                                                 <label for="epLinkedin" class="form-label">{{ 'Linkedin Url' }}</label>
-                                                <input type="url" value="{{ auth('alumni')->user()?->linkedin_url }}"
+                                                <input type="url" value="{{ auth('admin')->user()?->linkedin_url }}"
                                                     name="linkedin_url" class="primary-form-control" id="epLinkedin"
                                                     placeholder="{{ __('Your Linkedin Profile Url') }}" />
                                             </div>
@@ -243,7 +228,7 @@
                                             <div class="primary-form-group-wrap">
                                                 <label for="epFacebook" class="form-label">{{ __('Facebook Url')
                                                     }}</label>
-                                                <input type="url" value="{{ auth('alumni')->user()?->facebook_url }}"
+                                                <input type="url" value="{{ auth('admin')->user()?->facebook_url }}"
                                                     name="facebook_url" class="primary-form-control" id="epFacebook"
                                                     placeholder="{{ __('Your Facebook Profile Url') }}" />
                                             </div>
@@ -254,7 +239,7 @@
                                             <div class="primary-form-group-wrap">
                                                 <label for="epTwitter" class="form-label">{{ __('Twitter Url')
                                                     }}</label>
-                                                <input type="url" value="{{ auth('alumni')->user()?->twitter_url }}"
+                                                <input type="url" value="{{ auth('admin')->user()?->twitter_url }}"
                                                     name="twitter_url" class="primary-form-control" id="epTwitter"
                                                     placeholder="{{ __('Your Twitter Profile Url') }}" />
                                             </div>
@@ -265,7 +250,7 @@
                                             <div class="primary-form-group-wrap">
                                                 <label for="epInstagram" class="form-label">{{ __('Instagram Url')
                                                     }}</label>
-                                                <input type="url" value="{{ auth('alumni')->user()?->instagram_url }}"
+                                                <input type="url" value="{{ auth('admin')->user()?->instagram_url }}"
                                                     name="instagram_url" class="primary-form-control" id="epInstagram"
                                                     placeholder="{{ __('Your Instagram Profile Url') }}" />
                                             </div>
@@ -273,107 +258,44 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Educational Info -->
-                            <div class="pb-30" id="education-parent">
-                                <div id="education-child-empty" class="d-none d-flex flex-column">
-                                    <div class="d-flex justify-content-between align-items-center flex-wrap g-10 pb-20">
-                                        <h4 class="fs-18 fw-500 lh-22 text-1b1c17">{{ __('Educational Info') }}</h4>
-                                        <div class="d-flex align-items-center cg-16">
-                                            <button type="button"
-                                                class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one"
-                                                data-bs-toggle="modal" data-bs-target="#addMoreModal">{{ __('+Add New')
-                                                }}</button>
-                                        </div>
-                                    </div>
-                                    <div class="">
-                                        <span>{{ __('No Educational Info Found') }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Professional Info -->
+
                             <div class="pb-30">
                                 <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-20">{{ __('Professional Info') }}</h4>
                                 <div class="row rg-25">
-                                    <div id="job-experiences">
-                                        <div class="job-experience mb-3">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="primary-form-group">
-                                                        <div class="primary-form-group-wrap">
-                                                            <label for="epCompanyName" class="form-label">Company Name</label>
-                                                            <input type="text" name="company[]" class="primary-form-control" id="epCompanyName"
-                                                                   placeholder="Your Current Company">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="primary-form-group">
-                                                        <div class="primary-form-group-wrap">
-                                                            <label for="epDesignation" class="form-label">Designation</label>
-                                                            <input type="text" name="company_designation[]" class="primary-form-control"
-                                                                   id="epDesignation" placeholder="Your Current Designation">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="primary-form-group">
-                                                        <div class="primary-form-group-wrap">
-                                                            <label for="epCompanyAddress" class="form-label">Address</label>
-                                                            <input type="text" name="company_address[]" class="primary-form-control"
-                                                                   id="epCompanyAddress" placeholder="Your Company Address">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 d-flex">
-                                                    <div class="col-lg-6">
-                                                        <div class="primary-form-group">
-                                                            <div class="primary-form-group-wrap">
-                                                                <label for="startDate">Start Date:</label>
-                                                                <input type="date" class="form-control" name="startDate[]">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <div class="primary-form-group">
-                                                            <div class="primary-form-group-wrap">
-                                                                <label for="endDate">End Date:</label>
-                                                                <input type="date" class="form-control endDate" name="endDate[]">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="col-sm-2">Currently Working:</div>
-                                                    <div class="col-sm-10">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input present" type="checkbox" name="present[]">
-                                                            <label class="form-check-label" for="present">
-                                                                Yes, I am currently working in this job.
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="primary-form-group">
-                                                        <div class="primary-form-group-wrap">
-                                                            <label for="eventDescription" class="form-label">Description <span class="text-danger">*</span></label>
-                                                            <textarea name="details[]" class="primary-form-control summernoteOne min-h-180"
-                                                                      id="eventDescription" placeholder="Details" spellcheck="false"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                    <div class="col-md-6">
+                                        <div class="primary-form-group">
+                                            <div class="primary-form-group-wrap">
+                                                <label for="epCompanyName" class="form-label">{{ __('Company Name')
+                                                    }}</label>
+                                                <input type="text" value="{{ auth('admin')->user()?->company }}" name="company"
+                                                    class="primary-form-control" id="epCompanyName"
+                                                    placeholder="{{ __('Your Current Company') }}" />
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" id="addExperience" class="btn btn-primary">Add More Experience</button>
-                                </div>
-                            </div>
-                            <div class="pb-30">
-                                <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-20">{{ __('Skills') }}</h4>
-                                <div class="primary-form-group">
-                                    <div class="primary-form-group-wrap">
-                                        <label for="skills" class="form-label">Skills</label>
-                                        <select class="form-control skills-select" name="skills[]" multiple="multiple"></select>
+                                    <div class="col-md-6">
+                                        <div class="primary-form-group">
+                                            <div class="primary-form-group-wrap">
+                                                <label for="epDesignation" class="form-label">{{ __('Designation')
+                                                    }}</label>
+                                                <input type="text" value="{{ auth('admin')->user()?->company_designation }}"
+                                                    name="company_designation" class="primary-form-control"
+                                                    id="epDesignation"
+                                                    placeholder="{{ __('Your Current Designation') }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="primary-form-group">
+                                            <div class="primary-form-group-wrap">
+                                                <label for="epCompanyAddress" class="form-label">{{ __('Address')
+                                                    }}</label>
+                                                <input type="text" value="{{ auth('admin')->user()?->company_address }}"
+                                                    name="company_address" class="primary-form-control"
+                                                    id="epCompanyAddress"
+                                                    placeholder="{{ __('Your Company Address') }}" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -387,7 +309,7 @@
                                                 <label for="epCity" class="form-label">{{ __('City') }} <span
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="primary-form-control"
-                                                    value="{{ auth('alumni')->user()?->city }}" name="city" id="epCity"
+                                                    value="{{ auth('admin')->user()?->city }}" name="city" id="epCity"
                                                     placeholder="{{ __('Current Company City') }}" />
                                             </div>
                                         </div>
@@ -398,7 +320,7 @@
                                                 <label for="epCity" class="form-label">{{ __('State') }} <span
                                                         class="text-danger">*</span></label>
                                                 <input type="text" class="primary-form-control"
-                                                    value="{{ auth('alumni')->user()?->state }}" name="state" id="epCity"
+                                                    value="{{ auth('admin')->user()?->state }}" name="state" id="epCity"
                                                     placeholder="{{ __('Current Company State') }}" />
                                             </div>
                                         </div>
@@ -408,7 +330,7 @@
                                             <div class="primary-form-group-wrap">
                                                 <label for="epCountry" class="form-label">{{ __('Country') }} <span
                                                         class="text-danger">*</span></label>
-                                                <input type="text" value="{{ auth('alumni')->user()?->country }}" name="country"
+                                                <input type="text" value="{{ auth('admin')->user()?->country }}" name="country"
                                                     class="primary-form-control" id="epCountry"
                                                     placeholder="{{ __('Current Company Country') }}" />
                                             </div>
@@ -419,7 +341,7 @@
                                             <div class="primary-form-group-wrap">
                                                 <label for="epZipCode" class="form-label">{{ __('Zip Code') }} <span
                                                         class="text-danger">*</span></label>
-                                                <input type="text" value="{{ auth('alumni')->user()?->zip }}" name="zip"
+                                                <input type="text" value="{{ auth('admin')->user()?->zip }}" name="zip"
                                                     class="primary-form-control" id="epZipCode"
                                                     placeholder="{{ __('Current Company Zip Code') }}" />
                                             </div>
@@ -430,7 +352,7 @@
                                             <div class="primary-form-group-wrap">
                                                 <label for="epAddress" class="form-label">{{ __('Address') }} <span
                                                         class="text-danger">*</span></label>
-                                                <input type="text" value="{{ auth('alumni')->user()?->address }}" name="address"
+                                                <input type="text" value="{{ auth('admin')->user()?->address }}" name="address"
                                                     class="primary-form-control" id="epAddress"
                                                     placeholder="{{ __('Current Company Address') }}" />
                                             </div>
@@ -463,50 +385,50 @@
                     </div>
                 </div>
                 <!-- Body -->
-                <form method="POST" class="ajax" data-handler="commonResponseForModal"
-                    action="{{ route('alumni.add_institution') }}">
-                    @csrf
-                    <div class="pb-25">
-                        <div class="row rg-25">
-                            <div class="col-12">
-                                <div class="primary-form-group">
-                                    <div class="primary-form-group-wrap">
-                                        <label for="epDegree1" class="form-label">{{ __('Degree') }}</label>
-                                        <input type="text" class="primary-form-control" id="epDegree1" name="degree"
-                                            placeholder="{{ __('Your Degree') }}" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="primary-form-group">
-                                    <div class="primary-form-group-wrap">
-                                        <label for="epInstitute" class="form-label">{{ __('Institution') }}</label>
-                                        <input type="text" class="primary-form-control" id="epInstitute"
-                                            name="institute" placeholder="{{ __('Your Institution') }}" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="primary-form-group">
-                                    <div class="primary-form-group-wrap">
-                                        <label for="epPassingYear1" class="form-label">{{ __('Passing Year') }}</label>
-                                        <input type="text" class="primary-form-control" id="epPassingYear1"
-                                            name="passing_year" placeholder="{{ __('Your Passing Year') }}" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit"
-                        class="py-13 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">{{
-                        __('Save Now') }}</button>
-                </form>
+{{--                <form method="POST" class="ajax" data-handler="commonResponseForModal"--}}
+{{--                    action="{{ route('admin.add_institution') }}">--}}
+{{--                    @csrf--}}
+{{--                    <div class="pb-25">--}}
+{{--                        <div class="row rg-25">--}}
+{{--                            <div class="col-12">--}}
+{{--                                <div class="primary-form-group">--}}
+{{--                                    <div class="primary-form-group-wrap">--}}
+{{--                                        <label for="epDegree1" class="form-label">{{ __('Degree') }}</label>--}}
+{{--                                        <input type="text" class="primary-form-control" id="epDegree1" name="degree"--}}
+{{--                                            placeholder="{{ __('Your Degree') }}" />--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-12">--}}
+{{--                                <div class="primary-form-group">--}}
+{{--                                    <div class="primary-form-group-wrap">--}}
+{{--                                        <label for="epInstitute" class="form-label">{{ __('Institution') }}</label>--}}
+{{--                                        <input type="text" class="primary-form-control" id="epInstitute"--}}
+{{--                                            name="institute" placeholder="{{ __('Your Institution') }}" />--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-12">--}}
+{{--                                <div class="primary-form-group">--}}
+{{--                                    <div class="primary-form-group-wrap">--}}
+{{--                                        <label for="epPassingYear1" class="form-label">{{ __('Passing Year') }}</label>--}}
+{{--                                        <input type="text" class="primary-form-control" id="epPassingYear1"--}}
+{{--                                            name="passing_year" placeholder="{{ __('Your Passing Year') }}" />--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <button type="submit"--}}
+{{--                        class="py-13 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">{{--}}
+{{--                        __('Save Now') }}</button>--}}
+{{--                </form>--}}
             </div>
         </div>
     </div>
 </div>
 
-<input type="hidden" id="job-post-list-route" value="{{ route('alumni.cvs.all') }}">
+{{--<input type="hidden" id="job-post-list-route" value="{{ route('admin.cvs.all') }}">--}}
 
 <table class="table zTable" id="cvsTable">
     <thead>
@@ -520,43 +442,22 @@
 
 @push('script')
     <script>
-
         $(document).ready(function() {
-            $('.skills-select').select2({
-                tags: true,
-                tokenSeparators: [',', ' '],
-                placeholder: "Add your skills",
-                allowClear: true
-            });
-            const maxExperiences = 3;
-            let experienceCount = 1;
-
-            $('#addExperience').click(function() {
-                if (experienceCount < maxExperiences) {
-                    let newExperience = $('.job-experience:first').clone();
-                    newExperience.find('input').val(''); // Clear all input fields
-                    newExperience.find('textarea').val(''); // Clear all textarea fields
-                    $('#job-experiences').append(newExperience);
-                    experienceCount++;
-                } else {
-                    alert('You can only add up to ' + maxExperiences + ' experiences.');
-                }
+            $('#add-education').click(function() {
+                var newEducation = $('.education-block:first').clone();
+                newEducation.find('input').val('');  // Clear the values.
+                newEducation.appendTo('#education-parent');
             });
 
-            $(document).on('change', '.present', function() {
-                console.log('Checkbox changed');  // Debugging line
-                let endDateInput = $(this).closest('.job-experience').find('input.endDate');
-                console.log(endDateInput); // Debugging line to see the selected endDate input
-                if ($(this).is(':checked')) {
-                    endDateInput.prop('disabled', true);
-                    console.log('End date disabled');
+            $(document).on('click', '.remove-education', function() {
+                if ($('.education-block').length > 1) { // Ensure at least one remains
+                    $(this).closest('.education-block').remove();
                 } else {
-                    endDateInput.prop('disabled', false);
-                    console.log('End date enabled');
+                    alert('You must keep at least one education entry.');
                 }
             });
         });
     </script>
-<script src="{{ asset('public/alumni/js/profile.js') }}"></script>
-<script src="{{ asset('public/alumni/js/cvs.js') }}"></script>
+<script src="{{ asset('public/admin/js/profile.js') }}"></script>
+<script src="{{ asset('public/admin/js/cvs.js') }}"></script>
 @endpush

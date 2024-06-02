@@ -22,7 +22,7 @@
             {"data": "thumbnail", "name": "thumbnail", searchable: false, responsivePriority:1},
             {"data": "title", "name": "title"},
             {"data": "status", "name": "status", searchable: false},
-            {"data": "action", searchable: false, responsivePriority:2},
+            // {"data": "action", searchable: false, responsivePriority:2},
         ],
       });
 

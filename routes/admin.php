@@ -47,7 +47,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 
     Route::group(['middleware' => ['admin']], function () {
 
-        Route::group(['prefix' => 'instructor', 'as' => 'instructor.'], function () {
+    Route::group(['prefix' => 'instructor', 'as' => 'instructor.'], function () {
             Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function () {
                 Route::get('/edit/{id}', [DashboardController::class, 'recommendation_edit'])->name('edit');
                 Route::post('store', [DashboardController::class, 'store'])->name('store');
@@ -56,8 +56,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('/status', [DashboardController::class, 'status_update'])->name('status.update');
 
         });
-
-
     Route::group(['prefix' => 'company', 'as' => 'company.'], function () {
         Route::get('/', [CompanyController::class, 'all'])->name('all');
         Route::post('update/{company}', [CompanyController::class, 'update'])->name('update');
@@ -88,6 +86,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::post('posts/comments', [PostController::class, 'postComment'])->name('comments.store');
         Route::delete('posts/comments/delete', [PostController::class, 'postCommentDelete'])->name('comments.delete');
         Route::PUT('posts/comments/update', [PostController::class, 'postCommentUpdate'])->name('comments.update');
+        Route::get('more-post-load', [HomeController::class, 'loadMorePost'])->name('more-post-load');
+
     });
     Route::group(['prefix' => 'students', 'as' => 'students.'], function () {
         Route::get('/', [StudentController::class, 'index'])->name('index');
@@ -107,6 +107,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::post('/store', [EventController::class, 'store'])->name('store');
         Route::get('pending', [ EventController::class, 'pending'])->name('pending');
         Route::get('details/{slug}', [EventController::class, 'details'])->name('details');
+        Route::get('edit/{slug}', [EventController::class, 'edit'])->name('edit');
+        Route::post('delete/{id}', [EventController::class, 'delete'])->name('delete');
+        Route::post('update/{slug}', [EventController::class, 'update'])->name('update');
 
 
 
@@ -153,7 +156,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::post('store', [StoryController::class, 'store'])->name('store');
         Route::get('info/{slug}', [StoryController::class, 'info'])->name('info');
         Route::post('delete/{slug}', [StoryController::class, 'delete'])->name('delete');
-
+        Route::post('update/{slug}', [StoryController::class, 'update'])->name('update');
+        Route::post('delete/{slug}', [StoryController::class, 'delete'])->name('delete');
 
     });
 // Stories route end

@@ -206,19 +206,19 @@
                 </li>
 
                 <li>
-                    {{--                    <a href="{{ route('profile') }}" class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">--}}
-                    {{--                        <div class="d-flex">--}}
-                    {{--                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"--}}
-                    {{--                                 xmlns="http://www.w3.org/2000/svg">--}}
-                    {{--                                <path--}}
-                    {{--                                    d="M19.7274 21.3923C19.2716 20.1165 18.2672 18.9892 16.8701 18.1851C15.4729 17.381 13.7611 16.9452 12 16.9452C10.2389 16.9452 8.52706 17.381 7.12991 18.1851C5.73276 18.9892 4.72839 20.1165 4.27259 21.3923"--}}
-                    {{--                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>--}}
-                    {{--                                <circle cx="12" cy="8.94522" r="4" stroke="white"--}}
-                    {{--                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>--}}
-                    {{--                            </svg>--}}
-                    {{--                        </div>--}}
-                    {{--                        <span class="">{{ __('Profile') }}</span>--}}
-                    {{--                    </a>--}}
+                                        <a href="{{ route('admin.profile.index') }}" class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">
+                                            <div class="d-flex">
+                                                <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M19.7274 21.3923C19.2716 20.1165 18.2672 18.9892 16.8701 18.1851C15.4729 17.381 13.7611 16.9452 12 16.9452C10.2389 16.9452 8.52706 17.381 7.12991 18.1851C5.73276 18.9892 4.72839 20.1165 4.27259 21.3923"
+                                                        stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                                                    <circle cx="12" cy="8.94522" r="4" stroke="white"
+                                                            stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                                                </svg>
+                                            </div>
+                                            <span class="">{{ __('Profile') }}</span>
+                                        </a>
                 </li>
                 <li>
                     <a href="{{ route('admin.students.index') }}"

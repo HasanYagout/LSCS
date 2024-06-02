@@ -7,7 +7,9 @@ use App\Http\Requests\StoryRequest;
 use App\Http\Services\StoryService;
 use App\Models\Story;
 use App\Traits\ResponseTrait;
+use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class StoryController extends Controller
 {
@@ -48,20 +50,23 @@ class StoryController extends Controller
     }
     public function store(Request $request)
     {
-        $story=new Story();
-        $story->title=$request->title;
-        $story->user_id=auth('admin')->id();
-        if (Story::where('slug', getSlug($request->title))->withTrashed()->count() > 0) {
-            $slug = getSlug($request->title) . '-' . rand(100000, 999999);
-        } else {
-            $slug = getSlug($request->title);
-        }
-        $story->slug=$slug;
-        $story->thumbnail=$request->file('thumbnail')->getClientOriginalName();
-        $story->body=$request->body;
-        $story->status='1';
-        $this->success([], __("Saved successfully"));
-        $story->save();
 
+        return $this->storyService->store($request);
+
+    }
+    public function info($slug)
+    {
+        $data['story'] = $this->storyService->getBySlug($slug);
+        return view('admin.stories.edit-form', $data);
+    }
+
+    public function update(StoryRequest $request, $slug)
+    {
+        return $this->storyService->update($slug, $request);
+    }
+
+    public function delete($slug)
+    {
+        return $this->storyService->deleteBySlug($slug);
     }
 }

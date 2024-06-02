@@ -19,12 +19,12 @@ class PostService
         try {
             $user = auth('admin')->user();
             $post = new Post();
-
             $post->body = htmlspecialchars($request->body);
             $post->slug = getSlug(getSubText($request->body, 40)).rand(1000, 999999);
             $post->user_id = $user->id;
             $post->created_by = 'admin';
             $post->save();
+
 
             //post media
             foreach($request->file ?? [] as $index => $media){
@@ -38,11 +38,11 @@ class PostService
                     ]);
                 }
             }
-
             DB::commit();
 
             $message = getMessage(CREATED_SUCCESSFULLY);
             return $this->success([], $message);
+
         } catch (Exception $e) {
             DB::rollBack();
             $message = getErrorMessage($e, $e->getMessage());
@@ -97,7 +97,7 @@ class PostService
 
     public function getBySlug($slug)
     {
-        return Post::whereSlug($slug)->where('tenant_id', getTenantId())->with(['comments', 'likes:id', 'author', 'media.file_manager'])->withCount('replies')->first();
+        return Post::whereSlug($slug)->with(['comments', 'likes:id', 'author', 'media.file_manager'])->withCount('replies')->first();
     }
 
     public function deleteBySlug($request)

@@ -23,5 +23,13 @@ class Company extends Authenticatable
     {
         return $this->hasMany(JobPost::class, 'company_id');
     }
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'user_id');
+    }
+    public function imagePath()
+    {
+        return asset('public/storage/company').'/' . $this->image;
+    }
 
 }

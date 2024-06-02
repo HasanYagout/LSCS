@@ -34,6 +34,10 @@ class DashboardService
 
         return $this->success($latestJobs);
     }
+    public function getLatestPosts(){
+        $latestPosts = Post::orderBy('id', 'DESC')->with('creator')->where('status', STATUS_ACTIVE)->get();
+        return $this->success($latestPosts);
+    }
 
     public function getLatestNotice(){
         $latestNotices = Notice::orderBy('id', 'DESC')->where('status', STATUS_ACTIVE)->limit(2)->get();
@@ -46,8 +50,8 @@ class DashboardService
     }
 
     public function getMorePost($request){
-        $data['posts'] = Post::orderBy('id', 'DESC')->where('status', STATUS_ACTIVE)->with(['comments', 'likes:id', 'author', 'media.file_manager'])->withCount('replies')->paginate(4);
-        $response['html'] = View::make('alumni.partials.post', $data)->render();
+        $data['posts'] = Post::orderBy('id', 'DESC')->where('status', STATUS_ACTIVE)->with(['creator', 'media.file_manager'])->paginate(4);
+        $response['html'] = View::make('admin.partials.post', $data)->render();
         return $this->success($response);
     }
 

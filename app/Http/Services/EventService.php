@@ -17,7 +17,6 @@ class EventService
     {
         $eventPending = Event::where('events.status', STATUS_PENDING)
             ->join('event_categories', 'event_categories.id', '=', 'events.event_category_id')
-            ->where('events.tenant_id', getTenantId())
             ->select('events.*', 'event_categories.name')
             ->orderBy('events.id','DESC');
 
@@ -26,13 +25,13 @@ class EventService
             ->addColumn('category', function ($data) {
                 return '<p class="min-w-130 text-center zBadge">' . htmlspecialchars($data->name) . '</p>';
             })
-            ->addColumn('type', function ($data) {
-                if ($data->type == 1) {
-                    return '<span class="zBadge-free">'.__('Free').'</span>';
-                } else {
-                    return '<span class="zBadge-paid">'.__('Paid').'</span>';
-                }
-            })
+//            ->addColumn('type', function ($data) {
+//                if ($data->type == 1) {
+//                    return '<span class="zBadge-free">'.__('Free').'</span>';
+//                } else {
+//                    return '<span class="zBadge-paid">'.__('Paid').'</span>';
+//                }
+//            })
             ->addColumn('date', function ($data) {
                 return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->date)->format('jS F, h:i:s A');
             })
@@ -40,14 +39,14 @@ class EventService
             ->addColumn('action', function ($data){
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                             <li class="d-flex gap-2">
-                                <button onclick="getEditModal(\'' . route('event.edit', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                                <button onclick="getEditModal(\'' . route('admin.event.edit', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
                                     <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                                 </button>
 
-                                <button onclick="deleteItem(\'' . route('event.delete', $data->id) . '\', \'eventPendingDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+                                <button onclick="deleteItem(\'' . route('admin.event.delete', $data->id) . '\', \'eventPendingDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
                                     <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                                 </button>
-                                <a href="'. route('event.details', $data->slug) .'" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View">
+                                <a href="'. route('admin.event.details', $data->slug) .'" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View">
                                     <img src="' . asset('assets/images/icon/eye.svg') . '" alt="view">
                                 </a>
                             </li>
@@ -84,7 +83,7 @@ class EventService
 
     public function myEvent()
     {
-        $event = Event::where('user_id', auth()->id())->where('tenant_id', getTenantId())->orderBy('created_at', 'desc');
+        $event = Event::where('user_id', auth()->id())->orderBy('created_at', 'desc');
         return datatables($event)
             ->addIndexColumn()
             ->addColumn('category', function ($data) {
@@ -239,7 +238,7 @@ class EventService
     }
 
     public function getEvent($slug){
-        return Event::where('slug', $slug)->where('tenant_id', getTenantId())->first();
+        return Event::where('slug', $slug)->first();
     }
 
     public function deleteById($id)

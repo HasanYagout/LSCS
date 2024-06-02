@@ -30,7 +30,7 @@ class EventController extends Controller
         $data['title'] = __('Create Event');
         $data['showEvent'] = 'show';
         $data['activeEventCreate'] = 'active';
-        $data['categories'] = EventCategory::where('tenant_id', getTenantId())->get();
+        $data['categories'] = EventCategory::all();
         // if ($request->ajax()) {
         //     return $this->eventService->list();
         // }
@@ -83,5 +83,30 @@ class EventController extends Controller
         return $this->success([], getMessage(CREATED_SUCCESSFULLY));
 
 
+    }
+    public function details($slug)
+    {
+        $data['title'] = __('Event Details');
+        $data['showEvent'] = 'show';
+        $data['activeAllEvent'] = 'active';
+        $data['event'] = Event::where('slug', $slug)->first();
+        return view('admin.event.event-details', $data);
+    }
+    public function edit($slug)
+    {
+        $data['title'] = __('Edit Event');
+        $data['categories'] = EventCategory::all();
+        $data['event'] = $this->eventService->getEvent($slug);
+        return view('admin.event.pending.edit', $data);
+    }
+
+    public function update(EventRequest $request, $slug)
+    {
+        return $this->eventService->update($request, $slug);
+    }
+
+    public function delete($id)
+    {
+        return $this->eventService->deleteById($id);
     }
 }

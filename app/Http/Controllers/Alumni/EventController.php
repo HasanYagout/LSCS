@@ -87,23 +87,7 @@ class EventController extends Controller
         return view('alumni.event.myEvent.index', $data);
     }
 
-    public function edit($slug)
-    {
-        $data['title'] = __('Edit Event');
-        $data['categories'] = EventCategory::where('tenant_id', getTenantId())->get();
-        $data['event'] = $this->eventService->getEvent($slug);
-        return view('admin.event.pending.edit', $data);
-    }
 
-    public function update(EventRequest $request, $slug)
-    {
-        return $this->eventService->update($request, $slug);
-    }
-
-    public function delete($id)
-    {
-        return $this->eventService->deleteById($id);
-    }
 
 
 }

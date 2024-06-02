@@ -5,8 +5,10 @@ namespace App\Http\Services;
 use App\Models\Story;
 use App\Traits\ResponseTrait;
 use App\Models\FileManager;
+use Brian2694\Toastr\Facades\Toastr;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class StoryService
 {
@@ -19,7 +21,7 @@ class StoryService
 
     public function getBySlug($slug)
     {
-        return Story::where('slug', $slug)->where('tenant_id', getTenantId())->firstOrFail();
+        return Story::where('slug', $slug)->firstOrFail();
     }
 
     public function allPendingList()
@@ -52,12 +54,12 @@ class StoryService
     public function getMyStoryList()
     {
 
-        $features = Story::where('user_id', auth('admin')->id())->orderBy('id', 'desc')->get();
+        $features = Story::where('posted_by', auth('admin')->id())->orderBy('id', 'desc')->get();
 
         return datatables($features)
             ->addIndexColumn()
             ->addColumn('thumbnail', function ($data) {
-                return '<img src="' . getFileUrl($data->thumbnail) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                return '<img src="' . asset('public/storage/admin/story'.'/'.$data->thumbnail) . '" alt="icon" class="rounded avatar-xs max-h-35">';
             })
             ->addColumn('status', function ($data) {
                 if($data->status == STATUS_ACTIVE){
@@ -175,30 +177,36 @@ class StoryService
     {
         try {
             DB::beginTransaction();
-            if (Story::where('slug', getSlug($request->title))->withTrashed()->count() > 0) {
-                $slug = getSlug($request->title) . '-' . rand(100000, 999999);
-            } else {
-                $slug = getSlug($request->title);
-            }
 
+            // Generate a unique slug
+            $slug = getSlug($request->title);
+            if (Story::where('slug', $slug)->count() > 0) {
+                $slug = $slug . '-' . rand(100000, 999999);
+            }
             $thumbnail = NULL;
             if ($request->hasFile('thumbnail')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('stories', $request->thumbnail);
-                $thumbnail = $uploaded->id;
+                $file = $request->file('thumbnail');
+                $date = now()->format('Ymd'); // Get current date in YYYYMMDD format
+                $randomSlug = Str::random(10); // Generate a random string of 10 characters
+                $randomNumber = rand(100000, 999999); // Generate a random number
+
+                $fileName = $date . '_' . $randomSlug . '_' . $randomNumber . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('storage/admin/story'), $fileName); // Save the file to the specified path
+
+                $thumbnail = $fileName; // Save only the file name to the database
             }
 
             Story::create([
-                'user_id' => auth()->id(),
+                'posted_by' => auth('admin')->id(),
                 'title' => $request->title,
-                'tenant_id' => getTenantId(),
                 'slug' => $slug,
                 'body' => $request->body,
                 'thumbnail' => $thumbnail,
+                'status' => 0,
             ]);
 
             DB::commit();
-            return $this->success([], __("Save successfully wait for approval"));
+            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
         } catch (Exception $e) {
             DB::rollBack();
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
@@ -211,13 +219,13 @@ class StoryService
         DB::beginTransaction();
         try {
 
-            if (Story::where('slug', getSlug($request->title))->where('slug', '!=', $oldSlug)->withTrashed()->count() > 0) {
+            if (Story::where('slug', getSlug($request->title))->where('slug', '!=', $oldSlug)->count() > 0) {
                 $slug = getSlug($request->title) . '-' . rand(100000, 999999);
             } else {
                 $slug = getSlug($request->title);
             }
 
-            $story = Story::where('slug', $oldSlug)->where('tenant_id', getTenantId())->firstOrFail();
+            $story = Story::where('slug', $oldSlug)->where('posted_by',auth('admin')->id())->firstOrFail();
             $story->title = $request->title;
             $story->slug = $slug;
             $story->body = $request->body;

@@ -13,7 +13,7 @@ class EventCategoryService
 
     public function list()
     {
-        $eventCategory = EventCategory::query()->where('tenant_id', getTenantId())->orderBy('id','DESC');
+        $eventCategory = EventCategory::query()->orderBy('id','DESC');
         return datatables($eventCategory)
             ->addIndexColumn()
             ->addColumn('action', function ($data){
@@ -38,8 +38,7 @@ class EventCategoryService
         try {
             DB::beginTransaction();
             $eventCategory = new EventCategory();
-            $eventCategory->name = $request->name;
-            $eventCategory->tenant_id = getTenantId();
+            $eventCategory->name = $request->name;;
             $eventCategory->save();
             DB::commit();
             return $this->success([], getMessage(CREATED_SUCCESSFULLY));
@@ -53,7 +52,7 @@ class EventCategoryService
     {
         DB::beginTransaction();
         try {
-            $newsCategory = EventCategory::where('tenant_id', getTenantId())->findOrFail($id);
+            $newsCategory = EventCategory::findOrFail($id);
             $newsCategory->name = $request->name;
             $newsCategory->save();
             DB::commit();
@@ -68,7 +67,7 @@ class EventCategoryService
 
     public function getById($id)
     {
-        return EventCategory::where('tenant_id', getTenantId())->findOrFail($id);
+        return EventCategory::findOrFail($id);
     }
 
     public function deleteById($id)

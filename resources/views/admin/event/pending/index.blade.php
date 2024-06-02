@@ -27,13 +27,7 @@
                                 <div>{{ __('Category') }}</div>
                             </th>
                             <th scope="col">
-                                <div>{{ __('Type') }}</div>
-                            </th>
-                            <th scope="col">
                                 <div>{{ __('Date & Time') }}</div>
-                            </th>
-                            <th scope="col">
-                                <div>{{ __('Location') }}</div>
                             </th>
                             <th class="w-110 text-center" scope="col">
                                 <div>{{ __('Action') }}</div>
@@ -60,6 +54,6 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('admin/js/event.js') }}"></script>
-<script src="{{ asset('admin/js/event-pending.js') }}"></script>
+<script src="{{ asset('public/admin/js/event.js') }}"></script>
+<script src="{{ asset('public/admin/js/event-pending.js') }}"></script>
 @endpush

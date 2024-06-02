@@ -91,12 +91,8 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
 
 // event route start
     Route::group(['prefix' => 'event', 'as' => 'event.'], function () {
-        Route::post('store', [EventController::class, 'store'])->name('store');
-        Route::get('edit/{slug}', [EventController::class, 'edit'])->name('edit');
-        Route::post('update/{slug}', [EventController::class, 'update'])->name('update');
-        Route::get('all-event', [EventController::class, 'all'])->name('all');
+                Route::get('all-event', [EventController::class, 'all'])->name('all');
         Route::get('details/{slug}', [EventController::class, 'details'])->name('details');
-        Route::post('delete/{id}', [EventController::class, 'delete'])->name('delete');
         Route::get('single-ticket/{id}', [TicketController::class, 'singleTicket'])->name('single-ticket');
     });
 // event route end
@@ -119,8 +115,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::post('store', [StoryController::class, 'store'])->name('store');
         Route::get('list', [StoryController::class, 'myStory'])->name('my-story');
         Route::get('info/{slug}', [StoryController::class, 'info'])->name('info');
-        Route::post('update/{slug}', [StoryController::class, 'update'])->name('update');
-        Route::post('delete/{slug}', [StoryController::class, 'delete'])->name('delete');
+
     });
 // Stories route end
 

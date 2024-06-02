@@ -2223,10 +2223,10 @@ bg-custom-secondary{
 
 /* Actice color */
 .active-color-one {
-  color: var(--primary-color) !important;
+  color: var(--secondary-color) !important;
 }
 .active-color-one > * {
-  color: var(--primary-color) !important;
+  color: var(--secondary-color) !important;
 }
 
 /* Divider one */

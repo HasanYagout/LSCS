@@ -42,7 +42,7 @@ class   JobsController extends Controller
         $jobPost->salary = $request->salary;
         $jobPost->location = $request->location;
         $jobPost->post_link = $request->post_link;
-        dd($jobPost);
+
         $jobPost->application_deadline = $request->application_deadline;
         $jobPost->job_responsibility = $request->job_responsibility;
         $jobPost->job_context = $request->job_context;
@@ -67,7 +67,7 @@ class   JobsController extends Controller
     public function info($slug)
     {
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        return view('alumni.jobs.edit-form', $data);
+        return view('admin.jobs.edit-form', $data);
     }
 
     public function update(JobPostRequest $request, $slug)
@@ -83,7 +83,7 @@ class   JobsController extends Controller
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        return view('alumni.jobs.job_post_view', $data);
+        return view('admin.jobs.job_post_view', $data);
     }
 
     public function all(Request $request)
@@ -94,23 +94,29 @@ class   JobsController extends Controller
             return datatables($jobs)
                 ->addIndexColumn()
                 ->addColumn('company_logo', function ($data) {
-                    return '<img src="' . $data->company->logo . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                    return '<img src="' . asset('public/storage/company').'/'.$data->company->logo . '" onerror="this.onerror=null;this.src=\''.asset('public/assets/images/no-image.jpg').'\';" alt="Company Logo" class="rounded avatar-xs max-h-35">';
                 })
-//            ->addColumn('title', function ($data) {
-//                return htmlspecialchars($data->title);
-//            })
-//            ->addColumn('employee_status', function ($data) {
-//                return $this->getEmployeeStatusById($data->employee_status);
-//            })
-//            ->addColumn('salary', function ($data) {
-//                return htmlspecialchars($data->salary);
-//            })
-//            ->addColumn('application_deadline', function ($data) {
-//               return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
-//            })
-//
+            ->addColumn('title', function ($data) {
+                return htmlspecialchars($data->title);
+            })
+                ->addColumn('company', function ($data) {
+//                    $companyName = htmlspecialchars($data->company->name);
+//                    $companyId = $data->company; // Assuming you have an ID field for the company
+//                    $url = route('admin.company.detail', $companyId); // Generate the URL for the company show route
+                    return '<a class="text-f1a527" href="'.route('admin.company.details',$data->company->slug).'" >'.$data->company->name.'</a>';
+                })
+            ->addColumn('employee_status', function ($data) {
+                return $data->employee_status;
+            })
+            ->addColumn('salary', function ($data) {
+                return htmlspecialchars($data->salary);
+            })
+            ->addColumn('application_deadline', function ($data) {
+               return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
+            })
+
                 ->addColumn('action', function ($data) {
-                    if(auth('admin')->user()->role_id == USER_ROLE_COMPANY){
+                    if(auth('admin')->user()->role_id == USER_ROLE_ADMIN){
                         return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                                 <li class="d-flex gap-2">
                                     <button onclick="getEditModal(\'' . route('admin.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
@@ -122,17 +128,11 @@ class   JobsController extends Controller
                                     <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
                                 </li>
                             </ul>';
-                    }else{
-                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                    <li class="d-flex gap-2">
-                        <a href="' . route('company.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
-                    </li>
-                </ul>';
                     }
 
                 })
 
-                ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'salary', 'application_deadline'])
+                ->rawColumns(['company_logo', 'company','action', 'title', 'employee_status','action', 'salary', 'application_deadline'])
                 ->make(true);
         }
         $data['title'] = __('All Job Post');

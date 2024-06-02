@@ -1,7 +1,7 @@
 <!-- Start Join Community -->
 <section>
     <div class="continer">
-        <div class="join-community" data-background="{{ asset('public/frontend/images/community-bg.png') }}">
+        <div class="join-community bg-secondary-color" data-background="{{ asset('public/frontend/images/community-bg.png') }}">
             <div class="left max-w-498">
                 <h4 class="fs-36 fw-600 lh-36 text-black-color pb-15">{{ __(getOption('join_our_community_title')) }}
                 </h4>
@@ -26,8 +26,8 @@
             <div class="footer-top">
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-10">
-                        <div class="max-w-193 pb-15"><img src="{{ getSettingImage('app_logo') }}"
-                                alt="{{ getOption('app_name') }}" /></div>
+{{--                        <div class="max-w-193 pb-15"><img src="{{ getSettingImage('app_logo') }}"--}}
+{{--                                alt="{{ getOption('app_name') }}" /></div>--}}
                         <p class="fs-18 fw-500 lh-28 text-white pb-32 pr-lg-24">{!! nl2br(getOption('footer_left_text')) !!}</p>
                         <ul class="d-flex align-items-center flex-wrap g-7">
                             <li>

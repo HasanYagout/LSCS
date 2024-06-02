@@ -58,7 +58,7 @@ class FileManager extends Model
             $fileManager->path = 'uploads/' . $to.'/'.$file_name;
             $fileManager->extension = $extension;
             $fileManager->size = $size;
-            $fileManager->tenant_id = getTenantId();
+            $fileManager->tenant_id = 1;
             $fileManager->save();
            return $fileManager;
 

@@ -22,7 +22,9 @@
 
                             <div class="d-flex align-items-center cg-10 pb-20">
                                 <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-cdef84 rounded-circle overflow-hidden"><img
-                                        src="{{ asset('public/storage/admin'.'/'.auth('admin')->user()->image) }}" class="w-100"
+                                        src="{{ asset('public/storage/admin'.'/'.auth('admin')->user()->image) }}"
+                                        class="w-100"
+                                        onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                         alt="{{auth('admin')->user()->name}}" />
                                 </div>
                                 <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{auth('admin')->user()->name}}</h4>
@@ -571,7 +573,7 @@
         </div>
     </div>
 
-{{--    <input type="hidden" id="more-post-route" value="{{ route('more-post-load') }}">--}}
+    <input type="hidden" id="more-post-route" value="{{ route('admin.posts.more-post-load') }}">
     <input type="hidden" id="delete-post-route" value="{{ route('admin.posts.delete') }}">
     <input type="hidden" id="post-like-route" value="{{ route('admin.posts.like') }}">
     <input type="hidden" id="post-edit" value="{{ route('alumni.posts.edit') }}">

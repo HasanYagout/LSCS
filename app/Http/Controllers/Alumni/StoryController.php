@@ -54,20 +54,6 @@ class StoryController extends Controller
         return view('alumni.stories.list', $data);
     }
 
-    public function info($slug)
-    {
-        $data['story'] = $this->storyService->getBySlug($slug);
-        return view('alumni.stories.edit-form', $data);
-    }
 
-    public function update(StoryRequest $request, $slug)
-    {
-        return $this->storyService->update($slug, $request);
-    }
-
-    public function delete($slug)
-    {
-        return $this->storyService->deleteBySlug($slug);
-    }
 
 }
