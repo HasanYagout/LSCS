@@ -35,7 +35,8 @@ class ProfileController extends Controller
         return view('alumni.profile',$data);
     }
 
-    public function userProfileUpdate(ProfileRequest $request){
+    public function userProfileUpdate(Request $request){
+
         return $this->userService->profileUpdate($request);
     }
 

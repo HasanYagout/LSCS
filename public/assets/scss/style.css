@@ -2472,7 +2472,7 @@ bg-custom-secondary{
   white-space: nowrap;
 }
 .zTabHead .nav-link.active {
-  color: var(--text-black);
+  color: var(--secondary-color);
 }
 .zTabHead .nav-link.active::after {
   width: 100%;
@@ -2484,7 +2484,7 @@ bg-custom-secondary{
   left: 0;
   width: 0%;
   height: 0.0625rem;
-  background-color: var(--text-black);
+  background-color: var(--secondary-color);
   transition: all 0.3s;
 }
 

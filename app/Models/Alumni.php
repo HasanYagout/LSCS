@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Alumni extends Authenticatable
 {
     use HasFactory;
-    protected $fillable=['cvs'];
+    protected $fillable=['cvs','first_name','experience','education','skills','last_name','email','password','date_of_birth','about_me','image'];
     public function appliedJobs()
     {
         return $this->hasMany(AppliedJobs::class, 'job_id');

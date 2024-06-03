@@ -31,14 +31,14 @@
                         <div class="d-flex align-items-center flex-wrap g-18">
 
                             <div class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-cdef84">
-                                <img class="w-100" src="{{ asset('public/storage/alumni').'/'.auth('alumni')->user()->image }}"
+                                <img class="w-100 h-100" src="{{ asset('public/storage/alumni/image').'/'.auth('alumni')->user()->image }}"
                                     alt="{{auth('alumni')->user()->first_name.' '.auth('alumni')->user()->last_name}}" />
                             </div>
 
                             <div class="">
-                                <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-1b1c17">{{auth('alumni')->user()->first_name.' '.auth('alumni')->user()->last_name}}</h4>
+                                <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-f1a527">{{auth('alumni')->user()->first_name.' '.auth('alumni')->user()->last_name}}</h4>
                                 <p class="fs-14 fw-400 lh-17 text-707070 pb-10">
-                                    {{auth('alumni')->user()?->company_designation }}
+{{--                                    {{dd(json_decode(auth('alumni')->user()?->experience)[0])}}--}}
                                 </p>
                             </div>
                         </div>
@@ -81,38 +81,39 @@
                             <div class="py-20 px-25 bd-ra-10 bg-f9f9f9">
                                 <!-- Bio text -->
                                 <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                    <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-10">{{ __('Profile Bio') }}</h4>
+                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Profile Bio') }}</h4>
                                     <p class="fs-14 fw-400 lh-24 text-707070 pb-12">{!! auth('alumni')->user()?->about_me !!}</p>
                                 </div>
                                 <!-- Personal Info -->
                                 <ul class="zList-one">
                                     <li>
-                                        <p>{{ __('Full Name') }} :</p>
-                                        <p>{{ auth('alumni')->user()->first_name.' '.auth('alumni')->user()->last_name }}</p>
+                                        <p>{{ __('First Name') }} :</p>
+                                        <p>{{ auth('alumni')->user()->first_name}}</p>
+                                    </li>
+                                    <li>
+                                        <p>{{ __('Last Name') }} :</p>
+                                        <p>{{ auth('alumni')->user()->last_name}}</p>
                                     </li>
 
-                                    @if (auth('alumni')->user()->show_email_in_public == STATUS_SUCCESS)
                                     <li>
                                         <p>{{ __('Email') }} :</p>
                                         <p>{{auth('alumni')->user()->email}}</p>
                                     </li>
-                                    @endif
-                                    @if (auth('alumni')->user()->show_phone_in_public == STATUS_SUCCESS)
+
                                     <li>
                                         <p>{{ __('Phone') }} :</p>
                                         <p>{{auth('alumni')->user()->phone}}</p>
                                     </li>
-                                    @endif
+
 
                                     <li>
                                         <p>{{ __('City') }} :</p>
                                         <p> {{ auth('alumni')->user()?->city }}</p>
                                     </li>
                                     <li>
-                                        <p>{{ __('Country') }} :</p>
-                                        <p>{{ auth('alumni')->user()?->country }}</p>
+                                        <p>{{ __('Date Of Birth') }} :</p>
+                                        <p>{{ auth('alumni')->user()?->date_of_birth }}</p>
                                     </li>
-
                                 </ul>
                             </div>
                         </div>
@@ -120,11 +121,11 @@
                         <div class="col-lg-4">
                             <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
                                 <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                    <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-10">{{ __('Educational Info') }}</h4>
+                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Educational Info') }}</h4>
 
                                 </div>
                                 <div class="">
-                                    <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-10">{{ __('Professional Info') }}</h4>
+                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Professional Info') }}</h4>
                                     <ul class="zList-one">
                                         <li>
                                             <p>{{ __('Company Name') }} :</p>
@@ -141,7 +142,62 @@
                                     </ul>
                                 </div>
                             </div>
+                            @if(!empty(auth('alumni')->user()->skills))
+                                <div class="py-20 mt-3 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
+                                    <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
+                                        <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Skills') }}</h4>
+
+                                    </div>
+                                    <ul class="zList-one d-flex">
+                                        @foreach(json_decode(auth('alumni')->user()->skills) as $skill)
+                                            <li class=" p-1 d-flex bg-f1a527 rounded m-1 ">
+                                                <p>{{$skill}}</p>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+
+                            @endif
                         </div>
+                    </div>
+                    {{dd(json_decode(auth('alumni')->user()->experience))}}
+                    <div class="row rg-30 mt-3">
+                        @foreach(json_decode(auth('alumni')->user()->experience) as $experience)
+                        <div class="col-lg-4">
+                            <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
+                                <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
+                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Experience Info') }}</h4>
+
+                                </div>
+
+
+                                        <ul class="zList-one">
+{{--                                            <li class="p-0 lh-1">--}}
+{{--                                                <h6 class="fs-4 lh-1">{{ $experience->position}}</h6>--}}
+{{--                                            </li>--}}
+                                            <li class="p-0 lh-1">
+                                                <h1 class="fw-medium lh-1" >{{ $experience->company}}</h1>
+                                            </li>
+                                            <li class="d-block p-0">
+                                                @php
+                                                    $startDate = new DateTime($experience->start_date);
+                                                    $endDate = new DateTime($experience->end_date);
+                                                @endphp
+                                                <span class="text-f1a527-50">{{ $startDate->format('M Y') .' - '.$endDate->format('M Y')}}</span>
+                                            </li>
+                                            <li>
+                                                <p>{{$experience->company_address}}</p>
+                                            </li>
+                                            <li>
+                                                {!! $experience->details !!}
+                                            </li>
+                                        </ul>
+
+
+                            </div>
+
+                        </div>
+                                @endforeach
                     </div>
                 </div>
                 <!-- Edit Profile -->
@@ -149,19 +205,19 @@
                     tabindex="0">
                     <div class="max-w-840">
                         <form method="POST" class="ajax" data-handler="commonResponseRedirect"
-                            data-redirect-url="{{ route('alumni.profile.index') }}" action="{{ route('alumni.profile.update') }}">
+                            data-redirect-url="{{ route('alumni.profile.index') }}" action="{{ route('alumni.profile.update') }}" enctype="multipart/form-data">
                             @csrf
                             <!-- Photo -->
                             <div class="pb-40"></div>
                             <!-- Personal Info -->
                             <div class="pb-30">
-                                <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-20">{{ __('Personal Info') }}</h4>
+                                <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Personal Info') }}</h4>
                                 <div class="row rg-25">
                                     <!-- Photo -->
                                     <div class="pb-40">
                                         <div class="upload-img-box profileImage-upload">
                                             <div class="icon"><img src="assets/images/icon/edit-2.svg" alt="" /></div>
-                                            <img src="{{ asset('public/storage/alumni').'/'.auth('alumni')->user()->image }}" />
+                                            <img src="{{ asset('public/storage/alumni/image').'/'.auth('alumni')->user()->image }}" />
                                             <input type="file" name="image" id="zImageUpload" accept="image/*,video/*"
                                                 onchange="previewFile(this)" />
                                         </div>
@@ -170,10 +226,20 @@
                                     <div class="col-md-6">
                                         <div class="primary-form-group">
                                             <div class="primary-form-group-wrap">
-                                                <label for="epFullName" class="form-label">{{ __('Full Name') }}</label>
+                                                <label for="epFullName" class="form-label">{{ __('First Name') }}</label>
                                                 <input type="text" class="primary-form-control" id="epFullName"
-                                                    value="{{auth('alumni')->user()->first_name}}" name="name"
-                                                    placeholder="{{ __('Your Name') }}" />
+                                                    value="{{auth('alumni')->user()->first_name}}" name="first_name"
+                                                    placeholder="{{ __('Your First Name') }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="primary-form-group">
+                                            <div class="primary-form-group-wrap">
+                                                <label for="epFullName" class="form-label">{{ __('Last Name') }}</label>
+                                                <input type="text" class="primary-form-control" id="epFullName"
+                                                       value="{{auth('alumni')->user()->last_name}}" name="last_name"
+                                                       placeholder="{{ __('Your Last Name') }}" />
                                             </div>
                                         </div>
                                     </div>
@@ -204,7 +270,7 @@
                             </div>
                             <!-- Contact Info -->
                             <div class="pb-30">
-                                <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-20">{{ __('Contact Info') }}</h4>
+                                <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Contact Info') }}</h4>
                                 <div class="row rg-25">
                                     <div class="col-md-6">
                                         <div class="primary-form-group">
@@ -273,14 +339,79 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="pb-30">
+                                <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Education Info') }}</h4>
+                                <div class="row rg-25">
+                                    <div class="col-md-6">
+                                        <div class="primary-form-group">
+                                            <div class="primary-form-group-wrap">
+                                                <label for="educationType" class="form-label">{{ __('Education Type')}}</label>
+                                                <select class="form-control" id="educationType" name="education_type" required>
+                                                    <option value="university">University</option>
+                                                    <option value="high_school">High School</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="primary-form-group">
+                                            <div class="primary-form-group-wrap">
+                                                <label for="epEmail" class="form-label">{{ __('Education Name')
+                                                    }}</label>
+                                                <input type="text" class="form-control" id="educationName" name="education_name" placeholder="Enter the name of the institution" required>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="primary-form-group">
+                                            <div class="primary-form-group-wrap">
+                                                <label for="startDate">Start Date</label>
+                                                <input type="date" class="form-control" id="startDate" name="education_start_date" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="primary-form-group">
+                                            <div class="primary-form-group-wrap">
+                                                <label for="endDate">End Date</label>
+
+                                                <input type="date" class="form-control" id="endDate" name="education_end_date" required>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="primary-form-group">
+                                            <div class="primary-form-group-wrap">
+                                                <label for="epTwitter" class="form-label">{{ __('Details')
+                                                    }}</label>
+                                                <textarea class="form-control summernote" id="details" name="education_details" placeholder="Enter the details about your education"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="primary-form-group">
+                                            <div class="primary-form-group-wrap">
+                                                <label for="epInstagram" class="form-label">{{ __('Instagram Url')
+                                                    }}</label>
+                                                <input type="url" value="{{ auth('alumni')->user()?->instagram_url }}"
+                                                       name="instagram_url" class="primary-form-control" id="epInstagram"
+                                                       placeholder="{{ __('Your Instagram Profile Url') }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Educational Info -->
                             <div class="pb-30" id="education-parent">
                                 <div id="education-child-empty" class="d-none d-flex flex-column">
                                     <div class="d-flex justify-content-between align-items-center flex-wrap g-10 pb-20">
-                                        <h4 class="fs-18 fw-500 lh-22 text-1b1c17">{{ __('Educational Info') }}</h4>
+                                        <h4 class="fs-18 fw-500 lh-22 text-f1a527">{{ __('Educational Info') }}</h4>
                                         <div class="d-flex align-items-center cg-16">
                                             <button type="button"
-                                                class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one"
+                                                class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-f1a527 text-decoration-underline hover-color-one"
                                                 data-bs-toggle="modal" data-bs-target="#addMoreModal">{{ __('+Add New')
                                                 }}</button>
                                         </div>
@@ -292,7 +423,16 @@
                             </div>
                             <!-- Professional Info -->
                             <div class="pb-30">
-                                <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-20">{{ __('Professional Info') }}</h4>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Professional Info') }}</h4>
+
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <button type="button" class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-f1a527 text-decoration-underline hover-color-one" data-bs-toggle="modal" data-bs-target="#addExperienceModal">+Add More</button>
+
+                                    </div>
+                                </div>
                                 <div class="row rg-25">
                                     <div id="job-experiences">
                                         <div class="job-experience mb-3">
@@ -309,9 +449,9 @@
                                                 <div class="col-md-6">
                                                     <div class="primary-form-group">
                                                         <div class="primary-form-group-wrap">
-                                                            <label for="epDesignation" class="form-label">Designation</label>
-                                                            <input type="text" name="company_designation[]" class="primary-form-control"
-                                                                   id="epDesignation" placeholder="Your Current Designation">
+                                                            <label for="epDesignation" class="form-label">Position</label>
+                                                            <input type="text" value="{{auth('alumni')->user()->experience}}" name="experience_position" class="primary-form-control"
+                                                                   id="epDesignation" placeholder="Your  Position">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -319,7 +459,7 @@
                                                     <div class="primary-form-group">
                                                         <div class="primary-form-group-wrap">
                                                             <label for="epCompanyAddress" class="form-label">Address</label>
-                                                            <input type="text" name="company_address[]" class="primary-form-control"
+                                                            <input type="text" name="experience_address" class="primary-form-control"
                                                                    id="epCompanyAddress" placeholder="Your Company Address">
                                                         </div>
                                                     </div>
@@ -329,7 +469,7 @@
                                                         <div class="primary-form-group">
                                                             <div class="primary-form-group-wrap">
                                                                 <label for="startDate">Start Date:</label>
-                                                                <input type="date" class="form-control" name="startDate[]">
+                                                                <input type="date" class="form-control" name="experience_startDate">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -337,39 +477,29 @@
                                                         <div class="primary-form-group">
                                                             <div class="primary-form-group-wrap">
                                                                 <label for="endDate">End Date:</label>
-                                                                <input type="date" class="form-control endDate" name="endDate[]">
+                                                                <input type="date" class="form-control endDate" name="experience_endDate">
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="col-sm-2">Currently Working:</div>
-                                                    <div class="col-sm-10">
-                                                        <div class="form-check">
-                                                            <input class="form-check-input present" type="checkbox" name="present[]">
-                                                            <label class="form-check-label" for="present">
-                                                                Yes, I am currently working in this job.
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
+
                                                 <div class="col-lg-12">
                                                     <div class="primary-form-group">
                                                         <div class="primary-form-group-wrap">
                                                             <label for="eventDescription" class="form-label">Description <span class="text-danger">*</span></label>
-                                                            <textarea name="details[]" class="primary-form-control summernoteOne min-h-180"
+                                                            <textarea name="experience_details" class="primary-form-control summernoteOne min-h-180"
                                                                       id="eventDescription" placeholder="Details" spellcheck="false"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
-                                    <button type="button" id="addExperience" class="btn btn-primary">Add More Experience</button>
                                 </div>
                             </div>
                             <div class="pb-30">
-                                <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-20">{{ __('Skills') }}</h4>
+                                <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Skills') }}</h4>
                                 <div class="primary-form-group">
                                     <div class="primary-form-group-wrap">
                                         <label for="skills" class="form-label">Skills</label>
@@ -379,7 +509,7 @@
                             </div>
                             <!-- Address -->
                             <div class="pb-30">
-                                <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-20">{{ __('Address') }}</h4>
+                                <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Address') }}</h4>
                                 <div class="row rg-25">
                                     <div class="col-md-6">
                                         <div class="primary-form-group">
@@ -447,80 +577,126 @@
             </div>
         </div>
     </div>
-</div>
-<!-- Add More Modal -->
-<div class="modal fade zModalTwo" id="addMoreModal" tabindex="-1" aria-labelledby="addMoreModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content zModalTwo-content">
-            <div class="modal-body zModalTwo-body">
-                <!-- Header -->
-                <div class="d-flex justify-content-between align-items-center pb-30">
-                    <h4 class="fs-20 fw-500 lh-38 text-1b1c17">{{ __('Add Info') }}</h4>
-                    <div class="mClose">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><img
-                                src="{{ asset('public/assets/images/icon/delete.svg') }}" alt="" /></button>
-                    </div>
+    <div class="modal fade" id="addExperienceModal" tabindex="-1" aria-labelledby="addExperienceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addExperienceModalLabel">Add Experience</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <!-- Body -->
-                <form method="POST" class="ajax" data-handler="commonResponseForModal"
-                    action="{{ route('alumni.add_institution') }}">
-                    @csrf
-                    <div class="pb-25">
-                        <div class="row rg-25">
-                            <div class="col-12">
-                                <div class="primary-form-group">
-                                    <div class="primary-form-group-wrap">
-                                        <label for="epDegree1" class="form-label">{{ __('Degree') }}</label>
-                                        <input type="text" class="primary-form-control" id="epDegree1" name="degree"
-                                            placeholder="{{ __('Your Degree') }}" />
-                                    </div>
-                                </div>
+                <div class="modal-body">
+                    <form id="experienceForm" action="{{ route('alumni.profile.update') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="companyName" class="form-label">Company Name</label>
+                            <input type="text" class="form-control" id="companyName" name="company" placeholder="Your Current Company">
+                        </div>
+                        <!-- Position -->
+                        <div class="mb-3">
+                            <label for="position" class="form-label">Position</label>
+                            <input type="text" class="form-control" id="position" name="position" placeholder="Your Position">
+                        </div>
+                        <!-- Address -->
+                        <div class="mb-3">
+                            <label for="companyAddress" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="companyAddress" name="company_address" placeholder="Your Company Address">
+                        </div>
+                        <!-- Start Date and End Date -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="startDate" class="form-label">Start Date</label>
+                                <input type="date" class="form-control" id="startDate" name="startDate">
                             </div>
-                            <div class="col-12">
-                                <div class="primary-form-group">
-                                    <div class="primary-form-group-wrap">
-                                        <label for="epInstitute" class="form-label">{{ __('Institution') }}</label>
-                                        <input type="text" class="primary-form-control" id="epInstitute"
-                                            name="institute" placeholder="{{ __('Your Institution') }}" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="primary-form-group">
-                                    <div class="primary-form-group-wrap">
-                                        <label for="epPassingYear1" class="form-label">{{ __('Passing Year') }}</label>
-                                        <input type="text" class="primary-form-control" id="epPassingYear1"
-                                            name="passing_year" placeholder="{{ __('Your Passing Year') }}" />
-                                    </div>
-                                </div>
+                            <div class="col-md-6">
+                                <label for="endDate" class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="endDate" name="endDate">
                             </div>
                         </div>
-                    </div>
-                    <button type="submit"
-                        class="py-13 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">{{
-                        __('Save Now') }}</button>
-                </form>
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="experienceDescription" class="form-label">Description <span class="text-danger">*</span></label>
+                            <textarea class="form-control summernote" id="experienceDescription" name="details" placeholder="Details"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="saveExperienceBtn">Save Experience</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+    <div id="companySectionContainer"></div>
 </div>
+{{--<!-- Add More Modal -->--}}
+{{--<div class="modal fade zModalTwo" id="addMoreModal" tabindex="-1" aria-labelledby="addMoreModalLabel"--}}
+{{--    aria-hidden="true">--}}
+{{--    <div class="modal-dialog modal-dialog-centered">--}}
+{{--        <div class="modal-content zModalTwo-content">--}}
+{{--            <div class="modal-body zModalTwo-body">--}}
+{{--                <!-- Header -->--}}
+{{--                <div class="d-flex justify-content-between align-items-center pb-30">--}}
+{{--                    <h4 class="fs-20 fw-500 lh-38 text-f1a527">{{ __('Add Info') }}</h4>--}}
+{{--                    <div class="mClose">--}}
+{{--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><img--}}
+{{--                                src="{{ asset('public/assets/images/icon/delete.svg') }}" alt="" /></button>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <!-- Body -->--}}
+{{--                <form method="POST" class="ajax" data-handler="commonResponseForModal"--}}
+{{--                    action="{{ route('alumni.add_institution') }}">--}}
+{{--                    @csrf--}}
+{{--                    <div class="pb-25">--}}
+{{--                        <div class="row rg-25">--}}
+{{--                            <div class="col-12">--}}
+{{--                                <div class="primary-form-group">--}}
+{{--                                    <div class="primary-form-group-wrap">--}}
+{{--                                        <label for="epDegree1" class="form-label">{{ __('Degree') }}</label>--}}
+{{--                                        <input type="text" class="primary-form-control" id="epDegree1" name="degree"--}}
+{{--                                            placeholder="{{ __('Your Degree') }}" />--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-12">--}}
+{{--                                <div class="primary-form-group">--}}
+{{--                                    <div class="primary-form-group-wrap">--}}
+{{--                                        <label for="epInstitute" class="form-label">{{ __('Institution') }}</label>--}}
+{{--                                        <input type="text" class="primary-form-control" id="epInstitute"--}}
+{{--                                            name="institute" placeholder="{{ __('Your Institution') }}" />--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-12">--}}
+{{--                                <div class="primary-form-group">--}}
+{{--                                    <div class="primary-form-group-wrap">--}}
+{{--                                        <label for="epPassingYear1" class="form-label">{{ __('Passing Year') }}</label>--}}
+{{--                                        <input type="text" class="primary-form-control" id="epPassingYear1"--}}
+{{--                                            name="passing_year" placeholder="{{ __('Your Passing Year') }}" />--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <button type="submit"--}}
+{{--                        class="py-13 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">{{--}}
+{{--                        __('Save Now') }}</button>--}}
+{{--                </form>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
 
-<input type="hidden" id="job-post-list-route" value="{{ route('alumni.cvs.all') }}">
+{{--<input type="hidden" id="job-post-list-route" value="{{ route('alumni.cvs.all') }}">--}}
 
-<table class="table zTable" id="cvsTable">
-    <thead>
-    <tr>
-        <th scope="col"><div>{{ __('Name') }}</div></th>
-        <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>
-    </tr>
-    </thead>
-</table>
+{{--<table class="table zTable" id="cvsTable">--}}
+{{--    <thead>--}}
+{{--    <tr>--}}
+{{--        <th scope="col"><div>{{ __('Name') }}</div></th>--}}
+{{--        <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>--}}
+{{--    </tr>--}}
+{{--    </thead>--}}
+{{--</table>--}}
 @endsection
 
 @push('script')
     <script>
-
         $(document).ready(function() {
             $('.skills-select').select2({
                 tags: true,
@@ -528,33 +704,98 @@
                 placeholder: "Add your skills",
                 allowClear: true
             });
+            $('#addCompanyBtn').click(function() {
+                if (experienceCount < maxExperiences) {
+                    $('#addExperienceModal').modal('show');
+                }
+            });
             const maxExperiences = 3;
             let experienceCount = 1;
+            let sectionCounter = 1;
 
-            $('#addExperience').click(function() {
+            $('#addCompanyBtn').click(function() {
                 if (experienceCount < maxExperiences) {
-                    let newExperience = $('.job-experience:first').clone();
-                    newExperience.find('input').val(''); // Clear all input fields
-                    newExperience.find('textarea').val(''); // Clear all textarea fields
-                    $('#job-experiences').append(newExperience);
-                    experienceCount++;
-                } else {
-                    alert('You can only add up to ' + maxExperiences + ' experiences.');
+                    var container = $('#companySectionContainer');
+                    var newSectionId = 'summernote' + sectionCounter; // Unique ID for each Summernote instance
+
+                    var newHtml = `
+            <div class="row" id="section${sectionCounter}">
+                <!-- Company Name -->
+                <div class="col-md-6">
+                    <div class="primary-form-group">
+                        <div class="primary-form-group-wrap">
+                            <label class="form-label">Company Name</label>
+                            <input type="text" name="company[]" class="primary-form-control" placeholder="Your Current Company">
+                        </div>
+                    </div>
+                </div>
+                <!-- Designation -->
+                <div class="col-md-6">
+                    <div class="primary-form-group">
+                        <div class="primary-form-group-wrap">
+                            <label class="form-label">Position</label>
+                            <input type="text" name="position[]" class="primary-form-control" placeholder="Your Position">
+                        </div>
+                    </div>
+                </div>
+                <!-- Address -->
+                <div class="col-md-6">
+                    <div class="primary-form-group">
+                        <div class="primary-form-group-wrap">
+                            <label class="form-label">Address</label>
+                            <input type="text" name="company_address[]" class="primary-form-control" placeholder="Your Company Address">
+                        </div>
+                    </div>
+                </div>
+                <!-- Start Date and End Date -->
+                <div class="col-md-6 d-flex">
+                    <div class="col-lg-6">
+                        <div class="primary-form-group">
+                            <div class="primary-form-group-wrap">
+                                <label>Start Date:</label>
+                                <input type="date" class="form-control" name="startDate[]">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="primary-form-group">
+                            <div class="primary-form-group-wrap">
+                                <label for="endDate">End Date:</label>
+                                <input type="date" class="form-control endDate" name="endDate[]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Description -->
+                <div class="col-lg-12">
+                    <div class="primary-form-group">
+                        <div class="primary-form-group-wrap">
+                            <label for="${newSectionId}" class="form-label">Description <span class="text-danger">*</span></label>
+                            <textarea name="details[]" class="primary-form-control summernote" id="${newSectionId}" placeholder="Details"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+
+                    container.append(newHtml);  // Append the new section to the container using jQuery's append
+                    initializeSummernote(newSectionId);  // Initialize Summernote for the new textarea
+                    sectionCounter++;  // Increment the counter after adding the section
+                    experienceCount++;  // Increment experience count
                 }
             });
 
-            $(document).on('change', '.present', function() {
-                console.log('Checkbox changed');  // Debugging line
-                let endDateInput = $(this).closest('.job-experience').find('input.endDate');
-                console.log(endDateInput); // Debugging line to see the selected endDate input
-                if ($(this).is(':checked')) {
-                    endDateInput.prop('disabled', true);
-                    console.log('End date disabled');
-                } else {
-                    endDateInput.prop('disabled', false);
-                    console.log('End date enabled');
-                }
-            });
+            function initializeSummernote(elementId) {
+                $('#' + elementId).summernote({
+                    placeholder: "Write description...",
+                    tabsize: 2,
+                    minHeight: 183,
+                    toolbar: [
+                        ["font", ["bold", "italic", "underline"]],
+                        ["para", ["ul", "ol", "paragraph"]],
+                    ],
+                });
+            }
         });
     </script>
 <script src="{{ asset('public/alumni/js/profile.js') }}"></script>

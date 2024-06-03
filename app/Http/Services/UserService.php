@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserService
 {
@@ -120,62 +121,89 @@ class UserService
 
     public function profileUpdate($request)
     {
-        $authUser = auth()->user();
-
+        $authUser = auth('alumni')->user();
         try {
             DB::beginTransaction();
-            $userData = [
-                'name' => $request['name'],
-                'nick_name' => $request['nick_name'],
-                'mobile' => $request['mobile'],
-            ];
-            if(auth()->user()->mobile !=$request['mobile'])
-            {
-                $userData['phone_verification_status'] = STATUS_PENDING;
-            }
+            $filename = $authUser->image; // Set default to current image in case no new image is uploaded
 
             if ($request->hasFile('image')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('user', $request->image);
-                $userData['image'] = $uploaded->id;
+                $image = $request->file('image');
+                $date = now()->toDateString();
+                $randomSlug = Str::slug(Str::random(8)); // Create a random slug
+                $randomNumber = rand(100, 999);
+                $filename = $date . '_' . $randomSlug . '_' . $randomNumber . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('alumni/image', $filename, 'public');
             }
 
-            $authUser->update($userData);
+            // Handle experience data
+            $existingExperience = $authUser->experience;
+            $newExperience = [
+                'company' => $request->company,
+                'position' => $request['position'] ?? null,
+                'company_address' => $request['company_address'] ?? null,
+                'start_date' => $request['startDate'] ?? null,
+                'end_date' => $request['endDate'] ?? null,
+                'details' => $request['details'] ?? null,
+            ];
 
-            Alumni::updateOrCreate(['user_id' => $authUser->id],[
-                'user_id' => $authUser->id,
-                'date_of_birth' => $request['date_of_birth'],
-                'blood_group' => $request['blood_group'],
-                'about_me' => $request['about_me'],
-                'linkedin_url' => $request['linkedin_url'],
-                'facebook_url' => $request['facebook_url'],
-                'twitter_url' => $request['twitter_url'],
-                'instagram_url' => $request['instagram_url'],
-                'Company' => $request['Company'] ?? '',
+            if (is_null($existingExperience)) {
+                $updatedExperience = [$newExperience]; // Initialize with the new experience
+            } else {
+                $existingExperienceArray = json_decode($existingExperience, true); // Decode existing experience to associative array
+                $updatedExperience = array_merge($existingExperienceArray, [$newExperience]); // Merge with new experience
+            }
+
+            $existingEducation = $authUser->education;
+            $newEducation = [
+                'name' => $request->input('education_name'),
+                'start_date' => $request->input('education_start_date'),
+                'end_date' => $request->input('education_end_date'),
+                'details' => $request->input('education_details'),
+            ];
+
+            // Determine the type of education
+            $educationType = $request->input('education_type');
+
+            if (is_null($existingEducation)) {
+                $updatedEducation = [
+                    $educationType => $newEducation
+                ];
+            } else {
+                $existingEducationArray = json_decode($existingEducation, true); // Decode existing education to associative array
+                $existingEducationArray[$educationType] = $newEducation; // Update the specific type of education
+                $updatedEducation = $existingEducationArray;
+            }
+
+
+
+            Alumni::updateOrCreate(['id' => $authUser->id],[
+                'first_name'=> $request['first_name']?? $authUser->first_name,
+                'last_name'=> $request['last_name']?? $authUser->last_name,
+                'date_of_birth' => $request['date_of_birth']?? $authUser->date_of_birth,
+                'about_me' => $request['about_me']?? $authUser->about_me,
+                'image' => $filename,
+                'linkedin_url' => $request['linkedin_url']?? $authUser->linkedin_url,
+                'facebook_url' => $request['facebook_url']?? $authUser->facebook_url,
+                'twitter_url' => $request['twitter_url']?? $authUser->twitter_url,
+                'instagram_url' => $request['instagram_url']?? $authUser->instagram_url,
+                'Company' => $request['Company'] ?? $authUser->Company,
                 'company_designation' => $request['company_designation'] ?? '',
                 'company_address' => $request['company_address'] ?? '',
-                'city' => $request['city'],
-                'state' => $request['state'],
-                'country' => $request['country'],
-                'zip' => $request['zip'],
-                'address' => $request['address'],
+                'city' => $request['city']?? $authUser->city,
+                'address' => $request['address']?? $authUser->address,
+                'experience' => json_encode($updatedExperience), // Encode the updated experience
+                'skills' => json_encode($request->skills)?? $authUser->skills,
+                'education' => json_encode($updatedEducation)?? $authUser->education
             ]);
 
-            foreach($request->institution['id'] ?? [] as $index => $id){
-                $authUser->institutions()->where('id', $id)->update([
-                    'passing_year' => $request->institution['passing_year'][$index],
-                    'degree' => $request->institution['degree'][$index],
-                    'institute' => $request->institution['institute'][$index],
-                ]);
-            }
 
-            $authUser->institutions()->whereNotIn('id', $request->institution['id'] ?? [])->delete();
 
             DB::commit();
             return $this->success([], getMessage(UPDATED_SUCCESSFULLY));
         } catch (Exception $e) {
-            DB::rollBack();
             dd($e);
+            DB::rollBack();
+
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
         }
     }
