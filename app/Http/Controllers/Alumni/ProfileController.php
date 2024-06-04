@@ -45,6 +45,12 @@ class ProfileController extends Controller
         return $this->userService->addEducation($request);
     }
 
+    public function addExperience(Request $request)
+    {
+        return $this->userService->addExperience($request);
+
+    }
+
     public function changePasswordUpdate(Request $request)
     {
        return $this->userService->changePasswordUpdate($request);

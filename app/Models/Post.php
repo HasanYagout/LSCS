@@ -9,11 +9,15 @@ class Post extends Model
 {
 
     protected $fillable = [
-        'tenant_id',
+        'name',
         'slug',
         'body',
         'status',
-        'created_by'
+        'created_by',
+
+    ];
+    protected $casts = [
+        'created_at' => 'datetime',
     ];
 
     public function media()

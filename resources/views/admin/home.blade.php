@@ -1,9 +1,39 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @push('title')
     {{ __('Home') }}
 @endpush
 @push('style')
-{{--{!! RecaptchaV3::initJs() !!}--}}
+
+    <style>
+        body .lightbox .lb-close {
+            position: absolute;
+            top: 0px;
+            right: 144px;
+            z-index: 1051;
+        }
+
+        body .lightbox .lb-prev, body .lightbox .lb-next {
+            position: relative;
+            top: 52%;
+            transform: translateY(-50%);
+        }
+
+        body .lightbox .lb-prev {
+            opacity: 1;
+            left: -100px;
+        }
+
+        body .lightbox .lb-next {
+            right: -100px;
+            opacity: 1;
+        }
+        .page-link{
+        }
+        .active>.page-link, .page-link.active{
+            background-color: var(--secondary-color);
+            border: none;
+        }
+    </style>
 @endpush
 @section('content')
     <div class="p-30" style="margin-left:250px;">
@@ -66,8 +96,9 @@
                     </form>
                 </div>
                 <div id="post-block" class="mt-15 d-flex flex-column rg-15">
-
+                    @include('admin.partials.post',$posts)
                 </div>
+                {{$posts->links()}}
             </div>
             <!-- Right side content -->
             <div class="home-rightSide">
@@ -278,9 +309,9 @@
                                                     <div
                                                         class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
                                                         <img src="{{ asset('public/storage/admin'.'/'.$news->author->image)}}"
-                                                            alt="{{ $news->author->name }}" />
+                                                            alt="{{ $news->author->first_name .$news->author->last_name }}" />
                                                     </div>
-                                                    <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->name }}
+                                                    <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name .$news->author->last_name }}
                                                     </p>
                                                 </div>
                                                 <!-- Link -->
@@ -506,9 +537,9 @@
                                                 <div
                                                     class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
                                                     <img src="{{ asset('public/storage/news'.'/'.$news->author->image) }}"
-                                                        alt="{{ $news->author->name }}" />
+                                                        alt="{{ $news->author->first_name .$news->author->last_name }}" />
                                                 </div>
-                                                <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->name }}</p>
+                                                <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name .'f' . $news->author->last_name }}</p>
                                             </div>
                                             <!-- Link -->
                                             <a href="{{ route('admin.news.details', $news->slug) }}"
@@ -593,5 +624,15 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('public/alumni/js/posts.js') }}?ver={{ env('VERSION' ,0) }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            lightbox.option({
+                'resizeDuration': 200,
+                'wrapAround': true,
+                'fitImagesInViewport':true,
+                'showImageNumberLabel':true
+            });
+        });
+    </script>
+{{--    <script src="{{ asset('public/alumni/js/posts.js') }}?ver={{ env('VERSION' ,0) }}"></script>--}}
 @endpush

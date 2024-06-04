@@ -58,6 +58,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap"
         rel="stylesheet" />
     <!-- css file  -->
+    <link rel="stylesheet" href="{{ asset('public/assets/lightbox/css/lightbox.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/css/plugins.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/css/dataTables.css') }}" />

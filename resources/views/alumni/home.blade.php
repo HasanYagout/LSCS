@@ -3,69 +3,25 @@
     {{ __('Home') }}
 @endpush
 @push('style')
-    {{--{!! RecaptchaV3::initJs() !!}--}}
+    <style>
+        .page-link{
+        }
+        .active>.page-link, .page-link.active{
+            background-color: var(--secondary-color);
+            border: none;
+        }
+    </style>
 @endpush
 @section('content')
     <div class="p-30">
         <section class="home-section">
-            <!-- Posts -->
+
             <div class="home-content">
-                <div class="mb-3">
-                    <form class="ajax reset" id="post-form" method="post" enctype="multipart/form-data"
-                          action="{{ route('alumni.posts.store') }}" data-handler="postResponse">
-                        @csrf
-                        <!-- Create Post -->
-                        <div class="p-25 bg-white bd-one bd-c-black-10 bd-ra-25">
-                            <!-- Title -->
-                            <h4 class="fs-20 fw-600 lh-24 text-1b1c17 pb-26">{{ __('Create Post') }}</h4>
-                            <!-- User -->
 
-                            <div class="d-flex align-items-center cg-10 pb-20">
-                                <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-cdef84 rounded-circle overflow-hidden"><img
-                                        src="{{ asset('public/storage/alumni'.'/'.auth('alumni')->user()->image) }}" class="w-100"
-                                        alt="{{auth('alumni')->user()->name}}" />
-                                </div>
-                                <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{auth('alumni')->user()->name}}</h4>
-                            </div>
-                            <!-- Post Input -->
-                            <div class="pb-15">
-                                <textarea name="body" class="form-control postInput" placeholder="{{ __('What’s on your mind?') }}"></textarea>
-                            </div>
-                            <div class="">
-                                <!-- Attachment preview -->
-                                <div id="files-area" class="pb-10">
-                                    <span id="filesList">
-                                        <span id="files-names"></span>
-                                    </span>
-                                </div>
-                                <!-- Add image/video - post button -->
-                                <div class="d-flex justify-content-between align-items-center flex-wrap g-10">
-                                    <!-- Add image/video -->
-                                    <div class="d-flex align-items-center cg-15">
-                                        <p class="fs-16 lh-18 fw-500 text-707070">{{ __('Add to your post') }}:</p>
-                                        <div class="align-items-center cg-10 d-flex flex-shrink-0">
-                                            <label for="mAttachment1"><img
-                                                    src="{{ asset('public/assets/images/icon/post-photo.svg') }}"
-                                                    alt="" /></label>
-                                            <input type="file" name="file[]"
-                                                   accept=".png,.jpg,.svg,.jpeg,.gif,.mp4,.mov,.avi,.mkv,.webm,.flv"
-                                                   id="mAttachment1" class="d-none" multiple />
-                                            <label for="mAttachment1"><img
-                                                    src="{{ asset('public/assets/images/icon/post-video.svg') }}"
-                                                    alt="" /></label>
-                                        </div>
-                                    </div>
-                                    <!-- Post button -->
-                                    <button type="submit"
-                                            class="border-0 py-10 px-26 bd-ra-12 bg-cdef84 hover-bg-one">{{ __('Post Now') }}</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
                 <div id="post-block" class="mt-15 d-flex flex-column rg-15">
-
+                    @include('admin.partials.post',$posts)
                 </div>
+                {{$posts->links()}}
             </div>
             <!-- Right side content -->
             <div class="home-rightSide">
@@ -88,7 +44,7 @@
                                     <li>
                                         <div class="home-item-one">
                                             <div class="img">
-                                                <img src="{{ asset(getFileUrl($event->thumbnail)) }}"
+                                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/event').'/'.$event->thumbnail}}"
                                                      alt="{{ $event->title }}">
                                                 <ul class="tag d-flex flex-wrap cg-2 rg-5">
                                                     <li><a
@@ -146,7 +102,7 @@
                                         <div class="d-flex align-items-center cg-10 pb-10">
                                             <div
                                                 class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img src="{{ asset('public/storage/company').'/'.$job->company->logo }}"
+                                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/company').'/'.$job->company->logo }}"
                                                      alt="{{ $job->title }}" />
                                             </div>
                                             <div class="">
@@ -184,6 +140,7 @@
                                             </li>
                                             <li class="d-flex align-items-center cg-7">
                                                 <div class="d-flex"><img
+
                                                         src="{{ asset('public/assets/images/icon/dollar-coin.svg') }}"
                                                         alt="" />
                                                 </div>
@@ -215,7 +172,7 @@
                                 @foreach ($latestNotice as $notice)
                                     <li>
                                         <div class="home-item-one">
-                                            <div class="img"><img src="{{ asset('public/storage/notice'.'/'.$notice->image) }}"
+                                            <div class="img"><img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/notice'.'/'.$notice->image) }}"
                                                                   alt="{{ $notice->title }}" />
                                             </div>
                                             <div class="content">
@@ -260,7 +217,7 @@
                                 @foreach ($latestNews as $news)
                                     <li>
                                         <div class="home-item-one">
-                                            <div class="img"><img src="{{ asset('public/storage/news'.'/'.$news->image)}}"
+                                            <div class="img"><img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/news'.'/'.$news->image)}}"
                                                                   alt="{{ $news->title }}" />
                                             </div>
                                             <div class="content">
@@ -278,10 +235,10 @@
                                                 <div class="d-flex align-items-center cg-5">
                                                     <div
                                                         class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
-                                                        {{--                                                        <img src="{{ asset($news->author->image) }}"--}}
-                                                        {{--                                                            alt="{{ $news->author->name }}"/>--}}
+                                                        <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset($news->author->image) }}"
+                                                             alt="{{ $news->author->first_name.' '.$news->author->last_name }}"/>
                                                     </div>
-                                                    <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->name }}
+                                                    <p class="fs-10 fw-400 lh-12 text-707070">{{  $news->author->first_name.' '.$news->author->last_name}}
                                                     </p>
                                                 </div>
                                                 <!-- Link -->
@@ -322,7 +279,7 @@
                                 <li>
                                     <div class="home-item-one">
                                         <div class="img">
-                                            <img src="{{ asset(getFileUrl($event->thumbnail)) }}"
+                                            <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/event').'/'.$event->thumbnail }}"
                                                  alt="{{ $event->title }}">
                                             <ul class="tag d-flex flex-wrap cg-2 rg-5">
                                                 <li><a
@@ -380,7 +337,7 @@
                                     <div class="d-flex align-items-center cg-10 pb-10">
                                         <div
                                             class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                            <img src="{{ asset(getFileUrl($job->company->logo)) }}"
+                                            <img src="{{ asset('public/storage/company').'/'.$job->company->image }}"
                                                  alt="{{ $job->title }}" />
                                         </div>
                                         <div class="">
@@ -448,8 +405,8 @@
                             @foreach ($latestNotice as $notice)
                                 <li>
                                     <div class="home-item-one">
-                                        {{--                                        <div class="img"><img src="{{ asset(getFileUrl($notice->image)) }}"--}}
-                                        {{--                                                alt="{{ $notice->title }}" /></div>--}}
+                                        <div class="img"><img src="{{ asset('public/storage/admin/notice').'/'.$notice->image}}"
+                                                              alt="{{ $notice->title }}" /></div>
                                         <div class="content">
                                             <!-- Tab - Date -->
                                             <div class="d-flex align-items-center flex-wrap cg-10">
@@ -489,8 +446,8 @@
                             @foreach ($latestNews as $news)
                                 <li>
                                     <div class="home-item-one">
-                                        {{--                                        <div class="img"><img src="{{ asset(getFileUrl($news->image)) }}"--}}
-                                        {{--                                                alt="{{ $news->title }}" />--}}
+                                        <div class="img"><img src="{{ asset('public/storage/admin/news').'/'.$news->image }}"
+                                                              alt="{{ $news->title }}" />
                                     </div>
                                     <div class="content">
                                         <!-- Tab - Date -->
@@ -507,10 +464,10 @@
                                         <div class="d-flex align-items-center cg-5">
                                             <div
                                                 class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
-                                                {{--                                                    <img src="{{ asset(getFileUrl($news->author->image)) }}"--}}
-                                                {{--                                                        alt="{{ $news->author->name }}" />--}}
+                                                <img src="{{ asset('public/storage/admin').'/'.$news->author->image}}"
+                                                     alt="{{ $news->author->first_name.' '.$news->author->last_name}}" />
                                             </div>
-                                            <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->name }}</p>
+                                            <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name.' '.$news->author->last_name}}</p>
                                         </div>
                                         <!-- Link -->
                                         <a href="{{ route('alumni.news.details', $news->slug) }}"
@@ -523,6 +480,7 @@
             </div>
             @endif
         </div>
+
     </div>
     </div>
 
@@ -575,7 +533,7 @@
         </div>
     </div>
 
-    {{--    <input type="hidden" id="more-post-route" value="{{ route('more-post-load') }}">--}}
+        <input type="hidden" id="more-post-route" value="{{ route('alumni.more-post-load') }}">
     <input type="hidden" id="delete-post-route" value="{{ route('alumni.posts.delete') }}">
     <input type="hidden" id="post-like-route" value="{{ route('alumni.posts.like') }}">
     <input type="hidden" id="post-edit" value="{{ route('alumni.posts.edit') }}">
@@ -595,5 +553,14 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('public/alumni/js/posts.js') }}?ver={{ env('VERSION' ,0) }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            lightbox.option({
+                'resizeDuration': 200,
+                'wrapAround': true,
+
+            });
+        });
+    </script>
+{{--    <script src="{{ asset('public/alumni/js/posts.js')}}"></script>--}}
 @endpush

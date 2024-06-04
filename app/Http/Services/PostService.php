@@ -8,6 +8,7 @@ use App\Models\PostComment;
 use App\Traits\ResponseTrait;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class PostService
 {
@@ -17,28 +18,45 @@ class PostService
     {
         DB::beginTransaction();
         try {
-            $user = auth('admin')->user();
+            // Authenticate and determine user
+            if (auth('admin')->check()) {
+                $user = auth('admin')->user();
+            } else {
+                $user = auth('company')->user();
+            }
+
+            // Create new post
             $post = new Post();
             $post->body = htmlspecialchars($request->body);
-            $post->slug = getSlug(getSubText($request->body, 40)).rand(1000, 999999);
+            $post->slug = Str::slug(substr($request->body, 0, 40)) . rand(1000, 999999); // Assuming getSlug and getSubText are meant for this
             $post->user_id = $user->id;
             $post->created_by = 'admin';
-            $post->save();
+            $post->save(); // Save post to generate post_id
 
+            // Process media files
+            foreach ($request->file('file', []) as $index => $media) {
+                if ($media->isValid()) {
+                    $originalName = pathinfo($media->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension = $media->getClientOriginalExtension();
+                    $date = date('Y-m-d');
+                    $random = mt_rand(1000, 9999);
+                    $slug = Str::slug($originalName); // Create a slug from the original filename
+                    $newFileName = "{$date}_{$slug}_{$random}.{$extension}"; // New filename
 
-            //post media
-            foreach($request->file ?? [] as $index => $media){
-                if ($request->hasFile('file.'.$index)) {
+                    // Move the file to the public disk under posts directory
+                    $path = $media->storeAs('posts', $newFileName, 'public');
 
-                    $new_file = new FileManager();
-                    $uploaded = $new_file->upload('posts', $media);
+                    // Create media record
                     $post->media()->create([
-                        'file' => $uploaded->id,
+                        'name' => $newFileName,
                         'user_id' => $user->id,
+                        'post_id' => $post->id, // Correctly use the post_id from the saved post
+                        'extension' => $extension, // Correctly save the file extension
                     ]);
                 }
             }
-            DB::commit();
+
+            DB::commit(); // Commit the transaction
 
             $message = getMessage(CREATED_SUCCESSFULLY);
             return $this->success([], $message);

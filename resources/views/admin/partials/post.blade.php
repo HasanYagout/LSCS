@@ -7,11 +7,12 @@
         <!-- User -->
         <div class="d-flex align-items-center cg-10">
             <div class="flex-shrink-0 w-45 h-45 bd-one bd-c-cdef84 rounded-circle overflow-hidden">
-                <img src="{{ $post->created_by == 'admin' ? asset('public/storage/admin/' . $post->creator->image) : asset('public/storage/company/' . $post->creator->image) }}" class="w-100" alt="{{__('post')}}" />
+                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $post->created_by == 'admin' ? asset('public/storage/admin/' . $post->creator->image) : asset('public/storage/company/' . $post->creator->image) }}" class="w-100" alt="{{__('post')}}" />
             </div>
             <div class="">
                 <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{ $post->created_by == 'admin' ? $post->creator->first_name .' '.$post->creator->last_name : $post->creator->name }}</h4>
-                <p class="fs-12 fw-400 lh-15 text-707070">{{ $post->created_at->diffForHumans() }}</p>
+                <p class="fs-12 fw-400 lh-15 text-707070">{{ \Carbon\Carbon::parse($post->created_at)->diffForHumans()}}</p>
+
             </div>
         </div>
         <!-- Edit - Delete -->
@@ -78,23 +79,24 @@
             }
         @endphp
         <ul class="postPhotoItems gallery {{ $photoGalleryClass }}">
+
             @foreach ($post->media as $index => $media)
-            @if(in_array($media->file_manager->extension ?? '', ['png', 'jpg', 'svg', 'jpeg', 'gif']))
+
+            @if(in_array($media->extension ?? '', ['png', 'jpg', 'svg', 'jpeg', 'gif']))
+                    <li>
+                        <a href="{{ asset('public/storage/posts').'/'.$media->name }}" data-lightbox="post-gallery-{{ $post->slug }}" data-title="{{ $media->name }}">
+                            <img src="{{ asset('public/storage/posts').'/'.$media->name }}" alt="Image">
+                            @if($index == 2 && count($post->media) > 3)
+                                <div class='morePhotos'>+{{ count($post->media) - 3 }} more</div>
+                            @endif
+                        </a>
+                    </li>
+            @elseif (in_array($media->extension ?? '', ['mp4', 'mov', 'avi', 'mkv', 'webm', 'flv']))
             <li>
-                <a href="{{ asset(getFile($media->file_manager->path ?? '', $media->file_manager->storage_type)) }}"><img
-                        src="{{ asset(getFile($media->file_manager->path ?? '', $media->file_manager->storage_type)) }}"
-                        alt="{{ $media->file_manager->original_name }}" />
-                    @if($index == 2 && count($post->media) > 3)
-                    <div class='morePhotos'>+{{ count($post->media)-$index }}</div>
-                    @endif
-                </a>
-            </li>
-            @elseif (in_array($media->file_manager->extension ?? '', ['mp4', 'mov', 'avi', 'mkv', 'webm', 'flv']))
-            <li>
-                <a href="{{ asset(getFile($media->file_manager->path ?? '', $media->file_manager->storage_type)) }}"
+                <a href="{{ asset('public/storage/posts').'/'.$media->name}}"
                     class="video">
                     <video
-                        src="{{ asset(getFile($media->file_manager->path ?? '', $media->file_manager->storage_type)) }}"></video>
+                        src="{{ asset('public/storage/posts').'/'.$media->name}}}"></video>
                     <button class="vidPly-btn"><img src="{{ asset('assets/images/icon/play-btn.svg')}}" /></button>
                     @if($index == 2 && count($post->media) > 3)
                     <div class='morePhotos'>+{{ count($post->media)-$index }}</div>
@@ -124,3 +126,4 @@
     </div>
 </div>
 @endforeach
+

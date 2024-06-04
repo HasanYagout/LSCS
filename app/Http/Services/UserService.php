@@ -139,15 +139,29 @@ class UserService
             foreach($request->education['id'] ?? [] as $index => $id){
 
                 $authUser->education()->where('id', $id)->update([
-                    'type' => $request->education['education_type'][$index],
-                    'name' => $request->education['education_name'][$index],
-                    'details' => $request->education['education_details'][$index],
-                    'start_date' => $request->education['education_start_date'][$index],
-                    'end_date' => $request->education['education_end_date'][$index],
+                    'type' => $request->education['type'][$index],
+                    'name' => $request->education['name'][$index],
+                    'details' => $request->education['details'][$index],
+                    'start_date' => $request->education['start_date'][$index],
+                    'end_date' => $request->education['end_date'][$index],
                 ]);
             }
 
             $authUser->education()->whereNotIn('id', $request->education['id'] ?? [])->delete();
+
+            foreach($request->experience['id'] ?? [] as $index => $id){
+
+                $authUser->experience()->where('id', $id)->update([
+                    'name' => $request->experience['name'][$index],
+                    'position' => $request->experience['position'][$index],
+                    'start_date' => $request->experience['start_date'][$index],
+                    'end_date' => $request->experience['end_date'][$index],
+                    'details' => $request->experience['details'][$index],
+                ]);
+            }
+
+
+            $authUser->experience()->whereNotIn('id', $request->experience['id'] ?? [])->delete();
 
 
             Alumni::updateOrCreate(['id' => $authUser->id],[
@@ -180,6 +194,40 @@ class UserService
         }
     }
 
+    public function addExperience(Request $request)
+    {
+        $authUser = auth('alumni')->user();
+
+        $data = $request->validate([
+            "name" =>  'bail|required|max:195',
+            "position" =>  'bail|required|max:195',
+            "description" =>  'bail|required|max:1000',
+            "end_date" =>  'required',
+            "start_date" =>  'required',
+        ]);
+        try {
+            DB::beginTransaction();
+
+            $authUser->experience()->create([
+                'alumni_id'=>auth('alumni')->user()->id,
+                'name' => $data['name'],
+                'position' => $data['position'],
+                'start_date' => $data['start_date'],
+                'end_date' => $data['end_date'],
+                'details' => $data['description'],
+            ]);
+
+
+
+            DB::commit();
+            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+        } catch (Exception $e) {
+            dd($e);
+            DB::rollBack();
+            return $this->error([], getMessage(SOMETHING_WENT_WRONG));
+        }
+    }
+
     public function addEducation(Request $request)
     {
         $authUser = auth('alumni')->user();
@@ -198,8 +246,8 @@ class UserService
                 'type' => $data['education_type'],
                 'name' => $data['education_name'],
                 'details' => $data['education_details'],
-                'education_start_date' => $data['education_start_date'],
-                'education_end_date' => $data['education_end_date'],
+                'start_date' => $data['education_start_date'],
+                'end_date' => $data['education_end_date'],
             ]);
 
 

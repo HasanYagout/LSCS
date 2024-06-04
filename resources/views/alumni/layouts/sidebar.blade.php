@@ -74,20 +74,8 @@
                     </a>
                     <div class="collapse {{ $showEvent ?? '' }}" id="myEvent" data-bs-parent="#sidebarMenu">
                         <ul class="zSidebar-submenu">
-                            @if (auth('alumni')->user()->role_id == USER_ROLE_ADMIN)
-                                <li><a class="{{ $activeEventCategory ?? '' }}"
-                                       href="{{ route('admin.eventCategory.index') }}">{{ __('Event Category') }}</a>
-                                </li>
-                                <li><a class="{{ $activeEventPending ?? '' }}"
-                                       href="{{ route('admin.event.pending') }}">{{ __('Pending Event') }}</a>
-                                </li>
-                            @endif
-
-                            <li><a class="{{ $activeMyEvent ?? '' }}"
-                                   href="{{ route('admin.event.my-event') }}">{{ __('My Event') }}</a>
-                            </li>
                             <li><a class="{{ $activeAllEvent ?? '' }}"
-                                   href="{{ route('admin.event.all') }}">{{ __('All Event') }}</a>
+                                   href="{{ route('alumni.event.all') }}">{{ __('All Event') }}</a>
                             </li>
                         </ul>
                     </div>

@@ -60,6 +60,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::get('/', [ProfileController::class, 'profile'])->name('index');
         Route::post('update', [ProfileController::class, 'userProfileUpdate'])->name('update');
         Route::post('add', [ProfileController::class, 'addEducation'])->name('add-education');
+        Route::post('add-experience', [ProfileController::class, 'addExperience'])->name('add-experience');
     });
 
 
