@@ -18,4 +18,9 @@ class Alumni extends Authenticatable
     {
         return $this->hasMany(Recommendation::class, 'alumni_id');
     }
+
+    public function education()
+    {
+        return $this->hasMany(Education::class, 'alumni_id');
+    }
 }

@@ -40,9 +40,9 @@ class ProfileController extends Controller
         return $this->userService->profileUpdate($request);
     }
 
-    public function addInstitution(Request $request){
+    public function addEducation(Request $request){
 
-        return $this->userService->addInstitution($request);
+        return $this->userService->addEducation($request);
     }
 
     public function changePasswordUpdate(Request $request)
@@ -73,6 +73,8 @@ class ProfileController extends Controller
         ]);
         return $this->userService->smsVerify($request);
     }
+
+
 
     public function list_cvs(Request $request){
         if ($request->ajax()) {

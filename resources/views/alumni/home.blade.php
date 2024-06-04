@@ -146,7 +146,7 @@
                                         <div class="d-flex align-items-center cg-10 pb-10">
                                             <div
                                                 class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img src="{{ asset(getFileUrl($job->company->logo)) }}"
+                                                <img src="{{ asset('public/storage/company').'/'.$job->company->logo }}"
                                                      alt="{{ $job->title }}" />
                                             </div>
                                             <div class="">
@@ -254,6 +254,9 @@
                             </div>
                             <!-- Content -->
                             <ul class="zList-five">
+                                @if($latestNews)
+
+
                                 @foreach ($latestNews as $news)
                                     <li>
                                         <div class="home-item-one">
@@ -288,6 +291,7 @@
                                         </div>
                                     </li>
                                 @endforeach
+                                @endif
                             </ul>
                         </div>
                     @endif

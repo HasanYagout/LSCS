@@ -135,45 +135,19 @@ class UserService
                 $image->storeAs('alumni/image', $filename, 'public');
             }
 
-            // Handle experience data
-            $existingExperience = $authUser->experience;
-            $newExperience = [
-                'company' => $request->company,
-                'position' => $request['position'] ?? null,
-                'company_address' => $request['company_address'] ?? null,
-                'start_date' => $request['startDate'] ?? null,
-                'end_date' => $request['endDate'] ?? null,
-                'details' => $request['details'] ?? null,
-            ];
 
-            if (is_null($existingExperience)) {
-                $updatedExperience = [$newExperience]; // Initialize with the new experience
-            } else {
-                $existingExperienceArray = json_decode($existingExperience, true); // Decode existing experience to associative array
-                $updatedExperience = array_merge($existingExperienceArray, [$newExperience]); // Merge with new experience
+            foreach($request->education['id'] ?? [] as $index => $id){
+
+                $authUser->education()->where('id', $id)->update([
+                    'type' => $request->education['education_type'][$index],
+                    'name' => $request->education['education_name'][$index],
+                    'details' => $request->education['education_details'][$index],
+                    'start_date' => $request->education['education_start_date'][$index],
+                    'end_date' => $request->education['education_end_date'][$index],
+                ]);
             }
 
-            $existingEducation = $authUser->education;
-            $newEducation = [
-                'name' => $request->input('education_name'),
-                'start_date' => $request->input('education_start_date'),
-                'end_date' => $request->input('education_end_date'),
-                'details' => $request->input('education_details'),
-            ];
-
-            // Determine the type of education
-            $educationType = $request->input('education_type');
-
-            if (is_null($existingEducation)) {
-                $updatedEducation = [
-                    $educationType => $newEducation
-                ];
-            } else {
-                $existingEducationArray = json_decode($existingEducation, true); // Decode existing education to associative array
-                $existingEducationArray[$educationType] = $newEducation; // Update the specific type of education
-                $updatedEducation = $existingEducationArray;
-            }
-
+            $authUser->education()->whereNotIn('id', $request->education['id'] ?? [])->delete();
 
 
             Alumni::updateOrCreate(['id' => $authUser->id],[
@@ -191,9 +165,7 @@ class UserService
                 'company_address' => $request['company_address'] ?? '',
                 'city' => $request['city']?? $authUser->city,
                 'address' => $request['address']?? $authUser->address,
-                'experience' => json_encode($updatedExperience), // Encode the updated experience
                 'skills' => json_encode($request->skills)?? $authUser->skills,
-                'education' => json_encode($updatedEducation)?? $authUser->education
             ]);
 
 
@@ -208,27 +180,34 @@ class UserService
         }
     }
 
-    public function addInstitution(Request $request)
+    public function addEducation(Request $request)
     {
-        $authUser = auth()->user();
+        $authUser = auth('alumni')->user();
         $data = $request->validate([
-            "passing_year" =>  'bail|required|max:195',
-            "degree" =>  'bail|required|max:195',
-            "institute" =>  'bail|required|max:195',
+            "education_type" =>  'bail|required|max:195',
+            "education_name" =>  'bail|required|max:195',
+            "education_details" =>  'bail|required|max:1000',
+            "education_start_date" =>  'required',
+            "education_end_date" =>  'required',
         ]);
-
         try {
             DB::beginTransaction();
 
-            $authUser->institutions()->create([
-                'passing_year' => $data['passing_year'],
-                'degree' => $data['degree'],
-                'institute' => $data['institute'],
+            $authUser->education()->create([
+                'alumni_id'=>auth('alumni')->user()->id,
+                'type' => $data['education_type'],
+                'name' => $data['education_name'],
+                'details' => $data['education_details'],
+                'education_start_date' => $data['education_start_date'],
+                'education_end_date' => $data['education_end_date'],
             ]);
+
+
 
             DB::commit();
             return $this->success([], getMessage(CREATED_SUCCESSFULLY));
         } catch (Exception $e) {
+            dd($e);
             DB::rollBack();
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
         }

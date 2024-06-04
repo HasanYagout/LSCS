@@ -59,6 +59,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::get('/', [ProfileController::class, 'profile'])->name('index');
         Route::post('update', [ProfileController::class, 'userProfileUpdate'])->name('update');
+        Route::post('add', [ProfileController::class, 'addEducation'])->name('add-education');
     });
 
 
