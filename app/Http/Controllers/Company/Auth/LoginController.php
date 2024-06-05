@@ -54,7 +54,7 @@ class LoginController extends Controller
 
         if (Auth::guard('company')->attempt($credentials, $request->remember)) {
             // Authentication successful
-            return redirect()->route('company.dashboard');
+            return redirect()->route('company.home');
         } else {
             // Authentication failed
             return redirect()->back()->withInput($request->only('email', 'remember'))

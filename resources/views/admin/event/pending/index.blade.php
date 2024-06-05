@@ -10,6 +10,7 @@
 <div class="p-30" style="margin-left:250px;">
     <div>
         <input type="hidden" id="event-pending-list-route" value="{{ route('admin.event.pending') }}">
+        <input type="hidden" id="event-pending-update-route" value="{{ route('admin.event.toggleStatus') }}">
 
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
             <h4 class="fs-24 fw-500 lh-34 text-black">{{$title}}</h4>
@@ -54,6 +55,9 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('public/admin/js/event.js') }}"></script>
+    <script>
+
+    </script>
+<script src="{{ asset('public/admin/js/event.js')}}"></script>
 <script src="{{ asset('public/admin/js/event-pending.js') }}"></script>
 @endpush

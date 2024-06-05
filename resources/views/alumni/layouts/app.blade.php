@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@include('alumni.layouts.header')
+@include('layouts.header')
 
 <body>
     <div class="overflow-x-hidden">
@@ -20,11 +20,11 @@
         <!-- Main Content -->
         <div class="zMain-wrap">
             <!-- Sidebar -->
-            @include('alumni.layouts.sidebar')
+            @include('layouts.sidebar')
             <!-- Main Content -->
             <div class="zMainContent">
                 <!-- Header -->
-                @include('alumni.layouts.nav')
+                @include('layouts.nav')
                 <!-- Content -->
                 @yield('content')
             </div>
@@ -35,7 +35,7 @@
         @include('cookie-consent::index')
     </div>
     @endif
-    @include('alumni.layouts.script')
+    @include('layouts.script')
 </body>
 
 </html>

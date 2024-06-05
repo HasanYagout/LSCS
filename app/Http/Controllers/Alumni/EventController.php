@@ -50,10 +50,8 @@ class EventController extends Controller
         $data['title'] = __('Pending Event');
         $data['showEvent'] = 'show';
         $data['activeEventPending'] = 'active';
-        if ($request->ajax()) {
-            return $this->eventService->pending();
-        }
-        return view('admin.event.pending.index', $data);
+        $data['events']=Event::where('status',STATUS_ACTIVE)->paginate(15);
+        return view('alumni.event.pending', $data);
     }
 
     public function all(Request $request)
@@ -61,10 +59,11 @@ class EventController extends Controller
         $data['title'] = __('All Event');
         $data['showEvent'] = 'show';
         $data['activeAllEvent'] = 'active';
-        if ($request->ajax()) {
-            return $this->eventService->allEvent();
-        }
-        return view('alumni.event.allEvent.index', $data);
+        $data['events']=Event::where('status',STATUS_ACTIVE)
+            ->orWhere('status',STATUS_INACTIVE)
+            ->paginate(15);
+
+        return view('alumni.event.all', $data);
     }
 
     public function details($slug)

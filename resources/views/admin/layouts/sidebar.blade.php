@@ -297,13 +297,13 @@
                     </div>
                 </li>
                 <li>
-                    <a href="{{ route('auth.logout') }}"
+                    <a href="{{ route('admin.auth.logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                             class="d-inline-flex align-items-center cg-15 pt-17 pb-30 px-25">
                         <img src="{{ asset('assets/images/icon/logout.svg') }}" alt=""/>
                         <p class="fs-14 fw-500 lh-16 text-white-70">{{ __('Logout') }}</p>
                     </a>
-                    <form id="logout-form" action="{{ route('auth.logout') }}" method="POST" class="d-none">
+                    <form id="logout-form" action="{{ route('admin.auth.logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
                 </li>

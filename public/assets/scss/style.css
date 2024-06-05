@@ -22,6 +22,7 @@ Version: 1.0
 =================================*/
 :root {
     --primary-color: #002a5c;
+    --primary-light:#1d4a80;
     --secondary-color: #f1a527;
     --light-secondary-color:#ffbd4f;
   --hover-color: #f1a527;
@@ -442,7 +443,10 @@ Version: 1.0
 .bg-002a5c {
   background-color: var(--primary-color) !important;
 }
+.bg-primary-light{
+    background-color: var(--primary-light) !important;
 
+}
 .bg-f1a527 {
   background-color: var(--hover-color) !important;
 }

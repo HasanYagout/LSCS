@@ -1,4 +1,4 @@
-@extends('company.layouts.app')
+@extends('layouts.app')
 @push('title')
     {{$pageTitle}}
 @endpush
@@ -8,7 +8,6 @@
     <div class="p-30">
         <div class="">
             <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{ __($pageTitle) }}</h4>
-            <!-- Items -->
             <div class="row rg-30">
                 @if(isAddonInstalled('ALUSAAS'))
                     <div class="col-md-12">

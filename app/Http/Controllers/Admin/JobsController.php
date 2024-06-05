@@ -89,12 +89,12 @@ class   JobsController extends Controller
     public function all(Request $request)
     {
         if ($request->ajax()) {
-            $jobs = JobPost::orderBy('id','desc')->get();
+            $jobs = JobPost::with('company')->orderBy('id','desc')->get();
 
             return datatables($jobs)
                 ->addIndexColumn()
                 ->addColumn('company_logo', function ($data) {
-                    return '<img src="' . asset('public/storage/company').'/'.$data->company->logo . '" onerror="this.onerror=null;this.src=\''.asset('public/assets/images/no-image.jpg').'\';" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                    return '<img src="' . asset('public/storage/company').'/'.$data->company->image . '" onerror="this.onerror=null;this.src=\''.asset('public/assets/images/no-image.jpg').'\';" alt="Company Logo" class="rounded avatar-xs max-h-35">';
                 })
             ->addColumn('title', function ($data) {
                 return htmlspecialchars($data->title);

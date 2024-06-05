@@ -38,7 +38,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('/code/captcha/{tmp}', 'LoginController@captcha')->name('default-captcha');
         Route::get('login', [LoginController::class,'login'])->name('login');
         Route::post('login',[LoginController::class,'submit']);
-        Route::get('logout', [LoginController::class,'logout'])->name('logout');
+        Route::post('logout', [LoginController::class,'logout'])->name('logout');
         Route::get('register', [LoginController::class,'register'])->name('register');
     });
     Route::get('/', function () {
@@ -76,17 +76,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
         Route::post('store', [PostController::class, 'store'])->name('store');
         Route::delete('delete', [PostController::class, 'delete'])->name('delete');
-        Route::post('like', [PostController::class, 'likeDislike'])->name('like');
         Route::get('edit', [PostController::class, 'edit'])->name('edit');
         Route::PUT('update', [PostController::class, 'update'])->name('update');
         Route::get('single-post', [PostController::class, 'getSinglePost'])->name('single');
         Route::get('load-post-body', [PostController::class, 'getSinglePostBody'])->name('single.body');
-        Route::get('load-post-like', [PostController::class, 'getSinglePostLike'])->name('single.likes');
-        Route::get('load-post-comment', [PostController::class, 'getSinglePostComment'])->name('single.comments');
-        Route::post('posts/comments', [PostController::class, 'postComment'])->name('comments.store');
-        Route::delete('posts/comments/delete', [PostController::class, 'postCommentDelete'])->name('comments.delete');
-        Route::PUT('posts/comments/update', [PostController::class, 'postCommentUpdate'])->name('comments.update');
-        Route::get('more-post-load', [HomeController::class, 'loadMorePost'])->name('more-post-load');
 
     });
     Route::group(['prefix' => 'students', 'as' => 'students.'], function () {
@@ -110,6 +103,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('edit/{slug}', [EventController::class, 'edit'])->name('edit');
         Route::post('delete/{id}', [EventController::class, 'delete'])->name('delete');
         Route::post('update/{slug}', [EventController::class, 'update'])->name('update');
+        Route::post('admin/event/toggle-status', [EventController::class, 'toggleStatus'])->name('toggleStatus');
 
 
 

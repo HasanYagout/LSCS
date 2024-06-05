@@ -30,7 +30,7 @@
 
                     </div>
                     <!-- Form -->
-                    <form method="POST" action="{{ route('auth.submit') }}">
+                    <form method="POST" action="{{ route('alumni.auth.submit') }}">
                         @csrf
                         <div class="form-wrap pb-14">
                             <div class="primary-form-group">

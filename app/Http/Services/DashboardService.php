@@ -38,7 +38,10 @@ class DashboardService
         $latestPosts = Post::orderBy('id', 'DESC')->with('creator')->where('status', STATUS_ACTIVE)->get();
         return $this->success($latestPosts);
     }
-
+    public function getPosts(){
+        $latestPosts = Post::orderBy('id', 'DESC')->with('creator')->where('status', STATUS_ACTIVE)->paginate(10);
+        return $latestPosts;
+    }
     public function getLatestNotice(){
         $latestNotices = Notice::orderBy('id', 'DESC')->where('status', STATUS_ACTIVE)->limit(2)->get();
         return $this->success($latestNotices);
@@ -49,11 +52,13 @@ class DashboardService
         return $this->success($latestNews);
     }
 
-    public function getMorePost($request){
-        $data['posts'] = Post::orderBy('id', 'DESC')->where('status', STATUS_ACTIVE)->with(['creator', 'media.file_manager'])->paginate(4);
-        $response['html'] = View::make('admin.partials.post', $data)->render();
-        return $this->success($response);
-    }
+//    public function getMorePost($request){
+//
+//        $data['posts'] = Post::orderBy('id', 'DESC')->where('status', STATUS_ACTIVE)->with(['creator'])->paginate(4);
+//
+//        $response['html'] = View::make('admin.partials.post', $data)->render();
+//        return $this->success($response);
+//    }
 
     public function totalAlumni($tenant_id)
     {

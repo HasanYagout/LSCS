@@ -27,7 +27,7 @@ class HomeController extends BaseController
         $data['latestNews'] = $this->dashboardService->getLatestNews()->getData()->data;
         $data['latestNotice'] = $this->dashboardService->getLatestNotice()->getData()->data;
         $data['user'] = auth('admin')->user();
-        $data['posts']=$this->dashboardService->getLatestPosts()->getData()->data;
+        $data['posts']=$this->dashboardService->getPosts();
 
         return view('admin.home', $data);
     }
