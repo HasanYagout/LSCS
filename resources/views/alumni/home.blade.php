@@ -101,7 +101,7 @@
                                         <div class="d-flex align-items-center cg-10 pb-10">
                                             <div
                                                 class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/company').'/'.$job->company->logo }}"
+                                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/company').'/'.$job->company->image }}"
                                                      alt="{{ $job->title }}" />
                                             </div>
                                             <div class="">
