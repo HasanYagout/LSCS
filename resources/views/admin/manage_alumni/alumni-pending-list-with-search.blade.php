@@ -28,7 +28,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">
-                                    <div>{{ __('Full Name') }}</div>
+                                    <0div>{{ __('Full Name') }}</0div>
                                 </th>
                                 <th scope="col" class="min-w-100">
                                     <div>{{ __('Batch') }}</div>

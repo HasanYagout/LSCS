@@ -121,7 +121,7 @@
                                     <li>
                                         <div class="home-item-one">
                                             <div class="img">
-                                                <img src="{{ asset(getFileUrl($event->thumbnail)) }}"
+                                                <img src="{{ asset('public/storage/admin/event').'/'.$event->thumbnail }}"
                                                     alt="{{ $event->title }}">
                                                 <ul class="tag d-flex flex-wrap cg-2 rg-5">
                                                     <li><a
@@ -179,7 +179,7 @@
                                         <div class="d-flex align-items-center cg-10 pb-10">
                                             <div
                                                 class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img src="{{ asset(getFileUrl($job->company->logo)) }}"
+                                                <img src="{{ asset('public/storage/company').'/'.$job->company->logo }}"
                                                     alt="{{ $job->title }}" />
                                             </div>
                                             <div class="">
@@ -306,13 +306,13 @@
                                                 <h4 class="title">{{ $news->title }}</h4>
                                                 <!-- User -->
                                                 <div class="d-flex align-items-center cg-5">
-                                                    <div
-                                                        class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
-                                                        <img src="{{ asset('public/storage/admin'.'/'.$news->author->image)}}"
-                                                            alt="{{ $news->author->first_name .$news->author->last_name }}" />
-                                                    </div>
-                                                    <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name .$news->author->last_name }}
-                                                    </p>
+{{--                                                    <div--}}
+{{--                                                        class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">--}}
+{{--                                                        <img src="{{ asset('public/storage/admin'.'/'.$news->author->image)}}"--}}
+{{--                                                            alt="{{ $news->author->first_name .$news->author->last_name }}" />--}}
+{{--                                                    </div>--}}
+{{--                                                    <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name .$news->author->last_name }}--}}
+{{--                                                    </p>--}}
                                                 </div>
                                                 <!-- Link -->
                                                 <a href="{{ route('admin.news.details', $news->slug) }}"
