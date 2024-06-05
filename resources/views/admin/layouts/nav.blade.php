@@ -1,5 +1,5 @@
 <div
-    class="main-header pt-28 pb-27 px-30 bd-one bd-c-ebedf0 bg-white d-flex justify-content-between align-items-center">
+    class="main-header pt-28 pb-27 px-30  bg-002a5c d-flex justify-content-between align-items-center">
     <!-- Left -->
     <div class="d-flex align-items-center cg-15">
         <!-- Mobile Menu Button -->
@@ -10,9 +10,8 @@
         </div>
         <!-- Alumni link -->
         <a href="{{ route('admin.list-search-with-filter') }}"
-            class="d-none d-sm-inline-block fs-15 fw-500 lh-25 text-black py-10 px-26 bg-orange bd-ra-12 hover-bg-one">{{
-            __('Find
-            an Alumni') }}</a>
+            class="d-none  d-sm-inline-block fs-15 fw-500 lh-25 text-white  py-10 px-26 bg-f1a527 bd-ra-12 hover-bg-one">{{
+            __('Find an Alumni') }}</a>
     </div>
     <!-- Right -->
     <div class="right d-flex justify-content-end align-items-center cg-15">
@@ -56,50 +55,50 @@
                     <button class="item-one dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         <img src="{{ asset('public/assets/images/icon/bell.svg') }}" alt="" />
-                        <span class="notify_no">{{ count(userNotification('unseen')) }}</span>
+{{--                        <span class="notify_no">{{ count(userNotification('unseen')) }}</span>--}}
                     </button>
                     <div class="dropdown-menu">
-                        <div
-                            class="d-flex justify-content-between align-items-center {{ count(userNotification('unseen')) > 0 ? 'bd-b-one' : '' }}  bd-c-ededed pb-3">
-                            <h4 class="fs-15 fw-600 lh-32 text-black">
-                                @if (count(userNotification('unseen')) > 0)
-                                {{ __('Today') }}
-                                @else
-                                {{ __('Notification Not Found!') }}
-                                @endif
-                            </h4>
-                            @if (count(userNotification('unseen')) > 0)
-                            <a href="{{ route('notification.notification-mark-all-as-read') }}"
-                                class="fs-12 fw-600 lh-20 text-1b1c17 text-decoration-underline border-0 p-0 bg-transparent hover-color-one">{{
-                                __('Mark
-                                all as read') }}</a>
-                            @endif
-                        </div>
+{{--                        <div--}}
+{{--                            class="d-flex justify-content-between align-items-center {{ count(userNotification('unseen')) > 0 ? 'bd-b-one' : '' }}  bd-c-ededed pb-3">--}}
+{{--                            <h4 class="fs-15 fw-600 lh-32 text-black">--}}
+{{--                                @if (count(userNotification('unseen')) > 0)--}}
+{{--                                {{ __('Today') }}--}}
+{{--                                @else--}}
+{{--                                {{ __('Notification Not Found!') }}--}}
+{{--                                @endif--}}
+{{--                            </h4>--}}
+{{--                            @if (count(userNotification('unseen')) > 0)--}}
+{{--                            <a href="{{ route('notification.notification-mark-all-as-read') }}"--}}
+{{--                                class="fs-12 fw-600 lh-20 text-1b1c17 text-decoration-underline border-0 p-0 bg-transparent hover-color-one">--}}{{--}}--}}
+{{--                                __('Mark--}}
+{{--                                all as read') }}</a>--}}
+{{--                            @endif--}}
+{{--                        </div>--}}
 
                         <ul class="notify-list">
-                            @foreach (userNotification('unseen') as $key => $item)
-                                <li class="d-flex align-items-start cg-15">
-                                    <div class="flex-grow-0 flex-shrink-0 w-32 h-32 rounded-circle d-flex justify-content-center align-items-center bg-71e3ba">
-                                        <img src="{{ asset('assets/images/icon/bell-white.svg') }}" alt="" />
-                                    </div>
-                                    <div class="flex-grow-1">
-                                        <a href="{{ route('notification.notification-mark-as-read',$item->id) }}">
-                                            <div class="d-flex justify-content-between align-items-center pb-8">
-                                                <p class="fs-13 fw-500 lh-20 text-1b1c17">{{ $item->title }}</p>
-                                                <p class="fs-10 fw-400 lh-20 text-707070">
-                                                    {{ $item->created_at->diffForHumans() }}
-                                                </p>
-                                            </div>
-                                            <p class="fs-12 fw-400 lh-17 text-707070 max-w-220">
-                                                {{ $item->body }}
-                                                @if(!empty($item->link))
-                                                <span class="text-1b1c17 text-decoration-underline hover-color-one">{{ __('View') }}</span>
-                                                @endif
-                                            </p>
-                                        </a>
-                                    </div>
-                                </li>
-                            @endforeach
+{{--                            @foreach (userNotification('unseen') as $key => $item)--}}
+{{--                                <li class="d-flex align-items-start cg-15">--}}
+{{--                                    <div class="flex-grow-0 flex-shrink-0 w-32 h-32 rounded-circle d-flex justify-content-center align-items-center bg-71e3ba">--}}
+{{--                                        <img src="{{ asset('assets/images/icon/bell-white.svg') }}" alt="" />--}}
+{{--                                    </div>--}}
+{{--                                    <div class="flex-grow-1">--}}
+{{--                                        <a href="{{ route('notification.notification-mark-as-read',$item->id) }}">--}}
+{{--                                            <div class="d-flex justify-content-between align-items-center pb-8">--}}
+{{--                                                <p class="fs-13 fw-500 lh-20 text-1b1c17">{{ $item->title }}</p>--}}
+{{--                                                <p class="fs-10 fw-400 lh-20 text-707070">--}}
+{{--                                                    {{ $item->created_at->diffForHumans() }}--}}
+{{--                                                </p>--}}
+{{--                                            </div>--}}
+{{--                                            <p class="fs-12 fw-400 lh-17 text-707070 max-w-220">--}}
+{{--                                                {{ $item->body }}--}}
+{{--                                                @if(!empty($item->link))--}}
+{{--                                                <span class="text-1b1c17 text-decoration-underline hover-color-one">{{ __('View') }}</span>--}}
+{{--                                                @endif--}}
+{{--                                            </p>--}}
+{{--                                        </a>--}}
+{{--                                    </div>--}}
+{{--                                </li>--}}
+{{--                            @endforeach--}}
                         </ul>
                     </div>
                 </div>
@@ -109,8 +108,8 @@
             <div class="dropdown headerUserDropdown">
                 <button class="dropdown-toggle p-0 border-0 bg-transparent d-flex align-items-center cg-8" type="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-cdef84"><img
-                            src="{{ asset(getFileUrl(auth('admin')->user()->image)) }}" alt="{{ auth('admin')->user()->name}}" />
+{{--                    <div class="w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-cdef84"><img--}}
+{{--                            src="{{ asset(getFileUrl(auth('admin')->user()->image)) }}" alt="{{ auth('admin')->user()->name}}" />--}}
                     </div>
                     <div class="text-start d-none d-sm-block">
                         <p class="fs-12 fw-400 lh-15 text-707070">{{ __('Welcome') }}</p>

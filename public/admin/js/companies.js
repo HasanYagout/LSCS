@@ -28,12 +28,10 @@
         columns: [
             { "data": "name", "name": "company.name", responsivePriority: 1 },
             { "data": "email", "name": "company.email", responsivePriority: 1 },
-            { "data": "address", "name": "company.address", responsivePriority: 2 },
-            { "data": "website", "name": "company.website", responsivePriority: 3 },
-            { "data": "phone", "name": "company.phone"},
-            { "data": "logo", "name": "company.logo" },
-            { "data": "status", searchable: false, responsivePriority: 3 },
-            { "data": "action", searchable: false, responsivePriority: 3 },
+            { "data": "phone", "name": "company.phone" },
+            { "data": "status", "name": "company.phone" },
+            { "data": "action", "name": "company.phone" },
+
         ],
         "initComplete": function( settings, json ) {
             $('.z-filter-block').html($('#search-section').html());
@@ -54,34 +52,49 @@
 		</button>`);
         },
     });
-    $(document).on('click','.editCompany',function(e){
+    $(document).on('change', '.toggle-status', function(e) {
+        var $switch = $(this);
+        var companyId = $switch.data('id');
+        var newStatus = $switch.is(':checked') ? 1 : 0;
+        var updateUrl = $('#companies-update-route').val().replace(':id', companyId);
 
+        Swal.fire({
+            title: 'Sure! You want to change the status?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Change It!'
+        }).then((result) => {
+            if (result.value) {
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                var buttonValue = $('.editCompany').val();
                 $.ajax({
-                    type: 'POST',
-                    url: 'edit',
+                    url: updateUrl,
+                    method: 'POST',
                     data: {
-                        // 'selectedStatus':selectedStatus,
-                        // 'alumniUserId':alumniUserId,
-                        '_token':csrfToken,
-                        'buttonValue': buttonValue // Include the button value in the data
-
+                        _token: csrfToken,
+                        status: newStatus
                     },
-                    success: function (response) {
-                        if (response.status === true) {
+                    success: function(response) {
+                        if (response.success) {
                             toastr.success(response.message);
+                        } else {
+                            toastr.error(response.message);
                         }
-
-                        $('#alumni-all-list-filter').DataTable().ajax.reload();
+                        table.ajax.reload();
                     },
-                    error: function (error) {
-                        toastr.error(error.responseJSON.message)
+                    error: function(error) {
+                        toastr.error(error.responseJSON.message);
+                        table.ajax.reload();
                     }
-                })
+                });
+            } else {
+                // Revert the switch state if the user cancels
+                $switch.prop('checked', !newStatus);
+                table.ajax.reload();
+            }
+        });
+    });
 
-                // $('#alumni-all-list-filter').DataTable().ajax.reload();
-
-
-    })
 })(jQuery)

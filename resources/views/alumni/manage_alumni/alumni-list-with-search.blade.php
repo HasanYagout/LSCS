@@ -6,7 +6,7 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30">
+    <div class="p-30" style="margin-left:250px;">
         <div class="">
             <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
                 <!-- Search & Filter -->

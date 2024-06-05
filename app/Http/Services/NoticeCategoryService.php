@@ -13,7 +13,7 @@ class NoticeCategoryService
 
     public function list()
     {
-        $noticeCategories = NoticeCategory::where('tenant_id', getTenantId())->orderBy('id','DESC');
+        $noticeCategories = NoticeCategory::orderBy('id','DESC');
         return datatables($noticeCategories)
             ->addIndexColumn()
             ->addColumn('status', function ($data) {
@@ -92,12 +92,12 @@ class NoticeCategoryService
 
     public function getById($id)
     {
-        return NoticeCategory::where('tenant_id', getTenantId())->findOrFail($id);
+        return NoticeCategory::findOrFail($id);
     }
 
     public function activeCategory()
     {
-        return NoticeCategory::where('tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->get();
+        return NoticeCategory::where('status', STATUS_ACTIVE)->get();
     }
 
     public function NoticeCategory()

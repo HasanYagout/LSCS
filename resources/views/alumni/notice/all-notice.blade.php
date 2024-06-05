@@ -7,7 +7,7 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30">
+    <div class="p-30" style="margin-left:250px;">
         <div class="">
             <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{__($title)}}</h4>
             <!-- Items -->

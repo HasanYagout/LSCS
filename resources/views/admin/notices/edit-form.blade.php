@@ -73,7 +73,7 @@
                                     class="text-mime-type">(jpg,jpeg,png)</span> <span
                                     class="text-danger">*</span></label></label>
                             <div class="upload-img-box">
-                                <img src="{{ getFileUrl($notice->image) }}">
+                                <img src="{{ asset('public/storage/admin/notice'.'/'.$notice->image) }}">
                                 <input type="file" name="image" accept="image/*" onchange="previewFile(this)">
                             </div>
                         </div>

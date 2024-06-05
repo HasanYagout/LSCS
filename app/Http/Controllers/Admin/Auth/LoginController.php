@@ -57,6 +57,7 @@ class LoginController extends Controller
             return redirect()->back()->withInput($request->only('email', 'remember'))
                 ->withErrors(['You are blocked!!, contact with admin.']);
         }else{
+
             if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
                 return redirect()->route('admin.dashboard');
             }
@@ -76,6 +77,6 @@ class LoginController extends Controller
 
         auth('admin')->logout();
         $request->session()->invalidate();
-        return redirect()->route('auth.login');
+        return redirect()->route('admin.auth.login');
     }
 }

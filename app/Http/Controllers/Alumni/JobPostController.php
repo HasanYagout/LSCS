@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Alumni;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppliedJobs;
+use App\Models\Company;
+use App\Models\CV;
+use App\Models\JobPost;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Services\JobPostService;
@@ -56,18 +60,69 @@ class JobPostController extends Controller
     {
         return $this->jobPostService->deleteById($slug);
     }
-    public function details($slug)
+    public function details(Company $company,$slug)
     {
+
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
+        $data['cvs']=CV::where('alumni_id',auth('alumni')->id())->get();
+        $data['company']=$company;
+        $data['slug']=$slug;
         return view('alumni.jobs.job_post_view', $data);
     }
 
-    public function allJobPost(Request $request)
+    public function apply(Request $request,$company,$slug)
+    {
+        $job = new AppliedJobs();
+        $job->alumni_id = auth('alumni')->id();
+        $job->company_id = $company;
+        $job->cv_id=$request->cv_id;
+        $jobPost = JobPost::where('slug', $slug)->first();
+        $job->job_id = $jobPost->id;
+        $jobPost->applied_by += 1; // Increment the applied_by field by 1
+        $jobPost->save(); // Save the updated job post
+        $job->save();
+    }
+
+    public function all(Request $request)
     {
         if ($request->ajax()) {
-            return $this->jobPostService->getAllJobPostList();
+            $jobs = JobPost::orderBy('id','desc')->get();
+
+            return datatables($jobs)
+                ->addIndexColumn()
+                ->addColumn('company_logo', function ($data) {
+                    return '<img src="' . $data->company->logo . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                })
+
+                ->addColumn('action', function ($data) {
+                    if(auth('alumni')->user()->role_id == USER_ROLE_ALUMNI){
+                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                                <li class="d-flex gap-2">
+                                    <button onclick="getEditModal(\'' . route('admin.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
+                                    </button>
+                                    <button onclick="deleteItem(\'' . route('admin.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
+                                    </button>
+                                    <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+                                </li>
+                            </ul>';
+                    }
+                    else{
+
+                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                    <li class="d-flex gap-2">
+                        <a href="' . route('alumni.jobs.details', ['company'=>$data->company_id,'slug'=>$data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+                    </li>
+                </ul>';
+                    }
+
+                })
+
+                ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'salary', 'application_deadline'])
+                ->make(true);
         }
         $data['title'] = __('All Job Post');
         $data['showJobPostManagement'] = 'show';

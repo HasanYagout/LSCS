@@ -6,15 +6,13 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30">
+    <div class="p-30" style="margin-left:250px;">
         <div class="">
             <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
                 <!-- Search & Filter -->
                 <div class="pb-30">
                     <!-- Search & Filter Button -->
                     <div class="d-flex align-items-center cg-5">
-                        <!-- Search Field -->
-                        <!-- Filter Button -->
 
                     </div>
                 </div>
@@ -59,17 +57,10 @@
     <!-- Page content area End -->
 
     <!-- Phone Number Modal -->
-    <div class="modal fade zModalTwo" id="alumniPhoneNo" tabindex="-1" aria-labelledby="alumniPhoneNoLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content zModalTwo-content">
-                <div class="modal-body zModalTwo-body">
-                    <div class="text-center py-30">
-                        <p class="fs-14 fw-500 lh-18 text-707070 pb-10">{{ __('Contact with') }} <span
-                                class="contact-name"></span></p>
-                        <h4 class="fs-32 fw-500 lh-42 text-black show-phone"></h4>
-                    </div>
-                </div>
+    <div class="modal fade" id="edit-modal" aria-hidden="true" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+
             </div>
         </div>
     </div>
@@ -97,12 +88,11 @@
                     <div class="item">
                         <div class="primary-form-group">
                             <div class="primary-form-group-wrap">
-                                <label for="Department" class="form-label">{{__('Department')}}</label>
-                                <select class="sf-select-without-search primary-form-control" name='department'
-                                    id='department'>
-                                    <option selected="" value=0>{{__('All Department')}}</option>
-                                    @foreach ($department as $row)
-                                        <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                <label for="Graduation_Year" class="form-label">{{__('Graduation Year')}}</label>
+                                <select class="alumni-select primary-form-control select2" name="year" id="year">
+                                    <option value="0">{{__('All Years')}}</option>
+                                    @foreach ($graduationYears as $year)
+                                        <option value="{{$year}}">{{$year}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -111,26 +101,11 @@
                     <div class="item">
                         <div class="primary-form-group">
                             <div class="primary-form-group-wrap">
-                                <label for="passing_year" class="form-label">{{__('Passing Year')}}</label>
-                                <select class="sf-select-without-search primary-form-control" name='passing_year'
-                                    id='passing-year'>
-                                    <option selected="" value=0>{{__('All Year')}}</option>
-                                    @foreach ($passingYear as $row)
-                                        <option value="{{ $row->id }}">{{ $row->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="primary-form-group">
-                            <div class="primary-form-group-wrap">
-                                <label for="is_member" class="form-label">{{__('Member')}}</label>
-                                <select class="sf-select-without-search primary-form-control" name='is_member'
-                                    id='is-member'>
-                                    <option value="-1" selected>{{__('All')}}</option>
-                                    @foreach (getAlumniMemberStatus() as $key => $value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
+                                <label for="Major" class="form-label">{{__('Major')}}</label>
+                                <select class="alumni-select primary-form-control select2" name="major" id="major">
+                                    <option value="0">{{__('All Majors')}}</option>
+                                    @foreach ($majors as $major)
+                                        <option value="{{$major}}">{{$major}}</option>
                                     @endforeach
                                 </select>
                             </div>

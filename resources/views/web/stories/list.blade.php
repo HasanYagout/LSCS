@@ -4,7 +4,7 @@
 @endpush
 @section('content')
 
-<section class="breadcrumb-wrap py-50 py-md-75 py-lg-100" data-background="{{getSettingImage('page_breadcrumb')}}">
+<section class="breadcrumb-wrap py-50 py-md-75 py-lg-100" data-background="">
     <div class="text-center position-relative">
       <h4 class="fs-50 fw-700 lh-60 text-white pb-8">{{$title}}</h4>
       <ul class="breadcrumb-list">
@@ -23,7 +23,7 @@
             @forelse ( $stories as $story )
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="hover-scale-img">
-                        <div class="bd-ra-14 overflow-hidden h-157"><img class="w-100 h-100 object-fit-cover" src="{{getFileUrl($story->thumbnail)}}" alt="" /></div>
+                        <div class="bd-ra-14 overflow-hidden h-157"><img class="w-100 h-100 object-fit-cover" src="{{asset('public/storage/admin/story'.'/'.$story->thumbnail)}}" alt="" /></div>
                         <div class="pt-24">
                             <div class="d-flex align-items-center cg-11 pb-10">
                                 <div class="d-flex"><img src="{{asset('public/frontend/images/icon/calendar.svg')}}" alt="" /></div>

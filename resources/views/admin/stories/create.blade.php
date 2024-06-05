@@ -4,11 +4,12 @@
 @endpush
 
 @section('content')
-    <div class="p-30">
+
+    <div class="p-30" style="margin-left:250px;">
         <div class="">
             <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{$title}}</h4>
             <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
-                <form class="ajax reset" data-handler="commonResponseRedirect" data-redirect-url="{{route('admin.stories.my-story')}}" action="{{ route('admin.stories.store') }}" method="post" enctype="multipart/form-data" >
+                <form id="storyForm"  enctype="multipart/form-data">
                     @csrf
                     <div class="max-w-840">
                         <div class="pb-30"></div>
@@ -56,3 +57,42 @@
     </div>
 @endsection
 
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#storyForm').on('submit', function(e) {
+                e.preventDefault(); // prevent the form from submitting the traditional way
+                console.log('daads')
+                var formData = new FormData(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            setTimeout(function() {
+                                window.location.href = "{{ route('admin.stories.my-story') }}";
+                            }, 2000); // Redirect after 2 seconds
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(response) {
+                        if (response.status === 422) {
+                            let errors = response.responseJSON.errors;
+                            toastr.error(errors[Object.keys(errors)[0]][0], 'Error');
+                        } else {
+                            toastr.error('An unexpected error occurred.', 'Error');
+                        }
+                    }
+                });
+            });
+        });
+
+
+    </script>
+@endpush

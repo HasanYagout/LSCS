@@ -21,11 +21,30 @@
 		columns: [
             {"data": "title", "name": "title"},
             {"data": "category", "name": "event_categories.name"},
-            {"data": "type", "name": "type", responsivePriority:1},
+            // {"data": "type", "name": "type", responsivePriority:1},
             {"data": "date", "name": "date"},
-            {"data": "location", "name": "location"},
+            // {"data": "location", "name": "location"},
             {"data": "action", searchable: false, responsivePriority:2},
         ],
       });
-
+    window.toggleStatus = function(eventId) {
+        $.ajax({
+            url: $('#event-pending-update-route').val(),
+            type: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                id: eventId
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('Status updated successfully');
+                } else {
+                    alert('Failed to update status');
+                }
+            },
+            error: function(xhr) {
+                alert('An error occurred while updating status');
+            }
+        });
+    }
 })(jQuery)

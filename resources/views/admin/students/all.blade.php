@@ -7,9 +7,10 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30">
+    <div class="p-30" style="margin-left:250px;">
         <div>
-            <input type="hidden" id="students-list-route" value="{{ route('admin.students.list') }}">
+            <input type="hidden" id="students-list-route" value="{{ route('admin.students.index') }}">
+            <input type="hidden" id="students-update-route" value="{{ route('admin.students.update') }}">
 
             <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
                 <!-- Table -->
@@ -17,14 +18,15 @@
                     <table class="table zTable" id="studentsTable">
                         <thead>
                         <tr>
-                            <th scope="col"><div>{{ __('Student ID') }}</div></th>
-                            <th scope="col"><div>{{ __('First Name') }}</div></th>
-                            <th scope="col"><div>{{ __('Middle Name') }}</div></th>
-                            <th scope="col"><div>{{ __('Last Name') }}</div></th>
-                            <th scope="col"><div>{{ __('GPA') }}</div></th>
-                            <th scope="col"><div>{{ __('Major') }}</div></th>
-                            <th scope="col"><div>{{ __('Credits Left') }}</div></th>
-                            <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('Number') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('Student ID') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('F_Name') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('M_Name') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('L_Name') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('GPA') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('Major') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('C_Left') }}</div></th>
+                            <th class="w-110 text-center" scope="col"><div class="bg-f5b40a">{{ __('Action') }}</div></th>
                         </tr>
                         </thead>
                     </table>
@@ -79,6 +81,63 @@
         </div>
     </div>
     <!-- Edit Modal section end -->
+{{--    <div id="search-section">--}}
+{{--        <div class="collapse" id="collapseExample">--}}
+{{--            <div class="alumniFilter">--}}
+{{--                <h4 class="fs-18 fw-500 lh-38 text-1b1c17 pb-10">{{__('Filter your search')}}</h4>--}}
+{{--                <div class="filterOptions">--}}
+{{--                    <div class="item">--}}
+{{--                        <div class="primary-form-group">--}}
+{{--                            <div class="primary-form-group-wrap">--}}
+{{--                                <label for="Department" class="form-label">{{__('Department')}}</label>--}}
+{{--                                <select class="sf-select-without-search primary-form-control" name='department'--}}
+{{--                                        id='department'>--}}
+{{--                                    <option selected="" value=0>{{__('All Department')}}</option>--}}
+
+{{--                                    @foreach ($majors as $major)--}}
+{{--                                        <option value="{{$major}}">{{$major}}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="item">--}}
+{{--                        <div class="primary-form-group">--}}
+{{--                            <div class="primary-form-group-wrap">--}}
+{{--                                <label for="passing_year" class="form-label">{{__('Passing Year')}}</label>--}}
+{{--                                <select class="sf-select-without-search primary-form-control" name='passing_year'--}}
+{{--                                        id='passing-year'>--}}
+{{--                                    <option selected="" value=0>{{__('All Year')}}</option>--}}
+{{--                                    @foreach ($passingYear as $row)--}}
+{{--                                        <option value="{{ $row->id }}">{{ $row->name }}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="item">--}}
+{{--                        <div class="primary-form-group">--}}
+{{--                            <div class="primary-form-group-wrap">--}}
+{{--                                <label for="is_member" class="form-label">{{__('Member')}}</label>--}}
+{{--                                <select class="sf-select-without-search primary-form-control" name='is_member'--}}
+{{--                                        id='is-member'>--}}
+{{--                                    <option value="-1" selected>{{__('All')}}</option>--}}
+{{--                                    @foreach (getAlumniMemberStatus() as $key => $value)--}}
+{{--                                        <option value="{{ $key }}">{{ $value }}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <button--}}
+{{--                        class="bg-cdef84 border-0 bd-ra-12 py-13 px-26 fs-15 fw-500 lh-25 text-black hover-bg-one advance-filter">{{__('Search Now')}}</button>--}}
+{{--                    <!-- <div class="item">--}}
+{{--                                              </div> -->--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+
 @endsection
 
 @push('script')

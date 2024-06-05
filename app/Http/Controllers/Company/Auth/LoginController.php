@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -46,21 +47,20 @@ class LoginController extends Controller
     public function submit(Request $request)
     {
 
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6'
         ]);
-        $company = Company::where('email', $request->email)->first();
-        if (isset($company) && $company->status != 1) {
+
+        if (Auth::guard('company')->attempt($credentials, $request->remember)) {
+            // Authentication successful
+            return redirect()->route('company.home');
+        } else {
+            // Authentication failed
             return redirect()->back()->withInput($request->only('email', 'remember'))
-                ->withErrors(['You are blocked!!, contact with admin.']);
-        }else{
-            if (auth('company')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                return redirect()->route('company.dashboard');
-            }
+                ->withErrors(['Invalid email or password.']);
         }
 
-        return redirect()->route('company.dashboard');
     }
 
     public function register()
@@ -78,6 +78,7 @@ class LoginController extends Controller
 
         $company = new Company();
         $company->name=$request->name;
+        $company->slug=Str::slug($request->name).'_'.uniqid();
         $company->email=$request->email;
         $company->password=Hash::make($request->password);
         $company->phone=$request->mobile;
@@ -91,6 +92,6 @@ class LoginController extends Controller
     {
         auth()->guard('admin')->logout();
         $request->session()->invalidate();
-        return redirect()->route('admin.auth.login');
+        return redirect()->route('company.auth.login');
     }
 }

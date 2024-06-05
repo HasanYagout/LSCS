@@ -75,14 +75,14 @@
         </div>
     </div>
     <!-- Main Header -->
-    <div class="pt-16 pb-17 bg-primary-color">
+    <div class="pt-16 pb-17 bg-secondary-color">
         <div class="container">
             <div class="row align-items-center">
                 <!-- Left / Logo -->
                 <div class="col-lg-2 col-6">
-                    <a href="{{ route('index') }}"
-                        class="d-flex justify-content-center align-items-center max-w-146"><img
-                            src="{{ getSettingImage('app_black_logo') }}" alt="{{ getOption('app_name') }}" /></a>
+{{--                    <a href="{{ route('index') }}"--}}
+{{--                        class="d-flex justify-content-center align-items-center max-w-146"><img--}}
+{{--                            src="{{ getSettingImage('app_black_logo') }}" alt="{{ getOption('app_name') }}" /></a>--}}
                 </div>
                 <!-- Middle / Menu -->
                 <div class="col-lg-8 col-6">

@@ -28,4 +28,11 @@ class JobPost extends Model
         'created_by',
         'updated_by'
     ];
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+
+
 }

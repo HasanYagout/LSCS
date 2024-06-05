@@ -11,9 +11,8 @@
         ajax: {
             url: $('#alumni-list-advance-filter-route').val(),
             data: function (d) {
-                d.selectedDepartment = $('#department :selected').val();
-                d.selectedPassingYear = $('#passing-year :selected').val();
-                d.isMember = $('#is-member :selected').val();
+                d.selectedYear = $('#year').val();
+                d.selectedMajor = $('#major').val();
             }
         },
 		language: {
@@ -26,13 +25,11 @@
 		},
 		dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"d-flex align-items-center cg-5"<"tableSearch float-start"f><"z-filter-button">>><"col-sm-6"<"tableLengthInput float-end"l>><"col-sm-12"<"z-filter-block">>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
 		columns: [
-			{ "data": "first_name", "name": "alumni.first_name", responsivePriority: 1 },
-			{ "data": "last_name", "name": "alumni.last_name"},
-			{ "data": "graduation_year", "name": "alumni.graduation_year"},
-			{ "data": "major", "name": "alumni.major" },
-            { "data": "address", "name": "alumnus.address" },
-            { "data": "change_status", searchable: false, responsivePriority: 2},
-			{ "data": "action", searchable: false, responsivePriority: 2 },
+            { data: 'first_name', name: 'first_name' },
+            { data: 'last_name', name: 'last_name' },
+            { data: 'graduation_year', name: 'graduation_year' },
+            { data: 'major', name: 'major' },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
 		],
 		"initComplete": function( settings, json ) {
 			$('.z-filter-block').html($('#search-section').html());
@@ -54,24 +51,15 @@
 		}
 	});
 
-
-
-    $(document).on('click', '.alumniPhone', function(){
-        var contactName = $(this).closest('ul').data("contact-name");
-        $('.contact-name').text(contactName);
-        var dataPhoneNo = $(this).data("phone");
-        $('.show-phone').text(dataPhoneNo);
+    $(document).on('click', '.zBtn-filter', function (e) {
+         $('.alumni-select').select2();
     });
-    $(document).on('click', '.alumniEmail', function(){
-        var contactName = $(this).closest('ul').data("contact-name");
-        $('.contact-name').text(contactName);
-        var dataEmail = $(this).data("email");
-        $('.show-email').text(dataEmail);
-    });
+
     $(document).on('click','.advance-filter',function(e){
         table.draw();
         e.preventDefault();
     })
+
     $(document).on('change', '#change_status', function(){
         var selectedStatus = $(this).val();
         var alumniUserId = $(this).attr("data-id");

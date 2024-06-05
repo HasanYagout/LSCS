@@ -6,7 +6,7 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30">
+    <div class="p-30" style="margin-left:250px;">
         <div>
             <input type="hidden" id="story-pending-list-route" value="{{ route('admin.stories.my-story') }}">
             <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
@@ -19,16 +19,16 @@
                         <thead>
                         <tr>
                             <th scope="col">
-                                <div>{{ __('Image') }}</div>
+                                <div class="bg-f1a527">{{ __('Image') }}</div>
                             </th>
                             <th scope="col">
-                                <div>{{ __('Title') }}</div>
+                                <div class="bg-f1a527">{{ __('Title') }}</div>
                             </th>
                             <th scope="col">
-                                <div>{{ __('Status') }}</div>
+                                <div class="bg-f1a527">{{ __('Status') }}</div>
                             </th>
                             <th class="w-110 text-center" scope="col">
-                                <div>{{ __('Action') }}</div>
+                                <div class="bg-f1a527">{{ __('Action') }}</div>
                             </th>
                         </tr>
                         </thead>

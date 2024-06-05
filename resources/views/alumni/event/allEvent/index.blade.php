@@ -9,7 +9,7 @@
 <!-- Page content area start -->
 <div class="p-30">
     <div>
-        <input type="hidden" id="event-all-list-route" value="{{ route('event.all') }}">
+        <input type="hidden" id="event-all-list-route" value="{{ route('alumni.event.all') }}">
 
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
             <h4 class="fs-24 fw-500 lh-34 text-black">{{$title}}</h4>
@@ -40,5 +40,5 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('admin/js/all-event.js') }}"></script>
+<script src="{{ asset('public/admin/js/all-event.js') }}"></script>
 @endpush

@@ -8,6 +8,7 @@
 <script src="{{ asset('public/assets/js/lc_select.min.js') }}"></script>
 <script src="{{ asset('public/assets/js/main.js')}}?ver={{ env('VERSION', 0) }}"></script>
 <script src="{{ asset('public/common/js/common.js')}}?ver={{ env('VERSION' ,0) }}"></script>
+<script src="{{ asset('public/assets/lightbox/js/lightbox.js')}}"></script>
 
 @stack('script')
 

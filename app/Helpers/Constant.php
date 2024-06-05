@@ -9,6 +9,7 @@ const STATUS_PENDING = 0;
 const STATUS_SUCCESS = 1;
 const STATUS_REJECT = 3;
 const STATUS_ACTIVE = 1;
+const STATUS_INACTIVE=0;
 const STATUS_DRAFT = 2;
 const STATUS_DISABLE = 3;
 const STATUS_DEACTIVATE = 3;
@@ -21,7 +22,8 @@ const USER_STATUS_ACTIVE = 1;
 const USER_STATUS_INACTIVE = 0;
 const USER_ROLE_ADMIN = 1;
 const USER_ROLE_ALUMNI = 2;
-const USER_ROLE_SUPER_ADMIN = 3;
+const USER_ROLE_COMPANY = 3;
+const USER_ROLE_INSTRUCTOR = 4;
 
 // Message
 const SOMETHING_WENT_WRONG = "Something went wrong! Please try again";

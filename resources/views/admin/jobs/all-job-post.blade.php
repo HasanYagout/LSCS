@@ -8,7 +8,7 @@
 
 
 <!-- Page content area start -->
-<div class="p-30">
+<div class="p-30" style="margin-left:250px;">
     <div>
         <input type="hidden" id="job-post-list-route" value="{{ route('admin.jobs.all-job-post') }}">
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
@@ -21,6 +21,7 @@
               <thead>
                 <tr>
                   <th scope="col"><div>{{ __('Company') }}</div></th>
+                  <th scope="col"><div>{{ __('Company Name') }}</div></th>
                   <th scope="col"><div>{{ __('Job Title') }}</div></th>
                   <th scope="col"><div>{{ __('Employee Status') }}</div></th>
                   <th scope="col"><div>{{ __('Salary') }}</div></th>
@@ -49,5 +50,5 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('alumni/js/job_post.js') }}"></script>
+<script src="{{ asset('public/admin/js/job_post.js') }}"></script>
 @endpush

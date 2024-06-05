@@ -11,7 +11,7 @@
                 @if(centralDomain() && isAddonInstalled('ALUSAAS'))
                     <img src="{{ getSettingImageCentral('app_preloader') }}" alt="{{ getOption('app_name') }}" />
                 @else
-                    <img src="{{ getSettingImage('app_preloader') }}" alt="{{ getOption('app_name') }}" />
+{{--                    <img src="{{ getSettingImage('app_preloader') }}" alt="{{ getOption('app_name') }}" />--}}
                 @endif
             </div>
         </div>
@@ -20,6 +20,7 @@
         <!-- Main Content -->
         <div class="zMain-wrap">
             <!-- Sidebar -->
+
             @include('company.layouts.sidebar')
             <!-- Main Content -->
             <div class="zMainContent">

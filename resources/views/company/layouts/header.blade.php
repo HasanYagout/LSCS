@@ -8,21 +8,21 @@
     @hasSection('meta')
     @stack('meta')
     @else
-    @php
-    $metaData = getMeta('home');
-    @endphp
+{{--    @php--}}
+{{--    $metaData = getMeta('home');--}}
+{{--    @endphp--}}
 
-    <meta name="description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">
-    <meta name="keywords" content="{{ __($metaData['meta_keyword']) }}">
+{{--    <meta name="description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">--}}
+{{--    <meta name="keywords" content="{{ __($metaData['meta_keyword']) }}">--}}
 
     <!-- Open Graph meta tags for social sharing -->
     <meta property="og:type" content="{{ __('Alumni') }}">
-    <meta property="og:title" content="{{ __($metaData['meta_title']) ?? getOption('app_name') }}">
-    <meta property="og:description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">
+{{--    <meta property="og:title" content="{{ __($metaData['meta_title']) ?? getOption('app_name') }}">--}}
+{{--    <meta property="og:description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">--}}
     @if(centralDomain() && isAddonInstalled('ALUSAAS'))
-        <meta property="og:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">
+{{--        <meta property="og:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">--}}
     @else
-        <meta property="og:image" content="{{ __($metaData['og_image']) ?? getSettingImageCentral('app_logo') }}">
+{{--        <meta property="og:image" content="{{ __($metaData['og_image']) ?? getSettingImageCentral('app_logo') }}">--}}
     @endif
     <meta property="og:url" content="{{ url()->current() }}">
 
@@ -30,12 +30,12 @@
 
     <!-- Twitter Card meta tags for Twitter sharing -->
     <meta name="twitter:card" content="{{ __('Alumni') }}">
-    <meta name="twitter:title" content="{{ __($metaData['meta_title']) ?? getOption('app_name') }}">
-    <meta name="twitter:description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">
+{{--    <meta name="twitter:title" content="{{ __($metaData['meta_title']) ?? getOption('app_name') }}">--}}
+{{--    <meta name="twitter:description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">--}}
     @if(centralDomain() && isAddonInstalled('ALUSAAS'))
-        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImageCentral('app_logo') }}">
+{{--        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImageCentral('app_logo') }}">--}}
     @else
-        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">
+{{--        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">--}}
     @endif
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -47,9 +47,9 @@
         <link rel="shortcut icon" href="{{ getSettingImageCentral('app_fav_icon') }}" type="image/x-icon">
         <link rel="shortcut icon" href="{{ getSettingImageCentral('app_fav_icon') }}">
     @else
-        <link rel="icon" href="{{ getSettingImage('app_fav_icon') }}" type="image/png" sizes="16x16">
-        <link rel="shortcut icon" href="{{ getSettingImage('app_fav_icon') }}" type="image/x-icon">
-        <link rel="shortcut icon" href="{{ getSettingImage('app_fav_icon') }}">
+{{--        <link rel="icon" href="{{ getSettingImage('app_fav_icon') }}" type="image/png" sizes="16x16">--}}
+{{--        <link rel="shortcut icon" href="{{ getSettingImage('app_fav_icon') }}" type="image/x-icon">--}}
+{{--        <link rel="shortcut icon" href="{{ getSettingImage('app_fav_icon') }}">--}}
     @endif
     <!-- fonts file -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -66,6 +66,8 @@
     <link rel="stylesheet" href="{{ asset('public/assets/scss/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/css/responsive.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/css/summernote/summernote-lite.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/assets/select2/css/select2.min.css') }}" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="{{ asset('public/assets/js/modernizr-3.11.2.min.js') }}"></script>
     @stack('style')
 
@@ -73,6 +75,7 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ getOption('google_analytics_tracking_id') }}"></script>
     <script>
+
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());

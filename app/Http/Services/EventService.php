@@ -15,43 +15,22 @@ class EventService
 
     public function pending()
     {
-        $eventPending = Event::where('events.status', STATUS_PENDING)
-            ->join('event_categories', 'event_categories.id', '=', 'events.event_category_id')
-            ->where('events.tenant_id', getTenantId())
-            ->select('events.*', 'event_categories.name')
-            ->orderBy('events.id','DESC');
+        $eventPending = Event::with('category')->where('status', STATUS_ACTIVE)
+            ->orderBy('id','DESC');
 
         return datatables($eventPending)
             ->addIndexColumn()
             ->addColumn('category', function ($data) {
-                return '<p class="min-w-130 text-center zBadge">' . htmlspecialchars($data->name) . '</p>';
-            })
-            ->addColumn('type', function ($data) {
-                if ($data->type == 1) {
-                    return '<span class="zBadge-free">'.__('Free').'</span>';
-                } else {
-                    return '<span class="zBadge-paid">'.__('Paid').'</span>';
-                }
+                return '<p class="min-w-130 text-center zBadge">' . htmlspecialchars($data->category->name) . '</p>';
             })
             ->addColumn('date', function ($data) {
                 return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->date)->format('jS F, h:i:s A');
             })
-
             ->addColumn('action', function ($data){
-                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                            <li class="d-flex gap-2">
-                                <button onclick="getEditModal(\'' . route('event.edit', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                                </button>
-
-                                <button onclick="deleteItem(\'' . route('event.delete', $data->id) . '\', \'eventPendingDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                                </button>
-                                <a href="'. route('event.details', $data->slug) .'" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View">
-                                    <img src="' . asset('assets/images/icon/eye.svg') . '" alt="view">
-                                </a>
-                            </li>
-                        </ul>';
+                $checked = $data->status == STATUS_ACTIVE ? 'checked' : '';
+                return '<div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="statusSwitch' . $data->id . '" ' . $checked . ' onclick="toggleStatus(' . $data->id . ')">
+                    </div>';
             })
             ->rawColumns(['type', 'action', 'category', 'date'])
             ->make(true);
@@ -61,6 +40,7 @@ class EventService
     public function allEvent()
     {
         $allEvent = Event::where('status', STATUS_ACTIVE)
+            ->orWhere('status', STATUS_PENDING)
             ->orderBy('created_at', 'desc');
         return datatables($allEvent)
             ->addIndexColumn()
@@ -70,64 +50,55 @@ class EventService
             ->addColumn('date', function ($data) {
                 return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->date)->format('jS F, h:i:s A');
             })
+            ->addColumn('status', function ($data) {
+                $checked = $data->status == STATUS_ACTIVE ? 'checked' : '';
+                return '<div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="statusSwitch' . $data->id . '" ' . $checked . ' onclick="toggleStatus(' . $data->id . ')">
+                    </div>';            })
             ->addColumn('action', function ($data){
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                             <li class="d-flex gap-2">
-                                <a href="'. route('admin.event.details', $data->slug) .'" class="d-block text-decoration-underline fw-600 text-1b1c17">'.__('Reservation').'</a>
+                                <button onclick="getEditModal(\'' . route('admin.event.edit', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
+                                </button>
+
+                                <button onclick="deleteItem(\'' . route('admin.event.delete', $data->id) . '\', \'myEventDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
+                                </button>
+
+                                <a href="'. route('admin.event.details', $data->slug) .'" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="view">
+                                    <img src="' . asset('assets/images/icon/eye.svg') . '" alt="view">
+                                </a>
                             </li>
                         </ul>';
             })
-            ->rawColumns(['action', 'category', 'date'])
+            ->rawColumns(['action','status', 'category', 'date'])
             ->make(true);
     }
 
 
     public function myEvent()
     {
-        $event = Event::where('user_id', auth()->id())->where('tenant_id', getTenantId())->orderBy('created_at', 'desc');
+        $event = Event::where('user_id', auth('admin')->id())->orderBy('created_at', 'desc');
         return datatables($event)
             ->addIndexColumn()
             ->addColumn('category', function ($data) {
                 return '<p class="min-w-130 text-center zBadge">' . htmlspecialchars($data->category->name) . '</p>';
             })
-            ->addColumn('type', function ($data) {
-                if ($data->type == 1) {
-                    return '<span class="zBadge-free">'.__('Free').'</span>';
-                } else {
-                    return '<span class="zBadge-paid">'.__('Paid').'</span>';
-                }
-            })
+
             ->addColumn('date', function ($data) {
                 return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->date)->format('jS F, h:i:s A');
             })
 
             ->addColumn('status', function ($data) {
                 if ($data->status == 1) {
-                    return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-0fa958 bg-0fa958-10">'.__('Approved').'</p>';
+                    return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-0fa958 bg-0fa958-10">'.__('Active').'</p>';
                 } else {
-                    return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-f5b40a bg-f5b40a-10">'.__('Pending').'</p>';
+                    return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-f5b40a bg-f5b40a-10">'.__('InActive').'</p>';
                 }
             })
 
-            ->addColumn('action', function ($data){
-                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                            <li class="d-flex gap-2">
-                                <button onclick="getEditModal(\'' . route('event.edit', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                                </button>
-
-                                <button onclick="deleteItem(\'' . route('event.delete', $data->id) . '\', \'myEventDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                                </button>
-
-                                <a href="'. route('event.details', $data->slug) .'" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="view">
-                                    <img src="' . asset('assets/images/icon/eye.svg') . '" alt="view">
-                                </a>
-                            </li>
-                        </ul>';
-            })
-
-            ->rawColumns(['type', 'action', 'status', 'category', 'date'])
+            ->rawColumns(['type', 'status', 'category', 'date'])
             ->make(true);
     }
 
@@ -239,7 +210,7 @@ class EventService
     }
 
     public function getEvent($slug){
-        return Event::where('slug', $slug)->where('tenant_id', getTenantId())->first();
+        return Event::where('slug', $slug)->first();
     }
 
     public function deleteById($id)

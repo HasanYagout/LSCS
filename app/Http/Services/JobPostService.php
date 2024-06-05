@@ -18,7 +18,7 @@ class JobPostService
     }
     public function getBySlug($slug)
     {
-        return JobPost::where('tenant_id', getTenantId())->where('slug', $slug)->firstOrFail();
+        return JobPost::where('slug', $slug)->firstOrFail();
     }
 
     public function getMyJobPostList(){

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('company.layouts.app')
 
 @push('title')
     {{$title}}
@@ -8,7 +8,7 @@
 
 
 <!-- Page content area start -->
-<div class="p-30">
+<div class="p-30" style="margin-left:250px;">
     <div>
         <input type="hidden" id="job-post-list-route" value="{{ route('admin.jobs.pending') }}">
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">

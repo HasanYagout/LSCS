@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\Controller;
 use App\Http\Services\DashboardService;
 use App\Models\Company;
+use App\Models\JobPost;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -24,7 +26,9 @@ class DashboardController extends Controller
 
         $data['pageTitle'] = __('Dashboard');
         $data['activeDashboard'] = 'active';
+
         $dashboardService = new DashboardService();
+        $data['totalJobs'] = JobPost::where('company_id', auth('company')->id())->count();
 
         $d = array();
 

@@ -8,6 +8,7 @@ use App\Models\PostComment;
 use App\Traits\ResponseTrait;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class PostService
 {
@@ -17,31 +18,49 @@ class PostService
     {
         DB::beginTransaction();
         try {
-            $user = auth()->user();
+            // Authenticate and determine user
+            if (auth('admin')->check()) {
+                $user = auth('admin')->user();
+            } else {
+                $user = auth('company')->user();
+            }
+
+            // Create new post
             $post = new Post();
             $post->body = htmlspecialchars($request->body);
-            $post->slug = getSlug(getSubText($request->body, 40)).rand(1000, 999999);
-            $post->tenant_id = getTenantId();
-            $post->created_by = $user->id;
-            $post->save();
+            $post->slug = Str::slug(substr($request->body, 0, 40)) . rand(1000, 999999); // Assuming getSlug and getSubText are meant for this
+            $post->user_id = $user->id;
+            $post->created_by = 'admin';
+            $post->save(); // Save post to generate post_id
 
-            //post media
-            foreach($request->file ?? [] as $index => $media){
-                if ($request->hasFile('file.'.$index)) {
+            // Process media files
+            foreach ($request->file('file', []) as $index => $media) {
+                if ($media->isValid()) {
+                    $originalName = pathinfo($media->getClientOriginalName(), PATHINFO_FILENAME);
+                    $extension = $media->getClientOriginalExtension();
+                    $date = date('Y-m-d');
+                    $random = mt_rand(1000, 9999);
+                    $slug = Str::slug($originalName); // Create a slug from the original filename
+                    $newFileName = "{$date}_{$slug}_{$random}.{$extension}"; // New filename
 
-                    $new_file = new FileManager();
-                    $uploaded = $new_file->upload('posts', $media);
+                    // Move the file to the public disk under posts directory
+                    $path = $media->storeAs('posts', $newFileName, 'public');
+
+                    // Create media record
                     $post->media()->create([
-                        'file' => $uploaded->id,
+                        'name' => $newFileName,
                         'user_id' => $user->id,
+                        'post_id' => $post->id, // Correctly use the post_id from the saved post
+                        'extension' => $extension, // Correctly save the file extension
                     ]);
                 }
             }
 
-            DB::commit();
+            DB::commit(); // Commit the transaction
 
             $message = getMessage(CREATED_SUCCESSFULLY);
             return $this->success([], $message);
+
         } catch (Exception $e) {
             DB::rollBack();
             $message = getErrorMessage($e, $e->getMessage());
@@ -96,7 +115,7 @@ class PostService
 
     public function getBySlug($slug)
     {
-        return Post::whereSlug($slug)->where('tenant_id', getTenantId())->with(['comments', 'likes:id', 'author', 'media.file_manager'])->withCount('replies')->first();
+        return Post::whereSlug($slug)->with(['comments', 'likes:id', 'author', 'media.file_manager'])->withCount('replies')->first();
     }
 
     public function deleteBySlug($request)

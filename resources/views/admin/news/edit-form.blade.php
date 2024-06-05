@@ -37,18 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="primary-form-group">
-                    <div class="primary-form-group-wrap">
-                      <label for="BatchName" class="form-label">{{ __('Tag') }} <span class="text-danger">*</span></label>
-                      <select name="tag_ids[]" id="tag_ids" multiple class="tag_ids primary-form-control sf-select-edit-modal">
-                        @foreach ($tags as $tag)
-                            <option {{ in_array($tag->id, $oldTags) ? 'selected' : '' }} value="{{ $tag->id }}">{{ $tag->name }}</option>
-                        @endforeach
-                    </select>
-                    </div>
-                </div>
-            </div>
+
             <div class="col-md-6">
                 <div class="primary-form-group">
                     <div class="primary-form-group-wrap">
@@ -80,7 +69,7 @@
                     <label for="zImageUpload" class="form-label">{{__('Upload Image')}} <span
                             class="text-mime-type">(jpg,jpeg,png)</span></label>
                     <div class="upload-img-box">
-                        <img src="{{ getFileUrl($news->image) }}">
+                        <img src="{{ asset('public/storage/admin/news'.'/'.$news->image) }}">
                         <input type="file" name="image" accept="image/*" onchange="previewFile(this)">
                     </div>
                 </div>

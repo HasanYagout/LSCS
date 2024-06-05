@@ -1,22 +1,18 @@
 <!-- Sidebar -->
-<div class="zSidebar" data-background="{{ asset('public/assets/images/sidebar-bg.png') }}">
+<div class="zSidebar">
     <div class="zSidebar-overlay"></div>
 
     <a href="{{ route('index') }}" class="d-block mx-26 mb-27 max-w-146 pt-23">
-        @if(centralDomain() && isAddonInstalled('ALUSAAS'))
-        <img class="max-h-35" src="{{ getSettingImageCentral('app_logo') }}" alt="{{ getOption('app_name') }}"/>
-        @else
-        <img class="max-h-35" src="{{ getSettingImage('app_logo') }}" alt="{{ getOption('app_name') }}"/>
-        @endif
+
     </a>
 
     <!-- Menu & Logout -->
     <div class="zSidebar-fixed">
         <ul class="zSidebar-menu" id="sidebarMenu">
 
-            @if (auth('company')->user()->role_id == USER_ROLE_ADMIN)
+            @if (auth('company')->user()->role_id == USER_ROLE_COMPANY)
                 <li>
-                    <a href="{{ route('admin.dashboard') }}"
+                    <a href="{{ route('company.dashboard') }}"
                        class="{{ $activeDashboard ?? '' }} d-flex align-items-center cg-10">
                         <div class="d-flex">
                             <svg width="25" height="24" viewBox="0 0 25 24" fill="none"
@@ -57,43 +53,7 @@
                         <span class="">{{ __('Home') }}</span>
                     </a>
                 </li>
-                <li>
-                    <a href="#myEvent" data-bs-toggle="collapse" role="button" aria-controls="myEvent"
-                       class="d-flex align-items-center cg-10 {{ isset($showEvent) ? 'active' : 'collapsed' }}"
-                       aria-expanded="{{ isset($showEvent) ? 'true' : 'false' }}">
-                        <div class="d-flex">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <rect x="3" y="6" width="18" height="15" rx="2"
-                                      stroke="white" stroke-width="1.5"/>
-                                <path d="M4 11H20" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                                <path d="M9 16H15" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                                <path d="M8 3L8 7" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                                <path d="M16 3L16 7" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <span class="">{{ __('My Event') }}</span>
-                    </a>
-                    <div class="collapse {{ $showEvent ?? '' }}" id="myEvent" data-bs-parent="#sidebarMenu">
-                        <ul class="zSidebar-submenu">
-                            @if (auth('company')->user()->role_id == USER_ROLE_ADMIN)
-                                <li><a class="{{ $activeEventCategory ?? '' }}"
-                                       href="{{ route('admin.eventCategory.index') }}">{{ __('Event Category') }}</a>
-                                </li>
-                                <li><a class="{{ $activeEventPending ?? '' }}"
-                                       href="{{ route('admin.event.pending') }}">{{ __('Pending Event') }}</a>
-                                </li>
-                            @endif
 
-                            <li><a class="{{ $activeMyEvent ?? '' }}"
-                                   href="{{ route('admin.event.my-event') }}">{{ __('My Event') }}</a>
-                            </li>
-                            <li><a class="{{ $activeAllEvent ?? '' }}"
-                                   href="{{ route('admin.event.all') }}">{{ __('All Event') }}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
                 <li>
                     <a href="#jobPost" data-bs-toggle="collapse" role="button"
                        aria-expanded="{{ isset($showJobPostManagement) ? 'true' : '' }}" aria-controls="jobPost"
@@ -116,58 +76,21 @@
                     <div class="collapse {{ $showJobPostManagement ?? '' }}" id="jobPost"
                          data-bs-parent="#sidebarMenu">
                         <ul class="zSidebar-submenu">
-
-                            @if (auth('company')->user()->role_id == USER_ROLE_ADMIN)
+                            <li><a class="{{ $activeJobPostCreate ?? '' }}"
+                                   href="{{ route('company.jobs.create') }}">{{ __('Create Post') }}</a></li>
+                            @if (auth('company')->user()->role_id == USER_ROLE_COMPANY)
                                 <li><a class="{{ $activePendingJobPostList ?? '' }}"
-                                       href="{{ route('admin.jobs.pending') }}">{{ __('Pending Post') }}</a>
+                                       href="{{ route('company.jobs.pending') }}">{{ __('Pending Post') }}</a>
                                 </li>
                             @endif
                             <li><a class="{{ $activeMyJobPostList ?? '' }}"
-                                   href="{{ route('admin.jobs.my-job-post') }}">{{ __('My Post') }}</a></li>
+                                   href="{{ route('company.jobs.my-job-post') }}">{{ __('My Post') }}</a></li>
                             <li><a class="{{ $activeAllJobPostList ?? '' }}"
-                                   href="{{ route('admin.jobs.all-job-post') }}">{{ __('All Post') }}</a></li>
+                                   href="{{ route('company.jobs.all-job-post') }}">{{ __('All Post') }}</a></li>
                         </ul>
                     </div>
                 </li>
-                <li>
-                    <a href="#storyMenu" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ isset($showStoryManagement) ? 'true' : '' }}" aria-controls="storyMenu"
-                       class="d-flex align-items-center cg-10 {{ isset($showStoryManagement) ? 'active' : 'collapsed' }}">
-                        <div class="d-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="26" viewBox="0 0 25 26"
-                                 fill="none">
-                                <path
-                                    d="M20.0934 4.00108L20.1195 4.75063V4.75063L20.0934 4.00108ZM16.7072 4.4451L16.4921 3.72661V3.72661L16.7072 4.4451ZM14.0356 5.6885L13.6599 5.03937L13.6599 5.03937L14.0356 5.6885ZM4.87402 4.0551L4.82801 4.80369L4.87402 4.0551ZM7.72663 4.4451L7.91799 3.71992L7.91799 3.71992L7.72663 4.4451ZM10.8294 5.75723L10.4788 6.42024L10.8294 5.75723ZM13.9919 20.1203L14.3447 20.7822L13.9919 20.1203ZM17.1799 18.7629L16.9885 18.0378L17.1799 18.7629ZM20.0018 18.3748L20.0487 19.1234L20.0018 18.3748ZM10.9147 20.1203L10.5619 20.7822H10.5619L10.9147 20.1203ZM7.72663 18.7629L7.91799 18.0378H7.91799L7.72663 18.7629ZM4.9047 18.3748L4.85788 19.1234H4.85788L4.9047 18.3748ZM3.75 16.4093V5.87288H2.25V16.4093H3.75ZM22.6565 16.4093V5.81181H21.1565V16.4093H22.6565ZM20.0673 3.25154C18.9906 3.28904 17.5796 3.40106 16.4921 3.72661L16.9223 5.16359C17.8143 4.89658 19.0624 4.78745 20.1195 4.75063L20.0673 3.25154ZM16.4921 3.72661C15.5467 4.00964 14.4853 4.56168 13.6599 5.03937L14.4113 6.33762C15.2146 5.87269 16.1517 5.39429 16.9223 5.16359L16.4921 3.72661ZM4.82801 4.80369C5.74061 4.85978 6.77153 4.96874 7.53527 5.17028L7.91799 3.71992C7.00565 3.47917 5.8534 3.36388 4.92003 3.30651L4.82801 4.80369ZM7.53527 5.17028C8.44003 5.40902 9.55596 5.93224 10.4788 6.42024L11.18 5.09421C10.2385 4.59634 8.99693 4.00463 7.91799 3.71992L7.53527 5.17028ZM14.3447 20.7822C15.281 20.283 16.4378 19.7344 17.3713 19.4881L16.9885 18.0378C15.8773 18.331 14.5924 18.9503 13.6391 19.4585L14.3447 20.7822ZM17.3713 19.4881C18.1263 19.2889 19.1429 19.18 20.0487 19.1234L19.955 17.6263C19.0279 17.6843 17.891 17.7996 16.9885 18.0378L17.3713 19.4881ZM11.2675 19.4585C10.3142 18.9503 9.02921 18.331 7.91799 18.0378L7.53527 19.4881C8.46871 19.7344 9.6255 20.283 10.5619 20.7822L11.2675 19.4585ZM7.91799 18.0378C7.01549 17.7996 5.8786 17.6843 4.95152 17.6263L4.85788 19.1234C5.76364 19.18 6.78023 19.2889 7.53527 19.4881L7.91799 18.0378ZM21.1565 16.4093C21.1565 17.0343 20.6378 17.5836 19.955 17.6263L20.0487 19.1234C21.4623 19.035 22.6565 17.8848 22.6565 16.4093H21.1565ZM22.6565 5.81181C22.6565 4.40713 21.5375 3.20032 20.0673 3.25154L20.1195 4.75063C20.6757 4.73125 21.1565 5.18885 21.1565 5.81181H22.6565ZM2.25 16.4093C2.25 17.8848 3.44425 19.035 4.85788 19.1234L4.95152 17.6263C4.26877 17.5836 3.75 17.0343 3.75 16.4093H2.25ZM13.6391 19.4585C12.9022 19.8513 12.0044 19.8513 11.2675 19.4585L10.5619 20.7822C11.7398 21.4101 13.1667 21.4101 14.3447 20.7822L13.6391 19.4585ZM13.6599 5.03937C12.8986 5.47998 11.9509 5.50181 11.18 5.09421L10.4788 6.42024C11.7131 7.07288 13.2095 7.03314 14.4113 6.33762L13.6599 5.03937ZM3.75 5.87288C3.75 5.23574 4.25397 4.76841 4.82801 4.80369L4.92003 3.30651C3.42171 3.21443 2.25 4.43377 2.25 5.87288H3.75Z"
-                                    fill="white" fill-opacity="0.7"/>
-                                <path d="M12.4531 6.68213V21" stroke="white" stroke-opacity="0.7" stroke-width="1.5"/>
-                                <path d="M5.83594 9.65613L9.61725 10.6015" stroke="white" stroke-opacity="0.7"
-                                      stroke-width="1.5" stroke-linecap="round"/>
-                                <path d="M5.83594 13.4375L9.61725 14.3828" stroke="white" stroke-opacity="0.7"
-                                      stroke-width="1.5" stroke-linecap="round"/>
-                                <path d="M19.0703 13.4375L15.289 14.3828" stroke="white" stroke-opacity="0.7"
-                                      stroke-width="1.5" stroke-linecap="round"/>
-                                <path
-                                    d="M19.0704 6.34753V10.1386C19.0704 10.3991 19.0704 10.5293 18.9807 10.582C18.891 10.6346 18.7684 10.5764 18.5231 10.4599L17.3488 9.90207C17.2658 9.86265 17.2243 9.84294 17.1797 9.84294C17.1351 9.84294 17.0936 9.86265 17.0106 9.90207L15.8363 10.4599C15.591 10.5764 15.4684 10.6346 15.3787 10.582C15.2891 10.5293 15.2891 10.3991 15.2891 10.1386V7.71828"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <span class="">{{__('Stories')}}</span>
-                    </a>
-                    <div class="collapse {{ $showStoryManagement ?? '' }}" id="storyMenu"
-                         data-bs-parent="#sidebarMenu">
-                        <ul class="zSidebar-submenu">
 
-                            @if (auth('company')->user()->role_id == USER_ROLE_ADMIN)
-                                <li><a class="{{ $activePendingStoryList ?? '' }}"
-                                       href="{{ route('alumni.stories.pending') }}">{{ __('Pending Story') }}</a>
-                                </li>
-                            @endif
-                            <li><a class="{{ $activeMyStoryList ?? '' }}"
-                                   href="{{ route('admin.stories.my-story') }}">{{ __('My Story') }}</a></li>
-                            <li><a target="_blank" href="{{ route('all.stories') }}">{{ __('All Story') }}</a></li>
-                        </ul>
-                    </div>
-                </li>
 {{--                <li>--}}
 {{--                    <a href="{{ route('alumni.list-search-with-filter') }}"--}}
 {{--                       class="{{ $activeAlumniList ?? '' }} d-flex align-items-center cg-10">--}}
@@ -259,14 +182,15 @@
 {{--                        <span class="">{{ __('Settings') }}</span>--}}
 {{--                    </a>--}}
                 </li>
-            @if (auth('company')->user()->role_id == USER_ROLE_ADMIN)
+
+            @if (auth('company')->user()->role_id == USER_ROLE_COMPANY)
                 @if(!isCentralDomain() || !isAddonInstalled('ALUSAAS'))
                 <li class="sidebar-divider">
                     <p class="fs-9 fw-500 lh-20 text-white-32">{{ __('ADMIN MENU') }}</p>
                 </li>
                 <li>
-                    <a href="#alumni-admin" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ isset($showAdminAlumni) ? 'true' : '' }}" aria-controls="membership-admin"
+                    <a href="#alumni-company" data-bs-toggle="collapse" role="button"
+                       aria-expanded="{{ isset($showAdminAlumni) ? 'true' : '' }}" aria-controls="membership-company"
                        class="d-flex align-items-center cg-10 {{ isset($showAdminAlumni) ? 'active' : 'collapsed' }}">
                         <div class="d-flex">
                             <svg width="25" height="18" viewBox="0 0 25 18" fill="none"
@@ -278,82 +202,20 @@
                         </div>
                         <span class="">{{ __('Manage Alumni') }}</span>
                     </a>
-                    <div class="collapse {{ $showAdminAlumni ?? '' }}" id="alumni-admin"
+                    <div class="collapse {{ $showAdminAlumni ?? '' }}" id="alumni-company"
                          data-bs-parent="#sidebarMenu">
                         <ul class="zSidebar-submenu">
 {{--                            <li><a class="{{ $activeAlumniApprovedList ?? '' }}"--}}
-{{--                                   href="{{ route('admin.alumni.list-search-with-filter') }}">{{ __('All List') }}</a>--}}
+{{--                                   href="{{ route('company.alumni.list-search-with-filter') }}">{{ __('All List') }}</a>--}}
 {{--                            </li>--}}
-                            <li><a class="{{ $activeAlumniPendingList ?? '' }}"
-                                   href="{{ route('admin.alumni.list-pending-alumni-with-filter') }}">{{ __('Pending List') }}</a>
-                            </li>
+
                         </ul>
                     </div>
                 </li>
 
-                <li>
-                    <a href="#manage-notice-menu" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ isset($showManageNotice) ? 'true' : 'false' }}"
-                       aria-controls="manage-notice-menu"
-                       class="d-flex align-items-center cg-10 {{ isset($showManageNotice) ? 'active' : 'collapsed' }}">
-                        <div class="d-flex">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="10" cy="10" r="9.25" stroke="white"
-                                        stroke-opacity="0.7" stroke-width="1.5"/>
-                                <path
-                                    d="M9.18262 11.7393L9.08008 4.81445H10.7207L10.6113 11.7393H9.18262ZM9.90039 15.0957C9.61328 15.0957 9.37174 15.0023 9.17578 14.8154C8.98438 14.624 8.88867 14.3893 8.88867 14.1113C8.88867 13.8288 8.98438 13.5941 9.17578 13.4072C9.37174 13.2158 9.61328 13.1201 9.90039 13.1201C10.1829 13.1201 10.4199 13.2158 10.6113 13.4072C10.8073 13.5941 10.9053 13.8288 10.9053 14.1113C10.9053 14.3893 10.8073 14.624 10.6113 14.8154C10.4199 15.0023 10.1829 15.0957 9.90039 15.0957Z"
-                                    fill="white" fill-opacity="0.7"/>
-                            </svg>
-                        </div>
-                        <span class="">{{ __('Manage Notice') }}</span>
-                    </a>
-
-                    <div class="collapse {{ $showManageNotice ?? '' }}" id="manage-notice-menu"
-                         data-bs-parent="#sidebarMenu">
-                        <ul class="zSidebar-submenu">
-                            <li><a class="{{ $activeNoticeCategory ?? '' }}"
-                                   href="{{ route('admin.notices.categories.index') }}">{{ 'Category' }}</a></li>
-                            <li><a class="{{ $activeManageNotice ?? '' }}"
-                                   href="{{ route('admin.notices.index') }}">{{ 'Notice' }}</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <a href="#manage-news-menu" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ isset($showManageNews) ? 'true' : 'false' }}"
-                       aria-controls="manage-news-menu"
-                       class="d-flex align-items-center cg-10 {{ isset($showManageNews) ? 'active' : 'collapsed' }}">
-                        <div class="d-flex">
-                            <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M1 1V15C1 15.5304 1.21071 16.0391 1.58579 16.4142C1.96086 16.7893 2.46957 17 3 17H17C17.5304 17 18.0391 16.7893 18.4142 16.4142C18.7893 16.0391 19 15.5304 19 15V5H15"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"/>
-                                <path
-                                    d="M1 1H15V15C15 15.5304 15.2107 16.0391 15.5858 16.4142C15.9609 16.7893 16.4696 17 17 17M11 5H5M11 9H7"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                    stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <span class="">{{ __('Manage News') }}</span>
-                    </a>
-                    <div class="collapse {{ $showManageNews ?? '' }}" id="manage-news-menu"
-                         data-bs-parent="#sidebarMenu">
-                        <ul class="zSidebar-submenu">
-                            <li><a class="{{ $activeNewsTag ?? '' }}"
-                                   href="{{ route('admin.news.tags.index') }}">{{ __('Tag') }}</a></li>
-                            <li><a class="{{ $activeNewsCategory ?? '' }}"
-                                   href="{{ route('admin.news.categories.index') }}">{{ __('Category') }}</a></li>
-                            <li><a class="{{ $activeManageNews ?? '' }}"
-                                   href="{{ route('admin.news.index') }}">{{ __('News') }}</a></li>
-                        </ul>
-                    </div>
-                </li>
 
 {{--                <li>--}}
-{{--                    <a href="{{ route('admin.setting.website-settings.index') }}"--}}
+{{--                    <a href="{{ route('company.setting.website-settings.index') }}"--}}
 {{--                       class="{{ $activeManageWebsiteSetting ?? '' }} d-flex align-items-center cg-10">--}}
 {{--                        <div class="d-flex">--}}
 {{--                            <svg width="20" height="22" viewBox="0 0 20 22" fill="none"--}}
@@ -391,34 +253,34 @@
 {{--                         data-bs-parent="#sidebarMenu">--}}
 {{--                        <ul class="zSidebar-submenu">--}}
 {{--                            <li><a class="{{ $activeApplicationSetting ?? '' }}"--}}
-{{--                                   href="{{ route('admin.setting.application-settings') }}">{{ __('General Settings') }}</a>--}}
+{{--                                   href="{{ route('company.setting.application-settings') }}">{{ __('General Settings') }}</a>--}}
 {{--                            </li>--}}
 {{--                            <li><a class="{{ $activeConfigurationSetting ?? '' }}"--}}
-{{--                                   href="{{ route('admin.setting.configuration-settings') }}">{{ __('Configurations--}}
+{{--                                   href="{{ route('company.setting.configuration-settings') }}">{{ __('Configurations--}}
 {{--                                                                        								Settings') }}</a>--}}
 {{--                            </li>--}}
 {{--                            <li><a class="{{ $activeCurrenciesSetting ?? '' }}"--}}
-{{--                                   href="{{ route('admin.setting.currencies.index') }}">{{ __('Currency Settings') }}</a>--}}
+{{--                                   href="{{ route('company.setting.currencies.index') }}">{{ __('Currency Settings') }}</a>--}}
 {{--                            </li>--}}
 {{--                            <li><a class="{{ $activeGatewaySetting ?? '' }}"--}}
-{{--                                   href="{{ route('admin.setting.gateway.index') }}">{{ __('Payment Gateways') }}</a>--}}
+{{--                                   href="{{ route('company.setting.gateway.index') }}">{{ __('Payment Gateways') }}</a>--}}
 {{--                            </li>--}}
 {{--                            @if(!isAddonInstalled('ALUSAAS'))--}}
 {{--                            <li><a class="{{ $activeLanguagesSetting ?? '' }}"--}}
-{{--                                   href="{{ route('admin.setting.languages.index') }}">{{ __('Language Settings') }}</a>--}}
+{{--                                   href="{{ route('company.setting.languages.index') }}">{{ __('Language Settings') }}</a>--}}
 {{--                            </li>--}}
 {{--                            @endif--}}
 {{--                            <li><a class="{{ $activeBatchesSetting ?? '' }}"--}}
-{{--                                   href="{{ route('admin.setting.batches.index') }}">{{ __('Batch Setting') }}</a>--}}
+{{--                                   href="{{ route('company.setting.batches.index') }}">{{ __('Batch Setting') }}</a>--}}
 {{--                            </li>--}}
 {{--                            <li><a class="{{ $activeDepartmentsSetting ?? '' }}"--}}
-{{--                                   href="{{ route('admin.setting.departments.index') }}">{{ __('Department Setting') }}</a>--}}
+{{--                                   href="{{ route('company.setting.departments.index') }}">{{ __('Department Setting') }}</a>--}}
 {{--                            </li>--}}
 {{--                            <li><a class="{{ $activePassingSetting ?? '' }}"--}}
-{{--                                   href="{{ route('admin.setting.passing_years.index') }}">{{ __('Passing Year') }}</a>--}}
+{{--                                   href="{{ route('company.setting.passing_years.index') }}">{{ __('Passing Year') }}</a>--}}
 {{--                            </li>--}}
 {{--                            <li><a class="{{ $activeEmailSetting ?? '' }}"--}}
-{{--                                   href="{{ route('admin.setting.email-template') }}">{{ __('Email Template') }}</a>--}}
+{{--                                   href="{{ route('company.setting.email-template') }}">{{ __('Email Template') }}</a>--}}
 {{--                            </li>--}}
 {{--                        </ul>--}}
 {{--                    </div>--}}

@@ -5,10 +5,10 @@
 
 @section('content')
 
-    <div class="p-30">
+    <div style="margin-left: 250px" class="p-30">
         <div class="">
             <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{ __($pageTitle) }}</h4>
-            <!-- Items -->
+
             <div class="row rg-30">
                 @if(isAddonInstalled('ALUSAAS'))
                 <div class="col-md-12">
@@ -20,7 +20,7 @@
                         <div class="content">
                             <h4 class="title">{{ __('Total Alumni') }}</h4>
                             <div class="d-flex justify-content-between mt-20">
-{{--                                <h2 class="fs-5 fw-semibold mt-1 title">{{ $totalAlumni }}</h2>--}}
+                                <h2 class="fs-5 fw-semibold mt-1 title">{{ $totalAlumni }}</h2>
                                 <div>
                                     <svg width="28" height="21" viewBox="0 0 25 18" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -36,12 +36,13 @@
 
 
 
+
                 <div class="col-md col-sm-12">
                     <div class="h-100 zNews-item-one">
                         <div class="content">
                             <h4 class="title">{{ __('Upcoming Event') }}</h4>
                             <div class="d-flex justify-content-between mt-20">
-                                <h2 class="fs-5 fw-semibold mt-1 title">{{ $totalUpcomingEvent }}</h2>
+                                <h2 class="fs-5 fw-semibold mt-1 title">{{ $totalEvents }}</h2>
                                 <div class="d-flex">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -70,43 +71,44 @@
 {{--            <input type="hidden" id="price-list" value="{{ $chartPrice }}">--}}
 {{--            <input type="hidden" id="total-ticket-list" value="{{ $totalTickets }}">--}}
 {{--            <input type="hidden" id="event-name-list" value="{{ $eventNames }}">--}}
+            @if(auth('admin')->user()->role_id==USER_ROLE_INSTRUCTOR)
+                <div class="pt-30">
 
-            <div class="pt-30">
-                {{-- <h4 class="fs-24 fw-500 lh-34 text-black pb-16">My Job Post</h4> --}}
-                <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
-                    <!-- Table -->
-                    <h4 class="title mb-3">{{ __('Latest Transaction Summary') }}</h4>
-                    <div class="table-responsive zTable-responsive">
-                        <table class="table zTable" id="transactionDataTable">
-                            <thead>
-                            <tr>
-                                <th scope="col">
-                                    <div>{{ __('Name') }}</div>
-                                </th>
-                                <th scope="col">
-                                    <div>{{ __('Purpose') }}</div>
-                                </th>
-                                <th scope="col">
-                                    <div>{{ __('Transaction ID') }}</div>
-                                </th>
-                                <th scope="col">
-                                    <div>{{ __('Payment Method') }}</div>
-                                </th>
-                                <th scope="col">
-                                    <div>{{ __('Date and Time') }}</div>
-                                </th>
-                                <th scope="col">
-                                    <div>{{ __('Amount') }}</div>
-                                </th>
-                            </tr>
-                            </thead>
-                        </table>
+                    {{-- <h4 class="fs-24 fw-500 lh-34 text-black pb-16">My Job Post</h4> --}}
+                    <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
+                        <!-- Table -->
+                        <h4 class="title mb-3">{{ __('Latest Transaction Summary') }}</h4>
+                        <div class="table-responsive zTable-responsive">
+                            <table class="table zTable" id="recommendationTable">
+                                <thead>
+                                <tr>
+                                    <th scope="col">
+                                        <div>{{ __('Name') }}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div>{{ __('Purpose') }}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div>{{ __('Transaction ID') }}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div>{{ __('Payment Method') }}</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div>{{ __('Date and Time') }}</div>
+                                    </th>
+
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
+
         </div>
     </div>
-    <input type="hidden" id="transaction-route" value="{{ route('admin.dashboard') }}">
+{{--    <input type="hidden" id="recommendation_route" value="{{ route('admin.recommendation') }}">--}}
 @endsection
 
 @push('script')

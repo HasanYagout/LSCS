@@ -29,9 +29,9 @@
 		columns: [
             {"data": "image", "name": "image", searchable: false, responsivePriority:1},
             {"data": "title", "name": "title"},
+            {"data": "author", "name": "author"},
             {"data": "category", "name": "categories.name"},
-            {"data": "status", "name": "status"},
-            {"data": "author", "name": "users.name"},
+            {"data": "status", "name": "categories.name"},
             {"data": "action", searchable: false, responsivePriority:2},
         ],
       });
