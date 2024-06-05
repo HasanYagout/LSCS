@@ -22,8 +22,29 @@
             {"data": "title", "name": "title"},
             {"data": "category", "name": "category"},
             {"data": "date", "name": "date"},
+            {"data": "status", "name": "date"},
             {"data": "action", searchable: false, responsivePriority:2},
         ],
       });
+    window.toggleStatus = function(eventId) {
+        $.ajax({
+            url: $('#event-pending-update-route').val(),
+            type: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                id: eventId
+            },
+            success: function(response) {
+                if (response.success) {
+                    alert('Status updated successfully');
+                } else {
+                    alert('Failed to update status');
+                }
+            },
+            error: function(xhr) {
+                alert('An error occurred while updating status');
+            }
+        });
+    }
 
 })(jQuery)

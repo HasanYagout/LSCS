@@ -1,22 +1,11 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@include('layouts.header')
+@include('admin.layouts.header')
 
 <body>
-    <div class="overflow-x-hidden">
-        @if (getOption('app_preloader_status', 0) == STATUS_ACTIVE)
-        <div id="preloader">
-            <div id="preloader_status">
-                @if(centralDomain() && isAddonInstalled('ALUSAAS'))
-                    <img src="{{ getSettingImageCentral('app_preloader') }}" alt="{{ getOption('app_name') }}" />
-                @else
-{{--                    <img src="{{ getSettingImage('app_preloader') }}" alt="{{ getOption('app_name') }}" />--}}
-                @endif
-            </div>
-        </div>
-        @endif
 
+    <div class="overflow-x-hidden">
         <!-- Main Content -->
         <div class="zMain-wrap">
             <!-- Sidebar -->
@@ -36,6 +25,7 @@
     </div>
     @endif
     @include('layouts.script')
+    {!! Toastr::message() !!}
 </body>
 
 </html>

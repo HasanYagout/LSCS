@@ -3,7 +3,9 @@
 
 use App\Http\Controllers\Company\Auth\LoginController;
 use App\Http\Controllers\Company\DashboardController;
+use App\Http\Controllers\Company\HomeController;
 use App\Http\Controllers\Company\JobsController;
+use App\Http\Controllers\Company\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -13,6 +15,7 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
         return redirect()->route('company.auth.login');
     });
     Route::get('dashboard', [DashboardController::class,'index'])->name('dashboard');
+    Route::get('home', [HomeController::class,'index'])->name('home');
     Route::get('all', [DashboardController::class,'all'])->name('all');
     Route::get('info/{id}', [DashboardController::class,'info'])->name('info');
     Route::get('proposal/{id}', [DashboardController::class,'view'])->name('view');
@@ -25,6 +28,9 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
         Route::get('logout', [LoginController::class,'logout'])->name('logout');
         Route::get('register', [LoginController::class,'register'])->name('register');
         Route::post('store', [LoginController::class,'store'])->name('store');
+    });
+    Route::group(['namespace' => 'Profile', 'prefix' => 'profile', 'as' => 'profile.'], function () {
+        Route::get('index', [ProfileController::class,'index'])->name('index');
     });
 
     Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function () {

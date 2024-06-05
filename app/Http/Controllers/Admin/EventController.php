@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Services\EventService;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -44,7 +45,7 @@ class EventController extends Controller
         if ($request->ajax()) {
             return $this->eventService->myEvent();
         }
-        return view('admin.event.myEvent.index', $data);
+        return view('admin.event.my-event', $data);
     }
     public function all(Request $request)
     {
@@ -56,7 +57,7 @@ class EventController extends Controller
             return $this->eventService->allEvent();
         }
 
-        return view('admin.event.allEvent.index', $data);
+        return view('admin.event.all', $data);
     }
 
     public function pending(Request $request){
@@ -70,15 +71,24 @@ class EventController extends Controller
     }
     public function store(Request $request)
     {
+        $event = new Event();
+        $event->event_category_id = $request->event_category_id;
+        $event->title = $request->title;
+        $event->slug = getSlug($request->title) . '-' . rand(100000, 999999);
 
-       $event=new Event();
-        $event->event_category_id=$request->event_category_id;
-        $event->title=$request->title;
-        $event->slug=$request->slug = getSlug($request->title) . '-' . rand(100000, 999999);
-        $event->thumbnail=$request->file('thumbnail')->getClientOriginalName();
-        $event->date=$request->date;
-        $event->description=$request->description;
-        $event->user_id=auth('admin')->id();
+// Generate the new filename
+        $date = now()->format('Ymd');
+        $randomSlug = Str::random(6);
+        $randomNumber = rand(100000, 999999);
+        $newFilename = "{$date}_{$randomSlug}_{$randomNumber}.{$request->file('thumbnail')->getClientOriginalExtension()}";
+
+// Move the file to the specified directory
+        $request->file('thumbnail')->storeAs('public/admin/events', $newFilename);
+
+        $event->thumbnail = $newFilename;
+        $event->date = $request->date;
+        $event->description = $request->description;
+        $event->user_id = auth('admin')->id();
         $event->save();
         return $this->success([], getMessage(CREATED_SUCCESSFULLY));
 
@@ -103,6 +113,17 @@ class EventController extends Controller
     public function update(EventRequest $request, $slug)
     {
         return $this->eventService->update($request, $slug);
+    }
+
+    public function toggleStatus(Request $request)
+    {
+        $event = Event::find($request->id);
+        if ($event) {
+            $event->status = $event->status == STATUS_ACTIVE ? STATUS_INACTIVE : STATUS_ACTIVE;
+            $event->save();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false]);
     }
 
     public function delete($id)

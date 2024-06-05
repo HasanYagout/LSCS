@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @push('title')
     {{ __('Home') }}
 @endpush
@@ -573,49 +573,19 @@
     </div>
 
     <!-- Edit post comment modal -->
-    <div class="modal fade zModalTwo" id="commentEditModal" tabindex="-1" aria-labelledby="commentEditModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content zModalTwo-content">
-                <!-- Header -->
-                <div class="align-items-center d-flex justify-content-between ps-4 pt-17">
-                    <h4 class="fs-18 fw-500 lh-20 text-1b1c17">{{ __('Update Comment') }}</h4>
-                </div>
-                <form action="{{ route('admin.posts.comments.update') }}" data-handler="postCommentUpdateResponse"
-                    method="POST" class="ajax reset">
-                    @method('put')
-                    @csrf
-                    <div class="modal-body zModalTwo-body" id="comment-edit-modal-content">
-                        <!-- Body -->
-                        <div class="pb-18 bd-c-black-10">
-                            <input type="hidden" name="id">
-                            <textarea class="form-control postInput" name="body" placeholder="{{ __('What’s your comment?') }}"></textarea>
-                        </div>
-                        <!-- Footer -->
-                        <div class="">
-                            <div class="pt-18">
-                                <button type="submit"
-                                    class="border-0 py-10 px-26 bd-ra-12 bg-cdef84 hover-bg-one w-100 d-flex justify-content-center align-items-center">{{ __('Update') }}</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
-    <input type="hidden" id="more-post-route" value="{{ route('admin.posts.more-post-load') }}">
+{{--    <input type="hidden" id="more-post-route" value="{{ route('admin.posts.more-post-load') }}">--}}
     <input type="hidden" id="delete-post-route" value="{{ route('admin.posts.delete') }}">
-    <input type="hidden" id="post-like-route" value="{{ route('admin.posts.like') }}">
+{{--    <input type="hidden" id="post-like-route" value="{{ route('admin.posts.like') }}">--}}
     <input type="hidden" id="post-edit" value="{{ route('alumni.posts.edit') }}">
     <input type="hidden" id="post-update" value="{{ route('alumni.posts.update') }}">
-    <input type="hidden" id="post-comment-store" value="{{ route('alumni.posts.comments.store') }}">
+{{--    <input type="hidden" id="post-comment-store" value="{{ route('alumni.posts.comments.store') }}">--}}
     <input type="hidden" id="load-single-post" value="{{ route('alumni.posts.single') }}">
     <input type="hidden" id="load-post-body" value="{{ route('alumni.posts.single.body') }}">
-    <input type="hidden" id="load-likes" value="{{ route('alumni.posts.single.likes') }}">
-    <input type="hidden" id="load-comments" value="{{ route('alumni.posts.single.comments') }}">
-    <input type="hidden" id="post-comment-delete" value="{{ route('alumni.posts.comments.delete') }}">
-    <input type="hidden" id="post-comment-update" value="{{ route('alumni.posts.comments.update') }}">
+{{--    <input type="hidden" id="load-likes" value="{{ route('alumni.posts.single.likes') }}">--}}
+{{--    <input type="hidden" id="load-comments" value="{{ route('alumni.posts.single.comments') }}">--}}
+{{--    <input type="hidden" id="post-comment-delete" value="{{ route('alumni.posts.comments.delete') }}">--}}
+{{--    <input type="hidden" id="post-comment-update" value="{{ route('alumni.posts.comments.update') }}">--}}
     @if (!empty(getOption('cookie_status')) && getOption('cookie_status') == STATUS_ACTIVE)
         <div class="cookie-consent-wrap shadow-lg">
             @include('cookie-consent::index')
