@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 @push('title')
     {{ __('Home') }}
 @endpush
@@ -36,7 +36,7 @@
     </style>
 @endpush
 @section('content')
-    <div class="p-30">
+    <div class="p-30" style="margin-left:250px;">
         <section class="home-section">
             <!-- Posts -->
             <div class="home-content">
@@ -179,7 +179,7 @@
                                         <div class="d-flex align-items-center cg-10 pb-10">
                                             <div
                                                 class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img src="{{ asset('public/storage/company').'/'.$job->company->image }}"
+                                                <img src="{{ asset('public/storage/company').'/'.$job->company->logo }}"
                                                     alt="{{ $job->title }}" />
                                             </div>
                                             <div class="">
@@ -306,13 +306,13 @@
                                                 <h4 class="title">{{ $news->title }}</h4>
                                                 <!-- User -->
                                                 <div class="d-flex align-items-center cg-5">
-                                                    <div
-                                                        class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
-                                                        <img src="{{ asset('public/storage/admin'.'/'.$news->author->image)}}"
-                                                            alt="{{ $news->author->first_name .$news->author->last_name }}" />
-                                                    </div>
-                                                    <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name .$news->author->last_name }}
-                                                    </p>
+{{--                                                    <div--}}
+{{--                                                        class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">--}}
+{{--                                                        <img src="{{ asset('public/storage/admin'.'/'.$news->author->image)}}"--}}
+{{--                                                            alt="{{ $news->author->first_name .$news->author->last_name }}" />--}}
+{{--                                                    </div>--}}
+{{--                                                    <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name .$news->author->last_name }}--}}
+{{--                                                    </p>--}}
                                                 </div>
                                                 <!-- Link -->
                                                 <a href="{{ route('admin.news.details', $news->slug) }}"
@@ -409,7 +409,7 @@
                                     <div class="d-flex align-items-center cg-10 pb-10">
                                         <div
                                             class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                            <img src="{{ asset('public/storage/company').'/'.$job->company->image }}"
+                                            <img src="{{ asset(getFileUrl($job->company->logo)) }}"
                                                 alt="{{ $job->title }}" />
                                         </div>
                                         <div class="">

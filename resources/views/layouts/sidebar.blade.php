@@ -1,5 +1,5 @@
-@php use Illuminate\Support\Facades\Auth; @endphp
-<!-- Sidebar -->
+{{--@php use Illuminate\Support\Facades\Auth; @endphp--}}
+{{--<!-- Sidebar -->--}}
 {{--@if (auth('admin')->check() && auth('admin')->user()->role_id == USER_ROLE_ADMIN)--}}
 {{--    <div class="zSidebar">--}}
 {{--        <div class="zSidebar-overlay"></div>--}}
@@ -7,11 +7,11 @@
 
 
 {{--        <a href="{{ route('index') }}" class="d-block mx-26 mb-27 max-w-146 pt-23">--}}
-{{--                    @if(centralDomain() && isAddonInstalled('ALUSAAS'))--}}
-{{--                    <img class="max-h-35" src="{{ getSettingImageCentral('app_logo') }}" alt="{{ getOption('app_name') }}"/>--}}
-{{--                    @else--}}
-{{--                    <img class="max-h-35" src="{{ getSettingImage('app_logo') }}" alt="{{ getOption('app_name') }}"/>--}}
-{{--                    @endif--}}
+{{--            --}}{{--        @if(centralDomain() && isAddonInstalled('ALUSAAS'))--}}
+{{--            --}}{{--        <img class="max-h-35" src="{{ getSettingImageCentral('app_logo') }}" alt="{{ getOption('app_name') }}"/>--}}
+{{--            --}}{{--        @else--}}
+{{--            --}}{{--        <img class="max-h-35" src="{{ getSettingImage('app_logo') }}" alt="{{ getOption('app_name') }}"/>--}}
+{{--            --}}{{--        @endif--}}
 {{--        </a>--}}
 {{--        <!-- Menu & Logout -->--}}
 {{--        <div class="zSidebar-fixed">--}}
@@ -87,9 +87,9 @@
 {{--                                <li><a class="{{ $activeEventCreate ?? '' }}"--}}
 {{--                                       href="{{ route('admin.event.create') }}">{{ __('Create Event') }}</a>--}}
 {{--                                </li>--}}
-{{--                                                            <li><a class="{{ $activeMyEvent ?? '' }}"--}}
-{{--                                                                   href="{{ route('admin.event.my-event') }}">{{ __('My Event') }}</a>--}}
-{{--                                                            </li>--}}
+{{--                                --}}{{--                            <li><a class="{{ $activeMyEvent ?? '' }}"--}}
+{{--                                --}}{{--                                   href="{{ route('admin.event.my-event') }}">{{ __('My Event') }}</a>--}}
+{{--                                --}}{{--                            </li>--}}
 {{--                                <li><a class="{{ $activeAllEvent ?? '' }}"--}}
 {{--                                       href="{{ route('admin.event.all') }}">{{ __('All Event') }}</a>--}}
 {{--                                </li>--}}
@@ -348,7 +348,7 @@
 {{--            @if(centralDomain() && isAddonInstalled('ALUSAAS'))--}}
 {{--                <img class="max-h-35" src="{{ getSettingImageCentral('app_logo') }}" alt="{{ getOption('app_name') }}"/>--}}
 {{--            @else--}}
-{{--                        <img class="max-h-35" src="{{ getSettingImage('app_logo') }}" alt="{{ getOption('app_name') }}"/>--}}
+{{--                --}}{{--        <img class="max-h-35" src="{{ getSettingImage('app_logo') }}" alt="{{ getOption('app_name') }}"/>--}}
 {{--            @endif--}}
 {{--        </a>--}}
 {{--        <!-- Menu & Logout -->--}}
@@ -507,18 +507,91 @@
 
 {{--                </li>--}}
 
+{{--                <li>--}}
+{{--                    <a href="#cvs" data-bs-toggle="collapse" role="button"--}}
+{{--                       aria-expanded="{{ isset($showCvManagement) ? 'true' : '' }}" aria-controls="cvs"--}}
+{{--                       class="d-flex align-items-center cg-10 {{ isset($showCvManagement) ? 'active' : 'collapsed' }}">--}}
+{{--                        <div class="d-flex">--}}
+{{--                            <svg width="25" height="26" viewBox="0 0 25 26" fill="none"--}}
+{{--                                 xmlns="http://www.w3.org/2000/svg">--}}
+{{--                                <rect x="5.20801" y="5.11185" width="14.5833" height="17.7083" rx="2"--}}
+{{--                                      stroke="white" stroke-opacity="0.7" stroke-width="1.5"/>--}}
+{{--                                <path d="M9.375 10.3202H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"--}}
+{{--                                      stroke-linecap="round"/>--}}
+{{--                                <path d="M9.375 14.4868H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"--}}
+{{--                                      stroke-linecap="round"/>--}}
+{{--                                <path d="M9.375 18.6535H13.5417" stroke="white" stroke-opacity="0.7" stroke-width="1.5"--}}
+{{--                                      stroke-linecap="round"/>--}}
+{{--                            </svg>--}}
+{{--                        </div>--}}
+{{--                        <span class="">{{__('CVs')}}</span>--}}
+{{--                    </a>--}}
+{{--                    <div class="collapse {{ $showJobPostManagement ?? '' }}" id="cvs"--}}
+{{--                         data-bs-parent="#sidebarMenu">--}}
+{{--                        <ul class="zSidebar-submenu">--}}
+
+{{--                            @if (auth('alumni')->user()->role_id == USER_ROLE_ADMIN)--}}
+{{--                                <li><a class="{{ $activePendingJobPostList ?? '' }}"--}}
+{{--                                       href="{{ route('alumni.jobs.pending') }}">{{ __('Pending Post') }}</a>--}}
+{{--                                </li>--}}
+{{--                            @endif--}}
+{{--                            <li><a href="{{ route('alumni.profile.index') }}" class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">{{ __('Profile') }}</a>--}}
+{{--                            </li>--}}
+{{--                            <li><a class="{{ $activeMyJobPostList ?? '' }}"--}}
+{{--                                   href="{{ route('alumni.cvs.all') }}">{{ __('Manage CVs') }}</a></li>--}}
+{{--                            <li><a class="{{ $activeAllJobPostList ?? '' }}"--}}
+{{--                                   href="{{ route('alumni.cvs.create') }}">{{ __('Create Cv') }}</a></li>--}}
+{{--                            <li><a class="{{ $activeAllJobPostList ?? '' }}"--}}
+{{--                                   href="{{ route('alumni.images') }}">{{ __('Graduation Images') }}</a></li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </li>--}}
+{{--                <li>--}}
+{{--                    <a href="#recommendation_menu" data-bs-toggle="collapse" role="button"--}}
+{{--                       aria-expanded="{{ isset($showCvManagement) ? 'true' : '' }}" aria-controls="cvs"--}}
+{{--                       class="d-flex align-items-center cg-10 {{ isset($showCvManagement) ? 'active' : 'collapsed' }}">--}}
+{{--                        <div class="d-flex">--}}
+{{--                            <svg width="25" height="26" viewBox="0 0 25 26" fill="none"--}}
+{{--                                 xmlns="http://www.w3.org/2000/svg">--}}
+{{--                                <rect x="5.20801" y="5.11185" width="14.5833" height="17.7083" rx="2"--}}
+{{--                                      stroke="white" stroke-opacity="0.7" stroke-width="1.5"/>--}}
+{{--                                <path d="M9.375 10.3202H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"--}}
+{{--                                      stroke-linecap="round"/>--}}
+{{--                                <path d="M9.375 14.4868H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"--}}
+{{--                                      stroke-linecap="round"/>--}}
+{{--                                <path d="M9.375 18.6535H13.5417" stroke="white" stroke-opacity="0.7" stroke-width="1.5"--}}
+{{--                                      stroke-linecap="round"/>--}}
+{{--                            </svg>--}}
+{{--                        </div>--}}
+{{--                        <span class="">{{__('Recommendation')}}</span>--}}
+{{--                    </a>--}}
+{{--                    <div class="collapse {{ $showJobPostManagement ?? '' }}" id="recommendation_menu"--}}
+{{--                         data-bs-parent="#sidebarMenu">--}}
+{{--                        <ul class="zSidebar-submenu">--}}
+
+{{--                            <li><a class="d-flex align-items-center cg-10" href="{{ route('alumni.recommendation.index') }}">{{ __('list') }}</a>--}}
+{{--                            </li>--}}
+{{--                            <li><a class="d-flex align-items-center cg-10"  href="{{ route('alumni.recommendation.create') }}">{{ __('Create') }}</a>--}}
+{{--                            </li>--}}
+
+
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </li>--}}
+
+
 {{--            </ul>--}}
 {{--            <ul>--}}
 
-{{--                            <a href="{{ route('logout') }}"--}}
-{{--                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"--}}
-{{--                               class="d-inline-flex align-items-center cg-15 pt-17 pb-30 px-25">--}}
-{{--                                <img src="{{ asset('assets/images/icon/logout.svg') }}" alt=""/>--}}
-{{--                                <p class="fs-14 fw-500 lh-16 text-white-70">{{ __('Logout') }}</p>--}}
-{{--                            </a>--}}
-{{--                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">--}}
-{{--                                @csrf--}}
-{{--                            </form>--}}
+{{--                --}}{{--            <a href="{{ route('logout') }}"--}}
+{{--                --}}{{--               onclick="event.preventDefault(); document.getElementById('logout-form').submit();"--}}
+{{--                --}}{{--               class="d-inline-flex align-items-center cg-15 pt-17 pb-30 px-25">--}}
+{{--                --}}{{--                <img src="{{ asset('assets/images/icon/logout.svg') }}" alt=""/>--}}
+{{--                --}}{{--                <p class="fs-14 fw-500 lh-16 text-white-70">{{ __('Logout') }}</p>--}}
+{{--                --}}{{--            </a>--}}
+{{--                --}}{{--            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">--}}
+{{--                --}}{{--                @csrf--}}
+{{--                --}}{{--            </form>--}}
 {{--            </ul>--}}
 {{--        </div>--}}
 {{--    </div>--}}
@@ -870,80 +943,6 @@
                             <span class="">{{ __('News') }}</span>
                         </a>
                     </li>
-
-                    <li>
-                        <a href="#cvs" data-bs-toggle="collapse" role="button"
-                           aria-expanded="{{ isset($showCvManagement) ? 'true' : '' }}" aria-controls="cvs"
-                           class="d-flex align-items-center cg-10 {{ isset($showCvManagement) ? 'active' : 'collapsed' }}">
-                            <div class="d-flex">
-                                <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="5.20801" y="5.11185" width="14.5833" height="17.7083" rx="2"
-                                          stroke="white" stroke-opacity="0.7" stroke-width="1.5"/>
-                                    <path d="M9.375 10.3202H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                          stroke-linecap="round"/>
-                                    <path d="M9.375 14.4868H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                          stroke-linecap="round"/>
-                                    <path d="M9.375 18.6535H13.5417" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                          stroke-linecap="round"/>
-                                </svg>
-                            </div>
-                            <span class="">{{__('CVs')}}</span>
-                        </a>
-                        <div class="collapse {{ $showJobPostManagement ?? '' }}" id="cvs"
-                             data-bs-parent="#sidebarMenu">
-                            <ul class="zSidebar-submenu">
-
-                                @if (auth('alumni')->user()->role_id == USER_ROLE_ADMIN)
-                                    <li><a class="{{ $activePendingJobPostList ?? '' }}"
-                                           href="{{ route('alumni.jobs.pending') }}">{{ __('Pending Post') }}</a>
-                                    </li>
-                                @endif
-                                <li><a href="{{ route('alumni.profile.index') }}" class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">{{ __('Profile') }}</a>
-                                </li>
-                                <li><a class="{{ $activeMyJobPostList ?? '' }}"
-                                       href="{{ route('alumni.cvs.all') }}">{{ __('Manage CVs') }}</a></li>
-                                <li><a class="{{ $activeAllJobPostList ?? '' }}"
-                                       href="{{ route('alumni.cvs.create') }}">{{ __('Create Cv') }}</a></li>
-                                <li><a class="{{ $activeAllJobPostList ?? '' }}"
-                                       href="{{ route('alumni.images') }}">{{ __('Graduation Images') }}</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <a href="#recommendation_menu" data-bs-toggle="collapse" role="button"
-                           aria-expanded="{{ isset($showCvManagement) ? 'true' : '' }}" aria-controls="cvs"
-                           class="d-flex align-items-center cg-10 {{ isset($showCvManagement) ? 'active' : 'collapsed' }}">
-                            <div class="d-flex">
-                                <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="5.20801" y="5.11185" width="14.5833" height="17.7083" rx="2"
-                                          stroke="white" stroke-opacity="0.7" stroke-width="1.5"/>
-                                    <path d="M9.375 10.3202H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                          stroke-linecap="round"/>
-                                    <path d="M9.375 14.4868H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                          stroke-linecap="round"/>
-                                    <path d="M9.375 18.6535H13.5417" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                          stroke-linecap="round"/>
-                                </svg>
-                            </div>
-                            <span class="">{{__('Recommendation')}}</span>
-                        </a>
-                        <div class="collapse {{ $showJobPostManagement ?? '' }}" id="recommendation_menu"
-                             data-bs-parent="#sidebarMenu">
-                            <ul class="zSidebar-submenu">
-
-                                <li><a class="d-flex align-items-center cg-10" href="{{ route('alumni.recommendation.index') }}">{{ __('list') }}</a>
-                                </li>
-                                <li><a class="d-flex align-items-center cg-10"  href="{{ route('alumni.recommendation.create') }}">{{ __('Create') }}</a>
-                                </li>
-
-
-                            </ul>
-                        </div>
-                    </li>
-
-
                 @endif
 
 
