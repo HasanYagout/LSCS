@@ -1,145 +1,105 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Poppins', sans-serif;
-    }
-</style>
+    <meta charset="UTF-8">
+    <title>CV</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            font-size: 14px;
+        }
+        .container {
+            display: flex;
+        }
+        .left, .right {
+            padding: 20px;
+        }
+        .left {
+            width: 35%;
+            background-color: #002a5c;
+            color: white;
+            padding: 20px;
+        }
+        .right {
+            width: 65%;
+            background-color: #f1a527;
+            padding: 20px;
+        }
+        .left h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        .left h2 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        .left p, .right p {
+            margin-bottom: 10px;
+        }
+        .left hr {
+            border: 1px solid white;
+            margin: 10px 0;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .experience-item, .education-item, .language-item {
+            margin-bottom: 10px;
+        }
+        .experience-item span, .education-item span, .language-item span {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-
-
-<htmlpageheader name="myheader">
-{{--<table width="100%">--}}
-{{--<tr>--}}
-{{--<td width="50%" style="color:#0000BB; "><span style="font-weight: bold; font-size: 14pt;">Acme Trading Co.</span><br />123 Anystreet<br />Your City<br />GD12 4LP<br /><span style="font-family:dejavusanscondensed;">&#9742;</span> 01777 123 567</td>--}}
-{{--<td width="50%" style="text-align: right;">Invoice No.<br /><span style="font-weight: bold; font-size: 12pt;">0012345</span></td>--}}
-{{--</tr>--}}
-{{--</table>--}}
-</htmlpageheader>
-
-<htmlpagefooter name="myfooter">
-{{--<div style="border-top: 1px solid #000000; font-size: 9pt; text-align: center; padding-top: 3mm; ">--}}
-{{--Page {PAGENO} of {nb}--}}
-{{--</div>--}}
-</htmlpagefooter>
-
-<sethtmlpageheader name="myheader" value="on" show-this-page="1" />
-<sethtmlpagefooter name="myfooter" value="on" />
-
-
-
-<table width="100%" style="font-family: serif;" cellpadding="10">
-    <tr>
-        <td width="30%" style="border: 0.1mm solid #888888;background-color: #003147 ">
-            <table  style="font-family: serif; " cellpadding="10">
-                <tr style="width: 100%">
-                <tr>
-                    <td>
-                        <span style="font-size: 50px; color: white">{{$cv->first_name}}<br>{{$cv->last_name}}</span>
-                    </td>
-                    <hr>
-                </tr>
-                <tr>
-                    <td><span style="font-size: 30px; color: white; font-weight: bold">
-                            Contact Info
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Phone:
-                        <span>{{$cv->phone}}</span></td>
-                </tr>
-                <tr>
-                    <td>Email:
-                        <i class="fas fa-envelope"></i>
-                        <i class="fas fa-envelope"></i>
-                        <i class="fas fa-envelope"></i>
-
-                        <span>{{$cv->email}}</span></td>
-
-                </tr>
-                <tr>
-                    <td>Address:
-                    {{$cv->address}}</td>
-                </tr>
-
-                <tr>
-                    <td style="color: white; font-weight: bold">Education</td>
-                </tr>
-                @foreach(json_decode($cv->education) as $education)
-                    <tr style="margin: 0; padding: 0">
-                        <td style="margin: 0; padding: 0">{{$education->start_date.' -- '.$education->end_date}}</td>
-                    </tr>
-
-                    <tr style="margin: 0; padding: 0">
-                        <td style="margin: 0; padding: 0">{{$education->title}}</td>
-                    </tr>
-                    <tr style="margin: 0; padding: 0">
-                        <td style="margin: 0; padding: 0">{{$education->name}}</td>
-                    </tr>
-
-                @endforeach
-                <tr>
-                    <td style="color: white; font-weight: bold">Language</td>
-                </tr>
-                @foreach(json_decode($cv->languages) as $language)
-
-                    <tr style="margin: 0; padding: 0">
-                        <td style="margin: 0; padding: 0">{{$language->name}}</td>
-
-                    </tr>
-
-                    <tr style="margin: 0; padding: 0">
-                        <td style="margin: 0; padding: 0">{{$language->level}}</td>
-                    </tr>
-
-
-                @endforeach
-
-
-
-            </table>
-    </td>
-        <td width="45%" style="border: 0.1mm solid #888888;">
-            <table>
-                <tr>
-                    <td>Profile</td>
-                </tr>
-                <tr>
-                    {!! $cv->profile !!}
-                </tr>
-
-                <tr>
-                    <li>
-                        Experience
-                    </li>
-                </tr>
-                <table>
-                        @foreach(json_decode($cv->experience) as $experience)
-                    <tr>
-                            <td>
-                                {{$experience->start_date.' -- '.$experience->end_date}}<br>
-                                <span>{{$experience->company}}</span>
-                                {{$experience->position}}<br>
-                                <span>{{$experience->details}}</span>
-                            </td>
-
-                    </tr>
-                        @endforeach
-
-{{dd('adaad')}}
-
-                </table>
-
-            </table>
-        </td>
-    </tr>
-
-</table>
+<div class="container">
+    <div class="left">
+        <h1>{{$cv->first_name}} {{$cv->last_name}}</h1>
+        <hr>
+        <h2>Contact Info</h2>
+        <p>Phone: {{$cv->phone}}</p>
+        <p>Email: {{$cv->email}}</p>
+        <p>Address: {{$cv->address}}</p>
+        <hr>
+        <h2>Education</h2>
+        @foreach(json_decode($cv->education) as $education)
+            <div class="education-item">
+                <span>{{$education->start_date}} - {{$education->end_date}}</span>
+                <span>{{$education->title}}</span>
+                <span>{{$education->name}}</span>
+            </div>
+        @endforeach
+        <hr>
+        <h2>Languages</h2>
+        @foreach(json_decode($cv->languages) as $language)
+            <div class="language-item">
+                <span>{{$language->name}}</span>
+                <span>{{$language->level}}</span>
+            </div>
+        @endforeach
+    </div>
+    <div class="right">
+        <div class="section-title">Profile</div>
+        <p>{!! $cv->profile !!}</p>
+        <hr>
+        <div class="section-title">Experience</div>
+        @foreach(json_decode($cv->experience) as $experience)
+            <div class="experience-item">
+                <span>{{$experience->start_date}} - {{$experience->end_date}}</span>
+                <span>{{$experience->company}}</span>
+                <span>{{$experience->position}}</span>
+                <span>{{$experience->details}}</span>
+            </div>
+        @endforeach
+    </div>
+{{--    {{dd('dsadsa')}}--}}
+</div>
 </body>
 </html>
