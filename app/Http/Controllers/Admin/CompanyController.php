@@ -30,7 +30,6 @@ class CompanyController extends Controller
         if ($request->ajax()) {
             $companies = Company::orderBy('id','desc')->get();
 
-
             return datatables($companies)
                 ->addIndexColumn()
                 ->addColumn('name', function ($data) {
@@ -55,22 +54,13 @@ class CompanyController extends Controller
                 })
 
                 ->addColumn('action', function ($data) {
-                    if(auth('admin')->user()->role_id == USER_ROLE_ADMIN){
                         return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                                 <li class="d-flex gap-2">
                                     <a href="' . route('admin.company.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
                                 </li>
                             </ul>';
-                    }else{
-                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                    <li class="d-flex gap-2">
-                        <a href="' . route('company.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
-                    </li>
-                </ul>';
-                    }
 
                 })
-
                 ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'status', 'application_deadline'])
                 ->make(true);
         }

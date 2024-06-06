@@ -6,7 +6,7 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30" style="margin-left:250px;">
+    <div class="p-30">
         <div class="">
             <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{$title}}</h4>
             <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
@@ -24,7 +24,7 @@
               <!-- Image -->
               <div class="bd-one bd-c-1b1c17 bd-ra-20 overflow-hidden mb-25">
                 <!-- Image minimum size 1600*430  -->
-                <img class="w-100" src="{{getFileUrl($notice->image)}}" alt="">
+                <img class="w-100" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/notice').'/'.$notice->image}}" alt="">
               </div>
               <div>
                 <!-- Info -->

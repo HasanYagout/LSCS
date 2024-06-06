@@ -57,18 +57,17 @@
     @endphp
     <div class="container mt-5">
         <div class="row">
-            @foreach($jobs as $job)
+            @foreach($appliedJobs as $jobs)
                 <div class="col-lg-6">
                     <div class="job-card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center">
-                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/').'/'.$job->posted_by.'/'.$job->company->image}}" class="rounded-circle mr-3" alt="Company Logo">
+                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/').'/'.$jobs->job->posted_by.'/'.$jobs->company->image}}" class="rounded-circle mr-3" alt="Company Logo">
                                 <div>
-                                    <h5 class="mb-0">{{$job->company->name}}</h5>
-                                    <small class="text-muted">{{$job->title}}</small>
+                                    <h5 class="mb-0">{{$jobs->company->name}}</h5>
+                                    <small class="text-muted">{{$jobs->job->title}}</small>
                                 </div>
                             </div>
-                            <a href="{{route('alumni.jobs.details',$job->slug)}}" class="btn btn-apply">Apply now</a>
                         </div>
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center">

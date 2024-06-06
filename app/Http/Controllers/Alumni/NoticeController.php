@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 
 class NoticeController extends Controller
 {
-    public function allNotice(){
+    public function index(){
         $data['title']= 'All Notices';
-        $data['Allnotice']= Notice::all();
+        $data['Allnotice']= Notice::paginate(10);
         return view('alumni.notice.all-notice', $data);
     }
 
