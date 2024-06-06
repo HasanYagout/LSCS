@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @push('title')
     {{ $title }}
 @endpush

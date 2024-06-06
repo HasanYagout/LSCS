@@ -28,7 +28,10 @@ class CompanyController extends Controller
     {
 
         if ($request->ajax()) {
-            $companies = Company::orderBy('id','desc')->get();
+            $companies = Company::where('status',STATUS_ACTIVE)
+                ->orWhere('status',STATUS_ACTIVE)
+                ->orderBy('id','desc')
+                ->get();
 
             return datatables($companies)
                 ->addIndexColumn()
@@ -70,6 +73,49 @@ class CompanyController extends Controller
         return view('admin.company.all', $data);
     }
 
+    public function pending(Request $request)
+    {
+        if ($request->ajax()) {
+            $companies = Company::where('status',STATUS_INACTIVE)->orderBy('id','desc')->get();
+            return datatables($companies)
+                ->addIndexColumn()
+                ->addColumn('name', function ($data) {
+                    return $data->name;
+                })
+                ->addColumn('email',function($data){
+                    return $data->email;
+                })
+                ->addColumn('phone',function($data){
+                    return $data->phone;
+                })
+                ->addColumn('status', function ($data) {
+                    $checked = $data->status ? 'checked' : '';
+                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                <li class="d-flex gap-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
+                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
+                    </div>
+                </li>
+            </ul>';
+                })
+
+                ->addColumn('action', function ($data) {
+                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                                <li class="d-flex gap-2">
+                                    <a href="' . route('admin.company.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+                                </li>
+                            </ul>';
+
+                })
+                ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'status', 'application_deadline'])
+                ->make(true);
+        }
+        $data['title'] = __('All Companies');
+        $data['showCompanyManagement'] = 'show';
+        $data['activeAllJobPostList'] = 'active-color-one';
+        return view('admin.company.pending', $data);
+    }
     public function update(Request $request, $id)
     {
         $company = Company::with('jobs')->find($id);

@@ -31,7 +31,7 @@ class   JobsController extends Controller
     public function add(Request $request)
     {
         $jobPost = new JobPost();
-        if (JobPost::where('slug', getSlug($request->title))->withTrashed()->count() > 0) {
+        if (JobPost::where('slug', getSlug($request->title))->count() > 0) {
             $slug = getSlug($request->title) . '-' . rand(100000, 999999);
         } else {
             $slug = getSlug($request->title);
@@ -42,16 +42,16 @@ class   JobsController extends Controller
         $jobPost->salary = $request->salary;
         $jobPost->location = $request->location;
         $jobPost->post_link = $request->post_link;
-
         $jobPost->application_deadline = $request->application_deadline;
         $jobPost->job_responsibility = $request->job_responsibility;
         $jobPost->job_context = $request->job_context;
+        $jobPost->posted_by = 'admin';
         $jobPost->educational_requirements = $request->educational_requirements;
         $jobPost->additional_requirements = $request->additional_requirements;
         $jobPost->employee_status = $request->employee_status;
         $jobPost->status = JOB_STATUS_PENDING;
-        $jobPost->tenant_id = getTenantId();
         $jobPost->user_id = auth('admin')->id();
+        $jobPost->save();
     }
 
     public function myJobPost(Request $request)
@@ -69,7 +69,18 @@ class   JobsController extends Controller
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
         return view('admin.jobs.edit-form', $data);
     }
+    public function toggleStatus(Request $request,$id)
+    {
+        $job = JobPost::with('company')->find($id);
+        if ($job) {
+            $job->status = $request->status;
+            $job->save();
 
+            return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Company not found.']);
+    }
     public function update(JobPostRequest $request, $slug)
     {
         return $this->jobPostService->update($slug, $request);
@@ -105,16 +116,28 @@ class   JobsController extends Controller
 //                    $url = route('admin.company.detail', $companyId); // Generate the URL for the company show route
                     return '<a class="text-f1a527" href="'.route('admin.company.details',$data->company->slug).'" >'.$data->company->name.'</a>';
                 })
-            ->addColumn('employee_status', function ($data) {
-                return $data->employee_status;
-            })
-            ->addColumn('salary', function ($data) {
-                return htmlspecialchars($data->salary);
-            })
+
+//            ->addColumn('salary', function ($data) {
+//                return htmlspecialchars($data->salary);
+//            })
             ->addColumn('application_deadline', function ($data) {
                return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
             })
+                ->addColumn('posted_by', function ($data) {
+                        return '<span class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-0fa958 bg-0fa958-10">'.__($data->posted_by).'</span>';
 
+                })
+                ->addColumn('status', function ($data) {
+                    $checked = $data->status ? 'checked' : '';
+                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                <li class="d-flex gap-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
+                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
+                    </div>
+                </li>
+            </ul>';
+                })
                 ->addColumn('action', function ($data) {
                     if(auth('admin')->user()->role_id == USER_ROLE_ADMIN){
                         return '<ul class="d-flex align-items-center cg-5 justify-content-center">
@@ -132,7 +155,7 @@ class   JobsController extends Controller
 
                 })
 
-                ->rawColumns(['company_logo', 'company','action', 'title', 'employee_status','action', 'salary', 'application_deadline'])
+                ->rawColumns(['company_logo','status', 'posted_by','company','action', 'title', 'employee_status','action', 'salary', 'application_deadline'])
                 ->make(true);
         }
         $data['title'] = __('All Job Post');

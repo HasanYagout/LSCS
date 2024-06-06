@@ -69,7 +69,7 @@
                             @endphp
                             <p class="card-text news-card-text">{{$formattedDate}}</p>
                             <h5 class="card-title news-card-title">{!! Str::limit($event->description, 150, '...'); !!}</h5>
-                            <a href="#" class="btn btn-read-more">Read More</a>
+                            <a href="{{route('alumni.event.details',$event->slug)}}" class="btn btn-read-more">Read More</a>
                         </div>
                     </div>
                 </div>

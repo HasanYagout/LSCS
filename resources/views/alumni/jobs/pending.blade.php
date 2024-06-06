@@ -62,9 +62,10 @@
                     <div class="job-card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <div class="d-flex align-items-center">
-                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/').'/'.$jobs->job->posted_by.'/'.$jobs->company->image}}" class="rounded-circle mr-3" alt="Company Logo">
+
+                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/').'/'.$jobs->job->posted_by.'/'.$jobs->job->company->image}}" class="rounded-circle mr-3" alt="Company Logo">
                                 <div>
-                                    <h5 class="mb-0">{{$jobs->company->name}}</h5>
+                                    <h5 class="mb-0">{{$jobs->job->company->name}}</h5>
                                     <small class="text-muted">{{$jobs->job->title}}</small>
                                 </div>
                             </div>

@@ -22,20 +22,19 @@ class JobPostService
     }
 
     public function getMyJobPostList(){
-        $features = JobPost::where('tenant_id', getTenantId())->where('user_id', auth()->id())->orderBy('id','desc')->get();
+        $features = JobPost::where('user_id', auth('admin')->id())
+            ->where('posted_by','admin')
+            ->orderBy('id','desc')->get();
         return datatables($features)
             ->addIndexColumn()
             ->addColumn('company_logo', function ($data) {
-                return '<img src="' . getFileUrl($data->company_logo) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                return '<img src="' . asset('public/storage/company').'/'.$data->company->image . '" alt="icon" class="rounded avatar-xs max-h-35">';
             })
             ->addColumn('title', function ($data) {
                 return htmlspecialchars($data->title);
             })
             ->addColumn('employee_status', function ($data) {
-                return $this->getEmployeeStatusById($data->employee_status);
-            })
-            ->addColumn('salary', function ($data) {
-                return htmlspecialchars($data->salary);
+                return $data->employee_status;
             })
             ->addColumn('application_deadline', function ($data) {
                return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
@@ -53,13 +52,13 @@ class JobPostService
             ->addColumn('action', function ($data) {
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
-                        <button onclick="getEditModal(\'' . route('jobPost.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                        <button onclick="getEditModal(\'' . route('admin.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
                             <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                         </button>
-                        <button onclick="deleteItem(\'' . route('jobPost.delete', $data->slug) . '\', \'jobPostDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+                        <button onclick="deleteItem(\'' . route('admin.jobs.delete', $data->slug) . '\', \'jobPostDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
                             <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                         </button>
-                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+                        <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
                     </li>
                 </ul>';
             })
@@ -81,13 +80,13 @@ class JobPostService
             ->addColumn('employee_status', function ($data) {
                 return $this->getEmployeeStatusById($data->employee_status);
             })
-            ->addColumn('salary', function ($data) {
-                return htmlspecialchars($data->salary);
-            })
+
             ->addColumn('application_deadline', function ($data) {
                return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
             })
-
+            ->addColumn('status', function ($data) {
+                return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
+            })
             ->addColumn('action', function ($data) {
                 if(auth()->user()->role == USER_ROLE_ADMIN){
                     return '<ul class="d-flex align-items-center cg-5 justify-content-center">
@@ -117,11 +116,17 @@ class JobPostService
 
 
     public function getPendingJobPostList(){
-        $features = JobPost::where('tenant_id', getTenantId())->where('status',JOB_STATUS_PENDING)->orderBy('id','desc')->get();
+        $features = JobPost::where('status',JOB_STATUS_APPROVED)->orderBy('id','desc')->get();
         return datatables($features)
             ->addIndexColumn()
             ->addColumn('company_logo', function ($data) {
-                return '<img src="' . getFileUrl($data->company_logo) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                if ($data->posted_by=='company'){
+                return '<img src="' . asset('public/storage/company'.'/'.$data->company_logo) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                }
+                else{
+                    return '<img src="' . asset('public/storage/admin'.'/'.auth('admin')->user()->image) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+
+                }
             })
             ->addColumn('title', function ($data) {
                 return htmlspecialchars($data->title);
@@ -148,13 +153,8 @@ class JobPostService
             ->addColumn('action', function ($data) {
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
-                        <button onclick="getEditModal(\'' . route('admin.jobPost.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                        </button>
-                        <button onclick="deleteItem(\'' . route('admin.jobPost.delete', $data->slug) . '\', \'jobPostPendingdataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                            <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                        </button>
-                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+
+                        <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
                     </li>
                 </ul>';
             })

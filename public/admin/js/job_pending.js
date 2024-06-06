@@ -1,6 +1,6 @@
 (function ($) {
     "use strict";
-    var table = $("#jobPostAlldataTable").DataTable({
+    var table = $("#jobPostPendingdataTable").DataTable({
         pageLength: 10,
         ordering: false,
         serverSide: true,
@@ -27,11 +27,10 @@
         dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"d-flex align-items-center cg-5"<"tableSearch float-start"f><"z-filter-button">>><"col-sm-6"<"tableLengthInput float-end"l>><"col-sm-12"<"z-filter-block">>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
         columns: [
             { "data": "company_logo", "name": "job.company_logo", responsivePriority: 1 },
-            { "data": "company", "name": "job.company_logo", responsivePriority: 1 },
             { "data": "title", "name": "job.title", responsivePriority: 1 },
+            { "data": "employee_status", "name": "job.employee_status", responsivePriority: 1 },
             // { "data": "salary", "name": "job.salary", responsivePriority: 2 },
             { "data": "application_deadline", "name": "job.application_deadline", responsivePriority: 3 },
-            { "data": "posted_by", "name": "job.application_deadline", responsivePriority: 3 },
             { "data": "status", "name": "job.application_deadline", responsivePriority: 3 },
             { "data": "action", "name": "job.action"},
             // { "data": "major", "name": "student.major" },
@@ -57,14 +56,9 @@
 		</button>`);
         },
     });
-    $(document).on('change', '.toggle-status', function(e) {
-        var $switch = $(this);
-        var jobId = $switch.data('id');
-        var newStatus = $switch.is(':checked') ? 1 : 0;
-        var updateUrl = $('#job-post-update-route').val().replace(':id', jobId);
-
+    $(document).on('click','.editStudent',function(e){
         Swal.fire({
-            title: 'Sure! You want to change the status?',
+            title: 'Sure! You want to change the status to Alumni?',
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
@@ -74,31 +68,31 @@
         }).then((result) => {
             if (result.value) {
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                var buttonValue = $('.editStudent').val();
                 $.ajax({
-                    url: updateUrl,
-                    method: 'POST',
+                    type: 'POST',
+                    url: 'students/update',
                     data: {
-                        _token: csrfToken,
-                        status: newStatus
+                        // 'selectedStatus':selectedStatus,
+                        // 'alumniUserId':alumniUserId,
+                        '_token':csrfToken,
+                        'buttonValue': buttonValue // Include the button value in the data
+
                     },
-                    success: function(response) {
-                        if (response.success) {
+                    success: function (response) {
+                        if (response.status === true) {
                             toastr.success(response.message);
-                        } else {
-                            toastr.error(response.message);
                         }
-                        table.ajax.reload();
+
+                        $('#alumni-all-list-filter').DataTable().ajax.reload();
                     },
-                    error: function(error) {
-                        toastr.error(error.responseJSON.message);
-                        table.ajax.reload();
+                    error: function (error) {
+                        toastr.error(error.responseJSON.message)
                     }
-                });
-            } else {
-                // Revert the switch state if the user cancels
-                $switch.prop('checked', !newStatus);
-                table.ajax.reload();
+                })
+            }else{
+                $('#alumni-all-list-filter').DataTable().ajax.reload();
             }
-        });
-    });
+        })
+    })
 })(jQuery)
