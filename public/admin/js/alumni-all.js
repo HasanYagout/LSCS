@@ -29,7 +29,8 @@
             { data: 'last_name', name: 'last_name' },
             { data: 'graduation_year', name: 'graduation_year' },
             { data: 'major', name: 'major' },
-            { data: 'action', name: 'action', orderable: false, searchable: false }
+            { data: 'status', name: 'status', orderable: false, searchable: false },
+            { data: 'recommendation', name: 'action', orderable: false, searchable: false }
 		],
 		"initComplete": function( settings, json ) {
 			$('.z-filter-block').html($('#search-section').html());

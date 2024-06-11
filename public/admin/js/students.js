@@ -32,7 +32,7 @@
             { data: 'middle_name', name: 'middle_name', searchable: true, responsivePriority: 2 },
             { data: 'last_name', name: 'last_name', searchable: true, responsivePriority: 3 },
             { data: 'gpa', name: 'gpa', searchable: true },
-            { data: 'major', name: 'major.name', searchable: true }, // Adjusted to search by major name
+            { data: 'major', name: 'major', searchable: true ,responsivePriority: 3}, // Adjusted to search by major name
             { data: 'credits_left', name: 'credits_left', searchable: true, responsivePriority: 2 },
             { data: 'action', name: 'action', searchable: false, responsivePriority: 3 }
         ],

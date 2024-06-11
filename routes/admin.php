@@ -147,7 +147,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 // Stories route start
     Route::group(['prefix' => 'stories', 'as' => 'stories.'], function () {
         Route::get('create', [StoryController::class, 'create'])->name('create');
-        Route::get('pending', [StoryController::class, 'pending'])->name('pending');
+        Route::get('all', [StoryController::class, 'all'])->name('all');
+        Route::post('my-story', [StoryController::class, 'toggleStatus'])->name('status');
+        Route::get('status', [StoryController::class, 'my-story'])->name('my-story');
+        Route::get('active', [StoryController::class, 'active'])->name('active');
         Route::get('list', [StoryController::class, 'myStory'])->name('my-story');
         Route::post('store', [StoryController::class, 'store'])->name('store');
         Route::get('info/{slug}', [StoryController::class, 'info'])->name('info');

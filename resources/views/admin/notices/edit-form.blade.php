@@ -65,7 +65,7 @@
                     <div class="primary-form-group">
                         <div class="primary-form-group-wrap zImage-upload-details">
                             <div class="zImage-inside">
-                                <div class="d-flex pb-12"><img src="{{asset('assets/images/icon/upload-img-1.svg')}}"
+                                <div class="d-flex pb-12"><img src="{{asset('public/assets/images/icon/upload-img-1.svg')}}"
                                         alt="" /></div>
                                 <p class="fs-15 fw-500 lh-16 text-1b1c17">{{__('Drag & drop files here')}}</p>
                             </div>

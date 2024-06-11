@@ -24,36 +24,32 @@ class StoryService
         return Story::where('slug', $slug)->firstOrFail();
     }
 
-    public function allPendingList()
+    public function allActiveList()
     {
-        $pendingStory = Story::orderBy('id', 'desc')->where('status', STATUS_PENDING);
+        $pendingStory = Story::orderBy('id', 'desc')->where('status', STATUS_ACTIVE);
         return datatables($pendingStory)
             ->addIndexColumn()
             ->addColumn('thumbnail', function ($data) {
-                return '<img src="' . getFileUrl($data->thumbnail) . '" alt="icon" class="rounded avatar-xs max-h-35">';
-            })
-            ->addColumn('status', function ($data) {
-                return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-f5b40a bg-f5b40a-10">' . __("Pending") . '</p>';
+                return '<img src="' . asset('public/storage/admin/story').'/'.$data->thumbnail . '" alt="icon" class="rounded avatar-xs max-h-35">';
             })
             ->addColumn('action', function ($data) {
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
-                        <button onclick="getEditModal(\'' . route('stories.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Edit') . '">
+                        <button onclick="getEditModal(\'' . route('admin.stories.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Edit') . '">
                             <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                         </button>
-                        <button onclick="deleteItem(\'' . route('stories.delete', $data->slug) . '\', \'storyDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
+                        <button onclick="deleteItem(\'' . route('admin.stories.delete', $data->slug) . '\', \'storyDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
                             <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                         </button>
                     </li>
                 </ul>';
             })
-            ->rawColumns(['status', 'thumbnail', 'action'])
+            ->rawColumns([ 'thumbnail', 'action'])
             ->make(true);
     }
 
     public function getMyStoryList()
     {
-
         $features = Story::where('posted_by', auth('admin')->id())->orderBy('id', 'desc')->get();
 
         return datatables($features)
@@ -68,6 +64,33 @@ class StoryService
                     return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-f5b40a bg-f5b40a-10">' . __("Pending") . '</p>';
                 }
             })
+
+            ->rawColumns(['status', 'thumbnail'])
+            ->make(true);
+    }
+
+
+    public function getAllStoryList()
+    {
+
+        $features = Story::where('posted_by', auth('admin')->id())->orderBy('id', 'desc')->get();
+
+        return datatables($features)
+            ->addIndexColumn()
+            ->addColumn('thumbnail', function ($data) {
+                return '<img src="' . asset('public/storage/admin/story'.'/'.$data->thumbnail) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+            })
+            ->addColumn('status', function ($data) {
+                $checked = $data->status ? 'checked' : '';
+                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                <li class="d-flex gap-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
+                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
+                    </div>
+                </li>
+            </ul>';
+            })
             ->addColumn('action', function ($data) {
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
@@ -81,50 +104,6 @@ class StoryService
                 </ul>';
             })
             ->rawColumns(['status', 'thumbnail', 'action'])
-            ->make(true);
-    }
-
-
-    public function getAllStoryList()
-    {
-        $features = Story::where('status', JOB_STATUS_APPROVED)->orderBy('id', 'desc')->get();
-        return datatables($features)
-            ->addIndexColumn()
-            ->addColumn('company_logo', function ($data) {
-                return '<img src="' . getFileUrl($data->company_logo) . '" alt="icon" class="rounded avatar-xs max-h-35">';
-            })
-            ->addColumn('title', function ($data) {
-                return htmlspecialchars($data->title);
-            })
-            ->addColumn('salary', function ($data) {
-                return htmlspecialchars($data->salary);
-            })
-            ->addColumn('application_deadline', function ($data) {
-                return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
-            })
-            ->addColumn('action', function ($data) {
-                if (auth()->user()->role == USER_ROLE_ADMIN) {
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                                <li class="d-flex gap-2">
-                                    <button onclick="getEditModal(\'' . route('jobPost.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="' . __('Edit') . '">
-                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                                    </button>
-                                    <button onclick="deleteItem(\'' . route('jobPost.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
-                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                                    </button>
-                                    <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
-                                </li>
-                            </ul>';
-                } else {
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                    <li class="d-flex gap-2">
-                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
-                    </li>
-                </ul>';
-                }
-
-            })
-            ->rawColumns(['company_logo', 'action', 'title', 'salary', 'application_deadline'])
             ->make(true);
     }
 
@@ -177,7 +156,6 @@ class StoryService
     {
         try {
             DB::beginTransaction();
-
             // Generate a unique slug
             $slug = getSlug($request->title);
             if (Story::where('slug', $slug)->count() > 0) {
@@ -206,7 +184,7 @@ class StoryService
             ]);
 
             DB::commit();
-            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+            return response()->json(['success' => true, 'message' => __(CREATED_SUCCESSFULLY)]);
         } catch (Exception $e) {
             DB::rollBack();
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));

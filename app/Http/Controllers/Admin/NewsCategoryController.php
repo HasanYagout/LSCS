@@ -31,7 +31,7 @@ class NewsCategoryController extends Controller
                 ->addIndexColumn()
                 ->addColumn('status', function ($data) {
                     if ($data->status == 1) {
-                        return '<span class="zBadge-free">Active</span>';
+                        return '<span class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-0fa958 bg-0fa958-10">Active</span>';
                     } else {
                         return '<span class="zBadge-free">Deactivate</span>';
                     }

@@ -36,7 +36,7 @@
     </style>
 @endpush
 @section('content')
-    <div class="p-30" style="margin-left:250px;">
+    <div class="p-30" >
         <section class="home-section">
             <!-- Posts -->
             <div class="home-content">

@@ -6,9 +6,9 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30" style="margin-left:250px;">
+    <div class="p-30" >
         <div>
-            <input type="hidden" id="story-pending-list-route" value="{{ route('admin.stories.pending') }}">
+            <input type="hidden" id="story-pending-list-route" value="{{ route('admin.stories.active') }}">
             <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
                 <h4 class="fs-24 fw-500 lh-34 text-black">{{ $title }}</h4>
             </div>
@@ -24,9 +24,7 @@
                             <th scope="col">
                                 <div>{{ __('Title') }}</div>
                             </th>
-                            <th scope="col">
-                                <div>{{ __('Status') }}</div>
-                            </th>
+
                             <th class="w-110 text-center" scope="col">
                                 <div>{{ __('Action') }}</div>
                             </th>
@@ -52,5 +50,5 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('alumni/js/stories.js') }}"></script>
+    <script src="{{ asset('public/admin/js/pending_stories.js') }}"></script>
 @endpush

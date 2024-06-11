@@ -6,7 +6,7 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30" style="margin-left:250px;">
+    <div class="p-30" >
         <div class="">
             <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
                 <!-- Search & Filter -->
@@ -37,14 +37,12 @@
                                 <th scope="col">
                                     <div>{{ __('Major') }}</div>
                                 </th>
-                                <th scope="col">
-                                    <div>{{ __('Location') }}</div>
-                                </th>
+
                                 <th class="min-w-150 w-110" scope="col">
                                     <div>{{ __('Change status') }}</div>
                                 </th>
                                 <th scope="col" class="text-center max-w-150 ">
-                                    <div>{{ __('Action') }}</div>
+                                    <div>{{ __('Recommendation') }}</div>
                                 </th>
                             </tr>
                         </thead>

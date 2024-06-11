@@ -678,11 +678,11 @@
                                 <li><a class="{{ $activeStoryCreate ?? '' }}"
                                        href="{{ route('admin.stories.create') }}">{{ __('Create Story') }}</a></li>
                                 <li><a class="{{ $activePendingStoryList ?? '' }}"
-                                       href="{{ route('admin.stories.pending') }}">{{ __('Pending Story') }}</a>
+                                       href="{{ route('admin.stories.active') }}">{{ __('Active Story') }}</a>
                                 </li>
                                 <li><a class="{{ $activeMyStoryList ?? '' }}"
                                        href="{{ route('admin.stories.my-story') }}">{{ __('My Story') }}</a></li>
-                                <li><a target="_blank" href="{{ route('all.stories') }}">{{ __('All Story') }}</a></li>
+                                <li><a  href="{{ route('admin.stories.all') }}">{{ __('All Story') }}</a></li>
                             </ul>
                         </div>
                     </li>

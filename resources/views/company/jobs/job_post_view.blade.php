@@ -6,7 +6,7 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30" style="margin-left:250px;">
+    <div class="p-30" >
         <div class="">
 {{--        {{dd(get_defined_vars())}}--}}
             <input type="hidden" id="job-post-list-route" value="{{ route('company.jobs.applied',['id'=>$jobPostData->id]) }}">

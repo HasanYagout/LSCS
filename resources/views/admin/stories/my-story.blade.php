@@ -8,13 +8,9 @@
     <!-- Page content area start -->
     <div class="p-30" >
         <div>
-            <input type="hidden" id="story-pending-list-route" value="{{ route('super_admin.stories.active') }}">
+            <input type="hidden" id="story-my-story-list-route" value="{{ route('admin.stories.my-story') }}">
             <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
                 <h4 class="fs-24 fw-500 lh-34 text-black">{{ $title }}</h4>
-                <button type="submit" id="add-news"
-                        class="py-10 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one"
-                        data-bs-toggle="modal" data-bs-target="#add-modal"><i class="fa fa-plus"></i>
-                    {{ __('Add New') }}</button>
             </div>
             <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
                 <!-- Table -->
@@ -23,17 +19,15 @@
                         <thead>
                         <tr>
                             <th scope="col">
-                                <div>{{ __('Image') }}</div>
+                                <div class="bg-f1a527">{{ __('Image') }}</div>
                             </th>
                             <th scope="col">
-                                <div>{{ __('Title') }}</div>
+                                <div class="bg-f1a527">{{ __('Title') }}</div>
                             </th>
                             <th scope="col">
-                                <div>{{ __('Status') }}</div>
+                                <div class="bg-f1a527">{{ __('Status') }}</div>
                             </th>
-                            <th class="w-110 text-center" scope="col">
-                                <div>{{ __('Action') }}</div>
-                            </th>
+
                         </tr>
                         </thead>
                     </table>
@@ -56,5 +50,5 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('alumni/js/stories.js') }}"></script>
+    <script src="{{ asset('public/admin/js/my-story.js') }}"></script>
 @endpush

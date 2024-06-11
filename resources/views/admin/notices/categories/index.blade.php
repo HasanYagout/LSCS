@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- Page content area start -->
-<div class="p-30" style="margin-left:250px;">
+<div class="p-30" >
     <div>
         <input type="hidden" id="notice-list-route" value="{{ route('admin.notices.categories.index') }}">
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
