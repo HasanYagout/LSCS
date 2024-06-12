@@ -69,7 +69,7 @@ class EventController extends Controller
         }
         return view('admin.event.pending.index', $data);
     }
-    public function store(Request $request)
+    public function store(EventRequest $request)
     {
        return $this->eventService->store($request);
 
