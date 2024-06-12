@@ -36,7 +36,7 @@
             },
             success: function(response) {
                 if (response.success) {
-                    alert('Status updated successfully');
+                    toastr.success('Status Changed Successfully');
                 } else {
                     alert('Failed to update status');
                 }

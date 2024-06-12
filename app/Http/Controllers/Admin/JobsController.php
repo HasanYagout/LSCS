@@ -105,7 +105,13 @@ class   JobsController extends Controller
             return datatables($jobs)
                 ->addIndexColumn()
                 ->addColumn('company_logo', function ($data) {
-                    return '<img src="' . asset('public/storage/company').'/'.$data->company->image . '" onerror="this.onerror=null;this.src=\''.asset('public/assets/images/no-image.jpg').'\';" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                    if ($data->posted_by=='company'){
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                    }
+                    else{
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . auth('admin')->user()->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+
+                    }
                 })
             ->addColumn('title', function ($data) {
                 return htmlspecialchars($data->title);
@@ -148,7 +154,7 @@ class   JobsController extends Controller
                                     <button onclick="deleteItem(\'' . route('admin.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
                                         <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                                     </button>
-                                    <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+                                    <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
                                 </li>
                             </ul>';
                     }

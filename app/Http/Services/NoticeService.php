@@ -118,7 +118,7 @@ class NoticeService
             if ($request->hasFile('image')) {
                 // Get the original file extension
                 $extension = $request->image->getClientOriginalExtension();
-                Storage::delete('public/admin/notice/' . $request->image);
+                Storage::delete('public/admin/notice/' . $notice->image);
 
                 // Generate the new file name
                 $date = Carbon::now()->format('Ymd');

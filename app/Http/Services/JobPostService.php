@@ -58,7 +58,7 @@ class JobPostService
                         <button onclick="deleteItem(\'' . route('admin.jobs.delete', $data->slug) . '\', \'jobPostDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
                             <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                         </button>
-                        <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+                        <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
                     </li>
                 </ul>';
             })
@@ -97,13 +97,13 @@ class JobPostService
                                     <button onclick="deleteItem(\'' . route('jobPost.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
                                         <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                                     </button>
-                                    <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+                                    <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
                                 </li>
                             </ul>';
                 }else{
                     return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
-                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
                     </li>
                 </ul>';
                 }
@@ -121,10 +121,10 @@ class JobPostService
             ->addIndexColumn()
             ->addColumn('company_logo', function ($data) {
                 if ($data->posted_by=='company'){
-                return '<img src="' . asset('public/storage/company'.'/'.$data->company_logo) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                    return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
                 }
                 else{
-                    return '<img src="' . asset('public/storage/admin'.'/'.auth('admin')->user()->image) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                    return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . auth('admin')->user()->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
 
                 }
             })
@@ -150,15 +150,7 @@ class JobPostService
                 }
             })
 
-            ->addColumn('action', function ($data) {
-                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                    <li class="d-flex gap-2">
-
-                        <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
-                    </li>
-                </ul>';
-            })
-            ->rawColumns(['status', 'company_logo', 'action', 'title', 'employee_status', 'salary', 'application_deadline'])
+            ->rawColumns(['status', 'company_logo', 'title', 'employee_status', 'salary', 'application_deadline'])
             ->make(true);
     }
 
@@ -210,7 +202,7 @@ class JobPostService
         DB::beginTransaction();
         try {
 
-            if (JobPost::where('slug', getSlug($request->title))->where('slug', '!=', $oldSlug)->where('tenant_id', getTenantId())->withTrashed()->count() > 0) {
+            if (JobPost::where('slug', getSlug($request->title))->where('slug', '!=', $oldSlug)->count() > 0) {
                 $slug = getSlug($request->title) . '-' . rand(100000, 999999);
             } else {
                 $slug = getSlug($request->title);
@@ -238,8 +230,8 @@ class JobPostService
             }
             $jobPost->save();
             DB::commit();
-            $message = getMessage(UPDATED_SUCCESSFULLY);
-            return $this->success([], $message);
+            session()->flash('success','Job updated successfully');
+            return redirect()->route('admin.jobs.all-job-post');
         } catch (Exception $e) {
             DB::rollBack();
             $message = getErrorMessage($e, $e->getMessage());

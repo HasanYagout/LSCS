@@ -32,7 +32,7 @@
             // { "data": "salary", "name": "job.salary", responsivePriority: 2 },
             { "data": "application_deadline", "name": "job.application_deadline", responsivePriority: 3 },
             { "data": "status", "name": "job.application_deadline", responsivePriority: 3 },
-            { "data": "action", "name": "job.action"},
+            // { "data": "action", "name": "job.action"},
             // { "data": "major", "name": "student.major" },
             // { "data": "credits_left", searchable: false, responsivePriority: 2},
             // { "data": "action", searchable: false, responsivePriority: 3 },

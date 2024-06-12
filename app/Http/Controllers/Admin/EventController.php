@@ -108,6 +108,7 @@ class EventController extends Controller
 
     public function delete($id)
     {
+
         return $this->eventService->deleteById($id);
     }
 }
