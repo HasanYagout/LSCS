@@ -10,7 +10,7 @@ class News extends Model
 
     protected  $table = 'news';
 
-    protected $fillable = ['tenant_id', 'title', 'description', 'status'];
+    protected $fillable = ['tenant_id', 'title', 'description', 'status','image'];
 
 
     public function author(){

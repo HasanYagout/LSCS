@@ -25,7 +25,7 @@ class NewsRequest extends FormRequest
     public function rules()
     {
         $id=!is_null($this->id)?$this->id : null;
-        $rules = [
+        return [
             'title' => [
                 'bail',
                 'required',
@@ -33,8 +33,5 @@ class NewsRequest extends FormRequest
             'category_id' => 'required',
             'details' => 'required',
         ];
-
-
-        return $rules;
     }
 }

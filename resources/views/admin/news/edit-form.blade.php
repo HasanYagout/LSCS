@@ -1,4 +1,4 @@
-<form class="ajax reset" action="{{ route('admin.news.update', $news->id) }}" method="post"
+<form class="ajax reset" action="{{ route('admin.news.update', $news->id) }}" method="post" enctype="multipart/form-data"
     data-handler="commonResponseForModal">
     @csrf
     <div class="modal-body zModalTwo-body model-lg">

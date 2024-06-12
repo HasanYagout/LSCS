@@ -71,27 +71,7 @@ class EventController extends Controller
     }
     public function store(Request $request)
     {
-        $event = new Event();
-        $event->event_category_id = $request->event_category_id;
-        $event->title = $request->title;
-        $event->slug = getSlug($request->title) . '-' . rand(100000, 999999);
-
-// Generate the new filename
-        $date = now()->format('Ymd');
-        $randomSlug = Str::random(6);
-        $randomNumber = rand(100000, 999999);
-        $newFilename = "{$date}_{$randomSlug}_{$randomNumber}.{$request->file('thumbnail')->getClientOriginalExtension()}";
-
-// Move the file to the specified directory
-        $request->file('thumbnail')->storeAs('public/admin/events', $newFilename);
-
-        $event->thumbnail = $newFilename;
-        $event->date = $request->date;
-        $event->description = $request->description;
-        $event->user_id = auth('admin')->id();
-        $event->save();
-        return $this->success([], getMessage(CREATED_SUCCESSFULLY));
-
+       return $this->eventService->store($request);
 
     }
     public function details($slug)

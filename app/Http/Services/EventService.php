@@ -8,6 +8,7 @@ use App\Traits\ResponseTrait;
 use App\Models\FileManager;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class EventService
 {
@@ -107,44 +108,49 @@ class EventService
     {
         try {
             DB::beginTransaction();
-            if (Event::where('slug', getSlug($request->title))->where('tenant_id', getTenantId())->withTrashed()->count() > 0) {
+
+            // Check if an event with the same slug exists
+            if (Event::where('slug', getSlug($request->title))->count() > 0) {
                 $slug = getSlug($request->title) . '-' . rand(100000, 999999);
             } else {
                 $slug = getSlug($request->title);
             }
+
+            // Create a new Event model instance
             $event = new Event();
-            $event->title = $request->title;
+
+            // Assign values to the event model's properties
             $event->event_category_id = $request->event_category_id;
+            $event->title = $request->title;
             $event->slug = $slug;
-            $event->date = date("Y-m-d H:i:s", strtotime($request->date));
-            $event->type = $request->type;
-            $event->location = $request->location;
-            if($request->type == EVENT_TYPE_PAID){
-                $event->price = $request->price;
-            }
-            $event->number_of_ticket = $request->number_of_ticket;
-            $event->number_of_ticket_left = $request->number_of_ticket;
+            // Generate the new filename for the thumbnail
+            $date = now()->format('Ymd');
+            $randomSlug = Str::random(6);
+            $randomNumber = rand(100000, 999999);
+            $newFilename = "{$date}_{$randomSlug}_{$randomNumber}.{$request->file('thumbnail')->getClientOriginalExtension()}";
+
+            // Store the thumbnail file
+            $request->file('thumbnail')->storeAs('public/admin/events', $newFilename);
+            $event->thumbnail = $newFilename;
+
+            // Assign other values to the event model's properties
+            $event->date = $request->date;
             $event->description = $request->description;
-            $event->user_id = auth()->id();
-            $event->tenant_id = getTenantId();
+            $event->user_id = auth('admin')->id();
 
-            if ($request->hasFile('thumbnail')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('event', $request->thumbnail);
-                $event->thumbnail = $uploaded->id;
-            }
-
-            if ($request->hasFile('ticket_image')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('event', $request->ticket_image);
-                $event->ticket_image = $uploaded->id;
-            }
-
+            // Save the event model to the database
             $event->save();
+
             DB::commit();
-            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+
+            // Flash a success message to the session
+            session()->flash('success', 'Event has been created.');
+
+            // Redirect to a specific route or action
+            return redirect()->route('admin.event.all');
         } catch (Exception $e) {
             DB::rollBack();
+            // Handle the error case
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
         }
     }

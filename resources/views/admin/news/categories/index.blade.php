@@ -64,6 +64,7 @@
                                 <div class="primary-form-group-wrap">
                                   <label for="BatchName" class="form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
                                   <select class="primary-form-control sf-select-without-search" id="BatchName" name="status">
+                                    <option value="">Select</option>
                                     <option value="1">{{ __('Active') }}</option>
                                     <option value="0">{{ __('Deactive') }}</option>
                                   </select>

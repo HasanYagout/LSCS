@@ -41,7 +41,8 @@ class EventCategoryService
             $eventCategory->name = $request->name;;
             $eventCategory->save();
             DB::commit();
-            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+            session()->flash('success', 'Event Category has been created.');
+            return redirect()->route('admin.eventCategory.index');
         } catch (Exception $e) {
             DB::rollBack();
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
@@ -56,8 +57,8 @@ class EventCategoryService
             $newsCategory->name = $request->name;
             $newsCategory->save();
             DB::commit();
-            $message = getMessage(UPDATED_SUCCESSFULLY);
-            return $this->success([], $message);
+            session()->flash('success', 'Event Category has been updated.');
+            return redirect()->route('admin.eventCategory.index');
         } catch (Exception $e) {
             DB::rollBack();
             $message = getErrorMessage($e, $e->getMessage());
@@ -74,7 +75,7 @@ class EventCategoryService
     {
         try {
             DB::beginTransaction();
-            $category = EventCategory::where('id', $id)->where('tenant_id', getTenantId())->firstOrFail();
+            $category = EventCategory::where('id', $id)->firstOrFail();
             $category->delete();
             DB::commit();
             $message = getMessage(DELETED_SUCCESSFULLY);

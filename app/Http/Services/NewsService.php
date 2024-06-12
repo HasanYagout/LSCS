@@ -8,6 +8,8 @@ use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class NewsService
@@ -47,7 +49,7 @@ class NewsService
                     return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                             <li class="d-flex gap-2">
                                 <a href="'. route('admin.news.details', $data->slug) .'" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View">
-                                    <img src="' . asset('assets/images/icon/eye.svg') . '" alt="view">
+                                    <img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="view">
                                 </a>
                                 <button onclick="getEditModal(\'' . route('admin.news.info', $data->id) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
                                     <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
@@ -90,7 +92,7 @@ class NewsService
             $randomNumber = rand(1000, 9999);
             $newFileName = "{$date}_{$slug}_{$randomNumber}.{$extension}";
             // Save the file to the specified directory
-            $filePath = $request->image->storeAs('public/admin/news', $newFileName);
+            $request->image->storeAs('public/admin/news', $newFileName);
 
 
             // Get the file URL or ID depending on your file manager
@@ -108,12 +110,16 @@ class NewsService
     {
         try {
             DB::beginTransaction();
-            if (News::where('slug', getSlug($request->title))->where('id', '!=', $id)->withTrashed()->count() > 0) {
+
+            if (News::where('slug', getSlug($request->title))->where('id', '!=', $id)->count() > 0) {
                 $slug = getSlug($request->title) . '-' . rand(100000, 999999);
             } else {
                 $slug = getSlug($request->title);
             }
-            $news = News::where('id', $id)->where('tenant_id', getTenantId())->firstOrFail();
+
+            $news = News::where('id', $id)->firstOrFail();
+            $previousImage = $news->image; // Store the previous image path
+
             $news->title = $request->title;
             $news->slug = $slug;
             $news->news_category_id = $request->category_id;
@@ -121,16 +127,33 @@ class NewsService
             $news->status = $request->status;
 
             if ($request->hasFile('image')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('news', $request->image);
-                $news->image = $uploaded->id;
+                // Delete the previous image if it exists
+                if ($previousImage) {
+                    Storage::delete('public/admin/news/' . $previousImage);
+                }
+
+                // Get the original file extension
+                $extension = $request->image->getClientOriginalExtension();
+
+                // Generate the new file name
+                $date = Carbon::now()->format('Ymd');
+                $slug = Str::slug($request->title);
+                $randomNumber = rand(1000, 9999);
+                $newFileName = "{$date}_{$slug}_{$randomNumber}.{$extension}";
+
+                // Save the file to the specified directory
+                $request->image->storeAs('public/admin/news', $newFileName);
+
+                // Get the file URL or ID depending on your file manager
+                $news->image = $newFileName; // Assuming you want to save the file path
             }
-
             $news->save();
-            $news->tags()->sync($request->tag_ids);
-
             DB::commit();
-            return $this->success([], getMessage(UPDATED_SUCCESSFULLY));
+
+            session()->flash('success', 'News updated successfully.');
+
+            // Redirect to a specific route or action
+            return Redirect::route('admin.news.index');
         } catch (Exception $e) {
             DB::rollBack();
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
@@ -156,6 +179,7 @@ class NewsService
     {
         try {
             $news = News::where('id', $id)->firstOrFail();
+            Storage::delete('public/admin/news/' . $news->image);
             $news->delete();
             DB::beginTransaction();
             DB::commit();

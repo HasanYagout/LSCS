@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\admin\CreateStoryRequest;
 use App\Http\Requests\StoryRequest;
 use App\Http\Services\StoryService;
 use App\Models\Story;
@@ -23,7 +24,6 @@ class StoryController extends Controller
     }
     public function myStory(Request $request)
     {
-
         if ($request->ajax()) {
             return $this->storyService->getMyStoryList();
         }
@@ -59,12 +59,10 @@ class StoryController extends Controller
         $data['activePendingStoryList'] = 'active-color-one';
         return view('admin.stories.active', $data);
     }
-    public function store(Request $request)
+    public function store(CreateStoryRequest $request)
     {
 
         return $this->storyService->store($request);
-
-
     }
     public function info($slug)
     {

@@ -48,7 +48,7 @@ class LoginController extends Controller
     public function submit(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required|email|exists:admins,email',
             'password' => 'required|min:6'
         ]);
 
@@ -57,9 +57,10 @@ class LoginController extends Controller
             return redirect()->back()->withInput($request->only('email', 'remember'))
                 ->withErrors(['You are blocked!!, contact with admin.']);
         }else{
-
             if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                return redirect()->route('admin.dashboard');
+                return redirect()
+                    ->route('admin.dashboard')
+                    ->with('info', 'Welcome ' . $admin->first_name);
             }
         }
 

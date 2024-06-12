@@ -1,4 +1,5 @@
 <form class="ajax reset" action="{{ route('admin.notices.update', $notice->id) }}" method="post"
+      enctype="multipart/form-data"
     data-handler="commonResponseForModal">
     @csrf
     <div class="modal-body zModalTwo-body model-lg">

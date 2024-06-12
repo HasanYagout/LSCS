@@ -9,6 +9,7 @@ use App\Models\NewsCategory;
 use App\Traits\ResponseTrait;
 use Brian2694\Toastr\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class NewsCategoryController extends Controller
 {
@@ -56,24 +57,11 @@ class NewsCategoryController extends Controller
 
     public function store(NewsCategoryRequest $request)
     {
-        // Generate the slug
-        $slug = getSlug($request->name);
-
-        // Create and save the news category
-        $newsCategory = new NewsCategory();
-        $newsCategory->name = $request->name;
-        $newsCategory->slug = $slug;
-        $newsCategory->posted_by = auth('admin')->id();
-        $newsCategory->status = $request->status;
-        $newsCategory->save();
-
+        $this->newsCategoryService->store($request);
         // Flash a success message to the session
         session()->flash('success', 'News category created successfully.');
-
         // Redirect back with a success message
         return redirect()->route('admin.news.categories.index');
-
-
     }
 
     public function info($id)
@@ -84,7 +72,13 @@ class NewsCategoryController extends Controller
 
     public function update(NewsCategoryRequest $request, $id)
     {
-        return $this->newsCategoryService->update($id, $request);
+        $newsCategory = $this->newsCategoryService->update($id, $request);
+
+        // Flash a success message to the session
+        session()->flash('success', 'News category updated successfully.');
+
+        // Redirect back with a success message
+        return redirect()->route('admin.news.categories.index');
     }
 
     public function delete($id)

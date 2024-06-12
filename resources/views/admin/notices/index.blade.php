@@ -55,7 +55,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content zModalTwo-content">
 
-            <form class="ajax reset" action="{{ route('admin.notices.store') }}" method="post"
+            <form class="ajax reset" action="{{ route('admin.notices.store') }}" method="post" enctype="multipart/form-data"
                 data-handler="commonResponseForModal">
                 @csrf
                 <div class="modal-body zModalTwo-body model-lg">
