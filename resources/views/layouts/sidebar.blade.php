@@ -889,10 +889,13 @@
                                     <a class="{{ $activeJobPostCreate ?? '' }}"
                                        href="{{ route($authenticatedGuard.'.jobs.create') }}">{{ __('Create Post') }}</a>
                                 </li>
+                                @if($authenticatedGuard=='admin')
+
                                 <li>
                                     <a class="{{ $activeMyJobPostList ?? '' }}"
                                        href="{{ route($authenticatedGuard.'.jobs.my-job-post') }}">{{ __('My Post') }}</a>
                                 </li>
+                                @endif
                             @endif
                             <li>
                                 <a class="{{ $activePendingJobPostList ?? '' }}"

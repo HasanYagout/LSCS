@@ -31,10 +31,14 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
     });
     Route::group(['namespace' => 'Profile', 'prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::get('index', [ProfileController::class,'index'])->name('index');
+        Route::get('change-password', [ProfileController::class, 'changePassword'])->name('change-password');
+        Route::post('change-password', [ProfileController::class, 'changePasswordUpdate'])->name('change-password.update')->middleware('isDemo');
+        Route::post('update', [ProfileController::class, 'update'])->name('update')->middleware('isDemo');
     });
 
     Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function () {
         Route::post('add', [JobsController::class, 'add'])->name('add');
+        Route::post('status', [JobsController::class, 'toggleStatus'])->name('status');
         Route::get('create', [JobsController::class, 'create'])->name('create');
         Route::get('/pending', [JobsController::class, 'pending'])->name('pending');
         Route::get('info/{slug}', [JobsController::class, 'info'])->name('info');
