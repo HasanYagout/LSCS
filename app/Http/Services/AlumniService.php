@@ -92,7 +92,7 @@ class AlumniService
 //                    $actionLinks .= "<li title='Email'><a href='#' class='d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white alumniEmail' data-bs-toggle='modal'  data-email='". htmlspecialchars($data->email)."' data-bs-target='#alumniEmail'><img class='max-w-14' src='". asset('assets/images/icon/email.svg')."'  w-30 h-30 alt='' /></a></li>";
 //                }
 //
-//                $actionLinks .= "<li title='".__('View Profile')."'><a href='".route('alumnus.view',['id'=>$data->id])."' target='_blank' class='d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white' ><img class='max-w-14' src='". asset('assets/images/icon/eye.svg')."' alt='' /></a></li></ul>";
+//                $actionLinks .= "<li title='".__('View Profile')."'><a href='".route('alumnus.view',['id'=>$data->id])."' target='_blank' class='d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white' ><img class='max-w-14' src='". asset('public/assets/images/icon/eye.svg')."' alt='' /></a></li></ul>";
 //
 //                return $actionLinks ;
 //            })
@@ -167,7 +167,7 @@ class AlumniService
                 }
 
 
-                $actionLinks .= "<li title='".__('View Profile')."'><a href='".route('admin.alumni.view',['id'=>$data->id])."' target='_blank' class='d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white' ><img class='max-w-14' src='". asset('assets/images/icon/eye.svg')."' alt='' /></a></li></ul>";
+                $actionLinks .= "<li title='".__('View Profile')."'><a href='".route('admin.alumni.view',['id'=>$data->id])."' target='_blank' class='d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white' ><img class='max-w-14' src='". asset('public/assets/images/icon/eye.svg')."' alt='' /></a></li></ul>";
                 return $actionLinks ;
 
             })
@@ -256,7 +256,7 @@ class AlumniService
                 if($data->show_email_in_public == STATUS_SUCCESS){
                     $actionLinks .= "<li title='Email'><a href='#' class='d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white alumniEmail' data-bs-toggle='modal'  data-email='". htmlspecialchars($data->email)."' data-bs-target='#alumniEmail'><img class='max-w-14' src='". asset('assets/images/icon/email.svg')."'  w-30 h-30 alt='' /></a></li>";
                 }
-                $actionLinks .= "<li title='".__('View Profile')."'><a href='".route('alumnus.view',['id'=>$data->id])."' target='_blank' class='d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white' ><img class='max-w-14' src='". asset('assets/images/icon/eye.svg')."' alt='' /></a></li></ul>";
+                $actionLinks .= "<li title='".__('View Profile')."'><a href='".route('alumnus.view',['id'=>$data->id])."' target='_blank' class='d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white' ><img class='max-w-14' src='". asset('public/assets/images/icon/eye.svg')."' alt='' /></a></li></ul>";
                 return $actionLinks ;
             })
             ->rawColumns(['name', 'batch',  'passing_year', 'address','change_status', 'action'])

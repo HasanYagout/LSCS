@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @push('title')
     {{ __('Home') }}
 @endpush
@@ -36,7 +36,7 @@
     </style>
 @endpush
 @section('content')
-    <div class="p-30" style="margin-left:250px;">
+    <div class="p-30" >
         <section class="home-section">
             <!-- Posts -->
             <div class="home-content">
@@ -124,9 +124,9 @@
                                                 <img src="{{ asset('public/storage/admin/event').'/'.$event->thumbnail }}"
                                                     alt="{{ $event->title }}">
                                                 <ul class="tag d-flex flex-wrap cg-2 rg-5">
-                                                    <li><a
-                                                            class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ eventType($event->type) }}</a>
-                                                    </li>
+{{--                                                    <li><a--}}
+{{--                                                            class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ eventType($event->type) }}</a>--}}
+{{--                                                    </li>--}}
                                                     <li><a
                                                             class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ $event->category->name }}</a>
                                                     </li>
@@ -354,9 +354,9 @@
                                             <img src="{{ asset('public/storage/events'.'/'.$event->thumbnail) }}"
                                                 alt="{{ $event->title }}">
                                             <ul class="tag d-flex flex-wrap cg-2 rg-5">
-                                                <li><a
-                                                        class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ eventType($event->type) }}</a>
-                                                </li>
+{{--                                                <li><a--}}
+{{--                                                        class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ eventType($event->type) }}</a>--}}
+{{--                                                </li>--}}
                                                 <li><a
                                                         class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ $event->category->name }}</a>
                                                 </li>

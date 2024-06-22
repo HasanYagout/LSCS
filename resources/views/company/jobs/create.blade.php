@@ -1,15 +1,14 @@
-@extends('company.layouts.app')
+@extends('layouts.app')
 @push('title')
 {{$title}}
 @endpush
 @section('content')
-<div class="p-30" style="margin-left:250px;">
+<div class="p-30" >
     <div class="">
         <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{$title}}</h4>
         <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
             <input type="hidden" id="my-job-post-route" value="{{ route('admin.jobs.create') }}">
-            <form class="ajax reset" data-handler="commonResponseRedirect"
-                data-redirect-url="{{route('admin.jobs.my-job-post')}}" action="{{ route('company.jobs.add') }}"
+            <form class="ajax reset" data-handler="commonResponseRedirect" action="{{ route('company.jobs.add') }}"
                 method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="max-w-840">

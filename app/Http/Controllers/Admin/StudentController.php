@@ -32,7 +32,7 @@ class StudentController extends Controller
                     return $data->credits_left; // Assuming credits_left is a property of the Student model
                 })
                 ->addColumn('action', function ($data) {
-                    $checked = $data->status ? 'checked' : '';
+                    $checked = $data->is_alumni ? 'checked' : '';
                     return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
                         <div class="form-check form-switch">
@@ -62,20 +62,27 @@ class StudentController extends Controller
 
     public function update(Request $request)
     {
-        $student = Student::with('major')->where('student_id', $request->student_id)->first();
 
+        $student = Student::with('major')->where('student_id', $request->student_id)->first();
+        $student->update(['is_alumni'=>$request->status]);
         if ($student) {
-            // Add the student to the alumni table
-            $alumni = new Alumni();
-            $alumni->student_id = $student->student_id;
-            $alumni->first_name = $student->first_name;
-            $alumni->last_name = $student->last_name;
-            $alumni->phone = $student->number;
-            $alumni->gpa = $student->gpa;
-            $alumni->major = $student->major->name;
-            $alumni->graduation_year = Carbon::now()->format('o');
-            $alumni->password = Hash::make($student->student_id);
-            $alumni->save();
+            if ($request->status){
+                // Add the student to the alumni table
+                $alumni = new Alumni();
+                $alumni->student_id = $student->student_id;
+                $alumni->first_name = $student->first_name;
+                $alumni->last_name = $student->last_name;
+                $alumni->phone = $student->number;
+                $alumni->gpa = $student->gpa;
+                $alumni->major = $student->major->name;
+                $alumni->graduation_year = Carbon::now()->format('o');
+                $alumni->password = Hash::make($student->student_id);
+                $alumni->status = 1;
+                $alumni->save();
+            }
+            else{
+               Alumni::where('student_id', $student->student_id)->delete();
+            }
 
         return response()->json(['success' => true, 'message' => __('Alumni added successfully')]);
         }

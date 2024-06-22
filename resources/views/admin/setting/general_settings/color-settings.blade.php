@@ -3,7 +3,7 @@
     {{ $title }}
 @endpush
 @section('content')
-    <div class="p-30" style="margin-left:250px;">
+    <div class="p-30" >
         <div class="">
             <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{ __($title) }}</h4>
             <div class="row rg-15">
@@ -34,7 +34,7 @@
                                             <div class="primary-form-group-wrap zImage-upload-details">
                                                 <div class="zImage-inside">
                                                     <div class="d-flex pb-12"><img
-                                                            src="{{ asset('assets/images/icon/upload-img-1.svg')}}"
+                                                            src="{{ asset('public/assets/images/icon/upload-img-1.svg')}}"
                                                             alt=""/></div>
                                                     <p class="fs-15 fw-500 lh-16 text-1b1c17">{{__('Drag & drop files
                                                     here')}}</p>
@@ -65,7 +65,7 @@
                                             <div class="primary-form-group-wrap zImage-upload-details">
                                                 <div class="zImage-inside">
                                                     <div class="d-flex pb-12"><img
-                                                            src="{{ asset('assets/images/icon/upload-img-1.svg')}}"
+                                                            src="{{ asset('public/assets/images/icon/upload-img-1.svg')}}"
                                                             alt=""/>
                                                     </div>
                                                     <p class="fs-15 fw-500 lh-16 text-1b1c17">{{__('Drag & drop files
@@ -96,7 +96,7 @@
                                             <div class="primary-form-group-wrap zImage-upload-details">
                                                 <div class="zImage-inside">
                                                     <div class="d-flex pb-12"><img
-                                                            src="{{ asset('assets/images/icon/upload-img-1.svg')}}"
+                                                            src="{{ asset('public/assets/images/icon/upload-img-1.svg')}}"
                                                             alt=""/></div>
                                                     <p class="fs-15 fw-500 lh-16 text-1b1c17">{{__('Drag & drop files
                                                     here')}}</p>
@@ -127,7 +127,7 @@
                                             <div class="primary-form-group-wrap zImage-upload-details">
                                                 <div class="zImage-inside">
                                                     <div class="d-flex pb-12"><img
-                                                            src="{{ asset('assets/images/icon/upload-img-1.svg')}}"
+                                                            src="{{ asset('public/assets/images/icon/upload-img-1.svg')}}"
                                                             alt=""/></div>
                                                     <p class="fs-15 fw-500 lh-16 text-1b1c17">{{__('Drag & drop files
                                                     here')}}</p>
@@ -158,7 +158,7 @@
                                             <div class="primary-form-group-wrap zImage-upload-details">
                                                 <div class="zImage-inside">
                                                     <div class="d-flex pb-12"><img
-                                                            src="{{ asset('assets/images/icon/upload-img-1.svg')}}"
+                                                            src="{{ asset('public/assets/images/icon/upload-img-1.svg')}}"
                                                             alt=""/>
                                                     </div>
                                                     <p class="fs-15 fw-500 lh-16 text-1b1c17">{{__('Drag & drop files

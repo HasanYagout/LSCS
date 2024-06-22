@@ -3,7 +3,7 @@
 {{ $title }}
 @endpush
 @section('content')
-<div class="p-30" style="margin-left:250px;">
+<div class="p-30" >
     <!-- Start -->
     <div class="content-chat">
         <!-- Left -->

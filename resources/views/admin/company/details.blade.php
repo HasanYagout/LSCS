@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @push('title')
     {{$title}}
@@ -7,7 +7,7 @@
 @section('content')
 
     <!-- Page content area start -->
-    <div class="p-30" style="margin-left:250px;">
+    <div class="p-30">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">

@@ -38,7 +38,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('/code/captcha/{tmp}', 'LoginController@captcha')->name('default-captcha');
         Route::get('login', [LoginController::class,'login'])->name('login');
         Route::post('login',[LoginController::class,'submit']);
-        Route::post('logout', [LoginController::class,'logout'])->name('logout');
+        Route::get('logout', [LoginController::class,'logout'])->name('logout');
         Route::get('register', [LoginController::class,'register'])->name('register');
     });
     Route::get('/', function () {
@@ -60,6 +60,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('/', [CompanyController::class, 'all'])->name('all');
         Route::post('update/{company}', [CompanyController::class, 'update'])->name('update');
         Route::get('/info/{slug}', [CompanyController::class, 'details'])->name('details');
+        Route::get('pending', [CompanyController::class, 'pending'])->name('pending');
 
     });
     Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
@@ -130,6 +131,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('/pending', [JobsController::class, 'pending'])->name('pending');
         Route::get('info/{slug}', [JobsController::class, 'info'])->name('info');
         Route::post('update/{slug}', [JobsController::class, 'update'])->name('update');
+        Route::post('update/status/{company}', [JobsController::class, 'toggleStatus'])->name('update.status');
         Route::post('delete/{slug}', [JobsController::class, 'delete'])->name('delete');
         Route::get('all-job-post', [JobsController::class, 'all'])->name('all-job-post');
         Route::get('my-job-post', [JobsController::class, 'myJobPost'])->name('my-job-post');
@@ -145,7 +147,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 // Stories route start
     Route::group(['prefix' => 'stories', 'as' => 'stories.'], function () {
         Route::get('create', [StoryController::class, 'create'])->name('create');
-        Route::get('pending', [StoryController::class, 'pending'])->name('pending');
+        Route::get('all', [StoryController::class, 'all'])->name('all');
+        Route::post('my-story', [StoryController::class, 'toggleStatus'])->name('status');
+        Route::get('status', [StoryController::class, 'my-story'])->name('my-story');
+        Route::get('active', [StoryController::class, 'active'])->name('active');
         Route::get('list', [StoryController::class, 'myStory'])->name('my-story');
         Route::post('store', [StoryController::class, 'store'])->name('store');
         Route::get('info/{slug}', [StoryController::class, 'info'])->name('info');

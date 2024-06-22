@@ -55,6 +55,7 @@ class NewsController extends Controller
     public function update($id, NewsRequest $request)
     {
         return $this->newsService->update($id, $request);
+
     }
     public function details($slug){
         $data['title']= 'News Details';

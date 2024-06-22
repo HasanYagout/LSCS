@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @push('title')
     {{$title}}
@@ -7,7 +7,7 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30" style="margin-left:250px;">
+    <div class="p-30" >
         <div>
             <input type="hidden" id="students-list-route" value="{{ route('admin.students.index') }}">
             <input type="hidden" id="students-update-route" value="{{ route('admin.students.update') }}">
@@ -81,62 +81,7 @@
         </div>
     </div>
     <!-- Edit Modal section end -->
-{{--    <div id="search-section">--}}
-{{--        <div class="collapse" id="collapseExample">--}}
-{{--            <div class="alumniFilter">--}}
-{{--                <h4 class="fs-18 fw-500 lh-38 text-1b1c17 pb-10">{{__('Filter your search')}}</h4>--}}
-{{--                <div class="filterOptions">--}}
-{{--                    <div class="item">--}}
-{{--                        <div class="primary-form-group">--}}
-{{--                            <div class="primary-form-group-wrap">--}}
-{{--                                <label for="Department" class="form-label">{{__('Department')}}</label>--}}
-{{--                                <select class="sf-select-without-search primary-form-control" name='department'--}}
-{{--                                        id='department'>--}}
-{{--                                    <option selected="" value=0>{{__('All Department')}}</option>--}}
 
-{{--                                    @foreach ($majors as $major)--}}
-{{--                                        <option value="{{$major}}">{{$major}}</option>--}}
-{{--                                    @endforeach--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="item">--}}
-{{--                        <div class="primary-form-group">--}}
-{{--                            <div class="primary-form-group-wrap">--}}
-{{--                                <label for="passing_year" class="form-label">{{__('Passing Year')}}</label>--}}
-{{--                                <select class="sf-select-without-search primary-form-control" name='passing_year'--}}
-{{--                                        id='passing-year'>--}}
-{{--                                    <option selected="" value=0>{{__('All Year')}}</option>--}}
-{{--                                    @foreach ($passingYear as $row)--}}
-{{--                                        <option value="{{ $row->id }}">{{ $row->name }}</option>--}}
-{{--                                    @endforeach--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="item">--}}
-{{--                        <div class="primary-form-group">--}}
-{{--                            <div class="primary-form-group-wrap">--}}
-{{--                                <label for="is_member" class="form-label">{{__('Member')}}</label>--}}
-{{--                                <select class="sf-select-without-search primary-form-control" name='is_member'--}}
-{{--                                        id='is-member'>--}}
-{{--                                    <option value="-1" selected>{{__('All')}}</option>--}}
-{{--                                    @foreach (getAlumniMemberStatus() as $key => $value)--}}
-{{--                                        <option value="{{ $key }}">{{ $value }}</option>--}}
-{{--                                    @endforeach--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <button--}}
-{{--                        class="bg-cdef84 border-0 bd-ra-12 py-13 px-26 fs-15 fw-500 lh-25 text-black hover-bg-one advance-filter">{{__('Search Now')}}</button>--}}
-{{--                    <!-- <div class="item">--}}
-{{--                                              </div> -->--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
 
 @endsection
 

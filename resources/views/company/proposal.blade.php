@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @section('content')
     <div id="pdf-viewer"></div>
 

@@ -25,10 +25,8 @@ class NewsCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'bail',
-                'required',
-            ]
+            'name' => 'required',
+            'status'=>'required'
         ];
     }
 }

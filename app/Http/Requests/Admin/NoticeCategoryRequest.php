@@ -28,7 +28,6 @@ class NoticeCategoryRequest extends FormRequest
             'name' => [
                 'bail',
                 'required',
-                new UniqueWithConditions('notice_categories', 'name', $this->id, 'id', ['tenant_id' => getTenantId()])
             ]
         ];
     }

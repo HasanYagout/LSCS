@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @push('title')
     {{$title}}
@@ -8,7 +8,7 @@
 
 
     <!-- Page content area start -->
-    <div class="p-30" style="margin-left:250px;">
+    <div class="p-30">
         <div>
             <input type="hidden" id="companies-route" value="{{ route('admin.company.all') }}">
             <input type="hidden" id="companies-update-route" value="{{ route('admin.company.update',':id') }}">

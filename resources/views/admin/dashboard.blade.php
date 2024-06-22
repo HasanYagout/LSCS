@@ -1,11 +1,11 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @push('title')
     {{$pageTitle}}
 @endpush
 
 @section('content')
 
-    <div style="margin-left: 250px" class="p-30">
+    <div class="p-30">
         <div class="">
             <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{ __($pageTitle) }}</h4>
 

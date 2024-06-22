@@ -80,11 +80,11 @@
                                 <li><a class="{{ $activeStoryCreate ?? '' }}"
                                        href="{{ route('admin.stories.create') }}">{{ __('Create Story') }}</a></li>
                                 <li><a class="{{ $activePendingStoryList ?? '' }}"
-                                       href="{{ route('admin.stories.pending') }}">{{ __('Pending Story') }}</a>
+                                       href="{{ route('admin.stories.active') }}">{{ __('Active Story') }}</a>
                                 </li>
                                 <li><a class="{{ $activeMyStoryList ?? '' }}"
                                        href="{{ route('admin.stories.my-story') }}">{{ __('My Story') }}</a></li>
-                                <li><a target="_blank" href="{{ route('all.stories') }}">{{ __('All Story') }}</a></li>
+                                <li><a  href="{{ route('admin.stories.all') }}">{{ __('All Story') }}</a></li>
                             </ul>
                         </div>
                     </li>
@@ -103,8 +103,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('admin.company.all') }}"
-                           class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">
+                        <a href="#companiesMenu" data-bs-toggle="collapse" role="button"
+                           aria-expanded="{{ isset($showStoryManagement) ? 'true' : '' }}" aria-controls="storyMenu"
+                           class="d-flex align-items-center cg-10 {{ isset($showStoryManagement) ? 'active' : 'collapsed' }}">
                             <div class="d-flex">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20"
                                      fill="none">
@@ -116,9 +117,21 @@
                                           stroke-linejoin="round"/>
                                 </svg>
                             </div>
-                            <span class="">{{ __('Companies') }}</span>
+                            <span class="">{{__('Companies')}}</span>
                         </a>
+                        <div class="collapse {{ $showStoryManagement ?? '' }}" id="companiesMenu"
+                             data-bs-parent="#sidebarMenu">
+                            <ul class="zSidebar-submenu">
+                                <li><a class="{{ $activeStoryCreate ?? '' }}"
+                                       href="{{ route('admin.company.all') }}">{{ __('All') }}</a></li>
+                                <li><a class="{{ $activePendingStoryList ?? '' }}"
+                                       href="{{ route('admin.company.pending') }}">{{ __('Pending') }}</a>
+                                </li>
+
+                            </ul>
+                        </div>
                     </li>
+
                     <li>
                         <a href="{{ route('admin.students.index') }}"
                            class="{{ $showManageStudents ?? '' }} d-flex align-items-center cg-10">
@@ -278,10 +291,13 @@
                                     <a class="{{ $activeJobPostCreate ?? '' }}"
                                        href="{{ route($authenticatedGuard.'.jobs.create') }}">{{ __('Create Post') }}</a>
                                 </li>
+                                @if($authenticatedGuard=='admin')
+
                                 <li>
                                     <a class="{{ $activeMyJobPostList ?? '' }}"
                                        href="{{ route($authenticatedGuard.'.jobs.my-job-post') }}">{{ __('My Post') }}</a>
                                 </li>
+                                @endif
                             @endif
                             <li>
                                 <a class="{{ $activePendingJobPostList ?? '' }}"
@@ -351,6 +367,77 @@
                             <span class="">{{ __('News') }}</span>
                         </a>
                     </li>
+                    <li>
+                                            <a href="#cvs" data-bs-toggle="collapse" role="button"
+                                               aria-expanded="{{ isset($showCvManagement) ? 'true' : '' }}" aria-controls="cvs"
+                                               class="d-flex align-items-center cg-10 {{ isset($showCvManagement) ? 'active' : 'collapsed' }}">
+                                                <div class="d-flex">
+                                                    <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <rect x="5.20801" y="5.11185" width="14.5833" height="17.7083" rx="2"
+                                                              stroke="white" stroke-opacity="0.7" stroke-width="1.5"/>
+                                                        <path d="M9.375 10.3202H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                                              stroke-linecap="round"/>
+                                                        <path d="M9.375 14.4868H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                                              stroke-linecap="round"/>
+                                                        <path d="M9.375 18.6535H13.5417" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                                              stroke-linecap="round"/>
+                                                    </svg>
+                                                </div>
+                                                <span class="">{{__('CVs')}}</span>
+                                            </a>
+                                            <div class="collapse {{ $showJobPostManagement ?? '' }}" id="cvs"
+                                                 data-bs-parent="#sidebarMenu">
+                                                <ul class="zSidebar-submenu">
+
+                                                    @if (auth('alumni')->user()->role_id == USER_ROLE_ADMIN)
+                                                        <li><a class="{{ $activePendingJobPostList ?? '' }}"
+                                                               href="{{ route('alumni.jobs.pending') }}">{{ __('Pending Post') }}</a>
+                                                        </li>
+                                                    @endif
+                                                    <li><a href="{{ route('alumni.profile.index') }}" class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">{{ __('Profile') }}</a>
+                                                    </li>
+                                                    <li><a class="{{ $activeMyJobPostList ?? '' }}"
+                                                           href="{{ route('alumni.cvs.all') }}">{{ __('Manage CVs') }}</a></li>
+                                                    <li><a class="{{ $activeAllJobPostList ?? '' }}"
+                                                           href="{{ route('alumni.cvs.create') }}">{{ __('Create Cv') }}</a></li>
+                                                    <li><a class="{{ $activeAllJobPostList ?? '' }}"
+                                                           href="{{ route('alumni.images') }}">{{ __('Graduation Images') }}</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                    <li>
+                                            <a href="#recommendation_menu" data-bs-toggle="collapse" role="button"
+                                               aria-expanded="{{ isset($showCvManagement) ? 'true' : '' }}" aria-controls="cvs"
+                                               class="d-flex align-items-center cg-10 {{ isset($showCvManagement) ? 'active' : 'collapsed' }}">
+                                                <div class="d-flex">
+                                                    <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <rect x="5.20801" y="5.11185" width="14.5833" height="17.7083" rx="2"
+                                                              stroke="white" stroke-opacity="0.7" stroke-width="1.5"/>
+                                                        <path d="M9.375 10.3202H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                                              stroke-linecap="round"/>
+                                                        <path d="M9.375 14.4868H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                                              stroke-linecap="round"/>
+                                                        <path d="M9.375 18.6535H13.5417" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                                              stroke-linecap="round"/>
+                                                    </svg>
+                                                </div>
+                                                <span class="">{{__('Recommendation')}}</span>
+                                            </a>
+                                            <div class="collapse {{ $showJobPostManagement ?? '' }}" id="recommendation_menu"
+                                                 data-bs-parent="#sidebarMenu">
+                                                <ul class="zSidebar-submenu">
+
+                                                    <li><a class="d-flex align-items-center cg-10" href="{{ route('alumni.recommendation.index') }}">{{ __('list') }}</a>
+                                                    </li>
+                                                    <li><a class="d-flex align-items-center cg-10"  href="{{ route('alumni.recommendation.create') }}">{{ __('Create') }}</a>
+                                                    </li>
+
+
+                                                </ul>
+                                            </div>
+                                        </li>
                 @endif
 
 

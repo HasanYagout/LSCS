@@ -7,7 +7,10 @@ use App\Models\EventCategory;
 use App\Traits\ResponseTrait;
 use App\Models\FileManager;
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class EventService
 {
@@ -67,7 +70,7 @@ class EventService
                                 </button>
 
                                 <a href="'. route('admin.event.details', $data->slug) .'" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="view">
-                                    <img src="' . asset('assets/images/icon/eye.svg') . '" alt="view">
+                                    <img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="view">
                                 </a>
                             </li>
                         </ul>';
@@ -107,44 +110,49 @@ class EventService
     {
         try {
             DB::beginTransaction();
-            if (Event::where('slug', getSlug($request->title))->where('tenant_id', getTenantId())->withTrashed()->count() > 0) {
+
+            // Check if an event with the same slug exists
+            if (Event::where('slug', getSlug($request->title))->count() > 0) {
                 $slug = getSlug($request->title) . '-' . rand(100000, 999999);
             } else {
                 $slug = getSlug($request->title);
             }
+
+            // Create a new Event model instance
             $event = new Event();
-            $event->title = $request->title;
+
+            // Assign values to the event model's properties
             $event->event_category_id = $request->event_category_id;
+            $event->title = $request->title;
             $event->slug = $slug;
-            $event->date = date("Y-m-d H:i:s", strtotime($request->date));
-            $event->type = $request->type;
-            $event->location = $request->location;
-            if($request->type == EVENT_TYPE_PAID){
-                $event->price = $request->price;
-            }
-            $event->number_of_ticket = $request->number_of_ticket;
-            $event->number_of_ticket_left = $request->number_of_ticket;
+            // Generate the new filename for the thumbnail
+            $date = now()->format('Ymd');
+            $randomSlug = Str::random(6);
+            $randomNumber = rand(100000, 999999);
+            $newFilename = "{$date}_{$randomSlug}_{$randomNumber}.{$request->file('thumbnail')->getClientOriginalExtension()}";
+
+            // Store the thumbnail file
+            $request->file('thumbnail')->storeAs('public/admin/events', $newFilename);
+            $event->thumbnail = $newFilename;
+
+            // Assign other values to the event model's properties
+            $event->date = $request->date;
             $event->description = $request->description;
-            $event->user_id = auth()->id();
-            $event->tenant_id = getTenantId();
+            $event->user_id = auth('admin')->id();
 
-            if ($request->hasFile('thumbnail')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('event', $request->thumbnail);
-                $event->thumbnail = $uploaded->id;
-            }
-
-            if ($request->hasFile('ticket_image')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('event', $request->ticket_image);
-                $event->ticket_image = $uploaded->id;
-            }
-
+            // Save the event model to the database
             $event->save();
+
             DB::commit();
-            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+
+            // Flash a success message to the session
+            session()->flash('success', 'Event has been created.');
+
+            // Redirect to a specific route or action
+            return redirect()->route('admin.event.all');
         } catch (Exception $e) {
             DB::rollBack();
+            // Handle the error case
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
         }
     }
@@ -152,56 +160,51 @@ class EventService
     public function update($request, $currenSlug)
     {
         DB::beginTransaction();
-        if (Event::where('slug', getSlug($request->title))->where('tenant_id', getTenantId())->where('slug', '!=', $currenSlug)->withTrashed()->count() > 0) {
+        if (Event::where('slug', getSlug($request->title))->where('slug', '!=', $currenSlug)->count() > 0) {
             $slug = getSlug($request->title) . '-' . rand(100000, 999999);
         } else {
             $slug = getSlug($request->title);
         }
 
         try {
-            $event = Event::where('slug', $currenSlug)->where('tenant_id', getTenantId())->with('eventTicket')->first();
+            $event = Event::where('slug', $currenSlug)->first();
 
             if(is_null($event)){
                 return $this->error([], __('No Data Found'));
             }
 
-            $soldTicket = count($event->eventTicket);
-
-            if($soldTicket > (int) $request->number_of_ticket){
-                return $this->error([], __('Number of ticket should be more than '. $soldTicket));
-            }
 
             $event->title = $request->title;
             $event->slug = $slug;
             $event->event_category_id = $request->event_category_id;
             $event->date = $request->date;
-            $event->type = $request->type;
-            $event->location = $request->location;
-            if($request->type == EVENT_TYPE_PAID){
-                $event->price = $request->price;
-            }else{
-                $event->price = 0;
-            }
-            $event->number_of_ticket = $request->number_of_ticket;
-            $event->number_of_ticket_left = $request->number_of_ticket - $soldTicket;
             $event->description = $request->description;
             if($request->status != NULL){
                 $event->status = $request->status;
             }
             if ($request->hasFile('thumbnail')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('event', $request->thumbnail);
-                $event->thumbnail = $uploaded->id;
+                // Get the original file extension
+                Storage::delete('public/admin/notice/' . $event->thumbnail);
+
+                $extension = $request->thumbnail->getClientOriginalExtension();
+
+                // Generate the new file name
+                $date = Carbon::now()->format('Ymd');
+                $slug = Str::slug($request->title);
+                $randomNumber = rand(1000, 9999);
+                $newFileName = "{$date}_{$slug}_{$randomNumber}.{$extension}";
+                // Save the file to the specified directory
+                $request->thumbnail->storeAs('public/admin/events', $newFileName);
+
+
+                // Get the file URL or ID depending on your file manager
+                $event->thumbnail = $newFileName; // Assuming you want to save the file path
             }
-            if ($request->hasFile('ticket_image')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('event', $request->ticket_image);
-                $event->ticket_image = $uploaded->id;
-            }
+
             $event->save();
             DB::commit();
-            $message = getMessage(UPDATED_SUCCESSFULLY);
-            return $this->success([], $message);
+            session()->flash('success', 'Event has been updated.');
+            return redirect()->route('admin.event.all');
         } catch (Exception $e) {
             DB::rollBack();
             $message = getErrorMessage($e, $e->getMessage());
@@ -218,10 +221,11 @@ class EventService
         try {
             DB::beginTransaction();
             $event = event::where('id', $id)->first();
+            Storage::delete('public/admin/events/' . $event->thumbnail);
             $event->delete();
             DB::commit();
             $message = getMessage(DELETED_SUCCESSFULLY);
-            return $this->success([], $message);
+            return redirect()->route('admin.event.all');
         } catch (\Exception $e) {
             DB::rollBack();
             $message = getErrorMessage($e, $e->getMessage());

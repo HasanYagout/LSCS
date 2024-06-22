@@ -41,55 +41,48 @@ class NewsCategoryService
 
     public function store($request)
     {
-        try {
-            DB::beginTransaction();
-            if (NewsCategory::where('slug', getSlug($request->name))->count() > 0) {
-                $slug = getSlug($request->name) . '-' . rand(100000, 999999);
-            } else {
-                $slug = getSlug($request->name);
-            }
-            $newsCategory = new NewsCategory();
-            $newsCategory->name = $request->name;
-            $newsCategory->slug = $slug;
-            $newsCategory->status = $request->status;
-            $newsCategory->save();
-            DB::commit();
-            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
-        } catch (Exception $e) {
-            DB::rollBack();
-            return $this->error([], getMessage(SOMETHING_WENT_WRONG));
-        }
+        // Generate the slug
+        $slug = getSlug($request->name);
+
+        // Create and save the news category
+        $newsCategory = new NewsCategory();
+        $newsCategory->name = $request->name;
+        $newsCategory->slug = $slug;
+        $newsCategory->posted_by = auth('admin')->id();
+        $newsCategory->status = $request->status;
+        $newsCategory->save();
+        return $newsCategory;
+
     }
 
     public function update($id, $request)
     {
         DB::beginTransaction();
         try {
-
             if (NewsCategory::where('slug', getSlug($request->name))->where('id', '!=', $id)->count() > 0) {
                 $slug = getSlug($request->name) . '-' . rand(100000, 999999);
             } else {
                 $slug = getSlug($request->name);
             }
 
-            $newsCategory = NewsCategory::where('tenant_id', getTenantId())->findOrFail($id);
+            $newsCategory = NewsCategory::findOrFail($id);
             $newsCategory->name = $request->name;
             $newsCategory->slug = $slug;
             $newsCategory->status = $request->status;
             $newsCategory->save();
+
             DB::commit();
-            $message = getMessage(UPDATED_SUCCESSFULLY);
-            return $this->success([], $message);
+
+            return $newsCategory;
         } catch (Exception $e) {
             DB::rollBack();
             $message = getErrorMessage($e, $e->getMessage());
             return $this->error([], $message);
         }
     }
-
     public function getById($id)
     {
-        return NewsCategory::where('tenant_id', getTenantId())->findOrFail($id);
+        return NewsCategory::findOrFail($id);
     }
 
     public function activeCategory()

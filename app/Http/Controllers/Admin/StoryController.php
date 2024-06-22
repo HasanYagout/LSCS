@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\admin\CreateStoryRequest;
 use App\Http\Requests\StoryRequest;
 use App\Http\Services\StoryService;
 use App\Models\Story;
@@ -29,6 +30,16 @@ class StoryController extends Controller
         $data['title'] = __('My Story');
         $data['showStoryManagement'] = 'show';
         $data['activeMyStoryList'] = 'active-color-one';
+        return view('admin.stories.my-story', $data);
+    }
+    public function all(Request $request)
+    {
+        if ($request->ajax()) {
+            return $this->storyService->getAllStoryList();
+        }
+        $data['title'] = __('All Story');
+        $data['showStoryManagement'] = 'show';
+        $data['activeMyStoryList'] = 'active-color-one';
         return view('admin.stories.list', $data);
     }
     public function create()
@@ -38,21 +49,20 @@ class StoryController extends Controller
         $data['activeStoryCreate'] = 'active-color-one';
         return view('admin.stories.create', $data);
     }
-    public function pending(Request $request)
+    public function active(Request $request)
     {
         if ($request->ajax()) {
-            return $this->storyService->allPendingList();
+            return $this->storyService->allActiveList();
         }
-        $data['title'] = __('Pending Story');
+        $data['title'] = __('Active Story');
         $data['showStoryManagement'] = 'show';
         $data['activePendingStoryList'] = 'active-color-one';
-        return view('admin.stories.pending', $data);
+        return view('admin.stories.active', $data);
     }
-    public function store(Request $request)
+    public function store(CreateStoryRequest $request)
     {
 
         return $this->storyService->store($request);
-
     }
     public function info($slug)
     {
@@ -63,6 +73,17 @@ class StoryController extends Controller
     public function update(StoryRequest $request, $slug)
     {
         return $this->storyService->update($slug, $request);
+    }
+
+    public function toggleStatus(Request $request)
+    {
+        $story = Story::find($request->story_id);
+        if ($story) {
+            $story->status = $story->status == STATUS_ACTIVE ? STATUS_INACTIVE : STATUS_ACTIVE;
+            $story->save();
+            return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+        }
+        return response()->json(['success' => false, 'message' => 'Error']);
     }
 
     public function delete($slug)

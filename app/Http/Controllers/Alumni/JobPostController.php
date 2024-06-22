@@ -84,7 +84,9 @@ class JobPostController extends Controller
         $data['title'] = __('All Job Post');
         $data['showJobPostManagement'] = 'show';
         $data['activeAllJobPostList'] = 'active-color-one';
-        $data['jobs']=JobPost::where('status', STATUS_ACTIVE)->get();
+        $data['jobs']=JobPost::where('status', STATUS_ACTIVE)
+            ->orWhere('status', STATUS_INACTIVE)
+            ->get();
         return view('alumni.jobs.all-job-post', $data);
     }
 }

@@ -29,9 +29,10 @@
             { "data": "company_logo", "name": "job.company_logo", responsivePriority: 1 },
             { "data": "company", "name": "job.company_logo", responsivePriority: 1 },
             { "data": "title", "name": "job.title", responsivePriority: 1 },
-            { "data": "employee_status", "name": "job.employee_status", responsivePriority: 1 },
-            { "data": "salary", "name": "job.salary", responsivePriority: 2 },
+            // { "data": "salary", "name": "job.salary", responsivePriority: 2 },
             { "data": "application_deadline", "name": "job.application_deadline", responsivePriority: 3 },
+            { "data": "posted_by", "name": "job.application_deadline", responsivePriority: 3 },
+            { "data": "status", "name": "job.application_deadline", responsivePriority: 3 },
             { "data": "action", "name": "job.action"},
             // { "data": "major", "name": "student.major" },
             // { "data": "credits_left", searchable: false, responsivePriority: 2},
@@ -56,9 +57,14 @@
 		</button>`);
         },
     });
-    $(document).on('click','.editStudent',function(e){
+    $(document).on('change', '.toggle-status', function(e) {
+        var $switch = $(this);
+        var jobId = $switch.data('id');
+        var newStatus = $switch.is(':checked') ? 1 : 0;
+        var updateUrl = $('#job-post-update-route').val().replace(':id', jobId);
+
         Swal.fire({
-            title: 'Sure! You want to change the status to Alumni?',
+            title: 'Sure! You want to change the status?',
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
@@ -68,31 +74,31 @@
         }).then((result) => {
             if (result.value) {
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                var buttonValue = $('.editStudent').val();
                 $.ajax({
-                    type: 'POST',
-                    url: 'students/update',
+                    url: updateUrl,
+                    method: 'POST',
                     data: {
-                        // 'selectedStatus':selectedStatus,
-                        // 'alumniUserId':alumniUserId,
-                        '_token':csrfToken,
-                        'buttonValue': buttonValue // Include the button value in the data
-
+                        _token: csrfToken,
+                        status: newStatus
                     },
-                    success: function (response) {
-                        if (response.status === true) {
+                    success: function(response) {
+                        if (response.success) {
                             toastr.success(response.message);
+                        } else {
+                            toastr.error(response.message);
                         }
-
-                        $('#alumni-all-list-filter').DataTable().ajax.reload();
+                        table.ajax.reload();
                     },
-                    error: function (error) {
-                        toastr.error(error.responseJSON.message)
+                    error: function(error) {
+                        toastr.error(error.responseJSON.message);
+                        table.ajax.reload();
                     }
-                })
-            }else{
-                $('#alumni-all-list-filter').DataTable().ajax.reload();
+                });
+            } else {
+                // Revert the switch state if the user cancels
+                $switch.prop('checked', !newStatus);
+                table.ajax.reload();
             }
-        })
-    })
+        });
+    });
 })(jQuery)

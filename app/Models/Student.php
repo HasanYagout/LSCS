@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
+    protected $fillable=['is_alumni'];
     public function major()
     {
         return $this->belongsTo(Major::class);

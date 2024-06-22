@@ -122,7 +122,7 @@ if (!function_exists("getDefaultImage")) {
     function getDefaultImage()
     {
         // return asset('assets/images/no-image.jpg');
-        return asset('assets/images/icon/upload-img-1.svg');
+        return asset('public/assets/images/icon/upload-img-1.svg');
     }
 }
 

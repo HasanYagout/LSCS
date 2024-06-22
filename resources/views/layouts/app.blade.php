@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@include('admin.layouts.header')
+@include('layouts.header')
 
 <body>
 

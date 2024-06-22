@@ -57,7 +57,7 @@
     <div class="container">
         <div class="row">
             @foreach($events as $event)
-                <div class="col-md-4">
+                <div class="col-md-4 mt-30">
                     <div class="card news-card">
                         <img src="{{asset('public/storage/admin/events').'/'.$event->thumbnail}}" alt="News Image">
                         <div class="card-body">
@@ -69,7 +69,7 @@
                             @endphp
                             <p class="card-text news-card-text">{{$formattedDate}}</p>
                             <h5 class="card-title news-card-title">{!! Str::limit($event->description, 150, '...'); !!}</h5>
-                            <a href="#" class="btn btn-read-more">Read More</a>
+                            <a href="{{route('alumni.event.details',$event->slug)}}" class="btn btn-read-more">Read More</a>
                         </div>
                     </div>
                 </div>
