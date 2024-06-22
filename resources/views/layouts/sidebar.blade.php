@@ -206,24 +206,110 @@
                         </div>
                     </li>
                 @endif
-                <li>
-                    <a href="{{ route($authenticatedGuard.'.home') }}"
-                       class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">
-                        <div class="d-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20"
-                                 fill="none">
-                                <path d="M1.71387 11.4286L10.9996 2.14285L20.2853 11.4286" stroke="white"
-                                      stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                      stroke-linejoin="round"/>
-                                <path d="M4.57129 8.57144L4.57129 17.8572H17.4284V8.57144" stroke="white"
-                                      stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                      stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <span class="">{{ __('Home') }}</span>
-                    </a>
-                </li>
-                @if ($authenticatedGuard!='company')
+                @if($authenticatedGuard!=='admin'&&auth('admin')->user()->role_id!=USER_ROLE_INSTRUCTOR)
+                        <li>
+                            <a href="{{ route($authenticatedGuard.'.home') }}"
+                               class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">
+                                <div class="d-flex">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20"
+                                         fill="none">
+                                        <path d="M1.71387 11.4286L10.9996 2.14285L20.2853 11.4286" stroke="white"
+                                              stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                        <path d="M4.57129 8.57144L4.57129 17.8572H17.4284V8.57144" stroke="white"
+                                              stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <span class="">{{ __('Home') }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#jobPost" data-bs-toggle="collapse" role="button"
+                               aria-expanded="{{ isset($showJobPostManagement) ? 'true' : '' }}" aria-controls="jobPost"
+                               class="d-flex align-items-center cg-10 {{ isset($showJobPostManagement) ? 'active' : 'collapsed' }}">
+                                <div class="d-flex">
+                                    <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="5.20801" y="5.11185" width="14.5833" height="17.7083" rx="2"
+                                              stroke="white" stroke-opacity="0.7" stroke-width="1.5"/>
+                                        <path d="M9.375 10.3202H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                              stroke-linecap="round"/>
+                                        <path d="M9.375 14.4868H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                              stroke-linecap="round"/>
+                                        <path d="M9.375 18.6535H13.5417" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                              stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span class="">{{__('Job Post')}}</span>
+                            </a>
+                            <div class="collapse {{ $showJobPostManagement ?? '' }}" id="jobPost"
+                                 data-bs-parent="#sidebarMenu">
+                                <ul class="zSidebar-submenu">
+                                    @if($authenticatedGuard!='alumni')
+                                        <li>
+                                            <a class="{{ $activeJobPostCreate ?? '' }}"
+                                               href="{{ route($authenticatedGuard.'.jobs.create') }}">{{ __('Create Post') }}</a>
+                                        </li>
+                                        @if($authenticatedGuard=='admin')
+
+                                            <li>
+                                                <a class="{{ $activeMyJobPostList ?? '' }}"
+                                                   href="{{ route($authenticatedGuard.'.jobs.my-job-post') }}">{{ __('My Post') }}</a>
+                                            </li>
+                                        @endif
+                                    @endif
+                                    <li>
+                                        <a class="{{ $activePendingJobPostList ?? '' }}"
+                                           href="{{ route($authenticatedGuard.'.jobs.pending') }}">{{ __('Pending Post') }}</a>
+                                    </li>
+
+                                    <li>
+                                        <a class="{{ $activeAllJobPostList ?? '' }}"
+                                           href="{{ route($authenticatedGuard.'.jobs.all-job-post') }}">{{ __('All Post') }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li>
+                            <a href="{{ route($authenticatedGuard.'.profile.index') }}"
+                               class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">
+                                <div class="d-flex">
+                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M19.7274 21.3923C19.2716 20.1165 18.2672 18.9892 16.8701 18.1851C15.4729 17.381 13.7611 16.9452 12 16.9452C10.2389 16.9452 8.52706 17.381 7.12991 18.1851C5.73276 18.9892 4.72839 20.1165 4.27259 21.3923"
+                                            stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                                        <circle cx="12" cy="8.94522" r="4" stroke="white"
+                                                stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span class="">{{ __('Profile') }}</span>
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <a class="d-flex align-items-center  cg-8" href="{{ route($authenticatedGuard.'.auth.logout') }}">
+                                <div class="d-flex">
+                                    <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M9.49935 17.8333C7.28921 17.8333 5.1696 16.9553 3.60679 15.3925C2.04399 13.8297 1.16602 11.7101 1.16602 9.49996C1.16602 7.28982 2.04399 5.17021 3.60679 3.6074C5.1696 2.0446 7.28921 1.16663 9.49935 1.16663"
+                                            stroke="#707070" stroke-opacity="0.7" stroke-width="1.5"
+                                            stroke-linecap="round"/>
+                                        <path d="M7.41602 9.5H17.8327M17.8327 9.5L14.7077 6.375M17.8327 9.5L14.7077 12.625"
+                                              stroke="#707070" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+
+                                <span>{{ __('Logout') }}</span>
+                            </a>
+                        </li>
+                @endif
+                @if ($authenticatedGuard!='company'&&auth('admin')->user()->role_id!=USER_ROLE_INSTRUCTOR)
                     <li>
                         <a href="#myEvent" data-bs-toggle="collapse" role="button" aria-controls="myEvent"
                            class="d-flex align-items-center cg-10 {{ isset($showEvent) ? 'active' : 'collapsed' }}"
@@ -264,70 +350,7 @@
                         </div>
                     </li>
                 @endif
-                <li>
-                    <a href="#jobPost" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ isset($showJobPostManagement) ? 'true' : '' }}" aria-controls="jobPost"
-                       class="d-flex align-items-center cg-10 {{ isset($showJobPostManagement) ? 'active' : 'collapsed' }}">
-                        <div class="d-flex">
-                            <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <rect x="5.20801" y="5.11185" width="14.5833" height="17.7083" rx="2"
-                                      stroke="white" stroke-opacity="0.7" stroke-width="1.5"/>
-                                <path d="M9.375 10.3202H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                      stroke-linecap="round"/>
-                                <path d="M9.375 14.4868H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                      stroke-linecap="round"/>
-                                <path d="M9.375 18.6535H13.5417" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                      stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <span class="">{{__('Job Post')}}</span>
-                    </a>
-                    <div class="collapse {{ $showJobPostManagement ?? '' }}" id="jobPost"
-                         data-bs-parent="#sidebarMenu">
-                        <ul class="zSidebar-submenu">
-                            @if($authenticatedGuard!='alumni')
-                                <li>
-                                    <a class="{{ $activeJobPostCreate ?? '' }}"
-                                       href="{{ route($authenticatedGuard.'.jobs.create') }}">{{ __('Create Post') }}</a>
-                                </li>
-                                @if($authenticatedGuard=='admin')
 
-                                <li>
-                                    <a class="{{ $activeMyJobPostList ?? '' }}"
-                                       href="{{ route($authenticatedGuard.'.jobs.my-job-post') }}">{{ __('My Post') }}</a>
-                                </li>
-                                @endif
-                            @endif
-                            <li>
-                                <a class="{{ $activePendingJobPostList ?? '' }}"
-                                   href="{{ route($authenticatedGuard.'.jobs.pending') }}">{{ __('Pending Post') }}</a>
-                            </li>
-
-                            <li>
-                                <a class="{{ $activeAllJobPostList ?? '' }}"
-                                   href="{{ route($authenticatedGuard.'.jobs.all-job-post') }}">{{ __('All Post') }}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li>
-                    <a href="{{ route($authenticatedGuard.'.profile.index') }}"
-                       class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">
-                        <div class="d-flex">
-                            <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M19.7274 21.3923C19.2716 20.1165 18.2672 18.9892 16.8701 18.1851C15.4729 17.381 13.7611 16.9452 12 16.9452C10.2389 16.9452 8.52706 17.381 7.12991 18.1851C5.73276 18.9892 4.72839 20.1165 4.27259 21.3923"
-                                    stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
-                                <circle cx="12" cy="8.94522" r="4" stroke="white"
-                                        stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <span class="">{{ __('Profile') }}</span>
-                    </a>
-                </li>
 
                 @if($authenticatedGuard=='alumni')
                     <li>
@@ -439,26 +462,6 @@
                                             </div>
                                         </li>
                 @endif
-
-
-                <li>
-                    <a class="d-flex align-items-center  cg-8" href="{{ route($authenticatedGuard.'.auth.logout') }}">
-                        <div class="d-flex">
-                            <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
-                                 xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M9.49935 17.8333C7.28921 17.8333 5.1696 16.9553 3.60679 15.3925C2.04399 13.8297 1.16602 11.7101 1.16602 9.49996C1.16602 7.28982 2.04399 5.17021 3.60679 3.6074C5.1696 2.0446 7.28921 1.16663 9.49935 1.16663"
-                                    stroke="#707070" stroke-opacity="0.7" stroke-width="1.5"
-                                    stroke-linecap="round"/>
-                                <path d="M7.41602 9.5H17.8327M17.8327 9.5L14.7077 6.375M17.8327 9.5L14.7077 12.625"
-                                      stroke="#707070" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                      stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-
-                        <span>{{ __('Logout') }}</span>
-                    </a>
-                </li>
 
                 @if($authenticatedGuard=='admin'&&auth('admin')->user()->role_id==USER_ROLE_INSTRUCTOR)
                     <li>

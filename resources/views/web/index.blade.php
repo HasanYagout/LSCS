@@ -214,15 +214,17 @@
                             </div>
                             <div
                                 class="flex-grow-1 max-w-sm-188 w-100 p-30 bd-one bd-c-black-10 bd-ra-10 bg-event-bg d-flex flex-column justify-content-center align-items-center hover-scale-1-1 countUp-item">
-
-                                <p class="fs-18 fw-400 lh-28 text-para-color">{{ __("Department's") }}</p>
+                                <h4 class="fs-36 fw-600 lh-36 text-black-color counter">
+                                    {{ $totalCompanies }}
+                                </h4>
+                                <p class="fs-18 fw-400 lh-28 text-para-color">{{ __("Companies") }}</p>
                             </div>
                             <div
                                 class="flex-grow-1 max-w-sm-188 w-100 p-30 bd-one bd-c-black-10 bd-ra-10 bg-event-bg d-flex flex-column justify-content-center align-items-center hover-scale-1-1 countUp-item">
                                 <h4 class="fs-36 fw-600 lh-36 text-black-color counter">
-
+                                    {{ $totalJobs }}
                                 </h4>
-                                <p class="fs-18 fw-400 lh-28 text-para-color">{{ __('Sessions') }}</p>
+                                <p class="fs-18 fw-400 lh-28 text-para-color">{{ __('Jobs') }}</p>
                             </div>
                         </div>
                     </div>

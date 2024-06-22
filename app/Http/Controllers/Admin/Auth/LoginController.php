@@ -53,6 +53,7 @@ class LoginController extends Controller
         ]);
 
         $admin = Admin::where('email', $request->email)->first();
+
         if (isset($admin) && $admin->status != 1) {
             return redirect()->back()->withInput($request->only('email', 'remember'))
                 ->withErrors(['You are blocked!!, contact with admin.']);
