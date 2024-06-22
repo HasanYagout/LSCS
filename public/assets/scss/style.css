@@ -21,8 +21,11 @@ Version: 1.0
 #.register-area
 =================================*/
 :root {
-  --primary-color: #cdef84;
-  --hover-color: #afd449;
+    --primary-color: #002a5c;
+    --primary-light:#1d4a80;
+    --secondary-color: #f1a527;
+    --light-secondary-color:#ffbd4f;
+  --hover-color: #f1a527;
   --bColor: #707070;
   --colorOne: #707070;
   --colorTwo: #ebedf0;
@@ -261,7 +264,7 @@ Version: 1.0
   color: var(--white-70) !important;
 }
 
-.text-cdef84 {
+.text-002a5c {
   color: var(--primary-color) !important;
 }
 
@@ -324,9 +327,12 @@ Version: 1.0
 .text-0fa958-10 {
   color: var(--colorTwelve-10) !important;
 }
+.text-f1a527{
+    color: var(--secondary-color) !important;
 
+}
 .text-f5b40a {
-  color: var(--color13) !important;
+  color: var(--secondary-color) !important;
 }
 
 .text-f5b40a-10 {
@@ -434,14 +440,19 @@ Version: 1.0
   background-color: var(--white-70) !important;
 }
 
-.bg-cdef84 {
+.bg-002a5c {
   background-color: var(--primary-color) !important;
 }
+.bg-primary-light{
+    background-color: var(--primary-light) !important;
 
-.bg-afd449 {
+}
+.bg-f1a527 {
   background-color: var(--hover-color) !important;
 }
-
+.bg-light{
+    background-color: var(--light-secondary-color) !important;
+}
 .bg-707070 {
   background-color: var(--bColor) !important;
 }
@@ -621,6 +632,13 @@ Version: 1.0
 
 .bd-c-ebedf0 {
   border-color: var(--colorTwo) !important;
+}
+bg-custom-primary{
+    background-color:var(--primary-color) !important; ;
+}
+bg-custom-secondary{
+    background-color:var(--secondary-color) !important; ;
+
 }
 
 .bd-c-fafafa {
@@ -2209,10 +2227,10 @@ Version: 1.0
 
 /* Actice color */
 .active-color-one {
-  color: var(--primary-color) !important;
+  color: var(--secondary-color) !important;
 }
 .active-color-one > * {
-  color: var(--primary-color) !important;
+  color: var(--secondary-color) !important;
 }
 
 /* Divider one */
@@ -2358,10 +2376,10 @@ Version: 1.0
   background-color: var(--white-70);
 }
 .zSidebar-menu > li > a ~ div .zSidebar-submenu li a:hover, .zSidebar-menu > li > a ~ div .zSidebar-submenu li a.active {
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 .zSidebar-menu > li > a ~ div .zSidebar-submenu li a:hover::before, .zSidebar-menu > li > a ~ div .zSidebar-submenu li a.active::before {
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
 }
 .zSidebar-menu > li > a.has-subMenu-arrow::before {
   opacity: 1;
@@ -2385,7 +2403,7 @@ Version: 1.0
   width: 0.125rem;
   height: 1.5625rem;
   border-radius: 0 0.625rem 0.625rem 0;
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
   -webkit-transition: all 0.3s;
   -o-transition: all 0.3s;
   transition: all 0.3s;
@@ -2398,13 +2416,13 @@ Version: 1.0
 .zSidebar-menu > li > a:hover svg rect, .zSidebar-menu > li > a.active svg path,
 .zSidebar-menu > li > a.active svg circle,
 .zSidebar-menu > li > a.active svg rect {
-  stroke: var(--primary-color);
+  stroke: var(--secondary-color);
 }
 .zSidebar-menu > li > a:hover span, .zSidebar-menu > li > a.active span {
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 .zSidebar-menu > li > a:hover::before, .zSidebar-menu > li > a.active::before {
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 .zSidebar-menu > li > a:hover::after, .zSidebar-menu > li > a.active::after {
   left: -12px;
@@ -2458,7 +2476,7 @@ Version: 1.0
   white-space: nowrap;
 }
 .zTabHead .nav-link.active {
-  color: var(--text-black);
+  color: var(--secondary-color);
 }
 .zTabHead .nav-link.active::after {
   width: 100%;
@@ -2470,7 +2488,7 @@ Version: 1.0
   left: 0;
   width: 0%;
   height: 0.0625rem;
-  background-color: var(--text-black);
+  background-color: var(--secondary-color);
   transition: all 0.3s;
 }
 
@@ -3855,7 +3873,7 @@ a {
 }
 
 a:hover {
-  color: var(--primary-color);
+  color: var(--secondary-color);
   text-decoration: none;
 }
 
@@ -4008,7 +4026,7 @@ scrollUp
   left: 0;
   height: 100%;
   width: 240px;
-  background-color: var(--text-black);
+  background-color: var(--primary-color);
   z-index: 1001;
   -webkit-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -4330,8 +4348,8 @@ scrollUp
 }
 .tablePagi .paginate_button.current, .tablePagi .paginate_button:hover {
   color: var(--text-black) !important;
-  background: var(--primary-color) !important;
-  border-color: var(--primary-color) !important;
+  background: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button {
@@ -4620,7 +4638,7 @@ input[type=number] {
   transition: all 0.3s linear;
 }
 .header-area .navbar-nav .dropdown-menu li a:hover {
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 .header-area .header-right {
   grid-column-gap: 2rem;

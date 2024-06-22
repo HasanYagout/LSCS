@@ -3,14 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Story extends Model
 {
 
     protected $fillable = [
-        'tenant_id',
-        'user_id',
+        'posted_by',
         'title',
         'slug',
         'thumbnail',

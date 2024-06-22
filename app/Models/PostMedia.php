@@ -11,7 +11,7 @@ class PostMedia extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'tenant_id', 'post_id', 'file'];
+    protected $fillable = ['user_id', 'tenant_id', 'post_id', 'name','extension'];
 
     /**
      * The belongs to Relationship

@@ -29,20 +29,9 @@
             { "data": "name", "name": "company.name", responsivePriority: 1 },
             { "data": "email", "name": "company.email", responsivePriority: 1 },
             { "data": "phone", "name": "company.phone" },
-            {
-                "data": "status",
-                "name": "company.status",
-                searchable: false,
-                responsivePriority: 3,
-                render: function(data, type, row, meta) {
-                    var checked = data ? 'checked' : '';
+            { "data": "status", "name": "company.phone" },
+            { "data": "action", "name": "company.phone" },
 
-                    return '<div class="form-check  form-switch">' +
-                        '<input class="form-check-input status-toggle" type="checkbox" role="switch" data-id="' + row.id + '" ' + checked + '>' +
-                        '<label class="form-check-label" for="flexSwitchCheck' + row.id + '"></label>' +
-                        '</div>';
-                }
-            }
         ],
         "initComplete": function( settings, json ) {
             $('.z-filter-block').html($('#search-section').html());
@@ -63,4 +52,49 @@
 		</button>`);
         },
     });
-  })(jQuery)
+    $(document).on('change', '.toggle-status', function(e) {
+        var $switch = $(this);
+        var companyId = $switch.data('id');
+        var newStatus = $switch.is(':checked') ? 1 : 0;
+        var updateUrl = $('#companies-update-route').val().replace(':id', companyId);
+
+        Swal.fire({
+            title: 'Sure! You want to change the status?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Change It!'
+        }).then((result) => {
+            if (result.value) {
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: updateUrl,
+                    method: 'POST',
+                    data: {
+                        _token: csrfToken,
+                        status: newStatus
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                        table.ajax.reload();
+                    },
+                    error: function(error) {
+                        toastr.error(error.responseJSON.message);
+                        table.ajax.reload();
+                    }
+                });
+            } else {
+                // Revert the switch state if the user cancels
+                $switch.prop('checked', !newStatus);
+                table.ajax.reload();
+            }
+        });
+    });
+
+})(jQuery)

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @push('title')
     {{ $title }}
@@ -6,9 +6,10 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30">
+    <div class="p-30" >
         <div>
-            <input type="hidden" id="story-pending-list-route" value="{{ route('admin.stories.my-story') }}">
+            <input type="hidden" id="story-all-list-route" value="{{ route('admin.stories.all') }}">
+            <input type="hidden" id="stories-update-route" value="{{ route('admin.stories.status') }}">
             <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
                 <h4 class="fs-24 fw-500 lh-34 text-black">{{ $title }}</h4>
             </div>
@@ -19,16 +20,16 @@
                         <thead>
                         <tr>
                             <th scope="col">
-                                <div>{{ __('Image') }}</div>
+                                <div class="bg-f1a527">{{ __('Image') }}</div>
                             </th>
                             <th scope="col">
-                                <div>{{ __('Title') }}</div>
+                                <div class="bg-f1a527">{{ __('Title') }}</div>
                             </th>
                             <th scope="col">
-                                <div>{{ __('Status') }}</div>
+                                <div class="bg-f1a527">{{ __('Status') }}</div>
                             </th>
                             <th class="w-110 text-center" scope="col">
-                                <div>{{ __('Action') }}</div>
+                                <div class="bg-f1a527">{{ __('Action') }}</div>
                             </th>
                         </tr>
                         </thead>

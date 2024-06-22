@@ -24,22 +24,13 @@ class NoticeRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
+        return [
             'title' => [
                 'bail',
                 'required',
-                new UniqueWithConditions('notices', 'title', $this->id, 'id', ['tenant_id' => getTenantId()])
             ],
             'category_id' => 'required',
             'details' => 'required',
         ];
-
-        if($this->id){
-            $rules['image'] = 'bail|nullable|mimes:jpg,jpeg,png';
-        }
-        else{
-            $rules['image'] = 'bail|required|mimes:jpg,jpeg,png';
-        }
-        return $rules;
     }
 }

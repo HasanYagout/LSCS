@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @push('title')
     {{$pageTitle}}
 @endpush
@@ -8,7 +8,6 @@
     <div class="p-30">
         <div class="">
             <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{ __($pageTitle) }}</h4>
-            <!-- Items -->
 
             <div class="row rg-30">
                 @if(isAddonInstalled('ALUSAAS'))
@@ -21,7 +20,7 @@
                         <div class="content">
                             <h4 class="title">{{ __('Total Alumni') }}</h4>
                             <div class="d-flex justify-content-between mt-20">
-{{--                                <h2 class="fs-5 fw-semibold mt-1 title">{{ $totalAlumni }}</h2>--}}
+                                <h2 class="fs-5 fw-semibold mt-1 title">{{ $totalAlumni }}</h2>
                                 <div>
                                     <svg width="28" height="21" viewBox="0 0 25 18" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -43,7 +42,7 @@
                         <div class="content">
                             <h4 class="title">{{ __('Upcoming Event') }}</h4>
                             <div class="d-flex justify-content-between mt-20">
-{{--                                <h2 class="fs-5 fw-semibold mt-1 title">{{ $totalUpcomingEvent }}</h2>--}}
+                                <h2 class="fs-5 fw-semibold mt-1 title">{{ $totalEvents }}</h2>
                                 <div class="d-flex">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -109,7 +108,7 @@
 
         </div>
     </div>
-    <input type="hidden" id="recommendation_route" value="{{ route('admin.recommendation') }}">
+{{--    <input type="hidden" id="recommendation_route" value="{{ route('admin.recommendation') }}">--}}
 @endsection
 
 @push('script')

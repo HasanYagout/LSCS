@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@include('alumni.layouts.header')
+@include('layouts.header')
 
 <body>
     <div class="overflow-x-hidden">
@@ -11,7 +11,7 @@
                 @if(centralDomain() && isAddonInstalled('ALUSAAS'))
                     <img src="{{ getSettingImageCentral('app_preloader') }}" alt="{{ getOption('app_name') }}" />
                 @else
-                    <img src="{{ getSettingImage('app_preloader') }}" alt="{{ getOption('app_name') }}" />
+{{--                    <img src="{{ getSettingImage('app_preloader') }}" alt="{{ getOption('app_name') }}" />--}}
                 @endif
             </div>
         </div>
@@ -20,11 +20,11 @@
         <!-- Main Content -->
         <div class="zMain-wrap">
             <!-- Sidebar -->
-            @include('alumni.layouts.sidebar')
+            @include('layouts.sidebar')
             <!-- Main Content -->
             <div class="zMainContent">
                 <!-- Header -->
-                @include('alumni.layouts.nav')
+                @include('layouts.nav')
                 <!-- Content -->
                 @yield('content')
             </div>
@@ -35,7 +35,7 @@
         @include('cookie-consent::index')
     </div>
     @endif
-    @include('alumni.layouts.script')
+    @include('layouts.script')
 </body>
 
 </html>

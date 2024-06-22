@@ -12,17 +12,17 @@
 {{--    $metaData = getMeta('home');--}}
 {{--    @endphp--}}
 
-    <meta name="description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">
-    <meta name="keywords" content="{{ __($metaData['meta_keyword']) }}">
+{{--    <meta name="description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">--}}
+{{--    <meta name="keywords" content="{{ __($metaData['meta_keyword']) }}">--}}
 
     <!-- Open Graph meta tags for social sharing -->
     <meta property="og:type" content="{{ __('Alumni') }}">
-    <meta property="og:title" content="{{ __($metaData['meta_title']) ?? getOption('app_name') }}">
-    <meta property="og:description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">
+{{--    <meta property="og:title" content="{{ __($metaData['meta_title']) ?? getOption('app_name') }}">--}}
+{{--    <meta property="og:description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">--}}
     @if(centralDomain() && isAddonInstalled('ALUSAAS'))
-        <meta property="og:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">
+{{--        <meta property="og:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">--}}
     @else
-        <meta property="og:image" content="{{ __($metaData['og_image']) ?? getSettingImageCentral('app_logo') }}">
+{{--        <meta property="og:image" content="{{ __($metaData['og_image']) ?? getSettingImageCentral('app_logo') }}">--}}
     @endif
     <meta property="og:url" content="{{ url()->current() }}">
 
@@ -30,12 +30,12 @@
 
     <!-- Twitter Card meta tags for Twitter sharing -->
     <meta name="twitter:card" content="{{ __('Alumni') }}">
-    <meta name="twitter:title" content="{{ __($metaData['meta_title']) ?? getOption('app_name') }}">
-    <meta name="twitter:description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">
+{{--    <meta name="twitter:title" content="{{ __($metaData['meta_title']) ?? getOption('app_name') }}">--}}
+{{--    <meta name="twitter:description" content="{{ __($metaData['meta_description']) ?? getOption('app_name') }}">--}}
     @if(centralDomain() && isAddonInstalled('ALUSAAS'))
-        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImageCentral('app_logo') }}">
+{{--        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImageCentral('app_logo') }}">--}}
     @else
-        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">
+{{--        <meta name="twitter:image" content="{{ __($metaData['og_image']) ?? getSettingImage('app_logo') }}">--}}
     @endif
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -47,9 +47,9 @@
         <link rel="shortcut icon" href="{{ getSettingImageCentral('app_fav_icon') }}" type="image/x-icon">
         <link rel="shortcut icon" href="{{ getSettingImageCentral('app_fav_icon') }}">
     @else
-        <link rel="icon" href="{{ getSettingImage('app_fav_icon') }}" type="image/png" sizes="16x16">
-        <link rel="shortcut icon" href="{{ getSettingImage('app_fav_icon') }}" type="image/x-icon">
-        <link rel="shortcut icon" href="{{ getSettingImage('app_fav_icon') }}">
+{{--        <link rel="icon" href="{{ getSettingImage('app_fav_icon') }}" type="image/png" sizes="16x16">--}}
+{{--        <link rel="shortcut icon" href="{{ getSettingImage('app_fav_icon') }}" type="image/x-icon">--}}
+{{--        <link rel="shortcut icon" href="{{ getSettingImage('app_fav_icon') }}">--}}
     @endif
     <!-- fonts file -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -58,6 +58,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&display=swap"
         rel="stylesheet" />
     <!-- css file  -->
+    <link rel="stylesheet" href="{{ asset('public/assets/lightbox/css/lightbox.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/css/plugins.css') }}" />
     <link rel="stylesheet" href="{{ asset('public/assets/css/dataTables.css') }}" />

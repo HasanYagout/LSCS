@@ -6,9 +6,9 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30">
+    <div class="p-30" >
         <div>
-            <input type="hidden" id="story-pending-list-route" value="{{ route('super_admin.stories.pending') }}">
+            <input type="hidden" id="story-pending-list-route" value="{{ route('super_admin.stories.active') }}">
             <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
                 <h4 class="fs-24 fw-500 lh-34 text-black">{{ $title }}</h4>
                 <button type="submit" id="add-news"

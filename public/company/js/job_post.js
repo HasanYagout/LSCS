@@ -30,6 +30,7 @@
             { "data": "employee_status", "name": "job.employee_status", responsivePriority: 1 },
             { "data": "salary", "name": "job.salary", responsivePriority: 2 },
             { "data": "application_deadline", "name": "job.application_deadline", responsivePriority: 3 },
+            { "data": "status", "name": "job.application_deadline", responsivePriority: 3 },
             { "data": "action", "name": "job.action"},
             // { "data": "major", "name": "student.major" },
             // { "data": "credits_left", searchable: false, responsivePriority: 2},
@@ -93,4 +94,25 @@
             }
         })
     })
+    window.toggleStatus = function(jobId) {
+        $.ajax({
+            url: $('#job-status-route').val(),
+            type: 'POST',
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                id: jobId
+            },
+            success: function(response) {
+                if (response.success) {
+                    toastr.success('Status Changed Successfully');
+                } else {
+                    alert('Failed to update status');
+                }
+            },
+            error: function(xhr) {
+                alert('An error occurred while updating status');
+            }
+        });
+    }
+
 })(jQuery)

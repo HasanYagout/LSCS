@@ -44,15 +44,6 @@
         }
     };
 
-    window.postCommentUpdateResponse = function (response) {
-        toastr.success(response.message);
-        if (response.status === true) {
-            loadComment(response.data.post_slug);
-            if ($('.modal.show').length) {
-                $('.modal.show').modal('toggle');
-            }
-        }
-    }
 
     window.loadMoreAjax = function (url, page, reload) {
         postAjaxCalled = 1;
@@ -141,43 +132,6 @@
 
     };
 
-    window.loadComment = function(slug){
-        let route = $('#load-comments').val()+'?slug='+slug
-        $.ajax({
-            type: 'GET',
-            url: route,
-            success: function (response) {
-                if(response.status == true){
-                const regex = /[' ']+#+([a-zA-Z0-9_#]+)/ig;
-                var commentBoxHtmlData = response.data.comment_box_html;
-                var formatCommentBoxHtmlData = commentBoxHtmlData.replace(regex, value => '<span class="text-primary fw-bold">'+value+'</span>');
-                    $(document).find('.like-comment-area-'+slug).find('.post-comment-button').html(response.data.comment_button_html);
-                    $(document).find('.like-comment-area-'+slug).find('.post-comment-area').html(formatCommentBoxHtmlData);
-                }
-            },
-            error: function (error) {
-                toastr.error(error.responseJSON.message)
-            }
-        })
-
-    };
-
-    window.loadLike = function(slug){
-        let route = $('#load-likes').val()+'?slug='+slug
-        $.ajax({
-            type: 'GET',
-            url: route,
-            success: function (response) {
-                if(response.status == true){
-                    $(document).find('.postLike-'+slug).replaceWith(response.data.html);
-                }
-            },
-            error: function (error) {
-                toastr.error(error.responseJSON.message)
-            }
-        })
-
-    };
 
     $(document).on('click', '.edit-post-btn', function(){
         let selector = $(this);
@@ -202,30 +156,6 @@
         })
 
     });
-
-    $(document).on('click', '.postLike', function(){
-        let selector = $(this);
-        let slug = $(selector).closest('.post-main-area').find('.post-slug').val();
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-        let route = $('#post-like-route').val();
-        $.ajax({
-            type: 'POST',
-            url: route,
-            data: {'slug':slug,'_token':csrfToken},
-            success: function (response) {
-                toastr.success(response.message);
-
-                if(response.status == true){
-                    loadLike(slug, selector);
-                }
-            },
-            error: function (error) {
-                toastr.error(error.responseJSON.message)
-            }
-        })
-
-    });
-
     $(document).on('click', '.delete-post-btn', function(){
         var selector = $(this);
         var slug =  $(selector).closest('.post-main-area').find('.post-slug').val();
@@ -264,125 +194,12 @@
     window.postAjaxCalled = 0;
 
     $('body').on('scroll', function () {
-        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+        console.log($(this)[0].scrollHeight);
+        if ($(this).scrollTop() + $(this).innerHeight() <= $(this)[0].scrollHeight) {
             if (postAjaxCalled == 0) {
                 loadMoreAjax($('#more-post-route').val(), loadMorePageCount);
             }
         }
-    });
-
-    $(document).on('keyup', '.postCommentInput', function (e) {
-        if (e.key === 'Enter' || e.keyCode === 13) {
-            let selector = $(this);
-            let replyToId = null;
-            if(!($(selector).closest('.comment-input-box').find('.reply-note').hasClass('d-none'))){
-                replyToId = $(selector).closest('.comment-input-box').find('.reply-note').find('.reply-to-id-input').val();
-            }
-
-            let slug = $(selector).closest('.post-main-area').find('.post-slug').val();
-            let body = $(this).val();
-            var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            let route = $('#post-comment-store').val();
-            $.ajax({
-                type: 'POST',
-                url: route,
-                data: {'slug':slug, 'body': body, 'parent_id' : replyToId,  '_token':csrfToken},
-                success: function (response) {
-                    toastr.success(response.message);
-                    if(response.status == true){
-                        $(document).find(selector).closest('.comment-input-box').find('.reply-note').addClass('d-none');
-                        $(document).find(selector).closest('.comment-input-box').find('.reply-note').find('.reply-to-id-input').val('');
-                        $(document).find(selector).closest('.comment-input-box').find('.reply-note').find('.reply-to-name').html('');
-                        $(document).find(selector).val('');
-
-                        loadComment(slug);
-                    }
-                },
-                error: function (error) {
-                    toastr.error(error.responseJSON.message)
-                }
-            })
-        }
-    });
-
-    $(document).on('click', '.comment-delete', function (e) {
-        let selector = $(this);
-        let id = $(selector).data('id');
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-        let route = $('#post-comment-delete').val();
-        $.ajax({
-            type: 'DELETE',
-            url: route,
-            data: {'id':id, '_token':csrfToken},
-            success: function (response) {
-                toastr.success(response.message);
-                if(response.status == true){
-                    $(selector).closest('.single-comment-block').remove();
-                }
-            },
-            error: function (error) {
-                toastr.error(error.responseJSON.message)
-            }
-        })
-    });
-
-    $(document).on('click', '.reply-btn', function (e) {
-        $(this).closest('.like-comment-area').find('.reply-to-name').text('');
-        $(this).closest('.like-comment-area').find('.reply-note').find('.reply-to-id-input').val('');
-        $(this).closest('.like-comment-area').find('.postCommentInput').val('');
-
-        $(this).closest('.like-comment-area').find('.reply-note').removeClass('d-none');
-
-        $(this).closest('.like-comment-area').find('.reply-to-name').text($(this).closest('.comment-data').data('user-name'));
-        $(this).closest('.like-comment-area').find('.reply-note').find('.reply-to-id-input').val($(this).closest('.comment-data').data('id'));
-
-        $('body').animate({
-            scrollTop: ($(this).closest('.like-comment-area').find('.postCommentInput')[0]).top
-         }, 1000);
-
-        if ($(this).closest('.like-comment-area').find('.postCommentInput')) $($(this).closest('.like-comment-area').find('.postCommentInput')).focus();
-    });
-
-    $(document).on('click', '.cancel-reply-to', function (e) {
-        $(this).closest('.reply-note').addClass('d-none');
-        $(this).closest('.reply-note').find('.reply-to-id-input').val('');
-        $(this).closest('.reply-note').find('.reply-to-name').html('');
-        $(this).closest('.comment-input-box').find('.postCommentInput').val('');
-    });
-
-    $(document).on('click', '.comment-edit', function(){
-        let selector = $(this);
-        let id = $(selector).data('id');
-        let body = $(selector).data('comment-body');
-
-        $('#comment-edit-modal-content').find(':input[name=id]').val(id);
-        $('#comment-edit-modal-content').find(':input[name=body]').val(body);
-        $('#commentEditModal').modal('toggle');
-
-    });
-
-    $(document).on('click', '.comment-update', function(){
-        let selector = $(this);
-        let id = $(selector).data('id');
-        let body = $(selector).data('comment-body');
-        let route = $('#post-comment-update').val();
-
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-        $.ajax({
-            type: 'PUT',
-            url: route,
-            data: {'id':id, 'body' : body, '_token':csrfToken},
-            success: function (response) {
-                if(response.status == true){
-                    $('#comment-edit-modal-content').html(response.data.html);
-                    $('#commentEditModal').modal('toggle');
-                }
-            },
-            error: function (error) {
-                toastr.error(error.responseJSON.message)
-            }
-        })
     });
 
 })(jQuery)

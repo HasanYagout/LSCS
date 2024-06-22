@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Alumni;
 use App\Models\Currency;
 use App\Models\EmailTemplate;
 use App\Models\FileManager;
@@ -18,6 +19,7 @@ use App\Mail\EmailNotify;
 use App\Models\Chat;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\View;
 
 if (!function_exists("getOption")) {
     function getOption($option_key, $default = NULL)
@@ -32,32 +34,32 @@ if (!function_exists("getOption")) {
     }
 }
 
-function getSettingImage($option_key)
-{
-
-    if ($option_key && $option_key != null) {
-
-
-        $setting = Setting::where('tenant_id', getTenantId())->where('option_key', $option_key)->first();
-        if (isset($setting->option_value) && isset($setting->option_value) != null) {
-
-            $file = FileManager::where('tenant_id', getTenantId())->select('path', 'storage_type')->find($setting->option_value);
-
-
-            if (!is_null($file)) {
-                if (Storage::disk($file->storage_type)->exists($file->path)) {
-
-                    if ($file->storage_type == 'public') {
-                        return asset('storage/' . $file->path);
-                    }
-
-                    return Storage::disk($file->storage_type)->url($file->path);
-                }
-            }
-        }
-    }
-    return asset('public/assets/images/no-image.jpg');
-}
+//function getSettingImage($option_key)
+//{
+//
+//    if ($option_key && $option_key != null) {
+//
+//
+//        $setting = Setting::where('tenant_id', getTenantId())->where('option_key', $option_key)->first();
+//        if (isset($setting->option_value) && isset($setting->option_value) != null) {
+//
+//            $file = FileManager::where('tenant_id', getTenantId())->select('path', 'storage_type')->find($setting->option_value);
+//
+//
+//            if (!is_null($file)) {
+//                if (Storage::disk($file->storage_type)->exists($file->path)) {
+//
+//                    if ($file->storage_type == 'public') {
+//                        return asset('storage/' . $file->path);
+//                    }
+//
+//                    return Storage::disk($file->storage_type)->url($file->path);
+//                }
+//            }
+//        }
+//    }
+//    return asset('public/assets/images/no-image.jpg');
+//}
 
 function getSettingImageCentral($option_key)
 {
@@ -120,7 +122,7 @@ if (!function_exists("getDefaultImage")) {
     function getDefaultImage()
     {
         // return asset('assets/images/no-image.jpg');
-        return asset('assets/images/icon/upload-img-1.svg');
+        return asset('public/assets/images/icon/upload-img-1.svg');
     }
 }
 
@@ -486,32 +488,32 @@ if (!function_exists('getErrorMessage')) {
         }
     }
 }
-
-if (!function_exists('getFileUrl')) {
-    function getFileUrl($id = null)
-    {
-
-        $file = FileManager::select('path', 'storage_type')->find($id);
-
-        if (!is_null($file)) {
-            if (Storage::disk($file->storage_type)->exists($file->path)) {
-
-                if ($file->storage_type == 'public') {
-                    return asset('storage/' . $file->path);
-                }
-
-                if ($file->storage_type == 'wasabi') {
-                    return Storage::disk('wasabi')->url($file->path);
-                }
-
-
-                return Storage::disk($file->storage_type)->url($file->path);
-            }
-        }
-
-        return asset('public/assets/images/no-image.jpg');
-    }
-}
+//
+//if (!function_exists('getFileUrl')) {
+//    function getFileUrl($id = null)
+//    {
+//
+//        $file = FileManager::select('path', 'storage_type')->find($id);
+//
+//        if (!is_null($file)) {
+//            if (Storage::disk($file->storage_type)->exists($file->path)) {
+//
+//                if ($file->storage_type == 'public') {
+//                    return asset('storage/' . $file->path);
+//                }
+//
+//                if ($file->storage_type == 'wasabi') {
+//                    return Storage::disk('wasabi')->url($file->path);
+//                }
+//
+//
+//                return Storage::disk($file->storage_type)->url($file->path);
+//            }
+//        }
+//
+//        return asset('public/assets/images/no-image.jpg');
+//    }
+//}
 
 if (!function_exists('languageLocale')) {
     function languageLocale($locale)
@@ -555,6 +557,47 @@ function currentCurrencyIcon()
     $currentCurrency = Currency::where('tenant_id', getTenantId())->where('current_currency', 1)->first();
     return $currentCurrency->symbol;
 }
+
+/**
+ * @throws \Mpdf\MpdfException
+ */
+function gen_mpdf($view, $file_path)
+{
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8', // Set character encoding
+        'format' => 'A4', // Page format
+        'orientation' => 'P', // Portrait orientation
+        'margin_top' => 0, // Top margin
+        'margin_bottom' => 0, // Bottom margin
+        'margin_left' => 0, // Left margin
+        'margin_right' => 0 // Right margin
+
+    ]);
+
+    //  $mpdf->AddPage('XL', '', '', '', '', 10, 10, 5, '', '300', '');
+
+    $mpdf->autoScriptToLang = true;
+
+    $mpdf->autoLangToFont = true;
+    $mpdf->SetProtection(array('print'));
+    $mpdf->SetTitle("Acme Trading Co. - Invoice");
+    $mpdf->SetAuthor("Acme Trading Co.");
+    $mpdf->SetWatermarkText("Paid");
+    $mpdf->showWatermarkText = true;
+    $mpdf->watermark_font = 'DejaVuSansCondensed';
+    $mpdf->watermarkTextAlpha = 0.1;
+    $mpdf->SetDisplayMode('fullwidth');
+
+    $mpdf_view = $view;
+
+    $mpdf_view = $mpdf_view->render();
+    $mpdf->WriteHTML($mpdf_view);
+    $file_path = 'public/cv/' . $file_path . '.pdf'; // Specify the folder and file path relative to the 'public' directory
+
+    Storage::put($file_path, $mpdf->Output('', 'S')); // Save the file to the specified location
+}
+
+
 
 function convertCurrencySwap($amount, $to = 'USD', $from = 'USD')
 {
@@ -767,46 +810,46 @@ if (!function_exists('customNumberFormat')) {
     return number_format($size) . ' bytes';
 }
 
-if (!function_exists('getMeta')) {
-    function getMeta($slug)
-    {
-        $metaData = [
-            'meta_title' => null,
-            'meta_description' => null,
-            'meta_keyword' => null,
-            'og_image' => null,
-        ];
-
-        $meta = Meta::where('slug', $slug)->select([
-            'meta_title',
-            'meta_description',
-            'meta_keyword',
-            'og_image',
-        ])->first();
-
-        if(!is_null($meta)){
-                $metaData = $meta->toArray();
-        }else{
-            $meta = Meta::where('slug', 'default')->select([
-                'meta_title',
-                'meta_description',
-                'meta_keyword',
-                'og_image',
-            ])->first();
-
-            if(!is_null($meta)){
-                $metaData = $meta->toArray();
-            }
-        }
-
-        $metaData['meta_title'] = $metaData['meta_title'] != NULL ? $metaData['meta_title'] : getOption('app_name');
-        $metaData['meta_description'] = $metaData['meta_description'] != NULL ? $metaData['meta_description'] : getOption('app_name');
-        $metaData['meta_keyword'] = $metaData['meta_keyword'] != NULL ? $metaData['meta_keyword'] : getOption('app_name');
-        $metaData['og_image'] = $metaData['og_image'] != NULL ? getFileUrl($metaData['og_image']) : getFileUrl(getOption('app_logo'));
-
-        return $metaData;
-    }
-}
+//if (!function_exists('getMeta')) {
+//    function getMeta($slug)
+//    {
+//        $metaData = [
+//            'meta_title' => null,
+//            'meta_description' => null,
+//            'meta_keyword' => null,
+//            'og_image' => null,
+//        ];
+//
+//        $meta = Meta::where('slug', $slug)->select([
+//            'meta_title',
+//            'meta_description',
+//            'meta_keyword',
+//            'og_image',
+//        ])->first();
+//
+//        if(!is_null($meta)){
+//                $metaData = $meta->toArray();
+//        }else{
+//            $meta = Meta::where('slug', 'default')->select([
+//                'meta_title',
+//                'meta_description',
+//                'meta_keyword',
+//                'og_image',
+//            ])->first();
+//
+//            if(!is_null($meta)){
+//                $metaData = $meta->toArray();
+//            }
+//        }
+//
+//        $metaData['meta_title'] = $metaData['meta_title'] != NULL ? $metaData['meta_title'] : getOption('app_name');
+//        $metaData['meta_description'] = $metaData['meta_description'] != NULL ? $metaData['meta_description'] : getOption('app_name');
+//        $metaData['meta_keyword'] = $metaData['meta_keyword'] != NULL ? $metaData['meta_keyword'] : getOption('app_name');
+//        $metaData['og_image'] = $metaData['og_image'] != NULL ? getFileUrl($metaData['og_image']) : getFileUrl(getOption('app_logo'));
+//
+//        return $metaData;
+//    }
+//}
 
 function genericEmailNotify($singleData=NULL,$userData=NULL,$customData=NULL,$template=NULL,$link=NULL)
 {
@@ -890,49 +933,49 @@ if (!function_exists('setCommonNotification')) {
     }
 }
 
-if (!function_exists('userNotification')) {
-    function userNotification($type)
-    {
-        if ($type == 'seen') {
-            return Notification::leftJoin('notification_seens', 'notifications.id', '=', 'notification_seens.notification_id')
-                ->where(function ($query) {
-                    $query->where('notifications.user_id', null)->orWhere('notifications.user_id', Auth::id());
-                })
-                ->where('notifications.status', ACTIVE)
-                ->where('notification_seens.id', '!=', null)
-                ->orderBy('id', 'DESC')
-                ->get([
-                    'notifications.*',
-                    'notification_seens.id as seen_id',
-                ]);
-        } else if ($type == 'unseen') {
-            return Notification::leftJoin('notification_seens', 'notifications.id', '=', 'notification_seens.notification_id')
-                ->where(function ($query) {
-                    $query->where('notifications.user_id', null)->orWhere('notifications.user_id', Auth::id());
-                })
-                ->where('notifications.status', ACTIVE)
-                ->where('notification_seens.id', null)
-                ->orderBy('id', 'DESC')
-                ->get([
-                    'notifications.*',
-                    'notification_seens.id as seen_id',
-                ]);
-
-        } else if ($type == 'seen-unseen') {
-            return Notification::leftJoin('notification_seens', 'notifications.id', '=', 'notification_seens.notification_id')
-                ->where(function ($query) {
-                    $query->where('notifications.user_id', null)->orWhere('notifications.user_id', Auth::id());
-                })
-                ->where('notifications.status', ACTIVE)
-                ->orderBy('id', 'DESC')
-                ->get([
-                    'notifications.*',
-                    'notification_seens.id as seen_id',
-                ]);
-        }
-
-    }
-}
+//if (!function_exists('userNotification')) {
+//    function userNotification($type)
+//    {
+//        if ($type == 'seen') {
+//            return Notification::leftJoin('notification_seens', 'notifications.id', '=', 'notification_seens.notification_id')
+//                ->where(function ($query) {
+//                    $query->where('notifications.user_id', null)->orWhere('notifications.user_id', Auth::id());
+//                })
+//                ->where('notifications.status', ACTIVE)
+//                ->where('notification_seens.id', '!=', null)
+//                ->orderBy('id', 'DESC')
+//                ->get([
+//                    'notifications.*',
+//                    'notification_seens.id as seen_id',
+//                ]);
+//        } else if ($type == 'unseen') {
+//            return Notification::leftJoin('notification_seens', 'notifications.id', '=', 'notification_seens.notification_id')
+//                ->where(function ($query) {
+//                    $query->where('notifications.user_id', null)->orWhere('notifications.user_id', Auth::id());
+//                })
+//                ->where('notifications.status', ACTIVE)
+//                ->where('notification_seens.id', null)
+//                ->orderBy('id', 'DESC')
+//                ->get([
+//                    'notifications.*',
+//                    'notification_seens.id as seen_id',
+//                ]);
+//
+//        } else if ($type == 'seen-unseen') {
+//            return Notification::leftJoin('notification_seens', 'notifications.id', '=', 'notification_seens.notification_id')
+//                ->where(function ($query) {
+//                    $query->where('notifications.user_id', null)->orWhere('notifications.user_id', Auth::id());
+//                })
+//                ->where('notifications.status', ACTIVE)
+//                ->orderBy('id', 'DESC')
+//                ->get([
+//                    'notifications.*',
+//                    'notification_seens.id as seen_id',
+//                ]);
+//        }
+//
+//    }
+//}
 
 if (!function_exists('getSubText')) {
     function getSubText($html, $limit= 100000)
@@ -1060,20 +1103,18 @@ if (!function_exists('userCurrentPackage')) {
     }
 }
 
-function getTenantId()
-{
-    if (isCentralDomain()) {
-
-        if(isAddonInstalled('ALUSAAS')){
-            return auth()->user()?->tenant_id;
-        }else{
-
-            return \Stancl\Tenancy\Database\Models\Domain::first()->tenant_id;
-        }
-    }else{
-        return tenant('id');
-    }
-}
+//function getTenantId()
+//{
+//    if (isCentralDomain()) {
+//        if(isAddonInstalled('ALUSAAS')){
+//            return auth()->user()?->tenant_id;
+//        }else{
+//            return \Stancl\Tenancy\Database\Models\Domain::first()->tenant_id;
+//        }
+//    }else{
+//        return tenant('id');
+//    }
+//}
 
 
 function getPackageLimit($rule){

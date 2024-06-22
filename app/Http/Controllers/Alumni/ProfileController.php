@@ -35,13 +35,20 @@ class ProfileController extends Controller
         return view('alumni.profile',$data);
     }
 
-    public function userProfileUpdate(ProfileRequest $request){
+    public function userProfileUpdate(Request $request){
+
         return $this->userService->profileUpdate($request);
     }
 
-    public function addInstitution(Request $request){
+    public function addEducation(Request $request){
 
-        return $this->userService->addInstitution($request);
+        return $this->userService->addEducation($request);
+    }
+
+    public function addExperience(Request $request)
+    {
+        return $this->userService->addExperience($request);
+
     }
 
     public function changePasswordUpdate(Request $request)
@@ -72,6 +79,8 @@ class ProfileController extends Controller
         ]);
         return $this->userService->smsVerify($request);
     }
+
+
 
     public function list_cvs(Request $request){
         if ($request->ajax()) {

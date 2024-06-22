@@ -1,4 +1,4 @@
-@extends('alumni.layouts.app')
+@extends('layouts.app')
 
 @push('title')
     {{ $title }}
@@ -6,7 +6,7 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30">
+    <div class="p-30" >
         <div class="">
             <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{ __('Post Details') }}</h4>
             <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">

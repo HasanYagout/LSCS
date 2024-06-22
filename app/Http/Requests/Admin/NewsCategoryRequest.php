@@ -25,11 +25,8 @@ class NewsCategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
-                'bail',
-                'required',
-                new UniqueWithConditions('news_categories', 'name', $this->id, 'id', ['tenant_id' => getTenantId()])
-            ]
+            'name' => 'required',
+            'status'=>'required'
         ];
     }
 }

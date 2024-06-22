@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @push('title')
 {{$title}}
@@ -8,7 +8,7 @@
 
 
 <!-- Page content area start -->
-<div class="p-30">
+<div class="p-30" >
     <div>
         <input type="hidden" id="notice-list-route" value="{{ route('admin.notices.index') }}">
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
@@ -55,7 +55,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content zModalTwo-content">
 
-            <form class="ajax reset" action="{{ route('admin.notices.store') }}" method="post"
+            <form class="ajax reset" action="{{ route('admin.notices.store') }}" method="post" enctype="multipart/form-data"
                 data-handler="commonResponseForModal">
                 @csrf
                 <div class="modal-body zModalTwo-body model-lg">
@@ -123,7 +123,7 @@
                                     <div class="primary-form-group-wrap zImage-upload-details">
                                         <div class="zImage-inside">
                                             <div class="d-flex pb-12"><img
-                                                    src="{{asset('assets/images/icon/upload-img-1.svg')}}" alt="" />
+                                                    src="{{asset('public/assets/images/icon/upload-img-1.svg')}}" alt="" />
                                             </div>
                                             <p class="fs-15 fw-500 lh-16 text-1b1c17">{{__('Drag & drop files here')}}
                                             </p>
@@ -165,5 +165,5 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('admin/js/notices.js') }}"></script>
+<script src="{{ asset('public/admin/js/notices.js') }}"></script>
 @endpush

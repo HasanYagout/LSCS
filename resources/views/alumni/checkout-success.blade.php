@@ -3,7 +3,7 @@
 {{ __('Payment Notify') }}
 @endpush
 @section('content')
-<div class="p-30">
+<div class="p-30" >
     <div class="">
         <div class="text-center py-sm-60">
             @if($success == true)

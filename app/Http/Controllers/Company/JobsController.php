@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\company\CreateJobRequest;
 use App\Models\Alumni;
 use App\Models\AppliedJobs;
 use App\Models\JobPost;
@@ -32,40 +33,11 @@ class JobsController extends Controller
 
     }
 
-    public function add(Request $request)
+    public function add(CreateJobRequest $request)
     {
-
-        $jobPost = new JobPost();
-        $slug = getSlug($request->title) . '-' . rand(100000, 999999).'-'.Str::random(6);
-
-        $jobPost->title = $request->title;
-        $jobPost->slug = $slug;
-        $jobPost->company_id = auth('company')->id();
-        $jobPost->compensation_n_benefits = $request->compensation_n_benefits;
-        $jobPost->salary = $request->salary;
-        $jobPost->location = $request->location;
-        $jobPost->post_link = $request->post_link?$request->post_link:'';
-        $jobPost->application_deadline = $request->application_deadline;
-        $jobPost->job_responsibility = $request->job_responsibility;
-        $jobPost->job_context = $request->job_context;
-        $jobPost->educational_requirements = $request->educational_requirements;
-        $jobPost->additional_requirements = $request->additional_requirements;
-        $jobPost->employee_status = $request->employee_status;
-        $jobPost->status = JOB_STATUS_PENDING;
-        $jobPost->posted_by= 'company';
-        $jobPost->save();
+        return $this->jobPostService->store($request);
     }
 
-    public function myJobPost(Request $request)
-    {
-        if ($request->ajax()) {
-            return $this->jobPostService->getMyJobPostList();
-        }
-        $data['title'] = __('My Job Post');
-        $data['showJobPostManagement'] = 'show';
-        $data['activeMyJobPostList'] = 'active-color-one';
-        return view('company.jobs.my-job-post', $data);
-    }
     public function info($slug)
     {
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
@@ -97,26 +69,15 @@ class JobsController extends Controller
     public function all(Request $request)
     {
         if ($request->ajax()) {
-            $features = JobPost::where('company_id',auth('company')->id())->orderBy('id','desc')->get();
+            $features = JobPost::where('user_id',auth('company')->id())->where('posted_by','company')->orderBy('id','desc')->get();
             return datatables($features)
                 ->addIndexColumn()
-//            ->addColumn('company_logo', function ($data) {
-//
-//                return '<img src="' . getFileUrl($data->company_logo) . '" alt="icon" class="rounded avatar-xs max-h-35">';
-//            })
-//            ->addColumn('title', function ($data) {
-//                return htmlspecialchars($data->title);
-//            })
-//            ->addColumn('employee_status', function ($data) {
-//                return $this->getEmployeeStatusById($data->employee_status);
-//            })
-//            ->addColumn('salary', function ($data) {
-//                return htmlspecialchars($data->salary);
-//            })
-//            ->addColumn('application_deadline', function ($data) {
-//               return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
-//            })
-//
+                ->addColumn('status', function ($data){
+                    $checked = $data->status == STATUS_ACTIVE ? 'checked' : '';
+                    return '<div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="statusSwitch' . $data->id . '" ' . $checked . ' onclick="toggleStatus(' . $data->id . ')">
+                    </div>';
+                })
                 ->addColumn('action', function ($data) {
                     if(auth('company')->user()->role_id == USER_ROLE_COMPANY){
                         return '<ul class="d-flex align-items-center cg-5 justify-content-center">
@@ -127,20 +88,20 @@ class JobsController extends Controller
                                     <button onclick="deleteItem(\'' . route('company.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
                                         <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                                     </button>
-                                    <a href="' . route('company.jobs.details', ['company'=>auth('company')->id(),'slug'=>$data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+                                    <a href="' . route('company.jobs.details', ['company'=>auth('company')->id(),'slug'=>$data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
                                 </li>
                             </ul>';
                     }else{
                         return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
-                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
                     </li>
                 </ul>';
                     }
 
                 })
 
-                ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'salary', 'application_deadline'])
+                ->rawColumns(['company_logo','status' ,'action', 'title', 'employee_status', 'application_deadline'])
                 ->make(true);
         }
         $data['title'] = __('All Job Post');
@@ -151,7 +112,6 @@ class JobsController extends Controller
 
     public function applied(Request $request,$id)
     {
-
 
         if ($request->ajax()) {
             $applied = AppliedJobs::with('alumni')->where('company_id', auth('company')->id())->where('job_id',$id)->orderBy('id', 'desc')->get();
@@ -181,13 +141,13 @@ class JobsController extends Controller
 //                                    <button onclick="deleteItem(\'' . route('company.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
 //                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
 //                                    </button>
-//                                    <a href="' . route('company.jobs.details', ['company' => auth('company')->id(), 'slug' => $data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+//                                    <a href="' . route('company.jobs.details', ['company' => auth('company')->id(), 'slug' => $data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
 //                                </li>
 //                            </ul>';
 //                    } else {
 //                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
 //                    <li class="d-flex gap-2">
-//                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
+//                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
 //                    </li>
 //                </ul>';
 //                    }
@@ -206,5 +166,16 @@ class JobsController extends Controller
         $data['showJobPostManagement'] = 'show';
         $data['activePendingJobPostList'] = 'active-color-one';
         return view('company.jobs.pending-job-post', $data);
+    }
+    public function toggleStatus(Request $request)
+    {
+
+        $job = JobPost::find($request->id);
+        if ($job) {
+            $job->status = $job->status == STATUS_ACTIVE ? STATUS_INACTIVE : STATUS_ACTIVE;
+            $job->save();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false]);
     }
 }

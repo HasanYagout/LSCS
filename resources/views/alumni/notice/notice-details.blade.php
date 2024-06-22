@@ -24,7 +24,7 @@
               <!-- Image -->
               <div class="bd-one bd-c-1b1c17 bd-ra-20 overflow-hidden mb-25">
                 <!-- Image minimum size 1600*430  -->
-                <img class="w-100" src="{{getFileUrl($notice->image)}}" alt="">
+                <img class="w-100" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/notice').'/'.$notice->image}}" alt="">
               </div>
               <div>
                 <!-- Info -->

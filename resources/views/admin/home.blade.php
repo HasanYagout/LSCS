@@ -1,12 +1,42 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @push('title')
     {{ __('Home') }}
 @endpush
 @push('style')
-{{--{!! RecaptchaV3::initJs() !!}--}}
+
+    <style>
+        body .lightbox .lb-close {
+            position: absolute;
+            top: 0px;
+            right: 144px;
+            z-index: 1051;
+        }
+
+        body .lightbox .lb-prev, body .lightbox .lb-next {
+            position: relative;
+            top: 52%;
+            transform: translateY(-50%);
+        }
+
+        body .lightbox .lb-prev {
+            opacity: 1;
+            left: -100px;
+        }
+
+        body .lightbox .lb-next {
+            right: -100px;
+            opacity: 1;
+        }
+        .page-link{
+        }
+        .active>.page-link, .page-link.active{
+            background-color: var(--secondary-color);
+            border: none;
+        }
+    </style>
 @endpush
 @section('content')
-    <div class="p-30">
+    <div class="p-30" >
         <section class="home-section">
             <!-- Posts -->
             <div class="home-content">
@@ -22,7 +52,9 @@
 
                             <div class="d-flex align-items-center cg-10 pb-20">
                                 <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-cdef84 rounded-circle overflow-hidden"><img
-                                        src="{{ asset(getFileUrl(auth('admin')->user()->image)) }}" class="w-100"
+                                        src="{{ asset('public/storage/admin'.'/'.auth('admin')->user()->image) }}"
+                                        class="w-100"
+                                        onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                         alt="{{auth('admin')->user()->name}}" />
                                 </div>
                                 <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{auth('admin')->user()->name}}</h4>
@@ -64,8 +96,9 @@
                     </form>
                 </div>
                 <div id="post-block" class="mt-15 d-flex flex-column rg-15">
-
+                    @include('admin.partials.post',$posts)
                 </div>
+                {{$posts->links()}}
             </div>
             <!-- Right side content -->
             <div class="home-rightSide">
@@ -88,12 +121,12 @@
                                     <li>
                                         <div class="home-item-one">
                                             <div class="img">
-                                                <img src="{{ asset(getFileUrl($event->thumbnail)) }}"
+                                                <img src="{{ asset('public/storage/admin/event').'/'.$event->thumbnail }}"
                                                     alt="{{ $event->title }}">
                                                 <ul class="tag d-flex flex-wrap cg-2 rg-5">
-                                                    <li><a
-                                                            class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ eventType($event->type) }}</a>
-                                                    </li>
+{{--                                                    <li><a--}}
+{{--                                                            class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ eventType($event->type) }}</a>--}}
+{{--                                                    </li>--}}
                                                     <li><a
                                                             class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ $event->category->name }}</a>
                                                     </li>
@@ -146,7 +179,7 @@
                                         <div class="d-flex align-items-center cg-10 pb-10">
                                             <div
                                                 class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img src="{{ asset(getFileUrl($job->company->logo)) }}"
+                                                <img src="{{ asset('public/storage/company').'/'.$job->company->image }}"
                                                     alt="{{ $job->title }}" />
                                             </div>
                                             <div class="">
@@ -215,7 +248,7 @@
                                 @foreach ($latestNotice as $notice)
                                     <li>
                                         <div class="home-item-one">
-                                            <div class="img"><img src="{{ asset(getFileUrl($notice->image)) }}"
+                                            <div class="img"><img src="{{ asset('public/storage/notice'.'/'.$notice->image) }}"
                                                     alt="{{ $notice->title }}" />
                                             </div>
                                             <div class="content">
@@ -257,7 +290,7 @@
                                 @foreach ($latestNews as $news)
                                     <li>
                                         <div class="home-item-one">
-                                            <div class="img"><img src="{{ asset(getFileUrl($news->image)) }}"
+                                            <div class="img"><img src="{{ asset('public/storage/news'.'/'.$news->image) }}"
                                                     alt="{{ $news->title }}" />
                                             </div>
                                             <div class="content">
@@ -273,13 +306,13 @@
                                                 <h4 class="title">{{ $news->title }}</h4>
                                                 <!-- User -->
                                                 <div class="d-flex align-items-center cg-5">
-                                                    <div
-                                                        class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
-                                                        <img src="{{ asset(getFileUrl($news->author->image)) }}"
-                                                            alt="{{ $news->author->name }}" />
-                                                    </div>
-                                                    <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->name }}
-                                                    </p>
+{{--                                                    <div--}}
+{{--                                                        class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">--}}
+{{--                                                        <img src="{{ asset('public/storage/admin'.'/'.$news->author->image)}}"--}}
+{{--                                                            alt="{{ $news->author->first_name .$news->author->last_name }}" />--}}
+{{--                                                    </div>--}}
+{{--                                                    <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name .$news->author->last_name }}--}}
+{{--                                                    </p>--}}
                                                 </div>
                                                 <!-- Link -->
                                                 <a href="{{ route('admin.news.details', $news->slug) }}"
@@ -318,12 +351,12 @@
                                 <li>
                                     <div class="home-item-one">
                                         <div class="img">
-                                            <img src="{{ asset(getFileUrl($event->thumbnail)) }}"
+                                            <img src="{{ asset('public/storage/events'.'/'.$event->thumbnail) }}"
                                                 alt="{{ $event->title }}">
                                             <ul class="tag d-flex flex-wrap cg-2 rg-5">
-                                                <li><a
-                                                        class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ eventType($event->type) }}</a>
-                                                </li>
+{{--                                                <li><a--}}
+{{--                                                        class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ eventType($event->type) }}</a>--}}
+{{--                                                </li>--}}
                                                 <li><a
                                                         class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ $event->category->name }}</a>
                                                 </li>
@@ -376,7 +409,7 @@
                                     <div class="d-flex align-items-center cg-10 pb-10">
                                         <div
                                             class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                            <img src="{{ asset(getFileUrl($job->company->logo)) }}"
+                                            <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/company').'/'.$job->company->image }}"
                                                 alt="{{ $job->title }}" />
                                         </div>
                                         <div class="">
@@ -444,7 +477,7 @@
                             @foreach ($latestNotice as $notice)
                                 <li>
                                     <div class="home-item-one">
-                                        <div class="img"><img src="{{ asset(getFileUrl($notice->image)) }}"
+                                        <div class="img"><img src="{{ asset('public/storage/notice'.'/'.$notice->image) }}"
                                                 alt="{{ $notice->title }}" /></div>
                                         <div class="content">
                                             <!-- Tab - Date -->
@@ -485,7 +518,7 @@
                             @foreach ($latestNews as $news)
                                 <li>
                                     <div class="home-item-one">
-                                        <div class="img"><img src="{{ asset(getFileUrl($news->image)) }}"
+                                        <div class="img"><img src="{{ asset('public/storage/news'.'/'.$news->image) }}"
                                                 alt="{{ $news->title }}" />
                                         </div>
                                         <div class="content">
@@ -503,10 +536,10 @@
                                             <div class="d-flex align-items-center cg-5">
                                                 <div
                                                     class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
-                                                    <img src="{{ asset(getFileUrl($news->author->image)) }}"
-                                                        alt="{{ $news->author->name }}" />
+                                                    <img src="{{ asset('public/storage/news'.'/'.$news->author->image) }}"
+                                                        alt="{{ $news->author->first_name .$news->author->last_name }}" />
                                                 </div>
-                                                <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->name }}</p>
+                                                <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name .'f' . $news->author->last_name }}</p>
                                             </div>
                                             <!-- Link -->
                                             <a href="{{ route('admin.news.details', $news->slug) }}"
@@ -540,49 +573,19 @@
     </div>
 
     <!-- Edit post comment modal -->
-    <div class="modal fade zModalTwo" id="commentEditModal" tabindex="-1" aria-labelledby="commentEditModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content zModalTwo-content">
-                <!-- Header -->
-                <div class="align-items-center d-flex justify-content-between ps-4 pt-17">
-                    <h4 class="fs-18 fw-500 lh-20 text-1b1c17">{{ __('Update Comment') }}</h4>
-                </div>
-                <form action="{{ route('admin.posts.comments.update') }}" data-handler="postCommentUpdateResponse"
-                    method="POST" class="ajax reset">
-                    @method('put')
-                    @csrf
-                    <div class="modal-body zModalTwo-body" id="comment-edit-modal-content">
-                        <!-- Body -->
-                        <div class="pb-18 bd-c-black-10">
-                            <input type="hidden" name="id">
-                            <textarea class="form-control postInput" name="body" placeholder="{{ __('What’s your comment?') }}"></textarea>
-                        </div>
-                        <!-- Footer -->
-                        <div class="">
-                            <div class="pt-18">
-                                <button type="submit"
-                                    class="border-0 py-10 px-26 bd-ra-12 bg-cdef84 hover-bg-one w-100 d-flex justify-content-center align-items-center">{{ __('Update') }}</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
-{{--    <input type="hidden" id="more-post-route" value="{{ route('more-post-load') }}">--}}
+{{--    <input type="hidden" id="more-post-route" value="{{ route('admin.posts.more-post-load') }}">--}}
     <input type="hidden" id="delete-post-route" value="{{ route('admin.posts.delete') }}">
-    <input type="hidden" id="post-like-route" value="{{ route('admin.posts.like') }}">
+{{--    <input type="hidden" id="post-like-route" value="{{ route('admin.posts.like') }}">--}}
     <input type="hidden" id="post-edit" value="{{ route('alumni.posts.edit') }}">
     <input type="hidden" id="post-update" value="{{ route('alumni.posts.update') }}">
-    <input type="hidden" id="post-comment-store" value="{{ route('alumni.posts.comments.store') }}">
+{{--    <input type="hidden" id="post-comment-store" value="{{ route('alumni.posts.comments.store') }}">--}}
     <input type="hidden" id="load-single-post" value="{{ route('alumni.posts.single') }}">
     <input type="hidden" id="load-post-body" value="{{ route('alumni.posts.single.body') }}">
-    <input type="hidden" id="load-likes" value="{{ route('alumni.posts.single.likes') }}">
-    <input type="hidden" id="load-comments" value="{{ route('alumni.posts.single.comments') }}">
-    <input type="hidden" id="post-comment-delete" value="{{ route('alumni.posts.comments.delete') }}">
-    <input type="hidden" id="post-comment-update" value="{{ route('alumni.posts.comments.update') }}">
+{{--    <input type="hidden" id="load-likes" value="{{ route('alumni.posts.single.likes') }}">--}}
+{{--    <input type="hidden" id="load-comments" value="{{ route('alumni.posts.single.comments') }}">--}}
+{{--    <input type="hidden" id="post-comment-delete" value="{{ route('alumni.posts.comments.delete') }}">--}}
+{{--    <input type="hidden" id="post-comment-update" value="{{ route('alumni.posts.comments.update') }}">--}}
     @if (!empty(getOption('cookie_status')) && getOption('cookie_status') == STATUS_ACTIVE)
         <div class="cookie-consent-wrap shadow-lg">
             @include('cookie-consent::index')
@@ -591,5 +594,15 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('public/alumni/js/posts.js') }}?ver={{ env('VERSION' ,0) }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            lightbox.option({
+                'resizeDuration': 200,
+                'wrapAround': true,
+                'fitImagesInViewport':true,
+                'showImageNumberLabel':true
+            });
+        });
+    </script>
+{{--    <script src="{{ asset('public/alumni/js/posts.js') }}?ver={{ env('VERSION' ,0) }}"></script>--}}
 @endpush

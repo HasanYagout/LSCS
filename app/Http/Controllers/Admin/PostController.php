@@ -40,10 +40,7 @@ class PostController extends Controller
         return  $this->postService->deleteBySlug($request);
     }
 
-    public function likeDislike(Request $request)
-    {
-        return  $this->postService->likeDislike($request);
-    }
+
 
     public function getSinglePost(Request $request)
     {
@@ -57,33 +54,7 @@ class PostController extends Controller
         $response['html'] = View::make('alumni.partials.post-body', $data)->render();
         return $this->success($response);
     }
-    public function getSinglePostLike(Request $request)
-    {
-        $data['post'] = $this->postService->getBySlug($request->slug);
-        $response['html'] = View::make('alumni.partials.post-like', $data)->render();
-        return $this->success($response);
-    }
-    public function getSinglePostComment(Request $request)
-    {
-        $data['post'] = $this->postService->getBySlug($request->slug);
-        $response['comment_button_html'] = View::make('alumni.partials.post-comment-button', $data)->render();
-        $response['comment_box_html'] = View::make('alumni.partials.post-comment-box', $data)->render();
-        return $this->success($response);
-    }
-    public function postComment(Request $request)
-    {
-        $request->validate([
-            'body' => 'required'
-        ]);
 
-        return  $this->postService->storeComment($request);
-    }
-    public function postCommentDelete(Request $request)
-    {
-        return  $this->postService->deleteComment($request);
-    }
-    public function postCommentUpdate(Request $request)
-    {
-        return  $this->postService->updateComment($request);
-    }
+
+
 }

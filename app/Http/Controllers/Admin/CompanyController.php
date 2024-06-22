@@ -28,8 +28,10 @@ class CompanyController extends Controller
     {
 
         if ($request->ajax()) {
-            $companies = Company::orderBy('id','desc')->get();
-
+            $companies = Company::where('status',STATUS_ACTIVE)
+                ->orWhere('status',STATUS_ACTIVE)
+                ->orderBy('id','desc')
+                ->get();
 
             return datatables($companies)
                 ->addIndexColumn()
@@ -43,49 +45,26 @@ class CompanyController extends Controller
                     return $data->phone;
                 })
                 ->addColumn('status', function ($data) {
-
-                    return $data->status;
+                    $checked = $data->status ? 'checked' : '';
+                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                <li class="d-flex gap-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
+                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
+                    </div>
+                </li>
+            </ul>';
                 })
-//                ->addColumn('logo', function ($data) {
-//                    return '<img src="' . $data->company->logo . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
-//                })
-//            ->addColumn('title', function ($data) {
-//                return htmlspecialchars($data->title);
-//            })
-//            ->addColumn('employee_status', function ($data) {
-//                return $this->getEmployeeStatusById($data->employee_status);
-//            })
-//            ->addColumn('salary', function ($data) {
-//                return htmlspecialchars($data->salary);
-//            })
-//            ->addColumn('application_deadline', function ($data) {
-//               return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
-//            })
-//
-//                ->addColumn('action', function ($data) {
-//                    if(auth('admin')->user()->role_id == USER_ROLE_COMPANY){
-//                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-//                                <li class="d-flex gap-2">
-//                                    <button onclick="getEditModal(\'' . route('admin.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-//                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-//                                    </button>
-//                                    <button onclick="deleteItem(\'' . route('admin.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-//                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-//                                    </button>
-//                                    <a href="' . route('admin.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
-//                                </li>
-//                            </ul>';
-//                    }else{
-//                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-//                    <li class="d-flex gap-2">
-//                        <a href="' . route('company.jobs.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('assets/images/icon/eye.svg') . '" alt="" /></a>
-//                    </li>
-//                </ul>';
-//                    }
-//
-//                })
 
-                ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'salary', 'application_deadline'])
+                ->addColumn('action', function ($data) {
+                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                                <li class="d-flex gap-2">
+                                    <a href="' . route('admin.company.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+                                </li>
+                            </ul>';
+
+                })
+                ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'status', 'application_deadline'])
                 ->make(true);
         }
         $data['title'] = __('All Companies');
@@ -94,8 +73,68 @@ class CompanyController extends Controller
         return view('admin.company.all', $data);
     }
 
-    public function update(Request $request ,Company $company)
+    public function pending(Request $request)
     {
-        $company->update(['status' => $request->status]);
+        if ($request->ajax()) {
+            $companies = Company::where('status',STATUS_INACTIVE)->orderBy('id','desc')->get();
+            return datatables($companies)
+                ->addIndexColumn()
+                ->addColumn('name', function ($data) {
+                    return $data->name;
+                })
+                ->addColumn('email',function($data){
+                    return $data->email;
+                })
+                ->addColumn('phone',function($data){
+                    return $data->phone;
+                })
+                ->addColumn('status', function ($data) {
+                    $checked = $data->status ? 'checked' : '';
+                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                <li class="d-flex gap-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
+                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
+                    </div>
+                </li>
+            </ul>';
+                })
+
+                ->addColumn('action', function ($data) {
+                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                                <li class="d-flex gap-2">
+                                    <a href="' . route('admin.company.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+                                </li>
+                            </ul>';
+
+                })
+                ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'status', 'application_deadline'])
+                ->make(true);
+        }
+        $data['title'] = __('All Companies');
+        $data['showCompanyManagement'] = 'show';
+        $data['activeAllJobPostList'] = 'active-color-one';
+        return view('admin.company.pending', $data);
+    }
+    public function update(Request $request, $id)
+    {
+        $company = Company::with('jobs')->find($id);
+        if ($company) {
+            $company->status = $request->status;
+            $company->jobs->status=$request->status;
+            $company->save();
+
+            return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Company not found.']);
+    }
+
+    public function details(Request $request,$slug)
+    {
+      $data['company']=Company::with('appliedJobs','jobs')->where('slug',$slug)->firstOrFail();
+      $data['title'] = __('Company Details');
+      $data['showCompanyManagement'] = 'show';
+      return view('admin.company.details',$data);
     }
 }

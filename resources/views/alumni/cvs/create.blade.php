@@ -1,4 +1,4 @@
-@extends('alumni.layouts.app')
+@extends('layouts.app')
 @push('title')
     {{ __('create cv') }}
 @endpush
@@ -148,37 +148,36 @@
 
             </div>
 
-            <div class="row" id="experienceSection">
-                <input type="hidden" id="experienceCount" name="experienceCount" value="2">
+{{--            <div class="row" id="experienceSection">--}}
+{{--                <input type="hidden" id="experienceCount" name="experienceCount" value="2">--}}
 
-                <div class="col-4 mt-3">
-                    <label for="title" class="form-label">{{__('Institute Name')}}</label>
-                    <input type="text" name="work_experience_name1" required class="form-control">
+{{--                <div class="col-4 mt-3">--}}
+{{--                    <label for="title" class="form-label">{{__('Institute Name')}}</label>--}}
+{{--                    <input type="text" name="work_experience_name1" required class="form-control">--}}
 
-                    <label for="address" class="form-label">{{__('Start Date')}}</label>
-                    <input type="month" name="work_experience_start_date1" required class="form-control">
+{{--                    <label for="address" class="form-label">{{__('Start Date')}}</label>--}}
+{{--                    <input type="month" name="work_experience_start_date1" required class="form-control">--}}
 
-                    <label for="address" class="form-label">{{__('End Date')}}</label>
-                    <input type="month" name="work_experience_end_date1" required class="form-control">
-                    <label for="address" class="form-label">{{__('Position')}}</label>
-                    <input type="text" name="position" required class="form-control">
-                </div>
+{{--                    <label for="address" class="form-label">{{__('End Date')}}</label>--}}
+{{--                    <input type="month" name="work_experience_end_date1" required class="form-control">--}}
+{{--                    <label for="address" class="form-label">{{__('Position')}}</label>--}}
+{{--                    <input type="text" name="position" required class="form-control">--}}
+{{--                </div>--}}
 
-                <div class="col-8">
-                    <label for="experience" class="form-label">{{__('Details:')}} <span
-                            class="text-danger">*</span></label>
-                    <div class="primary-form-group bg-white rounded-4">
-                        <div class="primary-form-group-wrap">
-                            <textarea class="summernoteOne" name="work_experience_details1" id="Experience"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{{--                <div class="col-8">--}}
+{{--                    <label for="experience" class="form-label">{{__('Details:')}} <span--}}
+{{--                            class="text-danger">*</span></label>--}}
+{{--                    <div class="primary-form-group bg-white rounded-4">--}}
+{{--                        <div class="primary-form-group-wrap">--}}
+{{--                            <textarea class="summernoteOne" name="work_experience_details1" id="Experience"></textarea>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-            <button type="button" id="addExperienceSection">Add Experience Section</button>
+{{--            <button type="button" id="addExperienceSection">Add Experience Section</button>--}}
             <div class="m-4">
                 <h1>{{__('Languages')}}</h1>
-
             </div>
             <div class="row">
                 <input type="hidden" id="experienceCount" name="experienceCount" value="2">

@@ -13,11 +13,13 @@ use App\Http\Controllers\Alumni\NotificationController;
 use App\Http\Controllers\Alumni\OrderController;
 use App\Http\Controllers\Alumni\PostController;
 use App\Http\Controllers\Alumni\ProfileController;
+use App\Http\Controllers\Alumni\RecommendationController;
 use App\Http\Controllers\Alumni\SettingController;
 use App\Http\Controllers\Alumni\StoryController;
 use App\Http\Controllers\Alumni\TicketController;
 use App\Http\Controllers\Alumni\TransactionController;
 use App\Http\Controllers\Alumni\UserEmailVerifyController;
+use App\Http\Controllers\Web\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,18 +34,39 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'], function () {
-//    Route::get('/', [\App\Http\Controllers\Alumni\HomeController::class, 'index'])->name('home');
     Route::get('/', function () {
-        return redirect()->route('auth.login');
+        return redirect()->route('alumni.auth.login');
     });
+    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('login', [LoginController::class,'login'])->name('login');
+        Route::post('login',[LoginController::class,'submit'])->name('submit');
+        Route::post('register',[LoginController::class,'register'])->name('register');
+        Route::get('logout',[LoginController::class,'logout'] )->name('logout');
+    });
+    Route::group(['middleware' => 'alumni'], function () {
+
+
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('images', [ProfileController::class, 'images'])->name('images');
+
+    Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function () {
+        Route::get('/', [RecommendationController::class, 'index'])->name('index');
+        Route::get('/list', [RecommendationController::class, 'list'])->name('list');
+        Route::get('/create', [RecommendationController::class, 'create'])->name('create');
+        Route::get('/edit/{id}', [RecommendationController::class, 'edit'])->name('edit');
+        Route::post('/store', [RecommendationController::class, 'store'])->name('store');
+        Route::get('view/{file}', [RecommendationController::class,'view'])->name('view');
+        Route::get('download/{file}', [RecommendationController::class,'download'])->name('download');
+
+    });
 
     Route::post('add-institution', [ProfileController::class, 'addInstitution'])->name('add_institution');
 
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::get('/', [ProfileController::class, 'profile'])->name('index');
         Route::post('update', [ProfileController::class, 'userProfileUpdate'])->name('update');
+        Route::post('add', [ProfileController::class, 'addEducation'])->name('add-education');
+        Route::post('add-experience', [ProfileController::class, 'addExperience'])->name('add-experience');
     });
 
 
@@ -70,31 +93,31 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('dashboard/chart-data', [DashboardController::class, 'chartData'])->name('dashboard_chart_data');
 
-    Route::get('make-favorite-or-not', [DashboardController::class, 'makeFavorite'])->name('make.favorite.or.not');
 
-    Route::get('get-currency-price', [DashboardController::class, 'getCurrencyPrice'])->name('get.currency.price');
 
 // event route start
     Route::group(['prefix' => 'event', 'as' => 'event.'], function () {
-        Route::post('store', [EventController::class, 'store'])->name('store');
-        Route::get('edit/{slug}', [EventController::class, 'edit'])->name('edit');
-        Route::post('update/{slug}', [EventController::class, 'update'])->name('update');
         Route::get('all-event', [EventController::class, 'all'])->name('all');
         Route::get('details/{slug}', [EventController::class, 'details'])->name('details');
-        Route::post('delete/{id}', [EventController::class, 'delete'])->name('delete');
-        Route::get('single-ticket/{id}', [TicketController::class, 'singleTicket'])->name('single-ticket');
+        Route::get('pending', [ EventController::class, 'pending'])->name('pending');
     });
 // event route end
+        Route::group(['prefix' => 'notices', 'as' => 'notices.'], function () {
+            Route::get('list', [NoticeController::class, 'index'])->name('index');
 
+        });
 // Job Post route start
     Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function () {
         Route::get('info/{slug}', [JobPostController::class, 'info'])->name('info');
         Route::post('update/{slug}', [JobPostController::class, 'update'])->name('update');
         Route::post('delete/{slug}', [JobPostController::class, 'delete'])->name('delete');
-        Route::get('details/{company}/{slug}', [JobPostController::class, 'details'])->name('details');
+//        Route::get('details/{company}/{slug}', [JobPostController::class, 'details'])->name('details');
         Route::get('all-job-post', [JobPostController::class, 'all'])->name('all-job-post');
         Route::get('my-job-post', [JobPostController::class, 'myJobPost'])->name('my-job-post');
         Route::post('apply/{company}/{slug}', [JobPostController::class, 'apply'])->name('apply');
+        Route::get('/pending', [JobPostController::class, 'pending'])->name('pending');
+        Route::get('job-view-details/{slug}', [JobPostController::class, 'jobDetails'])->name('details');
+
     });
 // Job Post route end
 
@@ -104,8 +127,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::post('store', [StoryController::class, 'store'])->name('store');
         Route::get('list', [StoryController::class, 'myStory'])->name('my-story');
         Route::get('info/{slug}', [StoryController::class, 'info'])->name('info');
-        Route::post('update/{slug}', [StoryController::class, 'update'])->name('update');
-        Route::post('delete/{slug}', [StoryController::class, 'delete'])->name('delete');
+
     });
 // Stories route end
 
@@ -118,59 +140,23 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::PUT('update', [PostController::class, 'update'])->name('update');
         Route::get('single-post', [PostController::class, 'getSinglePost'])->name('single');
         Route::get('load-post-body', [PostController::class, 'getSinglePostBody'])->name('single.body');
-        Route::get('load-post-like', [PostController::class, 'getSinglePostLike'])->name('single.likes');
-        Route::get('load-post-comment', [PostController::class, 'getSinglePostComment'])->name('single.comments');
-        Route::post('posts/comments', [PostController::class, 'postComment'])->name('comments.store');
-        Route::delete('posts/comments/delete', [PostController::class, 'postCommentDelete'])->name('comments.delete');
-        Route::PUT('posts/comments/update', [PostController::class, 'postCommentUpdate'])->name('comments.update');
     });
-// Post route start
-
-// Membership Route Start
-    Route::get('membership-package', [MembershipController::class, 'membershipPackage'])->name('membership-package');
-// Membership Route End
-
-//notification  route start
-    Route::group(['prefix' => 'notification', 'as' => 'notification.'], function () {
-        Route::get('notification-mark-all-as-read', [NotificationController::class, 'notificationMarkAllAsRead'])->name('notification-mark-all-as-read');
-        Route::get('notification-mark-as-read/{id}', [NotificationController::class, 'notificationMarkAsRead'])->name('notification-mark-as-read');
-    });
-// notification route end
 
     Route::get('testing', [DashboardController::class, 'tester'])->name('testing');
 
-// user notice route start
     Route::get('all-notice', [NoticeController::class, 'allNotice'])->name('all.notice');
     Route::get('notice-details/{slug}', [NoticeController::class, 'noticeDetails'])->name('notice.details');
-// user notice route end
 
-// user news route start
     Route::get('all-news', [NewsController::class, 'allNews'])->name('all.news');
     Route::get('news-details/{slug}', [NewsController::class, 'newsDetails'])->name('news.details');
-// user news route end
 
-// Alumni Management route start
+        Route::group(['prefix' => 'news', 'as' => 'news.'], function () {
+            Route::get('list', [NewsController::class, 'index'])->name('index');
+            Route::get('details/{slug}', [NewsController::class, 'details'])->name('details');
 
-
-
+        });
     Route::get('more-post-load', [HomeController::class, 'loadMorePost'])->name('more-post-load');
-// Alumni Management route end
 
-    Route::get('checkout', [OrderController::class, 'checkout'])->name('checkout');
-    Route::post('pay', [OrderController::class, 'pay'])->name('pay');
-    Route::get('get-currency-by-gateway', [OrderController::class, 'getCurrencyByGateway'])->name('get.currency');
-    Route::get('checkout/success', [OrderController::class, 'checkoutSuccess'])->name('checkout.success');
 
-    Route::get('transactions', [TransactionController::class, 'userTransaction'])->name('transaction.list');
-    Route::get('transactions-download/{id}', [TransactionController::class, 'userTransactionDownload'])->name('transaction.download');
-    Route::get('transactions-print/{id}', [TransactionController::class, 'userTransactionPrint'])->name('transaction.print');
-
-// Chat route start
-    Route::group(['prefix' => 'chats', 'as' => 'chats.'], function () {
-        Route::get('/', [MessageController::class, 'index'])->name('index');
-        Route::get('single-user-chat', [MessageController::class, 'getSingleChat'])->name('single_user_chat');
-        Route::post('send-message', [MessageController::class, 'send'])->name('send_message');
     });
-
-
 });

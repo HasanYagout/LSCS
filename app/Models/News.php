@@ -7,18 +7,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class News extends Model
 {
-    use SoftDeletes;
 
     protected  $table = 'news';
 
-    protected $fillable = ['tenant_id', 'title', 'description', 'status'];
+    protected $fillable = ['tenant_id', 'title', 'description', 'status','image'];
 
-    public function tags(){
-        return $this->belongsToMany(NewsTag::class, 'news_tag', 'news_id', 'tag_id');
-    }
 
     public function author(){
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(Admin::class, 'posted_by');
     }
 
     public function category(){

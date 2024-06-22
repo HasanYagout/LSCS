@@ -22,8 +22,9 @@ Version: 1.0
 =================================*/
 :root {
   font-size: 62.5%;
-  --primary-color: #cdef84;
-  --hover-color: #afd449;
+    --primary-color: #002a5c;
+    --secondary-color: #f1a527;
+  --hover-color: #f1a527;
   --bColor: #707070;
   --black-color: #1b1c17;
   --border-color: #ededed;

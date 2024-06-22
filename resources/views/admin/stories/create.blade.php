@@ -1,14 +1,15 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @push('title')
     {{$title}}
 @endpush
 
 @section('content')
-    <div class="p-30">
+
+    <div class="p-30" >
         <div class="">
             <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{$title}}</h4>
             <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
-                <form class="ajax reset" data-handler="commonResponseRedirect" data-redirect-url="{{route('admin.stories.my-story')}}" action="{{ route('admin.stories.store') }}" method="post" enctype="multipart/form-data" >
+                <form id="storyForm"  enctype="multipart/form-data">
                     @csrf
                     <div class="max-w-840">
                         <div class="pb-30"></div>
@@ -35,7 +36,7 @@
                                 <div class="primary-form-group">
                                     <div class="primary-form-group-wrap zImage-upload-details">
                                         <div class="zImage-inside">
-                                            <div class="d-flex pb-12"><img src="{{asset('assets/images/icon/upload-img-1.svg')}}" alt="" /></div>
+                                            <div class="d-flex pb-12"><img src="{{asset('public/assets/images/icon/upload-img-1.svg')}}" alt="" /></div>
                                             <p class="fs-15 fw-500 lh-16 text-1b1c17">{{__('Drag & drop files here')}}</p>
                                         </div>
                                         <label for="zImageUpload" class="form-label">{{__('Upload Image')}} <span class="text-mime-type">(jpg,jpeg,png)</span> <span class="text-danger">*</span></label>
@@ -56,3 +57,47 @@
     </div>
 @endsection
 
+@push('script')
+    <script>
+        $(document).ready(function() {
+            console.log('dasdadsa');
+
+            $('#storyForm').on('submit', function (e) {
+                e.preventDefault(); // prevent the form from submitting the traditional way
+                var formData = new FormData(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{route('admin.stories.store')}}', // Use only one url property
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+
+                        console.log(response)
+                        if (response.success) {
+                            toastr.success(response.message);
+                            setTimeout(function () {
+                                window.location.href = "{{ route('admin.stories.my-story') }}";
+                            }, 2000); // Redirect after 2 seconds
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function (xhr) {
+                        var errors = xhr.responseJSON.errors;
+                        if (errors) {
+                            Object.values(errors).forEach(error => {
+                                toastr.error(error[0], 'Error'); // Show the first error of every array
+                            });
+                        } else {
+                            toastr.error('An unexpected error occurred.', 'Error');
+                        }
+                    }
+                });
+            })
+        });
+
+
+    </script>
+@endpush

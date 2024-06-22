@@ -1,7 +1,8 @@
 :root {
     // font-size: 62.5%;
-    --primary-color: #cdef84;
-    --hover-color: #afd449;
+    --primary-color: #002a5c;
+    --secondary-color: #f1a527;
+    --hover-color: #f1a527;
     --bColor: #707070;
     --colorOne: #707070;
     --colorTwo: #ebedf0;
@@ -309,7 +310,7 @@ a {
 }
 
 a:hover {
-    color: var(--primary-color);
+    color: var(--secondary-color);
     text-decoration: none;
 }
 
@@ -456,7 +457,7 @@ scrollUp
     left: 0;
     height: 100%;
     width: 240px;
-    background-color: $text-black;
+    background-color: $primary-color;
     // padding: toRem(23) 0 toRem(30);
     z-index: 1001;
     -webkit-transition: all 0.5s ease;

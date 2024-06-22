@@ -61,6 +61,7 @@
         // Initialize Select2 after showing the div
         $('.js-example-basic-single').select2();
     });
+
     $(document).on('click', '.editStudent', function (e) {
         Swal.fire({
             title: 'Sure! You want to change the status to Alumni?',
