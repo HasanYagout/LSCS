@@ -28,7 +28,6 @@
         columns: [
             { "data": "title", "name": "job.title", responsivePriority: 1 },
             { "data": "employee_status", "name": "job.employee_status", responsivePriority: 1 },
-            { "data": "salary", "name": "job.salary", responsivePriority: 2 },
             { "data": "application_deadline", "name": "job.application_deadline", responsivePriority: 3 },
             { "data": "status", "name": "job.application_deadline", responsivePriority: 3 },
             { "data": "action", "name": "job.action"},

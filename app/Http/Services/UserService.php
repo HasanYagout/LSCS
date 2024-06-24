@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Services\SmsMail\TwilioService;
 use App\Models\Alumni;
+use App\Models\CV;
 use App\Models\FileManager;
 use App\Models\User;
 use App\Traits\ResponseTrait;
@@ -221,6 +222,47 @@ class UserService
 
             DB::commit();
             return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+        } catch (Exception $e) {
+            dd($e);
+            DB::rollBack();
+            return $this->error([], getMessage(SOMETHING_WENT_WRONG));
+        }
+    }
+
+    public function addCV(Request $request)
+    {
+
+        $data = $request->validate([
+            'cv.*' => 'required|mimes:pdf|max:2048', // Validate each file as PDF
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            if ($request->hasFile('cv')) {
+                foreach ($request->file('cv') as $cv) {
+                    $date = date('Ymd'); // Current date
+                    $randomNumber = rand(1000, 9999); // Random number
+                    $originalName = pathinfo($cv->getClientOriginalName(), PATHINFO_FILENAME);
+                    $slug = Str::slug($originalName); // Slugified file name
+                    $extension = $cv->getClientOriginalExtension(); // File extension
+                    $fileName = "{$date}_{$randomNumber}_{$slug}.{$extension}"; // Combine them
+                    $cv->move(storage_path('app/public/alumni/cv'), $fileName);
+
+                    CV::create([
+                        'alumni_id' => auth('alumni')->id(),
+                        'name' => $fileName,
+                        'slug' => Str::slug($slug),
+                    ]);
+                }
+            }
+
+
+            DB::commit();
+
+            // Flash success message and redirect
+            return redirect()->route('alumni.profile.index')
+            ->with('success', getMessage(CREATED_SUCCESSFULLY));
         } catch (Exception $e) {
             dd($e);
             DB::rollBack();

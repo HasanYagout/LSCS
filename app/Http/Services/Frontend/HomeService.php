@@ -41,7 +41,7 @@ class HomeService
     }
 
     public function getNotice($limit){
-        return Notice::where('notices.tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->with(['category'])->orderBy('id','DESC')->paginate($limit);
+        return Notice::where('status', STATUS_ACTIVE)->with(['category'])->orderBy('id','DESC')->paginate($limit);
     }
 
     public function getMembership(){
@@ -49,7 +49,7 @@ class HomeService
     }
 
     public function getJob($limit){
-        return JobPost::where('jobs.tenant_id', getTenantId())->where('status',JOB_STATUS_APPROVED)->orderBy('id','desc')->paginate($limit);
+        return JobPost::where('status',JOB_STATUS_APPROVED)->orderBy('id','desc')->paginate($limit);
     }
 
     public function getStories($limit){

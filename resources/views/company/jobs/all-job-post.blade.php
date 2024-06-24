@@ -23,7 +23,6 @@
                 <tr>
                   <th scope="col"><div>{{ __('Job Title') }}</div></th>
                   <th scope="col"><div>{{ __('Employee Status') }}</div></th>
-                  <th scope="col"><div>{{ __('Salary') }}</div></th>
                   <th scope="col"><div>{{ __('Application Deadline') }}</div></th>
                    <th scope="col"><div>{{ __('Status') }}</div></th>
                   <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>

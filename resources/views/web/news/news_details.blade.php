@@ -4,7 +4,7 @@
 @endpush
 @section('content')
 
-<section class="breadcrumb-wrap py-50 py-md-75 py-lg-100" data-background="{{getSettingImage('page_breadcrumb')}}">
+<section class="breadcrumb-wrap py-50 py-md-75 py-lg-100">
     <div class="text-center position-relative">
       <h4 class="fs-50 fw-700 lh-60 text-white pb-8">{{$title}}</h4>
       <ul class="breadcrumb-list">
@@ -23,7 +23,7 @@
             <div class="d-flex justify-content-center align-items-center flex-wrap cg-14 rg-10 pb-10">
               <div class="d-flex align-items-center cg-10">
                 <div class="w-30 h-30 rounded-circle overflow-hidden bd-one bd-c-black-color">
-                    <img src="{{getFileUrl($news->author->image)}}" alt="">
+                    <img src="{{asset('public/storage/admin').'/'.$news->author->image}}" alt="">
                 </div>
                 <p class="fs-18 fw-500 lh-22 text-para-color">{{$news->author->name}}</p>
               </div>

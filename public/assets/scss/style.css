@@ -3712,7 +3712,7 @@ html,
 body {
   height: 100%;
   font-family: "Inter Tight", sans-serif;
-  background-color: var(--body-bg);
+  /*background-color: var(--body-bg);*/
   color: var(--bColor);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

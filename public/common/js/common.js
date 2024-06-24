@@ -10,6 +10,23 @@
             success: function (data) {
                 $(document).find(modalId).find('.modal-content').html(data);
 
+                // Initialize Select2 for skills
+                var skillsSelect = $(document).find(modalId).find('.skills-select');
+                if (skillsSelect.length) {
+                    skillsSelect.select2({
+                        tags: true,
+                        tokenSeparators: [',', ' '],
+                        placeholder: "Add your skills",
+                        allowClear: true,
+                        maximumSelectionLength: 5 // Set the limit to 5 tags
+                    });
+
+                    // Set the value of the skills
+                    var selectedSkills = skillsSelect.data('skills');
+                    skillsSelect.val(selectedSkills).trigger('change');
+                }
+
+                // Other Select2 initializations
                 if ($(document).find(modalId).find('.sf-select-edit-modal').length) {
                     $(document).find(modalId).find('.sf-select-edit-modal').select2({
                         dropdownCssClass: "sf-select-dropdown",
@@ -18,16 +35,19 @@
                     });
                 }
 
+                // Initialize NiceSelect for dropdowns without search
                 if ($(document).find(modalId).find('.sf-select-without-search').length) {
                     $(document).find(modalId).find('.sf-select-without-search').niceSelect();
                 }
 
+                // Add custom class to date-time picker elements
                 if ($(document).find(modalId).find('.date-time-picker').length) {
                     $(document).find(modalId).find('.date-time-picker').each(function () {
                         $(this).closest(".primary-form-group-wrap").addClass("calendarIcon"); // Add your custom class here
                     });
                 }
 
+                // Initialize date-time picker
                 if ($(document).find(modalId).find('.date-time-picker').length) {
                     $(document).find(modalId).find('.date-time-picker').daterangepicker({
                         singleDatePicker: true,
@@ -38,32 +58,28 @@
                     });
                 }
 
+                // Initialize Summernote
                 if ($(document).find(modalId).find('.summernoteOne').length) {
                     $(document).find(modalId).find('.summernoteOne').summernote({
                         placeholder: "Write description...",
                         tabsize: 2,
                         minHeight: 183,
                         toolbar: [
-                            // ["style", ["style"]],
-                            // ["view", ["undo", "redo"]],
-                            // ["fontname", ["fontname"]],
-                            // ["fontsize", ["fontsize"]],
-                            // ["font", ["bold", "italic", "underline"]],
-                            // ["para", ["ul", "ol", "paragraph"]],
-                            // ["color", ["color"]],
                             ["font", ["bold", "italic", "underline"]],
                             ["para", ["ul", "ol", "paragraph"]],
                         ],
                     });
                 }
 
+                // Show the modal
                 $(modalId).modal('toggle');
             },
             error: function (error) {
-                toastr.error(error.responseJSON.message)
+                toastr.error(error.responseJSON.message);
             }
-        })
-    }
+        });
+    };
+
 
     window.deleteItem = function (url, id) {
         Swal.fire({

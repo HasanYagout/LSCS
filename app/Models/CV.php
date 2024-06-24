@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class CV extends Model
 {
     use HasFactory;
+    protected $fillable=['alumni_id','name','slug'];
 }

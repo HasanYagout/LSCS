@@ -511,7 +511,7 @@
                                     <div class="row rg-25">
                                         @forelse (auth('alumni')->user()->experience as $experience)
 
-                                            <div class="education-item">
+                                            <div class="experience-item">
                                                 <input type="hidden" name="experience[id][]"
                                                        value="{{ $experience->id }}">
                                                 @if ($loop->first)
@@ -526,7 +526,7 @@
                                                                     data-bs-target="#addExperienceModal">{{ __('+Add
                                                     More') }}</button>
                                                             <button type="button"
-                                                                    class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-one delete-education">{{
+                                                                    class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-one delete-experience">{{
                                                     __('Delete') }}</button>
                                                         </div>
                                                     </div>
@@ -535,7 +535,7 @@
                                                         class="d-flex justify-content-end align-items-center flex-wrap g-10 pb-20">
                                                         <div class="d-flex align-items-center cg-16">
                                                             <button type="button"
-                                                                    class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-one delete-education">{{
+                                                                    class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-one delete-experience">{{
                                                     __('Delete') }}</button>
                                                         </div>
                                                     </div>
@@ -601,7 +601,7 @@
                                                                 <textarea name="experience[details][]"
                                                                           class="primary-form-control summernoteOne min-h-180"
                                                                           id="eventDescription" placeholder="Details"
-                                                                          spellcheck="false">{{$education->details}}</textarea>
+                                                                          spellcheck="false">{{$experience->details}}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -637,7 +637,72 @@
                                     </div>
                                 </div>
                                 <!-- Address -->
+                                <div class="pb-30">
+                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('CVs Info') }}</h4>
+                                    <div class="row rg-25 ">
+                                        @forelse (auth('alumni')->user()->cvs as $cv)
 
+                                            <div class="cv-item col-md-4">
+                                                <input type="hidden" name="experience[id][]"
+                                                       value="{{ $cv->id }}">
+                                                @if ($loop->first)
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center flex-wrap g-10 pb-20">
+                                                        <h4 class="fs-18 fw-500 lh-22 text-1b1c17">
+                                                            {{ __('CV Info') }}</h4>
+                                                        <div class="d-flex align-items-center cg-16">
+                                                            <button type="button"
+                                                                    class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#addCVModal">{{ __('+Add
+                                                    More') }}</button>
+                                                            <button type="button"
+                                                                    class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-one delete-cv">{{
+                                                    __('Delete') }}</button>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div
+                                                        class="d-flex justify-content-end align-items-center flex-wrap g-10 pb-20">
+                                                        <div class="d-flex align-items-center cg-16">
+                                                            <button type="button"
+                                                                    class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-one delete-cv">{{
+                                                    __('Delete') }}</button>
+                                                        </div>
+                                                    </div>
+                                                @endif
+
+
+                                                        <div class="container">
+                                                            <div class="card">
+                                                                <img src="path_to_image.jpg" class="card-img-top" alt="Card Image">
+                                                                <div class="card-body">
+                                                                    <embed src="{{asset('public/storage/alumni/cv').'/'.$cv->name}}" type="application/pdf" width="100%" height="500px">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                            </div>
+                                        @empty
+                                            <div
+                                                class="d-flex justify-content-between align-items-center flex-wrap g-10 pb-20">
+                                                <h4 class="fs-18 fw-500 lh-22 text-1b1c17">{{ __('Experience Info') }}
+                                                </h4>
+                                                <div class="d-flex align-items-center cg-16">
+                                                    <button type="button"
+                                                            class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one"
+                                                            data-bs-toggle="modal" data-bs-target="#addCVModal">{{ __('+Add New')
+                                                }}</button>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <span>{{ __('No Experience Info Found') }}</span>
+                                            </div>
+                                        @endforelse
+                                    </div>
+                                </div>
                                 <button type="submit"
                                         class="py-13 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">{{
                                 __('Save Changes') }}</button>
@@ -731,6 +796,34 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="addCVModal" tabindex="-1" aria-labelledby="addCVModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addExperienceModalLabel">Add Experience</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="experienceForm" action="{{ route('alumni.profile.add-cv') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+
+                                <div class="col-lg-12">
+                                    <label for="pdf" class="form-label">CV (PDF only)</label>
+
+                                    <input type="file" class="form-control" id="pdf" multiple name="cv[]" accept="application/pdf" required>
+
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" id="saveExperienceBtn">Save Experience
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="modal fade" id="addExperienceModal" tabindex="-1" aria-labelledby="addExperienceModalLabel"
              aria-hidden="true">
@@ -797,74 +890,7 @@
         </div>
         <div id="companySectionContainer"></div>
     </div>
-    {{--<!-- Add More Modal -->--}}
-    {{--<div class="modal fade zModalTwo" id="addMoreModal" tabindex="-1" aria-labelledby="addMoreModalLabel"--}}
-    {{--    aria-hidden="true">--}}
-    {{--    <div class="modal-dialog modal-dialog-centered">--}}
-    {{--        <div class="modal-content zModalTwo-content">--}}
-    {{--            <div class="modal-body zModalTwo-body">--}}
-    {{--                <!-- Header -->--}}
-    {{--                <div class="d-flex justify-content-between align-items-center pb-30">--}}
-    {{--                    <h4 class="fs-20 fw-500 lh-38 text-f1a527">{{ __('Add Info') }}</h4>--}}
-    {{--                    <div class="mClose">--}}
-    {{--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><img--}}
-    {{--                                src="{{ asset('public/assets/images/icon/delete.svg') }}" alt="" /></button>--}}
-    {{--                    </div>--}}
-    {{--                </div>--}}
-    {{--                <!-- Body -->--}}
-    {{--                <form method="POST" class="ajax" data-handler="commonResponseForModal"--}}
-    {{--                    action="{{ route('alumni.add_institution') }}">--}}
-    {{--                    @csrf--}}
-    {{--                    <div class="pb-25">--}}
-    {{--                        <div class="row rg-25">--}}
-    {{--                            <div class="col-12">--}}
-    {{--                                <div class="primary-form-group">--}}
-    {{--                                    <div class="primary-form-group-wrap">--}}
-    {{--                                        <label for="epDegree1" class="form-label">{{ __('Degree') }}</label>--}}
-    {{--                                        <input type="text" class="primary-form-control" id="epDegree1" name="degree"--}}
-    {{--                                            placeholder="{{ __('Your Degree') }}" />--}}
-    {{--                                    </div>--}}
-    {{--                                </div>--}}
-    {{--                            </div>--}}
-    {{--                            <div class="col-12">--}}
-    {{--                                <div class="primary-form-group">--}}
-    {{--                                    <div class="primary-form-group-wrap">--}}
-    {{--                                        <label for="epInstitute" class="form-label">{{ __('Institution') }}</label>--}}
-    {{--                                        <input type="text" class="primary-form-control" id="epInstitute"--}}
-    {{--                                            name="institute" placeholder="{{ __('Your Institution') }}" />--}}
-    {{--                                    </div>--}}
-    {{--                                </div>--}}
-    {{--                            </div>--}}
-    {{--                            <div class="col-12">--}}
-    {{--                                <div class="primary-form-group">--}}
-    {{--                                    <div class="primary-form-group-wrap">--}}
-    {{--                                        <label for="epPassingYear1" class="form-label">{{ __('Passing Year') }}</label>--}}
-    {{--                                        <input type="text" class="primary-form-control" id="epPassingYear1"--}}
-    {{--                                            name="passing_year" placeholder="{{ __('Your Passing Year') }}" />--}}
-    {{--                                    </div>--}}
-    {{--                                </div>--}}
-    {{--                            </div>--}}
-    {{--                        </div>--}}
-    {{--                    </div>--}}
-    {{--                    <button type="submit"--}}
-    {{--                        class="py-13 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">{{--}}
-    {{--                        __('Save Now') }}</button>--}}
-    {{--                </form>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
-    {{--</div>--}}
 
-    {{--<input type="hidden" id="job-post-list-route" value="{{ route('alumni.cvs.all') }}">--}}
-
-    {{--<table class="table zTable" id="cvsTable">--}}
-    {{--    <thead>--}}
-    {{--    <tr>--}}
-    {{--        <th scope="col"><div>{{ __('Name') }}</div></th>--}}
-    {{--        <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>--}}
-    {{--    </tr>--}}
-    {{--    </thead>--}}
-    {{--</table>--}}
 @endsection
 
 @push('script')

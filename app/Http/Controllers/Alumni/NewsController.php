@@ -26,6 +26,7 @@ class NewsController extends Controller
         $tagService = new NewsTagService();
         $data['categories'] = $categoryService->activeCategory();
         $data['title']= 'All News List';
+        $data['activeManageNews'] = 'active';
         $data['news']=News::all();
         return view('alumni.news.all-news', $data);
     }

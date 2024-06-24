@@ -25,10 +25,7 @@ class JobPostRequest extends FormRequest
     {
         $rules = [
             'title' => 'bail|required|string|min:3|max:100',
-            'compensation_n_benefits' => 'required',
-            'salary' => 'required',
             'location' => 'bail|required|string',
-            'post_link' => 'bail|required|url',
             'application_deadline' => 'bail|required|date|after_or_equal:today',
             'job_context' => 'bail|required|string',
             'job_responsibility' => 'bail|required|string',

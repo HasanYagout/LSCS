@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Services;
+use App\Models\AppliedJobs;
 use App\Models\JobPost;
 use App\Traits\ResponseTrait;
 use App\Models\FileManager;
 use App\Models\Notice;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -21,6 +23,47 @@ class JobPostService
     public function getBySlug($slug)
     {
         return JobPost::where('slug', $slug)->firstOrFail();
+    }
+
+    public function apply(Request $request, $company, $slug)
+    {
+        DB::beginTransaction();
+
+        try {
+            $alumniId = auth('alumni')->id();
+            $jobPost = JobPost::where('slug', $slug)->firstOrFail();
+
+            // Check if the alumni has already applied for the job
+            $alreadyApplied = AppliedJobs::where('alumni_id', $alumniId)
+                ->where('job_id', $jobPost->id)
+                ->exists();
+
+            if ($alreadyApplied) {
+                session()->flash('error', 'You have already applied for this job.');
+                return redirect()->route('alumni.jobs.all-job-post');
+            }
+
+
+            // Proceed with the application
+            $job = new AppliedJobs();
+            $job->alumni_id = $alumniId;
+            $job->company_id = $company;
+            $job->cv_id = $request->cv_id;
+            $job->job_id = $jobPost->id;
+            $jobPost->applied_by += 1; // Increment the applied_by field by 1
+            $jobPost->save(); // Save the updated job post
+            $job->save();
+
+            DB::commit();
+
+            session()->flash('success', 'Job Applied Successfully');
+            return redirect()->route('alumni.jobs.all-job-post');
+        } catch (Exception $e) {
+            DB::rollBack();
+             session()->flash('error', 'Something went wrong');
+        }
+
+
     }
 
     public function getMyJobPostList(){
@@ -164,15 +207,12 @@ class JobPostService
             } else {
                 $slug = getSlug($request->title);
             }
-
             $jobPost = new JobPost();
             $jobPost->title = $request->title;
             $jobPost->slug = $slug;
             $jobPost->user_id = auth('company')->id();
-            $jobPost->compensation_n_benefits = $request->compensation_n_benefits;
-            $jobPost->salary = $request->salary;
             $jobPost->location = $request->location;
-            $jobPost->post_link = $request->post_link?$request->post_link:'';
+            $jobPost->placement_link = $request->post_link?$request->post_link:'';
             $jobPost->application_deadline = $request->application_deadline;
             $jobPost->job_responsibility = $request->job_responsibility;
             $jobPost->job_context = $request->job_context;
@@ -180,6 +220,7 @@ class JobPostService
             $jobPost->additional_requirements = $request->additional_requirements;
             $jobPost->employee_status = $request->employee_status;
             $jobPost->status = JOB_STATUS_PENDING;
+            $jobPost->skills=json_encode($request->skills);
             $jobPost->posted_by= 'company';
 
             if ($request->hasFile('company_logo')) {
@@ -219,14 +260,13 @@ class JobPostService
             } else {
                 $slug = getSlug($request->title);
             }
-
             $jobPost = JobPost::where('slug',$oldSlug)->firstOrFail();
             $jobPost->title = $request->title;
-            $jobPost->compensation_n_benefits = $request->compensation_n_benefits;
-            $jobPost->salary = $request->salary;
+
             $jobPost->location = $request->location;
-            $jobPost->post_link = $request->post_link;
+            $jobPost->placement_link = $request->post_link;
             $jobPost->application_deadline = $request->application_deadline;
+            $jobPost->skills = $request->skills;
             $jobPost->job_responsibility = $request->job_responsibility;
             $jobPost->educational_requirements = $request->educational_requirements;
             $jobPost->additional_requirements = $request->additional_requirements;
@@ -235,11 +275,8 @@ class JobPostService
                 $jobPost->status = $request->status;
             }
             $jobPost->job_context = $request->job_context;
-            if ($request->hasFile('company_logo')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('job_post', $request->company_logo);
-                $jobPost->company_logo = $uploaded->id;
-            }
+
+
             $jobPost->save();
             DB::commit();
             session()->flash('success','Job updated successfully');

@@ -36,19 +36,24 @@
                         <h4 class="fs-18 fw-500 lh-22 text-1b1c17">{{ __('Job Location') }}</h4>
                         <p class="fs-14 fw-400 lh-18 text-707070">{{ $jobPostData->location ?? '' }}</p>
                     </div>
-                    <div class="d-flex flex-column rg-6">
-                        <h4 class="fs-18 fw-500 lh-22 text-1b1c17">{{ __('Salary') }}</h4>
-                        <p class="fs-14 fw-400 lh-18 text-707070">{{ $jobPostData->salary ?? '' }}</p>
-                    </div>
-                    <div class="d-flex flex-column rg-6">
-                        <h4 class="fs-18 fw-500 lh-22 text-1b1c17">{{ __('Compensation & Benefits') }}</h4>
-                        <p class="fs-14 fw-400 lh-18 text-707070">{{ $jobPostData->compensation_n_benefits ?? '' }}</p>
-                    </div>
+
+
                     <div class="d-flex flex-column rg-6">
                         <h4 class="fs-18 fw-500 lh-22 text-1b1c17">{{ __('Application Deadline') }}</h4>
                         <p class="fs-14 fw-400 lh-18 text-707070">
                             {{ isset($jobPostData->application_deadline) ? \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $jobPostData->application_deadline)->format('l, F j, Y') : '' }}
                         </p>
+                    </div>
+                    <div class="d-flex flex-column rg-6">
+                        <h4 class="fs-18 fw-500 lh-22 text-1b1c17">{{ __('Skills') }}</h4>
+                        @if(isset($jobPostData->skills))
+                                <ul class="fs-14 d-flex fw-400 lh-18 text-707070">
+                            @foreach(json_decode($jobPostData->skills) as $skill)
+                                   <li class="p-1 d-flex bg-f1a527 text-002a5c rounded m-1"> {{$skill }}</li>
+                            @endforeach
+                                </ul>
+                        @endif
+
                     </div>
 
                 </div>

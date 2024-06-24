@@ -206,7 +206,7 @@
                         </div>
                     </li>
                 @endif
-                @if($authenticatedGuard!=='admin'&&auth('admin')->user()->role_id!=USER_ROLE_INSTRUCTOR)
+                @if($authenticatedGuard!=='admin'&&auth($authenticatedGuard)->user()->role_id!=USER_ROLE_INSTRUCTOR)
                         <li>
                             <a href="{{ route($authenticatedGuard.'.home') }}"
                                class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">
@@ -241,7 +241,7 @@
                                               stroke-linecap="round"/>
                                     </svg>
                                 </div>
-                                <span class="">{{__('Job Post')}}</span>
+                                <span class="">{{__('Jobs')}}</span>
                             </a>
                             <div class="collapse {{ $showJobPostManagement ?? '' }}" id="jobPost"
                                  data-bs-parent="#sidebarMenu">
@@ -261,55 +261,23 @@
                                     @endif
                                     <li>
                                         <a class="{{ $activePendingJobPostList ?? '' }}"
-                                           href="{{ route($authenticatedGuard.'.jobs.pending') }}">{{ __('Pending Post') }}</a>
+                                           href="{{ route($authenticatedGuard.'.jobs.pending') }}">{{ __('Pending Jobs') }}</a>
                                     </li>
 
                                     <li>
                                         <a class="{{ $activeAllJobPostList ?? '' }}"
-                                           href="{{ route($authenticatedGuard.'.jobs.all-job-post') }}">{{ __('All Post') }}</a>
+                                           href="{{ route($authenticatedGuard.'.jobs.all-job-post') }}">{{ __('All Jobs') }}</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
 
-                        <li>
-                            <a href="{{ route($authenticatedGuard.'.profile.index') }}"
-                               class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">
-                                <div class="d-flex">
-                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M19.7274 21.3923C19.2716 20.1165 18.2672 18.9892 16.8701 18.1851C15.4729 17.381 13.7611 16.9452 12 16.9452C10.2389 16.9452 8.52706 17.381 7.12991 18.1851C5.73276 18.9892 4.72839 20.1165 4.27259 21.3923"
-                                            stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
-                                        <circle cx="12" cy="8.94522" r="4" stroke="white"
-                                                stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
-                                    </svg>
-                                </div>
-                                <span class="">{{ __('Profile') }}</span>
-                            </a>
-                        </li>
 
 
-                        <li>
-                            <a class="d-flex align-items-center  cg-8" href="{{ route($authenticatedGuard.'.auth.logout') }}">
-                                <div class="d-flex">
-                                    <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M9.49935 17.8333C7.28921 17.8333 5.1696 16.9553 3.60679 15.3925C2.04399 13.8297 1.16602 11.7101 1.16602 9.49996C1.16602 7.28982 2.04399 5.17021 3.60679 3.6074C5.1696 2.0446 7.28921 1.16663 9.49935 1.16663"
-                                            stroke="#707070" stroke-opacity="0.7" stroke-width="1.5"
-                                            stroke-linecap="round"/>
-                                        <path d="M7.41602 9.5H17.8327M17.8327 9.5L14.7077 6.375M17.8327 9.5L14.7077 12.625"
-                                              stroke="#707070" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                              stroke-linejoin="round"/>
-                                    </svg>
-                                </div>
 
-                                <span>{{ __('Logout') }}</span>
-                            </a>
-                        </li>
+
                 @endif
-                @if ($authenticatedGuard!='company'&&auth('admin')->user()->role_id!=USER_ROLE_INSTRUCTOR)
+                @if ($authenticatedGuard!='company'&&auth($authenticatedGuard)->user()->role_id!=USER_ROLE_INSTRUCTOR)
                     <li>
                         <a href="#myEvent" data-bs-toggle="collapse" role="button" aria-controls="myEvent"
                            class="d-flex align-items-center cg-10 {{ isset($showEvent) ? 'active' : 'collapsed' }}"
@@ -325,7 +293,7 @@
                                     <path d="M16 3L16 7" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
                                 </svg>
                             </div>
-                            <span class="">{{ __('My Event') }}</span>
+                            <span class="">{{ __('Events') }}</span>
                         </a>
                         <div class="collapse {{ $showEvent ?? '' }}" id="myEvent" data-bs-parent="#sidebarMenu">
                             <ul class="zSidebar-submenu">
@@ -341,10 +309,10 @@
                                     </li>
                                 @endif
                                 <li><a class="{{ $activeEventPending ?? '' }}"
-                                       href="{{ route($authenticatedGuard.'.event.pending') }}">{{ __('Pending Event') }}</a>
+                                       href="{{ route($authenticatedGuard.'.event.pending') }}">{{ __('Pending Events') }}</a>
                                 </li>
                                 <li><a class="{{ $activeAllEvent ?? '' }}"
-                                       href="{{ route($authenticatedGuard.'.event.all') }}">{{ __('All Event') }}</a>
+                                       href="{{ route($authenticatedGuard.'.event.all') }}">{{ __('All Events') }}</a>
                                 </li>
                             </ul>
                         </div>
@@ -356,7 +324,7 @@
                     <li>
 
                         <a href="{{route('alumni.notices.index')}}"
-                           class="{{ $activeManageNotice ?? '' }} d-flex align-items-center cg-10">
+                           class="{{ $activeManageNotice ?? '' }} d-flex align-items-center cg-10" {{ isset($showNotice) ? 'active' : 'collapsed' }}">
                             <div class="d-flex">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -373,7 +341,7 @@
                     <li>
 
                         <a href="{{route('alumni.news.index')}}"
-                           class="{{ $activeManageNotice ?? '' }} d-flex align-items-center cg-10">
+                           class="{{ $activeManageNews ?? '' }} d-flex align-items-center cg-10">
                             <div class="d-flex">
                                 <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -392,8 +360,8 @@
                     </li>
                     <li>
                                             <a href="#cvs" data-bs-toggle="collapse" role="button"
-                                               aria-expanded="{{ isset($showCvManagement) ? 'true' : '' }}" aria-controls="cvs"
-                                               class="d-flex align-items-center cg-10 {{ isset($showCvManagement) ? 'active' : 'collapsed' }}">
+                                               aria-expanded="{{ isset($showProfileManagement) ? 'true' : '' }}" aria-controls="cvs"
+                                               class="d-flex align-items-center cg-10 {{ isset($showProfileManagement) ? 'active' : 'collapsed' }}">
                                                 <div class="d-flex">
                                                     <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
                                                          xmlns="http://www.w3.org/2000/svg">
@@ -407,9 +375,9 @@
                                                               stroke-linecap="round"/>
                                                     </svg>
                                                 </div>
-                                                <span class="">{{__('CVs')}}</span>
+                                                <span class="">{{__('Profile')}}</span>
                                             </a>
-                                            <div class="collapse {{ $showJobPostManagement ?? '' }}" id="cvs"
+                                            <div class="collapse {{ $showProfileManagement ?? '' }}" id="cvs"
                                                  data-bs-parent="#sidebarMenu">
                                                 <ul class="zSidebar-submenu">
 
@@ -420,10 +388,10 @@
                                                     @endif
                                                     <li><a href="{{ route('alumni.profile.index') }}" class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">{{ __('Profile') }}</a>
                                                     </li>
-                                                    <li><a class="{{ $activeMyJobPostList ?? '' }}"
+                                                    <li><a class="{{ $activeCvList ?? '' }}"
                                                            href="{{ route('alumni.cvs.all') }}">{{ __('Manage CVs') }}</a></li>
-                                                    <li><a class="{{ $activeAllJobPostList ?? '' }}"
-                                                           href="{{ route('alumni.cvs.create') }}">{{ __('Create Cv') }}</a></li>
+{{--                                                    <li><a class="{{ $activeAllJobPostList ?? '' }}"--}}
+{{--                                                           href="{{ route('alumni.cvs.create') }}">{{ __('Create Cv') }}</a></li>--}}
                                                     <li><a class="{{ $activeAllJobPostList ?? '' }}"
                                                            href="{{ route('alumni.images') }}">{{ __('Graduation Images') }}</a></li>
                                                 </ul>
@@ -431,8 +399,8 @@
                                         </li>
                     <li>
                                             <a href="#recommendation_menu" data-bs-toggle="collapse" role="button"
-                                               aria-expanded="{{ isset($showCvManagement) ? 'true' : '' }}" aria-controls="cvs"
-                                               class="d-flex align-items-center cg-10 {{ isset($showCvManagement) ? 'active' : 'collapsed' }}">
+                                               aria-expanded="{{ isset($showRecommendationManagement) ? 'true' : '' }}" aria-controls="cvs"
+                                               class="d-flex align-items-center cg-10 {{ isset($showRecommendationManagement) ? 'active' : 'collapsed' }}">
                                                 <div class="d-flex">
                                                     <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
                                                          xmlns="http://www.w3.org/2000/svg">
@@ -448,13 +416,13 @@
                                                 </div>
                                                 <span class="">{{__('Recommendation')}}</span>
                                             </a>
-                                            <div class="collapse {{ $showJobPostManagement ?? '' }}" id="recommendation_menu"
+                                            <div class="collapse {{ $showRecommendationManagement ?? '' }}" id="recommendation_menu"
                                                  data-bs-parent="#sidebarMenu">
                                                 <ul class="zSidebar-submenu">
 
-                                                    <li><a class="d-flex align-items-center cg-10" href="{{ route('alumni.recommendation.index') }}">{{ __('list') }}</a>
+                                                    <li><a class="d-flex align-items-center {{$activeRecommendation??''}} cg-10" href="{{ route('alumni.recommendation.index') }}">{{ __('list') }}</a>
                                                     </li>
-                                                    <li><a class="d-flex align-items-center cg-10"  href="{{ route('alumni.recommendation.create') }}">{{ __('Create') }}</a>
+                                                    <li><a class="d-flex align-items-center {{$activeRequest??''}} cg-10"  href="{{ route('alumni.recommendation.create') }}">{{ __('Request') }}</a>
                                                     </li>
 
 
@@ -489,6 +457,42 @@
 
                     </li>
                 @endif
+                    @if($authenticatedGuard!='alumni')
+                        <li>
+                            <a href="{{ route($authenticatedGuard.'.profile.index') }}"
+                               class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">
+                                <div class="d-flex">
+                                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M19.7274 21.3923C19.2716 20.1165 18.2672 18.9892 16.8701 18.1851C15.4729 17.381 13.7611 16.9452 12 16.9452C10.2389 16.9452 8.52706 17.381 7.12991 18.1851C5.73276 18.9892 4.72839 20.1165 4.27259 21.3923"
+                                            stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                                        <circle cx="12" cy="8.94522" r="4" stroke="white"
+                                                stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span class="">{{ __('Profile') }}</span>
+                            </a>
+                        </li>
+                    @endif
+                    <li>
+                        <a class="d-flex align-items-center  cg-8" href="{{ route($authenticatedGuard.'.auth.logout') }}">
+                            <div class="d-flex">
+                                <svg width="19" height="19" viewBox="0 0 19 19" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M9.49935 17.8333C7.28921 17.8333 5.1696 16.9553 3.60679 15.3925C2.04399 13.8297 1.16602 11.7101 1.16602 9.49996C1.16602 7.28982 2.04399 5.17021 3.60679 3.6074C5.1696 2.0446 7.28921 1.16663 9.49935 1.16663"
+                                        stroke="#707070" stroke-opacity="0.7" stroke-width="1.5"
+                                        stroke-linecap="round"/>
+                                    <path d="M7.41602 9.5H17.8327M17.8327 9.5L14.7077 6.375M17.8327 9.5L14.7077 12.625"
+                                          stroke="#707070" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
+                                          stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+
+                            <span>{{ __('Logout') }}</span>
+                        </a>
+                    </li>
             </ul>
 
         </div>

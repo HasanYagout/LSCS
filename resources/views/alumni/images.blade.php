@@ -3,44 +3,49 @@
 @section('content')
     <div class="container">
         <div class="row mt-3">
-            @foreach(json_decode($images) as $image)
-                <div class="col-4">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <img src="{{ asset('public/storage/graduation_images/' . $image) }}" onclick="openImage('{{ asset('public/storage/graduation_images/' . $image) }}')" alt="">
+           @if(json_decode($images))
+                @foreach(json_decode($images) as $image)
+                    <div class="col-4">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <img src="{{ asset('public/storage/graduation_images/' . $image) }}" onclick="openImage('{{ asset('public/storage/graduation_images/' . $image) }}')" alt="">
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+
+                    <!-- Modal for enlarged image -->
+                    <div class="modal fade" id="enlargedModal" tabindex="-1" role="dialog" aria-labelledby="enlargedModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="enlargedModalLabel">Enlarged Image</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <img id="enlargedImage" src="" alt="" class="img-fluid">
+                                </div>
+                                <div class="modal-footer">
+                                    <a id="singleDownloadLink" href="" download="image.jpg" class="btn btn-primary">Download</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Download all button -->
+                    <div class="container mt-3">
+                        <div class="text-center">
+                            <button id="downloadAllButton" class="btn btn-primary" onclick="downloadAllImages()">Download All</button>
+                        </div>
+                    </div>
+            @else
+               <h1>No Images Found</h1>
+           @endif
         </div>
     </div>
 
-    <!-- Modal for enlarged image -->
-    <div class="modal fade" id="enlargedModal" tabindex="-1" role="dialog" aria-labelledby="enlargedModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="enlargedModalLabel">Enlarged Image</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <img id="enlargedImage" src="" alt="" class="img-fluid">
-                </div>
-                <div class="modal-footer">
-                    <a id="singleDownloadLink" href="" download="image.jpg" class="btn btn-primary">Download</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Download all button -->
-    <div class="container mt-3">
-        <div class="text-center">
-            <button id="downloadAllButton" class="btn btn-primary" onclick="downloadAllImages()">Download All</button>
-        </div>
-    </div>
 @endsection
 
 @push('script')
