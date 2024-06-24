@@ -51,6 +51,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
 
     Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function () {
         Route::get('/', [RecommendationController::class, 'index'])->name('index');
+        Route::get('/list', [RecommendationController::class, 'list'])->name('list');
         Route::get('/create', [RecommendationController::class, 'create'])->name('create');
         Route::get('/edit/{id}', [RecommendationController::class, 'edit'])->name('edit');
         Route::post('/store', [RecommendationController::class, 'store'])->name('store');
@@ -66,14 +67,13 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::post('update', [ProfileController::class, 'userProfileUpdate'])->name('update');
         Route::post('add', [ProfileController::class, 'addEducation'])->name('add-education');
         Route::post('add-experience', [ProfileController::class, 'addExperience'])->name('add-experience');
-        Route::post('add-cv', [ProfileController::class, 'addCV'])->name('add-cv');
     });
 
 
     Route::group(['prefix' => 'cvs', 'as' => 'cvs.'], function () {
         Route::get('all', [ProfileController::class, 'list_cvs'])->name('all');
         Route::get('create', [ProfileController::class, 'create_cv'])->name('create');
-        Route::post('store', [ProfileController::class, 'store_cv'])->name('store');
+        Route::post('submit', [ProfileController::class, 'store_cv'])->name('submit');
         Route::get('view/{slug}', [ProfileController::class, 'view'])->name('view');
 
     });
@@ -116,7 +116,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::get('my-job-post', [JobPostController::class, 'myJobPost'])->name('my-job-post');
         Route::post('apply/{company}/{slug}', [JobPostController::class, 'apply'])->name('apply');
         Route::get('/pending', [JobPostController::class, 'pending'])->name('pending');
-        Route::get('job-view-details/{company}/{slug}', [JobPostController::class, 'details'])->name('details');
+        Route::get('job-view-details/{slug}', [JobPostController::class, 'jobDetails'])->name('details');
 
     });
 // Job Post route end

@@ -170,6 +170,43 @@
 
 
                             </div>
+                            <div class="col-lg-8">
+                                @foreach(auth('alumni')->user()?->experience as $experience)
+
+                                        <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
+                                            <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
+                                                <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Experience Info') }}</h4>
+                                            </div>
+                                            <ul class="zList-one">
+                                                <li class="p-0 lh-1">
+                                                    <h6 class="fs-4 lh-1">{{ $experience->position}}</h6>
+                                                </li>
+                                                <li class="p-0 lh-1">
+                                                    <h1 class="fw-medium lh-1">{{ $experience->name}}</h1>
+                                                </li>
+                                                <li class="d-block p-0">
+                                                    @php
+                                                        $startDate = new DateTime($experience->start_date);
+                                                        $endDate = new DateTime($experience->end_date);
+                                                    @endphp
+                                                    <span
+                                                        class="text-f1a527-50">{{ $startDate->format('M Y') .' - '.$endDate->format('M Y')}}</span>
+                                                </li>
+                                                <li>
+                                                    <p>{{$experience->company_address}}</p>
+                                                </li>
+                                                <li>
+                                                    {!! $experience->details !!}
+                                                </li>
+                                            </ul>
+
+
+                                        </div>
+
+
+                                @endforeach
+
+                            </div>
                         </div>
                         <div class="row rg-30 mt-3">
 
@@ -477,11 +514,11 @@
                                                         <div class="primary-form-group">
                                                             <div class="primary-form-group-wrap">
                                                                 <label for="epInstitute"
-                                                                       class="form-label">{{ __('Details')}}</label>
-                                                                <textarea name="education[details][]"
-                                                                          class="primary-form-control summernoteOne min-h-180"
-                                                                          id="eventDescription" placeholder="Details"
-                                                                          spellcheck="false">{{$education->details}}</textarea>
+                                                                       class="form-label">{{ __('Title')}}</label>
+                                                                <input type="text" value="{{ $education->title }}"
+                                                                       name="education[title][]"
+                                                                       class="institution-institute primary-form-control"
+                                                                       id="epInstitute">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -709,6 +746,9 @@
                             </form>
                         </div>
                     </div>
+                    <button onclick="window.location='{{ route('alumni.profile.generate-cv') }}'">
+                        Download CV
+                    </button>
                 </div>
             </div>
         </div>
@@ -736,7 +776,7 @@
                                             <div class="primary-form-group-wrap">
                                                 <label for="educationType"
                                                        class="form-label">{{ __('Education Type')}}</label>
-                                                <select class="form-control" id="educationType" name="type">
+                                                <select class="form-control" id="educationType" name="education_type">
                                                     <option value="university">University</option>
                                                     <option value="high_school">High School</option>
                                                     <option value="other">Other</option>
@@ -779,10 +819,9 @@
                                     <div class="col-md-12">
                                         <div class="primary-form-group">
                                             <div class="primary-form-group-wrap">
-                                                <label for="epTwitter" class="form-label">{{ __('Details')}}</label>
-                                                <textarea class="form-control summernote" id="details"
-                                                          name="education_details"
-                                                          placeholder="Enter the details about your education"></textarea>
+                                                <label for="epTwitter" class="form-label">{{ __('Title')}}</label>
+                                                <input type="text" class="form-control" id="title"
+                                                       name="education_title" required>
                                             </div>
                                         </div>
                                     </div>
