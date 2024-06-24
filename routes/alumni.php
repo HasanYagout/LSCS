@@ -67,6 +67,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::post('update', [ProfileController::class, 'userProfileUpdate'])->name('update');
         Route::post('add', [ProfileController::class, 'addEducation'])->name('add-education');
         Route::post('add-experience', [ProfileController::class, 'addExperience'])->name('add-experience');
+        Route::get('generate-cv', [ProfileController::class, 'generateCV'])->name('generate-cv');
     });
 
 

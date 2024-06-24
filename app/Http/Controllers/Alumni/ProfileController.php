@@ -40,6 +40,25 @@ class ProfileController extends Controller
         return $this->userService->profileUpdate($request);
     }
 
+    public function generateCV()
+    {
+        $user = auth('alumni')->user(); // Load the user with related data
+        $html = view('alumni.cvs.cv', compact('user'))->render();
+
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 10,
+            'margin_bottom' => 10,
+            'margin_header' => 10,
+            'margin_footer' => 10
+        ]);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output('detailed_cv.pdf', 'D'); // D - download, I - inline
+    }
+
     public function addEducation(Request $request){
 
         return $this->userService->addEducation($request);

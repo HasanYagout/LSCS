@@ -121,6 +121,7 @@ class UserService
 
     public function profileUpdate($request)
     {
+
         $authUser = auth('alumni')->user();
         try {
             DB::beginTransaction();
@@ -141,7 +142,7 @@ class UserService
                 $authUser->education()->where('id', $id)->update([
                     'type' => $request->education['type'][$index],
                     'name' => $request->education['name'][$index],
-                    'details' => $request->education['details'][$index],
+                    'title' => $request->education['title'][$index],
                     'start_date' => $request->education['start_date'][$index],
                     'end_date' => $request->education['end_date'][$index],
                 ]);
@@ -185,7 +186,8 @@ class UserService
 
 
             DB::commit();
-            return $this->success([], getMessage(UPDATED_SUCCESSFULLY));
+            session()->flash('success', 'Profile Updated Successfully');
+            return redirect()->route('alumni.profile.index');
         } catch (Exception $e) {
             dd($e);
             DB::rollBack();
@@ -220,11 +222,13 @@ class UserService
 
 
             DB::commit();
-            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+            session()->flash('success', 'Experience Added Successfully');
+            return redirect()->route('alumni.profile.index');
         } catch (Exception $e) {
             dd($e);
             DB::rollBack();
-            return $this->error([], getMessage(SOMETHING_WENT_WRONG));
+            session()->flash('error', $e);
+            return redirect()->route('alumni.profile.index');
         }
     }
 
@@ -234,7 +238,7 @@ class UserService
         $data = $request->validate([
             "education_type" =>  'bail|required|max:195',
             "education_name" =>  'bail|required|max:195',
-            "education_details" =>  'bail|required|max:1000',
+            "education_title" =>  'bail|required|max:1000',
             "education_start_date" =>  'required',
             "education_end_date" =>  'required',
         ]);
@@ -245,7 +249,7 @@ class UserService
                 'alumni_id'=>auth('alumni')->user()->id,
                 'type' => $data['education_type'],
                 'name' => $data['education_name'],
-                'details' => $data['education_details'],
+                'title' => $data['education_title'],
                 'start_date' => $data['education_start_date'],
                 'end_date' => $data['education_end_date'],
             ]);
@@ -253,7 +257,8 @@ class UserService
 
 
             DB::commit();
-            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+            session()->flash('success', 'Education Added Successfully');
+            return redirect()->route('alumni.profile.index');
         } catch (Exception $e) {
             dd($e);
             DB::rollBack();

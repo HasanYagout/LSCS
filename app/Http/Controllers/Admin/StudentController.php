@@ -77,6 +77,7 @@ class StudentController extends Controller
                 $alumni->major = $student->major->name;
                 $alumni->graduation_year = Carbon::now()->format('o');
                 $alumni->password = Hash::make($student->student_id);
+                $alumni->email = $student->email;
                 $alumni->status = 1;
                 $alumni->save();
             }
