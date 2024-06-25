@@ -78,7 +78,7 @@
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 $.ajax({
                     type: 'POST',
-                    url: $('#students-update-route').val(), // Replace with your actual route
+                    url: $('#alumni-status-update-route').val(), // Replace with your actual route
                     data: {
                         '_token': csrfToken,
                         'alumni_id': alumniId,

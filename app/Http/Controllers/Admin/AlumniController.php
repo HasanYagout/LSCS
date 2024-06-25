@@ -113,7 +113,7 @@ class AlumniController extends Controller
 
     public function alumniChangeStatus(Request $request)
     {
-        dd($request);
+
         return $this->alumniService->changeAlumniStatus($request);
     }
 

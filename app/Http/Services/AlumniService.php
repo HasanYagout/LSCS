@@ -264,18 +264,17 @@ class AlumniService
     }
 
     public function changeAlumniStatus($request){
-        dd($request);
+
         DB::beginTransaction();
         try {
-            $user = User::where(['id'=> $request['alumniUserId']])->where('tenant_id', getTenantId());
+            $user = Alumni::where('id',$request->alumni_id)->first();
             $user->update([
-                'status' => $request['selectedStatus']
+                'status' => $request->status
                 ]);
              DB::commit();
             $message = __("Alumni Status Changed Successfully.");
-            $userData = $user->first() ;
-            $this->sendEmailNotification($request['selectedStatus'],$userData);
-            return $this->success([], $message);
+            session()->flash('success','Alumni Updated Successfully');
+            return redirect()->route('admin.alumni.list-search-with-filter');
         } catch (\Exception $e) {
             DB::rollBack();
             $message = getErrorMessage($e, $e->getMessage());
