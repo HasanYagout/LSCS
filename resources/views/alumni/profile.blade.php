@@ -667,9 +667,14 @@
                                     <div class="primary-form-group">
                                         <div class="primary-form-group-wrap">
                                             <label for="skills" class="form-label">Skills</label>
-                                            <select class="form-control skills-select"
-                                                    value="{{auth('alumni')->user()->skills}}" name="skills[]"
-                                                    multiple="multiple"></select>
+                                            <select class="form-control skills-select" name="skills[]" multiple="multiple">
+                                            @if(json_decode(auth('alumni')->user()->skills))
+                                                    @foreach (json_decode(auth('alumni')->user()->skills) as $skill)
+                                                        <option value="{{ $skill }}" selected="selected">{{ $skill }}</option>
+                                                    @endforeach
+                                            @endif
+
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

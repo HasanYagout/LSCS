@@ -55,6 +55,16 @@
     @endphp
     <div class="container mt-5">
         <div class="row">
+            <form action="{{ route('alumni.jobs.all-job-post') }}" method="GET" class="mb-4">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search jobs" name="search" value="{{ request('search') }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
             @foreach($jobs as $job)
                 <div class="col-lg-6">
                     <div class="job-card">

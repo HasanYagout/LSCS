@@ -7,12 +7,14 @@
             $('#education-child-empty').removeClass('d-none');
         }
     });
+
     $(document).on('click', '.delete-experience', function () {
         $(this).closest('.experience-item').remove();
         if ($('.experience-item').length < 1) {
             $('#experience-child-empty').removeClass('d-none');
         }
     });
+
     $(document).on('click', '.delete-cv', function () {
         $(this).closest('.cv-item').remove();
         if ($('.cv-item').length < 1) {

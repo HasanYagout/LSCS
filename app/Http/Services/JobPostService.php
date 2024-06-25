@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class JobPostService
@@ -30,6 +31,11 @@ class JobPostService
         DB::beginTransaction();
 
         try {
+            // Validate the request data, specifically ensuring cv_id is present
+            $validatedData = $request->validate([
+                'cv_id' => 'required|integer',  // Validate that cv_id is required and is an integer
+            ]);
+
             $alumniId = auth('alumni')->id();
             $jobPost = JobPost::where('slug', $slug)->firstOrFail();
 
@@ -43,27 +49,30 @@ class JobPostService
                 return redirect()->route('alumni.jobs.all-job-post');
             }
 
-
             // Proceed with the application
             $job = new AppliedJobs();
             $job->alumni_id = $alumniId;
             $job->company_id = $company;
-            $job->cv_id = $request->cv_id;
+            $job->cv_id = $validatedData['cv_id']; // Use the validated cv_id
             $job->job_id = $jobPost->id;
-            $jobPost->applied_by += 1; // Increment the applied_by field by 1
+            $jobPost->applied_by += 1;  // Increment the applied_by field by 1
             $jobPost->save(); // Save the updated job post
             $job->save();
 
+            // Commit the transaction
             DB::commit();
 
             session()->flash('success', 'Job Applied Successfully');
             return redirect()->route('alumni.jobs.all-job-post');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            // Roll back the transaction on error
             DB::rollBack();
-             session()->flash('error', 'Something went wrong');
+            // Log the error for administrative review
+            Log::error('Job application error: ' . $e->getMessage());
+            // Flash a more descriptive error message to the session
+            session()->flash('error',  $e->getMessage());
+            return redirect()->route('alumni.jobs.all-job-post');
         }
-
-
     }
 
     public function getMyJobPostList(){

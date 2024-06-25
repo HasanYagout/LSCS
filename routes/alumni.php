@@ -118,7 +118,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::get('my-job-post', [JobPostController::class, 'myJobPost'])->name('my-job-post');
         Route::post('apply/{company}/{slug}', [JobPostController::class, 'apply'])->name('apply');
         Route::get('/pending', [JobPostController::class, 'pending'])->name('pending');
-        Route::get('job-view-details/{slug}', [JobPostController::class, 'jobDetails'])->name('details');
+        Route::get('job-view-details/{company}/{slug}', [JobPostController::class, 'details'])->name('details');
 
     });
 // Job Post route end

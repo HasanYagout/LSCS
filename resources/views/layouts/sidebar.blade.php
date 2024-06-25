@@ -388,8 +388,8 @@
                                                     @endif
                                                     <li><a href="{{ route('alumni.profile.index') }}" class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">{{ __('Profile') }}</a>
                                                     </li>
-                                                    <li><a class="{{ $activeCvList ?? '' }}"
-                                                           href="{{ route('alumni.cvs.all') }}">{{ __('Manage CVs') }}</a></li>
+{{--                                                    <li><a class="{{ $activeCvList ?? '' }}"--}}
+{{--                                                           href="{{ route('alumni.cvs.all') }}">{{ __('Manage CVs') }}</a></li>--}}
 {{--                                                    <li><a class="{{ $activeAllJobPostList ?? '' }}"--}}
 {{--                                                           href="{{ route('alumni.cvs.create') }}">{{ __('Create Cv') }}</a></li>--}}
                                                     <li><a class="{{ $activeAllJobPostList ?? '' }}"

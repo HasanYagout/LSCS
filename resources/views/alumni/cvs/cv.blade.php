@@ -136,17 +136,18 @@
     </ul>
 </section>
 
+        @if($user->skills)
 <section class="skills">
     <h2>Skills</h2>
     <ul>
-        @if($user->skills)
+
             @foreach(json_decode($user->skills) as $skill)
                 <li>{{$skill}}</li>
             @endforeach
-        @endif
 
     </ul>
 </section>
+        @endif
 
 </body>
 </html>

@@ -63,7 +63,7 @@ class JobPostController extends Controller
     {
         $data['title'] = __('Job Details');
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);;
-        return view('alumni.jobs.job_details', $data);
+        return view('alumni.jobs.job_post_view', $data);
     }
 
     public function apply(Request $request, $company, $slug)
@@ -73,15 +73,27 @@ class JobPostController extends Controller
 
     public function all(Request $request)
     {
-
         $data['title'] = __('All Job Post');
         $data['showJobPostManagement'] = 'show';
         $data['activeAllJobPostList'] = 'active-color-one';
-        $data['jobs']=JobPost::where('status', STATUS_ACTIVE)
-            ->orWhere('status', STATUS_INACTIVE)
+
+        // Retrieve the search term from the request
+        $searchTerm = $request->input('search');
+
+        // Filter jobs based on the search term
+        $data['jobs'] = JobPost::query()
+            ->where(function($query) use ($searchTerm) {
+                $query->where('title', 'LIKE', "%{$searchTerm}%")
+                    ->orWhereHas('company', function($query) use ($searchTerm) {
+                        $query->where('name', 'LIKE', "%{$searchTerm}%");
+                    })
+                    ->orWhere('location', 'LIKE', "%{$searchTerm}%");
+            })
+            ->where('status', STATUS_ACTIVE)  // Assuming you still want to filter by status
             ->orderBy('id', 'desc')
             ->paginate(10);
 
         return view('alumni.jobs.all-job-post', $data);
     }
+
 }

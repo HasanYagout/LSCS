@@ -136,6 +136,7 @@ class UserService
                 $filename = $date . '_' . $randomSlug . '_' . $randomNumber . '.' . $image->getClientOriginalExtension();
                 $image->storeAs('alumni/image', $filename, 'public');
             }
+            $skillsData = $request->has('skills') && is_array($request->skills) ? json_encode($request->skills) : null;
 
 
 
@@ -182,7 +183,8 @@ class UserService
                 'company_address' => $request['company_address'] ?? '',
                 'city' => $request['city']?? $authUser->city,
                 'address' => $request['address']?? $authUser->address,
-                'skills' => json_encode($request->skills)?? $authUser->skills,
+                'skills' => $skillsData,
+
             ]);
 
 
