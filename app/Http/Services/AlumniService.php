@@ -264,6 +264,7 @@ class AlumniService
     }
 
     public function changeAlumniStatus($request){
+        dd($request);
         DB::beginTransaction();
         try {
             $user = User::where(['id'=> $request['alumniUserId']])->where('tenant_id', getTenantId());

@@ -30,7 +30,7 @@
             { data: 'graduation_year', name: 'graduation_year' },
             { data: 'major', name: 'major' },
             { data: 'status', name: 'status', orderable: false, searchable: false },
-            { data: 'recommendation', name: 'action', orderable: false, searchable: false }
+
 		],
 		"initComplete": function( settings, json ) {
 			$('.z-filter-block').html($('#search-section').html());
@@ -60,7 +60,50 @@
         table.draw();
         e.preventDefault();
     })
+    $(document).on('change', '.toggle-status', function(e) {
+        var $switch = $(this);
+        var alumniId = $switch.data('id');
+        var newStatus = $switch.is(':checked') ? 1 : 0;
 
+        Swal.fire({
+            title: 'Sure! You want to change the status?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Change It!'
+        }).then((result) => {
+            if (result.value) {
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    type: 'POST',
+                    url: $('#students-update-route').val(), // Replace with your actual route
+                    data: {
+                        '_token': csrfToken,
+                        'alumni_id': alumniId,
+                        'status': newStatus
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                        $('#alumni-all-list-filter').DataTable().ajax.reload();
+                    },
+                    error: function(error) {
+                        toastr.error(error.responseJSON.message);
+                        $('#alumni-all-list-filter').DataTable().ajax.reload();
+                    }
+                });
+            } else {
+                // Revert the switch state if the user cancels
+                $switch.prop('checked', !newStatus);
+                $('#alumni-all-list-filter').DataTable().ajax.reload();
+            }
+        });
+    });
     $(document).on('change', '#change_status', function(){
         var selectedStatus = $(this).val();
         var alumniUserId = $(this).attr("data-id");

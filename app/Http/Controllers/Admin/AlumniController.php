@@ -74,11 +74,11 @@ class AlumniController extends Controller
                 </li>
             </ul>';
                 })
-                ->addColumn('recommendation', function ($data) {
-                    return '<button onclick="getEditModal(\'' . route('admin.alumni.gallery', $data->id) . '\', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="' . __('Upload') . '">
-                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="upload" />
-                        </button>';
-                })
+//                ->addColumn('recommendation', function ($data) {
+//                    return '<button onclick="getEditModal(\'' . route('admin.alumni.gallery', $data->id) . '\', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="' . __('Upload') . '">
+//                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="upload" />
+//                        </button>';
+//                })
                 ->rawColumns(['first_name', 'last_name', 'graduation_year', 'major', 'recommendation','status'])
                 ->make(true);
         }
@@ -113,6 +113,7 @@ class AlumniController extends Controller
 
     public function alumniChangeStatus(Request $request)
     {
+        dd($request);
         return $this->alumniService->changeAlumniStatus($request);
     }
 
