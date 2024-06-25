@@ -201,6 +201,12 @@ class UserService
     {
         $authUser = auth('alumni')->user();
 
+        // Check if the user already has three education records
+
+        if ($authUser->experience()->count() >= 3) {
+            session()->flash('error', 'You have reached the maximum limit for experience records.');
+            return redirect()->route('alumni.profile.index');
+        }
         $data = $request->validate([
             "name" =>  'bail|required|max:195',
             "position" =>  'bail|required|max:195',
@@ -277,6 +283,12 @@ class UserService
     public function addEducation(Request $request)
     {
         $authUser = auth('alumni')->user();
+        // Check if the user already has three education records
+
+        if ($authUser->education()->count() >= 3) {
+            session()->flash('error', 'You have reached the maximum limit for education records.');
+            return redirect()->route('alumni.profile.index');
+        }
         $data = $request->validate([
             "education_type" =>  'bail|required|max:195',
             "education_name" =>  'bail|required|max:195',

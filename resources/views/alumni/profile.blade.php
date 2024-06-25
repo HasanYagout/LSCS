@@ -78,175 +78,145 @@
                                 @endif
                             </ul>
                         </div>
-                        <!-- Bio ~ Info -->
-                        <div class="row rg-30">
-                            <!-- Bio -->
-                            <div class="col-lg-8">
-                                <div class="py-20 px-25 bd-ra-10 bg-f9f9f9">
-                                    <!-- Bio text -->
-                                    <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                        <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Profile Bio') }}</h4>
-                                        <p class="fs-14 fw-400 lh-24 text-707070 pb-12">{!! auth('alumni')->user()?->about_me !!}</p>
-                                    </div>
-                                    <!-- Personal Info -->
-                                    <ul class="zList-one">
-                                        <li>
-                                            <p>{{ __('First Name') }} :</p>
-                                            <p>{{ auth('alumni')->user()->first_name}}</p>
-                                        </li>
-                                        <li>
-                                            <p>{{ __('Last Name') }} :</p>
-                                            <p>{{ auth('alumni')->user()->last_name}}</p>
-                                        </li>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <!-- Content for the left section -->
+                                    <div class="row gap-5">
+                                        <div class="col-md-12">
+                                            <div class="py-20 px-25 bd-ra-10 bg-f9f9f9">
+                                                <!-- Bio text -->
+                                                <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
+                                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Profile Bio') }}</h4>
+                                                    <p class="fs-14 fw-400 lh-24 text-707070 pb-12">{!! auth('alumni')->user()?->about_me !!}</p>
+                                                </div>
+                                                <!-- Personal Info -->
+                                                <ul class="zList-one">
+                                                    <li>
+                                                        <p>{{ __('First Name') }} :</p>
+                                                        <p>{{ auth('alumni')->user()->first_name}}</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>{{ __('Last Name') }} :</p>
+                                                        <p>{{ auth('alumni')->user()->last_name}}</p>
+                                                    </li>
 
-                                        <li>
-                                            <p>{{ __('Email') }} :</p>
-                                            <p>{{auth('alumni')->user()->email}}</p>
-                                        </li>
+                                                    <li>
+                                                        <p>{{ __('Email') }} :</p>
+                                                        <p>{{auth('alumni')->user()->email}}</p>
+                                                    </li>
 
-                                        <li>
-                                            <p>{{ __('Phone') }} :</p>
-                                            <p>{{auth('alumni')->user()->phone}}</p>
-                                        </li>
-
-
-                                        <li>
-                                            <p>{{ __('City') }} :</p>
-                                            <p> {{ auth('alumni')->user()?->city }}</p>
-                                        </li>
-                                        <li>
-                                            <p>{{ __('Date Of Birth') }} :</p>
-                                            <p>{{ auth('alumni')->user()?->date_of_birth }}</p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- Info -->
-                            <div class="col-lg-4">
-                                <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
-                                    <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                        <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Educational Info') }}</h4>
-
-                                    </div>
-
-                                    @foreach( auth('alumni')->user()?->education as $education)
-                                        <ul class="zList-one">
-                                            <li class="d-block">
-                                                <p class=" fs-4">{{ $education->type }}</p>
-                                            </li>
-
-                                            <li class="d-block">
-                                                <p class=" fs-6 fw-light">{{ $education->name }}</p>
-                                            </li>
-
-                                            <li class="d-block">
-                                                <p class="text-1b1c17-50">{{ $education->start_date .' - '.$education->end_date}}</p>
-                                            </li>
-                                        </ul>
-
-                                    @endforeach
-
-                                </div>
-
-                                <div class="py-20 mt-3 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
-                                    <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                        <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Skills') }}</h4>
-
-                                    </div>
-                                    <ul class="zList-one d-flex">
-                                        @php
-                                            $skills = json_decode(auth('alumni')->user()?->skills);
-                                        @endphp
-
-                                        @if ($skills)
-                                            @foreach ($skills as $skill)
-                                                <li class="p-1 d-flex bg-f1a527 rounded m-1">
-                                                    <p>{{ $skill }}</p>
-                                                </li>
-                                            @endforeach
-                                        @endif
-                                    </ul>
-                                </div>
+                                                    <li>
+                                                        <p>{{ __('Phone') }} :</p>
+                                                        <p>{{auth('alumni')->user()->phone}}</p>
+                                                    </li>
 
 
-                            </div>
-                            <div class="col-lg-8">
-                                @foreach(auth('alumni')->user()?->experience as $experience)
-
-                                        <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
-                                            <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                                <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Experience Info') }}</h4>
+                                                    <li>
+                                                        <p>{{ __('City') }} :</p>
+                                                        <p> {{ auth('alumni')->user()?->city }}</p>
+                                                    </li>
+                                                    <li>
+                                                        <p>{{ __('Date Of Birth') }} :</p>
+                                                        <p>{{ auth('alumni')->user()?->date_of_birth }}</p>
+                                                    </li>
+                                                </ul>
                                             </div>
-                                            <ul class="zList-one">
-                                                <li class="p-0 lh-1">
-                                                    <h6 class="fs-4 lh-1">{{ $experience->position}}</h6>
-                                                </li>
-                                                <li class="p-0 lh-1">
-                                                    <h1 class="fw-medium lh-1">{{ $experience->name}}</h1>
-                                                </li>
-                                                <li class="d-block p-0">
-                                                    @php
-                                                        $startDate = new DateTime($experience->start_date);
-                                                        $endDate = new DateTime($experience->end_date);
-                                                    @endphp
-                                                    <span
-                                                        class="text-f1a527-50">{{ $startDate->format('M Y') .' - '.$endDate->format('M Y')}}</span>
-                                                </li>
-                                                <li>
-                                                    <p>{{$experience->company_address}}</p>
-                                                </li>
-                                                <li>
-                                                    {!! $experience->details !!}
-                                                </li>
-                                            </ul>
-
-
                                         </div>
+                                        <div class="col-md-12">
+                                            <div class="py-20 px-30 bd-ra-10 bg-f9f9f9  m-auto">
+                                                <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
+                                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Educational Info') }}</h4>
+                                                </div>
+                                            @foreach(auth('alumni')->user()?->experience as $experience)
+
+                                                <div class="py-20 px-30 bd-ra-10 bg-f9f9f9">
+                                                    <ul class="zList-one">
+                                                        <li class="p-0 lh-1 d-block">
+                                                            <h6 class="fs-4 lh-1">{{ $experience->position}}</h6>
+                                                        </li>
+                                                        <li class="p-0 lh-1 d-block">
+                                                            <h1 class="fw-medium lh-1">{{ $experience->name}}</h1>
+                                                        </li>
+                                                        <li class="d-block p-0">
+                                                            @php
+                                                                $startDate = new DateTime($experience->start_date);
+                                                                $endDate = new DateTime($experience->end_date);
+                                                            @endphp
+                                                            <span
+                                                                class="text-f1a527-50">{{ $startDate->format('M Y') .' - '.$endDate->format('M Y')}}</span>
+                                                        </li>
+                                                        <li>
+                                                            <p>{{$experience->company_address}}</p>
+                                                        </li>
+                                                        <li>
+                                                            {!! $experience->details !!}
+                                                        </li>
+                                                    </ul>
 
 
-                                @endforeach
-
-                            </div>
-                        </div>
-                        <div class="row rg-30 mt-3">
+                                                </div>
 
 
-                            @foreach(auth('alumni')->user()?->experience as $experience)
-
-                                <div class="col-lg-4">
-                                    <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
-                                        <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                            <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Experience Info') }}</h4>
+                                            @endforeach
                                         </div>
-                                        <ul class="zList-one">
-                                            <li class="p-0 lh-1">
-                                                <h6 class="fs-4 lh-1">{{ $experience->position}}</h6>
-                                            </li>
-                                            <li class="p-0 lh-1">
-                                                <h1 class="fw-medium lh-1">{{ $experience->name}}</h1>
-                                            </li>
-                                            <li class="d-block p-0">
-                                                @php
-                                                    $startDate = new DateTime($experience->start_date);
-                                                    $endDate = new DateTime($experience->end_date);
-                                                @endphp
-                                                <span
-                                                    class="text-f1a527-50">{{ $startDate->format('M Y') .' - '.$endDate->format('M Y')}}</span>
-                                            </li>
-                                            <li>
-                                                <p>{{$experience->company_address}}</p>
-                                            </li>
-                                            <li>
-                                                {!! $experience->details !!}
-                                            </li>
-                                        </ul>
-
-
+                                        </div>
                                     </div>
-
                                 </div>
-                            @endforeach
+                                <div class="col-md-6">
+                                    <!-- Content for the right section -->
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                           <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
+                                               <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
+                                                   <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Educational Info') }}</h4>
+                                               </div>
 
+                                               @foreach( auth('alumni')->user()?->education as $education)
+                                                   <ul class="zList-one">
+                                                       <li class="d-block">
+                                                           <p class=" fs-4">{{ $education->type }}</p>
+                                                       </li>
+
+                                                       <li class="d-block">
+                                                           <p class=" fs-6 fw-light">{{ $education->name }}</p>
+                                                       </li>
+
+                                                       <li class="d-block">
+                                                           <p class="text-1b1c17-50">{{ $education->start_date .' - '.$education->end_date}}</p>
+                                                       </li>
+                                                   </ul>
+
+                                               @endforeach
+
+                                           </div>
+
+                                       </div>
+                                       <div class="col-md-12">
+                                           <div class="py-20 mt-3 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
+                                               <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
+                                                   <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Skills') }}</h4>
+
+                                               </div>
+                                               <ul class="zList-one d-flex">
+                                                   @php
+                                                       $skills = json_decode(auth('alumni')->user()?->skills);
+                                                   @endphp
+
+                                                   @if ($skills)
+                                                       @foreach ($skills as $skill)
+                                                           <li class="p-1 d-flex bg-f1a527 rounded m-1">
+                                                               <p>{{ $skill }}</p>
+                                                           </li>
+                                                       @endforeach
+                                                   @endif
+                                               </ul>
+                                           </div>
+
+                                       </div>
+                                   </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -710,15 +680,18 @@
                                                 @endif
 
 
-                                                        <div class="container">
-                                                            <div class="card">
-                                                                <img src="path_to_image.jpg" class="card-img-top" alt="Card Image">
-                                                                <div class="card-body">
-                                                                    <embed src="{{asset('public/storage/alumni/cv').'/'.$cv->name}}" type="application/pdf" width="100%" height="500px">
+                                                <div class="container">
+                                                    <div class="card">
+                                                        <img src="path_to_image.jpg" class="card-img-top"
+                                                             alt="Card Image">
+                                                        <div class="card-body">
+                                                            <embed
+                                                                src="{{asset('public/storage/alumni/cv').'/'.$cv->name}}"
+                                                                type="application/pdf" width="100%" height="500px">
 
-                                                                </div>
-                                                            </div>
                                                         </div>
+                                                    </div>
+                                                </div>
 
 
                                             </div>
@@ -844,14 +817,16 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="experienceForm" action="{{ route('alumni.profile.add-cv') }}" method="POST" enctype="multipart/form-data">
+                        <form id="experienceForm" action="{{ route('alumni.profile.add-cv') }}" method="POST"
+                              enctype="multipart/form-data">
                             @csrf
                             <div class="row">
 
                                 <div class="col-lg-12">
                                     <label for="pdf" class="form-label">CV (PDF only)</label>
 
-                                    <input type="file" class="form-control" id="pdf" multiple name="cv[]" accept="application/pdf" required>
+                                    <input type="file" class="form-control" id="pdf" multiple name="cv[]"
+                                           accept="application/pdf" required>
 
                                 </div>
                             </div>
