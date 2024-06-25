@@ -122,13 +122,16 @@
 <section class="experience">
     <h2>Professional Experience</h2>
     <ul>
-        @foreach($user->experience as $experience)
+        @if($user->experience)
+            @foreach($user->experience as $experience)
                 <strong>{{$experience->position}}</strong> - {{$experience->name}} ({{\Illuminate\Support\Carbon::parse($experience->start_date)->format('Y')}}-{{\Illuminate\Support\Carbon::parse($education->end_date)->format('Y') == now()->format('Y')?'present':\Illuminate\Support\Carbon::parse($education->end_date)->format('Y')}})
 
-                    {!! $experience->details !!}
+                {!! $experience->details !!}
 
 
-        @endforeach
+            @endforeach
+        @endif
+
 
     </ul>
 </section>
@@ -136,10 +139,12 @@
 <section class="skills">
     <h2>Skills</h2>
     <ul>
-        <li>Java, JavaScript, Python</li>
-        <li>HTML, CSS, React, Vue.js</li>
-        <li>SQL, NoSQL</li>
-        <li>Version Control/Git</li>
+        @if($user->skills)
+            @foreach(json_decode($user->skills) as $skill)
+                <li>{{$skill}}</li>
+            @endforeach
+        @endif
+
     </ul>
 </section>
 

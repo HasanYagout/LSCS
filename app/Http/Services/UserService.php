@@ -138,6 +138,7 @@ class UserService
             }
 
 
+
             foreach($request->education['id'] ?? [] as $index => $id){
 
                 $authUser->education()->where('id', $id)->update([
@@ -148,8 +149,9 @@ class UserService
                     'end_date' => $request->education['end_date'][$index],
                 ]);
             }
-
             $authUser->education()->whereNotIn('id', $request->education['id'] ?? [])->delete();
+
+
 
             foreach($request->experience['id'] ?? [] as $index => $id){
 
@@ -161,7 +163,6 @@ class UserService
                     'details' => $request->experience['details'][$index],
                 ]);
             }
-
 
             $authUser->experience()->whereNotIn('id', $request->experience['id'] ?? [])->delete();
 

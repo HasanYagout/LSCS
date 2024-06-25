@@ -35,6 +35,7 @@
                                 <div
                                     class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-cdef84">
                                     <img class="w-100 h-100"
+                                         onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                          src="{{ asset('public/storage/alumni/image').'/'.auth('alumni')->user()->image }}"
                                          alt="{{auth('alumni')->user()->first_name.' '.auth('alumni')->user()->last_name}}"/>
                                 </div>
@@ -82,7 +83,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <!-- Content for the left section -->
-                                    <div class="row gap-5">
+                                    <div class="row gap-3">
                                         <div class="col-md-12">
                                             <div class="py-20 px-25 bd-ra-10 bg-f9f9f9">
                                                 <!-- Bio text -->
@@ -126,7 +127,7 @@
                                         <div class="col-md-12">
                                             <div class="py-20 px-30 bd-ra-10 bg-f9f9f9  m-auto">
                                                 <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Educational Info') }}</h4>
+                                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Experience Info') }}</h4>
                                                 </div>
                                             @foreach(auth('alumni')->user()?->experience as $experience)
 
@@ -149,9 +150,10 @@
                                                         <li>
                                                             <p>{{$experience->company_address}}</p>
                                                         </li>
-                                                        <li>
-                                                            {!! $experience->details !!}
-                                                        </li>
+                                                        <ul>
+                                                            <li>{!! $experience->details !!}</li>
+                                                        </ul>
+
                                                     </ul>
 
 
@@ -214,6 +216,34 @@
                                            </div>
 
                                        </div>
+                                       <div class="col-md-12">
+                                           <div class="py-20 mt-3 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
+                                               <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
+                                                   <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('CVs') }}</h4>
+
+                                               </div>
+                                                   <div class="container">
+                                                   <div class="row g-3">
+                                               @foreach(auth('alumni')->user()->cvs as $cv)
+                                                       <div class="col-md-6">
+                                                           <div class="card">
+                                                               <div class="card-body">
+                                                                   <embed
+                                                                       src="{{asset('public/storage/alumni/cv').'/'.$cv->name}}"
+                                                                       type="application/pdf" width="100%" height="500px">
+
+                                                               </div>
+                                                           </div>
+                                                       </div>
+
+                                               @endforeach
+                                                   </div>
+                                                   </div>
+
+                                           </div>
+
+                                       </div>
+
                                    </div>
                                 </div>
                             </div>
@@ -238,9 +268,9 @@
                                         <!-- Photo -->
                                         <div class="pb-40">
                                             <div class="upload-img-box profileImage-upload">
-                                                <div class="icon"><img src="assets/images/icon/edit-2.svg" alt=""/>
+                                                <div class="icon"><img src="{{asset('public/assets/images/icon/edit-2.svg')}}" alt=""/>
                                                 </div>
-                                                <img
+                                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                                     src="{{ asset('public/storage/alumni/image').'/'.auth('alumni')->user()->image }}"/>
                                                 <input type="file" name="image" id="zImageUpload"
                                                        accept="image/*,video/*"
@@ -650,7 +680,7 @@
                                         @forelse (auth('alumni')->user()->cvs as $cv)
 
                                             <div class="cv-item col-md-4">
-                                                <input type="hidden" name="experience[id][]"
+                                                <input type="hidden" name="cv[id][]"
                                                        value="{{ $cv->id }}">
                                                 @if ($loop->first)
                                                     <div
@@ -682,8 +712,7 @@
 
                                                 <div class="container">
                                                     <div class="card">
-                                                        <img src="path_to_image.jpg" class="card-img-top"
-                                                             alt="Card Image">
+
                                                         <div class="card-body">
                                                             <embed
                                                                 src="{{asset('public/storage/alumni/cv').'/'.$cv->name}}"
