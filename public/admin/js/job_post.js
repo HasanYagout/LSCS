@@ -29,14 +29,11 @@
             { "data": "company_logo", "name": "job.company_logo", responsivePriority: 1 },
             { "data": "company", "name": "job.company_logo", responsivePriority: 1 },
             { "data": "title", "name": "job.title", responsivePriority: 1 },
-            // { "data": "salary", "name": "job.salary", responsivePriority: 2 },
             { "data": "application_deadline", "name": "job.application_deadline", responsivePriority: 3 },
             { "data": "posted_by", "name": "job.application_deadline", responsivePriority: 3 },
             { "data": "status", "name": "job.application_deadline", responsivePriority: 3 },
             { "data": "action", "name": "job.action"},
-            // { "data": "major", "name": "student.major" },
-            // { "data": "credits_left", searchable: false, responsivePriority: 2},
-            // { "data": "action", searchable: false, responsivePriority: 3 },
+
         ],
         "initComplete": function( settings, json ) {
             $('.z-filter-block').html($('#search-section').html());

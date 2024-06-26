@@ -69,45 +69,7 @@ class JobsController extends Controller
     public function all(Request $request)
     {
         if ($request->ajax()) {
-            $features = JobPost::where('user_id',auth('company')->id())->where('posted_by','company')->orderBy('id','desc')->get();
-            return datatables($features)
-                ->addIndexColumn()
-                ->addColumn('status', function ($data){
-                    $checked = $data->status ? 'checked' : '';
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                <li class="d-flex gap-2">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
-                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
-                    </div>
-                </li>
-            </ul>';
-                })
-                ->addColumn('action', function ($data) {
-                    if(auth('company')->user()->role_id == USER_ROLE_COMPANY){
-                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                                <li class="d-flex gap-2">
-                                    <button onclick="getEditModal(\'' . route('company.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                                    </button>
-                                    <button onclick="deleteItem(\'' . route('company.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                                    </button>
-                                    <a href="' . route('company.jobs.details', ['company'=>auth('company')->id(),'slug'=>$data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
-                                </li>
-                            </ul>';
-                    }else{
-                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                    <li class="d-flex gap-2">
-                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
-                    </li>
-                </ul>';
-                    }
-
-                })
-
-                ->rawColumns(['company_logo','status' ,'action', 'title', 'employee_status', 'application_deadline'])
-                ->make(true);
+            return $this->jobPostService->getAllJobPostList();
         }
         $data['title'] = __('All Job Post');
         $data['showJobPostManagement'] = 'show';

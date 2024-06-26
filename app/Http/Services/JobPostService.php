@@ -122,65 +122,94 @@ class JobPostService
 
 
     public function getAllJobPostList(){
-        $features = JobPost::where('tenant_id', getTenantId())->where('status',JOB_STATUS_APPROVED)->orderBy('id','desc')->get();
+        $authUser = $this->getAuthenticatedUser(['company', 'admin']);
+        if ($authUser->name=='admin'){
+            $features = JobPost::where('posted_by','admin')->orWhere('posted_by','company')->orderBy('id','desc')->get();
+
+        }
+        else{
+        $features = JobPost::where('user_id',$authUser->user()->id)->where('posted_by',$authUser->name)->orderBy('id','desc')->get();
+        }
+
         return datatables($features)
             ->addIndexColumn()
-            ->addColumn('company_logo', function ($data) {
-                return '<img src="' . getFileUrl($data->company_logo) . '" alt="icon" class="rounded avatar-xs max-h-35">';
-            })
-            ->addColumn('title', function ($data) {
-                return htmlspecialchars($data->title);
-            })
-            ->addColumn('employee_status', function ($data) {
-                return $this->getEmployeeStatusById($data->employee_status);
-            })
+            ->addColumn('company_logo', function ($data) use($authUser){
 
-            ->addColumn('application_deadline', function ($data) {
-               return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
-            })
-            ->addColumn('status', function ($data) {
-                return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
-            })
-            ->addColumn('action', function ($data) {
-                if(auth()->user()->role == USER_ROLE_ADMIN){
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                                <li class="d-flex gap-2">
-                                    <button onclick="getEditModal(\'' . route('jobPost.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                                    </button>
-                                    <button onclick="deleteItem(\'' . route('jobPost.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                                    </button>
-                                    <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
-                                </li>
-                            </ul>';
-                }else{
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                    <li class="d-flex gap-2">
-                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
-                    </li>
-                </ul>';
+                if ($authUser->name=='admin'){
+                    if ($data->posted_by=='company'){
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                    }
+                    else{
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . auth('admin')->user()->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+
+                    }
                 }
 
             })
+            ->addColumn('company', function ($data) {
 
-            ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'salary', 'application_deadline'])
+                return htmlspecialchars($data->title);
+            })
+            ->addColumn('posted_by', function ($data) {
+
+                return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16' . ($data->posted_by == 'admin' ? ' text-0fa958 bg-0fa958-10' : ' text-f5b40a bg-f5b40a-10') . '">' . $data->posted_by . '</p>';
+
+            })
+
+            ->addColumn('status', function ($data){
+                $checked = $data->status ? 'checked' : '';
+                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                <li class="d-flex gap-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
+                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
+                    </div>
+                </li>
+            </ul>';
+            })
+            ->addColumn('action', function ($data) use ($authUser) {
+                $auth = $authUser->user()->getTable() === 'companies' ? 'company' : 'admin';
+                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                                <li class="d-flex gap-2">
+                                    <button onclick="getEditModal(\'' . route($auth.'.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
+                                    </button>
+                                    <button onclick="deleteItem(\'' . route($auth.'.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
+                                    </button>
+                                    <a href="' . route($auth.'.jobs.details', ['company'=>auth('company')->id(),'slug'=>$data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+                                </li>
+                            </ul>';
+            })
+            ->rawColumns(['company_logo','posted_by','status' ,'action', 'company', 'employee_status', 'application_deadline'])
             ->make(true);
     }
 
 
     public function getPendingJobPostList(){
-        $features = JobPost::where('status',JOB_STATUS_APPROVED)->where('posted_by','company')->orderBy('id','desc')->get();
+
+        $authUser = $this->getAuthenticatedUser(['company', 'admin']);
+        if ($authUser->name=='admin'){
+            $features = JobPost::where('posted_by','admin')->where('status',JOB_STATUS_APPROVED)->orWhere('posted_by','company')->orderBy('id','desc')->get();
+
+        }
+        else{
+            $features = JobPost::where('user_id',$authUser->user()->id)->where('status',JOB_STATUS_APPROVED)->where('posted_by',$authUser->name)->orderBy('id','desc')->get();
+        }
+
         return datatables($features)
             ->addIndexColumn()
-            ->addColumn('company_logo', function ($data) {
-                if ($data->posted_by=='company'){
-                    return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
-                }
-                else{
-                    return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . auth('admin')->user()->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+            ->addColumn('company_logo', function ($data) use($authUser) {
+                if ($authUser->name=='admin'){
+                    if ($data->posted_by=='company'){
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                    }
+                    else{
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . auth('admin')->user()->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
 
+                    }
                 }
+
             })
             ->addColumn('title', function ($data) {
                 return htmlspecialchars($data->title);

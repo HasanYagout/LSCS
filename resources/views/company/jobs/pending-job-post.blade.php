@@ -20,7 +20,7 @@
             <table class="table zTable" id="jobPostPendingdataTable">
               <thead>
                 <tr>
-                  <th scope="col"><div>{{ __('Company') }}</div></th>
+
                   <th scope="col"><div>{{ __('Job Title') }}</div></th>
                   <th scope="col"><div>{{ __('Employee Status') }}</div></th>
                   <th scope="col"><div>{{ __('Application Deadline') }}</div></th>
