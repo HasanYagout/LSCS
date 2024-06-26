@@ -207,21 +207,29 @@ class JobPostService
     }
 
 
-    public function store($request)
+    public function store(Request $request)
     {
         try {
             DB::beginTransaction();
-            if (JobPost::where('slug', getSlug($request->title))->count() > 0) {
-                $slug = getSlug($request->title) . '-' . rand(100000, 999999);
-            } else {
-                $slug = getSlug($request->title);
+
+            // Helper to get the authenticated user from multiple guards
+            $authUser = $this->getAuthenticatedUser(['company', 'admin']);
+            if (!$authUser) {
+                return redirect()->route('login')->with('error', 'Not authenticated');
             }
+
+            // Generate a unique slug
+            $slugBase = Str::slug($request->title);
+            $slug = JobPost::where('slug', 'like', $slugBase . '%')->exists() ?
+                $slugBase . '-' . rand(100000, 999999) : $slugBase;
+
             $jobPost = new JobPost();
             $jobPost->title = $request->title;
             $jobPost->slug = $slug;
-            $jobPost->user_id = auth('company')->id();
+            $jobPost->user_id = $authUser->id;
+            $jobPost->posted_by = $authUser->getTable(); // Use table name as a proxy for role if roles are distinct by table
             $jobPost->location = $request->location;
-            $jobPost->placement_link = $request->post_link?$request->post_link:'';
+            $jobPost->post_link = $request->post_link ?: '';
             $jobPost->application_deadline = $request->application_deadline;
             $jobPost->job_responsibility = $request->job_responsibility;
             $jobPost->job_context = $request->job_context;
@@ -229,34 +237,30 @@ class JobPostService
             $jobPost->additional_requirements = $request->additional_requirements;
             $jobPost->employee_status = $request->employee_status;
             $jobPost->status = JOB_STATUS_PENDING;
-            $jobPost->skills=json_encode($request->skills);
-            $jobPost->posted_by= 'company';
+            $jobPost->skills = json_encode($request->skills);
 
-            if ($request->hasFile('company_logo')) {
-                // Get the original file extension
-                $extension = $request->company_logo->getClientOriginalExtension();
-
-                // Generate the new file name
-                $date = Carbon::now()->format('Ymd');
-                $slug = Str::slug($request->title);
-                $randomNumber = rand(1000, 9999);
-                $newFileName = "{$date}_{$slug}_{$randomNumber}.{$extension}";
-                // Save the file to the specified directory
-                $request->company_logo->storeAs('public/company/logo/', $newFileName);
-
-
-                // Get the file URL or ID depending on your file manager
-                $jobPost->company_logo = $newFileName; // Assuming you want to save the file path
-            }
             $jobPost->save();
             DB::commit();
-            session()->flash('success','Job Created Successfully');
+            session()->flash('success', 'Job Created Successfully');
             return redirect()->route('company.jobs.all-job-post');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
-            return $this->error([], getMessage(SOMETHING_WENT_WRONG));
+            session()->flash('error', 'Failed to create job: ' . $e->getMessage());
+            return back();
         }
+    }
 
+    /**
+     * Helper to get the authenticated user from multiple guards.
+     */
+    private function getAuthenticatedUser(array $guards)
+    {
+        foreach ($guards as $guard) {
+            if (auth($guard)->check()) {
+                return auth($guard)->user();
+            }
+        }
+        return null;
     }
 
     public function update($oldSlug, $request)

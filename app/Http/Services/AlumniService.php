@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Alumni;
+use App\Models\AppliedJobs;
 use App\Models\User;
 use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\DB;
@@ -263,22 +264,38 @@ class AlumniService
             ->make(true);
     }
 
-    public function changeAlumniStatus($request){
-
+    public function changeAlumniStatus( $request) {
         DB::beginTransaction();
         try {
-            $user = Alumni::where('id',$request->alumni_id)->first();
-            $user->update([
-                'status' => $request->status
-                ]);
-             DB::commit();
-            $message = __("Alumni Status Changed Successfully.");
-            session()->flash('success','Alumni Updated Successfully');
-            return redirect()->route('admin.alumni.list-search-with-filter');
+            $user = Alumni::withTrashed()->findOrFail($request->alumni_id); // Also consider trashed items
+            if ($request->status == 0) {
+                // Soft delete if status is set to '0'
+                $jobs=AppliedJobs::where('alumni_id', $request->alumni_id)->get();
+
+                if ($jobs){
+                    $message = 'You Can not delete this Account because it has applied jobs';
+                    return response()->json([
+                        'success' => false,
+                        'message' => $message
+                    ]);
+                }
+                else{
+                $user->delete();
+                $message = 'Alumni has been deactivated and archived.';
+
+                }
+            }
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'message' => $message
+            ]);
         } catch (\Exception $e) {
             DB::rollBack();
-            $message = getErrorMessage($e, $e->getMessage());
-            return $this->error([], $message);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update status: ' . $e->getMessage()
+            ], 400);
         }
     }
 

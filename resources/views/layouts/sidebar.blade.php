@@ -104,8 +104,8 @@
                     </li>
                     <li>
                         <a href="#companiesMenu" data-bs-toggle="collapse" role="button"
-                           aria-expanded="{{ isset($showStoryManagement) ? 'true' : '' }}" aria-controls="storyMenu"
-                           class="d-flex align-items-center cg-10 {{ isset($showStoryManagement) ? 'active' : 'collapsed' }}">
+                           aria-expanded="{{ isset($showCompanyManagement) ? 'true' : '' }}" aria-controls="storyMenu"
+                           class="d-flex align-items-center cg-10 {{ isset($showCompanyManagement) ? 'active' : 'collapsed' }}">
                             <div class="d-flex">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20"
                                      fill="none">
@@ -119,13 +119,17 @@
                             </div>
                             <span class="">{{__('Companies')}}</span>
                         </a>
-                        <div class="collapse {{ $showStoryManagement ?? '' }}" id="companiesMenu"
+                        <div class="collapse {{ $showCompanyManagement ?? '' }}" id="companiesMenu"
                              data-bs-parent="#sidebarMenu">
                             <ul class="zSidebar-submenu">
-                                <li><a class="{{ $activeStoryCreate ?? '' }}"
-                                       href="{{ route('admin.company.all') }}">{{ __('All') }}</a></li>
-                                <li><a class="{{ $activePendingStoryList ?? '' }}"
+                                <li><a class="{{ $activeAllCompanyList ?? '' }}"
+                                       href="{{ route('admin.company.all') }}">{{ __('All') }}</a>
+                                </li>
+                                <li><a class="{{ $activePendingCompanyList ?? '' }}"
                                        href="{{ route('admin.company.pending') }}">{{ __('Pending') }}</a>
+                                </li>
+                                <li><a class="{{ $activeCompanyActiveList ?? '' }}"
+                                       href="{{ route('admin.company.active') }}">{{ __('Active') }}</a>
                                 </li>
 
                             </ul>
@@ -206,7 +210,7 @@
                         </div>
                     </li>
                 @endif
-                @if($authenticatedGuard!=='admin'&&auth($authenticatedGuard)->user()->role_id!=USER_ROLE_INSTRUCTOR)
+                @if($authenticatedGuard=='admin'&&auth($authenticatedGuard)->user()->role_id!=USER_ROLE_INSTRUCTOR)
                         <li>
                             <a href="{{ route($authenticatedGuard.'.home') }}"
                                class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">

@@ -4,12 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Alumni extends Authenticatable
 {
-    use HasFactory;
-    protected $fillable=['cvs','phone','linkedin_url','first_name','experience','education','skills','last_name','email','password','date_of_birth','about_me','image'];
+    use HasFactory,SoftDeletes;
+    protected $fillable=['cvs','phone','status','linkedin_url','first_name','experience','education','skills','last_name','email','password','date_of_birth','about_me','image'];
+    protected $dates=['deleted_at'];
     public function appliedJobs()
     {
         return $this->hasMany(AppliedJobs::class, 'job_id');

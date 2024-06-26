@@ -122,7 +122,7 @@
                                                 </div>
                                             @foreach(auth('alumni')->user()?->experience as $experience)
 
-                                                <div class="py-20 px-30 bd-ra-10 bg-f9f9f9">
+                                                <div class="py-20 bd-ra-10 bg-f9f9f9">
                                                     <ul class="zList-one">
                                                         <li class="p-0 lh-1 d-block">
                                                             <h6 class="fs-4 lh-1">{{ $experience->position}}</h6>
@@ -142,7 +142,7 @@
                                                             <p>{{$experience->company_address}}</p>
                                                         </li>
                                                         <ul>
-                                                            <li>{!! $experience->details !!}</li>
+                                                            {!! $experience->details !!}
                                                         </ul>
 
                                                     </ul>

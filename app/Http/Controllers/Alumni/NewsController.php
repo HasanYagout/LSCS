@@ -27,11 +27,12 @@ class NewsController extends Controller
         $data['categories'] = $categoryService->activeCategory();
         $data['title']= 'All News List';
         $data['activeManageNews'] = 'active';
-        $data['news']=News::all();
+        $data['newsData']=News::all();
         return view('alumni.news.all-news', $data);
     }
 
-    public function newsDetails($slug){
+    public function details($slug){
+
         $data['title']= 'News Details';
         $data['news']= News::where('slug',$slug)->first();
         return view('alumni.news.news-details', $data);

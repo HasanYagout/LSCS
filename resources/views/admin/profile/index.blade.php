@@ -157,7 +157,7 @@
                                     <!-- Photo -->
                                     <div class="pb-40">
                                         <div class="upload-img-box profileImage-upload">
-                                            <div class="icon"><img src="assets/images/icon/edit-2.svg" alt="" /></div>
+                                            <div class="icon"><img src="{{asset('public/assets/images/icon/edit-2.svg')}}" alt="" /></div>
                                             <img src="{{ asset('public/storage/admin').'/'.auth('admin')->user()->image }}" />
                                             <input type="file" name="image" id="zImageUpload" accept="image/*,video/*"
                                                 onchange="previewFile(this)" />
@@ -428,16 +428,6 @@
     </div>
 </div>
 
-{{--<input type="hidden" id="job-post-list-route" value="{{ route('admin.cvs.all') }}">--}}
-
-<table class="table zTable" id="cvsTable">
-    <thead>
-    <tr>
-        <th scope="col"><div>{{ __('Name') }}</div></th>
-        <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>
-    </tr>
-    </thead>
-</table>
 @endsection
 
 @push('script')

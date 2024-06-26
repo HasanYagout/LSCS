@@ -56,11 +56,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('/status', [DashboardController::class, 'status_update'])->name('status.update');
 
         });
+
     Route::group(['prefix' => 'company', 'as' => 'company.'], function () {
         Route::get('/', [CompanyController::class, 'all'])->name('all');
         Route::post('update/{company}', [CompanyController::class, 'update'])->name('update');
         Route::get('/info/{slug}', [CompanyController::class, 'details'])->name('details');
         Route::get('pending', [CompanyController::class, 'pending'])->name('pending');
+        Route::get('active', [CompanyController::class, 'active'])->name('active');
 
     });
     Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');

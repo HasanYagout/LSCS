@@ -30,28 +30,7 @@ class   JobsController extends Controller
 
     public function add(Request $request)
     {
-        $jobPost = new JobPost();
-        if (JobPost::where('slug', getSlug($request->title))->count() > 0) {
-            $slug = getSlug($request->title) . '-' . rand(100000, 999999);
-        } else {
-            $slug = getSlug($request->title);
-        }
-        $jobPost->title = $request->title;
-        $jobPost->slug = $slug;
-        $jobPost->compensation_n_benefits = $request->compensation_n_benefits;
-        $jobPost->salary = $request->salary;
-        $jobPost->location = $request->location;
-        $jobPost->post_link = $request->post_link;
-        $jobPost->application_deadline = $request->application_deadline;
-        $jobPost->job_responsibility = $request->job_responsibility;
-        $jobPost->job_context = $request->job_context;
-        $jobPost->posted_by = 'admin';
-        $jobPost->educational_requirements = $request->educational_requirements;
-        $jobPost->additional_requirements = $request->additional_requirements;
-        $jobPost->employee_status = $request->employee_status;
-        $jobPost->status = JOB_STATUS_PENDING;
-        $jobPost->user_id = auth('admin')->id();
-        $jobPost->save();
+      return $this->jobPostService->store($request);
     }
 
     public function myJobPost(Request $request)
@@ -69,17 +48,27 @@ class   JobsController extends Controller
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
         return view('admin.jobs.edit-form', $data);
     }
-    public function toggleStatus(Request $request,$id)
+    public function toggleStatus(Request $request, $id)
     {
         $job = JobPost::with('company')->find($id);
-        if ($job) {
-            $job->status = $request->status;
-            $job->save();
-
-            return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+        if (!$job) {
+            return response()->json(['success' => false, 'message' => 'Job not found.']);
         }
 
-        return response()->json(['success' => false, 'message' => 'Company not found.']);
+        // Check if the company's status is 0 (inactive)
+        if ($job->posted_by=='company' && $job->company->status == 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to update job status because the associated company is inactive. Please update the company status first.'
+            ]);
+        }
+
+
+        // Proceed with updating the job status if the company is active
+        $job->status = $request->status;
+        $job->save();
+
+        return response()->json(['success' => true, 'message' => 'Job status updated successfully.']);
     }
     public function update(JobPostRequest $request, $slug)
     {

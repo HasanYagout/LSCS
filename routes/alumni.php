@@ -149,8 +149,6 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
     Route::get('all-notice', [NoticeController::class, 'allNotice'])->name('all.notice');
     Route::get('notice-details/{slug}', [NoticeController::class, 'noticeDetails'])->name('notice.details');
 
-    Route::get('all-news', [NewsController::class, 'allNews'])->name('all.news');
-    Route::get('news-details/{slug}', [NewsController::class, 'newsDetails'])->name('news.details');
 
         Route::group(['prefix' => 'news', 'as' => 'news.'], function () {
             Route::get('list', [NewsController::class, 'index'])->name('index');

@@ -2096,7 +2096,7 @@ bg-custom-secondary{
   font-weight: 500;
   line-height: 1rem;
   color: var(--text-black);
-  background-color: var(--color15);
+  background-color: var(--secondary-color);
 }
 .zBadge-free {
   display: inline-block;
