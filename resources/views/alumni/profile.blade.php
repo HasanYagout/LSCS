@@ -49,34 +49,34 @@
                             </div>
                             <!-- Social Link -->
                             <ul class="d-flex align-items-center cg-7">
-                                @if (auth('alumni')->user()?->facebook_url != null && auth('alumni')->user()?->facebook_url != '')
-                                    <li>
-                                        <a target="__blank" href="{{ auth('alumni')->user()?->facebook_url }}"
-                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
-                                                src="{{ asset('assets/images/icon/facebook.svg') }}" alt=""/></a>
-                                    </li>
-                                @endif
-                                @if (auth('alumni')->user()?->twitter_url != null && auth('alumni')->user()?->twitter_url != '')
-                                    <li>
-                                        <a target="__blank" href="{{ $user->alumni?->twitter_url }}"
-                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
-                                                src="{{ asset('assets/images/icon/twitter.svg') }}" alt=""/></a>
-                                    </li>
-                                @endif
+{{--                                @if (auth('alumni')->user()?->facebook_url != null && auth('alumni')->user()?->facebook_url != '')--}}
+{{--                                    <li>--}}
+{{--                                        <a target="__blank" href="{{ auth('alumni')->user()?->facebook_url }}"--}}
+{{--                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img--}}
+{{--                                                src="{{ asset('assets/images/icon/facebook.svg') }}" alt=""/></a>--}}
+{{--                                    </li>--}}
+{{--                                @endif--}}
+{{--                                @if (auth('alumni')->user()?->twitter_url != null && auth('alumni')->user()?->twitter_url != '')--}}
+{{--                                    <li>--}}
+{{--                                        <a target="__blank" href="{{ $user->alumni?->twitter_url }}"--}}
+{{--                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img--}}
+{{--                                                src="{{ asset('assets/images/icon/twitter.svg') }}" alt=""/></a>--}}
+{{--                                    </li>--}}
+{{--                                @endif--}}
                                 @if (auth('alumni')->user()?->linkedin_url != null && auth('alumni')->user()?->linkedin_url != '')
                                     <li>
                                         <a target="__blank" href="{{ auth('alumni')->user()?->linkedin_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
-                                                src="{{ asset('assets/images/icon/linkedin.svg') }}" alt=""/></a>
+                                                src="{{ asset('public/assets/images/icon/linkedin.svg') }}" alt=""/></a>
                                     </li>
                                 @endif
-                                @if (auth('alumni')->user()?->instagram_url != null && auth('alumni')->user()?->instagram_url != '')
-                                    <li>
-                                        <a target="__blank" href="{{ auth('alumni')->user()?->instagram_url }}"
-                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
-                                                src="{{ asset('assets/images/icon/instagram.svg') }}" alt=""/></a>
-                                    </li>
-                                @endif
+{{--                                @if (auth('alumni')->user()?->instagram_url != null && auth('alumni')->user()?->instagram_url != '')--}}
+{{--                                    <li>--}}
+{{--                                        <a target="__blank" href="{{ auth('alumni')->user()?->instagram_url }}"--}}
+{{--                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img--}}
+{{--                                                src="{{ asset('assets/images/icon/instagram.svg') }}" alt=""/></a>--}}
+{{--                                    </li>--}}
+{{--                                @endif--}}
                             </ul>
                         </div>
                         <div class="container">
@@ -112,15 +112,6 @@
                                                         <p>{{auth('alumni')->user()->phone}}</p>
                                                     </li>
 
-
-                                                    <li>
-                                                        <p>{{ __('City') }} :</p>
-                                                        <p> {{ auth('alumni')->user()?->city }}</p>
-                                                    </li>
-                                                    <li>
-                                                        <p>{{ __('Date Of Birth') }} :</p>
-                                                        <p>{{ auth('alumni')->user()?->date_of_birth }}</p>
-                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -350,7 +341,7 @@
                                                     <label for="epEmail" class="form-label">{{ __('Personal Email Address')
                                                     }}</label>
                                                     <input type="email" value="{{auth('alumni')->user()->email}}"
-                                                           name="email" disabled
+                                                           name="email"
                                                            class="primary-form-control" id="epEmail"
                                                            placeholder="{{ __('Your Email') }}"/>
                                                 </div>
@@ -369,44 +360,44 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="primary-form-group">
-                                                <div class="primary-form-group-wrap">
-                                                    <label for="epFacebook" class="form-label">{{ __('Facebook Url')
-                                                    }}</label>
-                                                    <input type="url"
-                                                           value="{{ auth('alumni')->user()?->facebook_url }}"
-                                                           name="facebook_url" class="primary-form-control"
-                                                           id="epFacebook"
-                                                           placeholder="{{ __('Your Facebook Profile Url') }}"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="primary-form-group">
-                                                <div class="primary-form-group-wrap">
-                                                    <label for="epTwitter" class="form-label">{{ __('Twitter Url')
-                                                    }}</label>
-                                                    <input type="url" value="{{ auth('alumni')->user()?->twitter_url }}"
-                                                           name="twitter_url" class="primary-form-control"
-                                                           id="epTwitter"
-                                                           placeholder="{{ __('Your Twitter Profile Url') }}"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="primary-form-group">
-                                                <div class="primary-form-group-wrap">
-                                                    <label for="epInstagram" class="form-label">{{ __('Instagram Url')
-                                                    }}</label>
-                                                    <input type="url"
-                                                           value="{{ auth('alumni')->user()?->instagram_url }}"
-                                                           name="instagram_url" class="primary-form-control"
-                                                           id="epInstagram"
-                                                           placeholder="{{ __('Your Instagram Profile Url') }}"/>
-                                                </div>
-                                            </div>
-                                        </div>
+{{--                                        <div class="col-md-6">--}}
+{{--                                            <div class="primary-form-group">--}}
+{{--                                                <div class="primary-form-group-wrap">--}}
+{{--                                                    <label for="epFacebook" class="form-label">{{ __('Facebook Url')--}}
+{{--                                                    }}</label>--}}
+{{--                                                    <input type="url"--}}
+{{--                                                           value="{{ auth('alumni')->user()?->facebook_url }}"--}}
+{{--                                                           name="facebook_url" class="primary-form-control"--}}
+{{--                                                           id="epFacebook"--}}
+{{--                                                           placeholder="{{ __('Your Facebook Profile Url') }}"/>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-md-6">--}}
+{{--                                            <div class="primary-form-group">--}}
+{{--                                                <div class="primary-form-group-wrap">--}}
+{{--                                                    <label for="epTwitter" class="form-label">{{ __('Twitter Url')--}}
+{{--                                                    }}</label>--}}
+{{--                                                    <input type="url" value="{{ auth('alumni')->user()?->twitter_url }}"--}}
+{{--                                                           name="twitter_url" class="primary-form-control"--}}
+{{--                                                           id="epTwitter"--}}
+{{--                                                           placeholder="{{ __('Your Twitter Profile Url') }}"/>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="col-md-6">--}}
+{{--                                            <div class="primary-form-group">--}}
+{{--                                                <div class="primary-form-group-wrap">--}}
+{{--                                                    <label for="epInstagram" class="form-label">{{ __('Instagram Url')--}}
+{{--                                                    }}</label>--}}
+{{--                                                    <input type="url"--}}
+{{--                                                           value="{{ auth('alumni')->user()?->instagram_url }}"--}}
+{{--                                                           name="instagram_url" class="primary-form-control"--}}
+{{--                                                           id="epInstagram"--}}
+{{--                                                           placeholder="{{ __('Your Instagram Profile Url') }}"/>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
                                     </div>
                                 </div>
                                 <div class="pb-30">
@@ -513,6 +504,7 @@
                                                     <div class="col-md-12">
                                                         <div class="primary-form-group">
                                                             <div class="primary-form-group-wrap">
+
                                                                 <label for="epInstitute"
                                                                        class="form-label">{{ __('Title')}}</label>
                                                                 <input type="text" value="{{ $education->title }}"
