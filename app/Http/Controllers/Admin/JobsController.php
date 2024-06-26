@@ -50,25 +50,8 @@ class   JobsController extends Controller
     }
     public function toggleStatus(Request $request, $id)
     {
-        $job = JobPost::with('company')->find($id);
-        if (!$job) {
-            return response()->json(['success' => false, 'message' => 'Job not found.']);
-        }
+       return $this->jobPostService->changeStatus($request,$id);
 
-        // Check if the company's status is 0 (inactive)
-        if ($job->posted_by=='company' && $job->company->status == 0) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Unable to update job status because the associated company is inactive. Please update the company status first.'
-            ]);
-        }
-
-
-        // Proceed with updating the job status if the company is active
-        $job->status = $request->status;
-        $job->save();
-
-        return response()->json(['success' => true, 'message' => 'Job status updated successfully.']);
     }
     public function update(JobPostRequest $request, $slug)
     {

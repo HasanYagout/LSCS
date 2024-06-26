@@ -93,25 +93,51 @@
             }
         })
     })
-    window.toggleStatus = function(jobId) {
-        $.ajax({
-            url: $('#job-status-route').val(),
-            type: 'POST',
-            data: {
-                _token: $('meta[name="csrf-token"]').attr('content'),
-                id: jobId
-            },
-            success: function(response) {
-                if (response.success) {
-                    toastr.success('Status Changed Successfully');
-                } else {
-                    alert('Failed to update status');
-                }
-            },
-            error: function(xhr) {
-                alert('An error occurred while updating status');
+    $(document).on('change', '.toggle-status', function(e) {
+        var $switch = $(this);
+        var jobId = $switch.data('id');
+        var newStatus = $switch.is(':checked') ? 1 : 0;
+        var updateUrl = $('#job-status-route').val().replace(':id', jobId);
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, change it!'
+        }).then((result) => {
+            if (result.value) {
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    url: updateUrl,
+                    type: 'POST', // Use 'type' instead of 'method' for broader compatibility
+                    data: {
+                        _token: csrfToken,
+                        status: newStatus
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            console.log('dsdsasad')
+                            toastr.success(response.message);
+                            $('#dataTable').DataTable().ajax.reload(null, false); // Replace 'table' with actual DataTable ID if needed
+                        } else {
+                            console.log('asdsadsadasdsadsadasd')
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        toastr.error(xhr.responseJSON.message);
+                        $('#dataTable').DataTable().ajax.reload(null, false);
+                    }
+                });
+            } else {
+                // Revert the switch state if the user cancels
+                $switch.prop('checked', !newStatus);
+                $('#dataTable').DataTable().ajax.reload(null, false);
             }
         });
-    }
+    });
 
 })(jQuery)

@@ -206,6 +206,26 @@ class JobPostService
             ->make(true);
     }
 
+    public function changeStatus(Request $request, $id)
+    {
+        $job = JobPost::with('company')->find($id);
+        if (!$job) {
+            return response()->json(['success' => false, 'message' => 'Job not found.']);
+        }
+
+        if (auth('admin')->check() && $job->company && $job->company->status == 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to update job status because the associated company is inactive. Please update the company status first.'
+            ]);
+        }
+
+        // Proceed with updating the job status
+        $job->status = $request->status;
+        $job->save();
+
+        return response()->json(['success' => true, 'message' => 'Job status updated successfully.']);
+    }
 
     public function store(Request $request)
     {
@@ -214,10 +234,10 @@ class JobPostService
 
             // Helper to get the authenticated user from multiple guards
             $authUser = $this->getAuthenticatedUser(['company', 'admin']);
+
             if (!$authUser) {
                 return redirect()->route('login')->with('error', 'Not authenticated');
             }
-
             // Generate a unique slug
             $slugBase = Str::slug($request->title);
             $slug = JobPost::where('slug', 'like', $slugBase . '%')->exists() ?
@@ -226,8 +246,8 @@ class JobPostService
             $jobPost = new JobPost();
             $jobPost->title = $request->title;
             $jobPost->slug = $slug;
-            $jobPost->user_id = $authUser->id;
-            $jobPost->posted_by = $authUser->getTable(); // Use table name as a proxy for role if roles are distinct by table
+            $jobPost->user_id = $authUser->user()->id;
+            $jobPost->posted_by = $authUser->name; // Use table name as a proxy for role if roles are distinct by table
             $jobPost->location = $request->location;
             $jobPost->post_link = $request->post_link ?: '';
             $jobPost->application_deadline = $request->application_deadline;
@@ -257,7 +277,7 @@ class JobPostService
     {
         foreach ($guards as $guard) {
             if (auth($guard)->check()) {
-                return auth($guard)->user();
+                return auth($guard);
             }
         }
         return null;

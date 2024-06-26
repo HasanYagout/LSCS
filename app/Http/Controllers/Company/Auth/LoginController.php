@@ -46,21 +46,29 @@ class LoginController extends Controller
 
     public function submit(Request $request)
     {
-
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6'
         ]);
 
-        if (Auth::guard('company')->attempt($credentials, $request->remember)) {
-            // Authentication successful
-            return redirect()->route('company.home');
-        } else {
-            // Authentication failed
+        // Attempt to find the company by email first
+        $user = Company::where('email', $credentials['email'])->first();
+
+        // Check if user exists and if the status is active
+        if ($user && $user->status != 1) {
             return redirect()->back()->withInput($request->only('email', 'remember'))
-                ->withErrors(['Invalid email or password.']);
+                ->withErrors(['Your account is not active. Please contact Admin.']);
         }
 
+        // Attempt authentication with the provided credentials
+        if ($user && Auth::guard('company')->attempt($credentials, $request->remember)) {
+            // Authentication successful
+            return redirect()->route('company.home');
+        }
+
+        // Default response for failed authentication
+        return redirect()->back()->withInput($request->only('email', 'remember'))
+            ->withErrors(['Invalid email or password.']);
     }
 
     public function register()

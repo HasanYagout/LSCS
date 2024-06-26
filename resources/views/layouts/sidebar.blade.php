@@ -210,7 +210,7 @@
                         </div>
                     </li>
                 @endif
-                @if($authenticatedGuard=='admin'&&auth($authenticatedGuard)->user()->role_id!=USER_ROLE_INSTRUCTOR)
+                @if($authenticatedGuard=='admin'&&auth($authenticatedGuard)->user()->role_id!=USER_ROLE_INSTRUCTOR||$authenticatedGuard=='company')
                         <li>
                             <a href="{{ route($authenticatedGuard.'.home') }}"
                                class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">

@@ -11,7 +11,7 @@
 <div class="p-30">
     <div>
         <input type="hidden" id="job-post-list-route" value="{{ route('company.jobs.all-job-post') }}">
-        <input type="hidden" id="job-status-route" value="{{ route('company.jobs.status') }}">
+        <input type="hidden" id="job-status-route" value="{{ route('company.jobs.status',':id') }}">
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
             <h4 class="fs-24 fw-500 lh-34 text-black">{{$title}}</h4>
         </div>

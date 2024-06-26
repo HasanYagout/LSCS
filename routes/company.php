@@ -38,7 +38,7 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
 
     Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function () {
         Route::post('add', [JobsController::class, 'add'])->name('add');
-        Route::post('status', [JobsController::class, 'toggleStatus'])->name('status');
+        Route::post('status/{id}', [JobsController::class, 'toggleStatus'])->name('status');
         Route::get('create', [JobsController::class, 'create'])->name('create');
         Route::get('/pending', [JobsController::class, 'pending'])->name('pending');
         Route::get('info/{slug}', [JobsController::class, 'info'])->name('info');

@@ -32,8 +32,8 @@
                                             class="text-danger">*</span></label>
                                     <select class="primary-form-control sf-select-without-search" name="employee_status"
                                         id="employeeStatus">
-                                        @foreach (getEmployeeStatus() as $key=>$value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
+                                        @foreach (getEmployeeStatus() as $value)
+                                            <option value="{{ $value }}">{{ $value }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -65,7 +65,7 @@
                             <div class="primary-form-group">
                                 <div class="primary-form-group-wrap">
                                     <label for="jobURL" class="form-label">{{__('URL or Placement Test')}}</label>
-                                    <input type="text" name="link" class="primary-form-control" id="post_link"
+                                    <input type="text" name="post_link" class="primary-form-control" id="post_link"
                                         placeholder="{{ __('Apply Url') }}" />
                                 </div>
                             </div>

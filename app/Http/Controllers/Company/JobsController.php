@@ -73,10 +73,15 @@ class JobsController extends Controller
             return datatables($features)
                 ->addIndexColumn()
                 ->addColumn('status', function ($data){
-                    $checked = $data->status == STATUS_ACTIVE ? 'checked' : '';
-                    return '<div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="statusSwitch' . $data->id . '" ' . $checked . ' onclick="toggleStatus(' . $data->id . ')">
-                    </div>';
+                    $checked = $data->status ? 'checked' : '';
+                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                <li class="d-flex gap-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
+                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
+                    </div>
+                </li>
+            </ul>';
                 })
                 ->addColumn('action', function ($data) {
                     if(auth('company')->user()->role_id == USER_ROLE_COMPANY){
@@ -167,15 +172,15 @@ class JobsController extends Controller
         $data['activePendingJobPostList'] = 'active-color-one';
         return view('company.jobs.pending-job-post', $data);
     }
-    public function toggleStatus(Request $request)
+    public function toggleStatus(Request $request,$id)
     {
-
-        $job = JobPost::find($request->id);
-        if ($job) {
-            $job->status = $job->status == STATUS_ACTIVE ? STATUS_INACTIVE : STATUS_ACTIVE;
-            $job->save();
-            return response()->json(['success' => true]);
-        }
-        return response()->json(['success' => false]);
+        return $this->jobPostService->changeStatus($request,$id);
+//        $job = JobPost::find($request->id);
+//        if ($job) {
+//            $job->status = $job->status == STATUS_ACTIVE ? STATUS_INACTIVE : STATUS_ACTIVE;
+//            $job->save();
+//            return response()->json(['success' => true]);
+//        }
+//        return response()->json(['success' => false]);
     }
 }
