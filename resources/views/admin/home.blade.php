@@ -52,7 +52,7 @@
 
                             <div class="d-flex align-items-center cg-10 pb-20">
                                 <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-cdef84 rounded-circle overflow-hidden"><img
-                                        src="{{ asset('public/storage/admin'.'/'.auth('admin')->user()->image) }}"
+                                        src="{{ asset('public/storage/admin'.'/'.'image'.'/'.auth('admin')->user()->image) }}"
                                         class="w-100"
                                         onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                         alt="{{auth('admin')->user()->name}}" />
@@ -121,7 +121,7 @@
                                     <li>
                                         <div class="home-item-one">
                                             <div class="img">
-                                                <img src="{{ asset('public/storage/admin/event').'/'.$event->thumbnail }}"
+                                                <img src="{{ asset('public/storage/admin/events').'/'.$event->thumbnail }}"
                                                     alt="{{ $event->title }}">
                                                 <ul class="tag d-flex flex-wrap cg-2 rg-5">
 {{--                                                    <li><a--}}
@@ -178,8 +178,9 @@
                                         <!-- Logo - User -->
                                         <div class="d-flex align-items-center cg-10 pb-10">
                                             <div
-                                                class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img src="{{ asset('public/storage/company').'/'.$job->company->image }}"
+
+                                                class="flex-shrink-0 w-45 overflow-hidden h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
+                                                <img src="{{ $job->posted_by=='company' ? asset('public/storage/company').'/'.'image'.'/'.$job->company->image :asset('public/storage/admin').'/'.'image'.'/'.$job->admin->image }}"
                                                     alt="{{ $job->title }}" />
                                             </div>
                                             <div class="">
