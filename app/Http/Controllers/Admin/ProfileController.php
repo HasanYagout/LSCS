@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProfileRequest;
+use App\Models\Admin;
 use App\Models\FileManager;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class   ProfileController extends Controller
 {
@@ -40,28 +44,42 @@ class   ProfileController extends Controller
         return redirect()->back()->with('success', 'Updated Successfully');
     }
 
-    public function update(ProfileRequest $request)
+    public function update(Request $request)
     {
-        $user = User::find(Auth::user()->id);
-        /*File Manager Call upload*/
-        if ($request->profile_image) {
-            $new_file = FileManager::where('id', $user->image)->first();
-            if ($new_file) {
-                $new_file->removeFile();
-                $upload = $new_file->upload('User', $request->profile_image, '', $new_file->id);
-                $user->image = $upload->id;
-            } else {
-                $new_file = new FileManager();
-                $upload = $new_file->upload('User', $request->profile_image);
-                $user->image = $upload->id;
+        $authUser = auth('admin')->user();
+        try {
+            DB::beginTransaction();
+            $filename = $authUser->image; // Set default to current image in case no new image is uploaded
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $date = now()->toDateString();
+                $randomSlug = Str::slug(Str::random(8)); // Create a random slug
+                $randomNumber = rand(100, 999);
+                $filename = $date . '_' . $randomSlug . '_' . $randomNumber . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('admin/image', $filename, 'public');
             }
+
+
+            Admin::updateOrCreate(['id' => $authUser->id],[
+                'first_name'=>Str::ucfirst($request['f_name']),
+                'last_name'=>Str::ucfirst($request['l_name']),
+                'image' => $filename,
+                'email' => $request['email'],
+                'phone' => $request['mobile'],
+
+            ]);
+
+
+
+            DB::commit();
+            session()->flash('success', 'Profile Updated Successfully');
+            return redirect()->route('admin.profile.index');
+        } catch (Exception $e) {
+            dd($e);
+            DB::rollBack();
+
+            return $this->error([], getMessage(SOMETHING_WENT_WRONG));
         }
-        /*End*/
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->mobile = $request->mobile;
-        $user->address = $request->address;
-        $user->save();
-        return redirect()->back()->with('success', 'Profile has been updated');
     }
 }

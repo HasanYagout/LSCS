@@ -66,7 +66,7 @@
                                 @if (auth('alumni')->user()?->linkedin_url != null && auth('alumni')->user()?->linkedin_url != '')
                                     <li>
                                         <a target="__blank" href="{{ auth('alumni')->user()?->linkedin_url }}"
-                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
+                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-one hover-border-one"><img
                                                 src="{{ asset('public/assets/images/icon/linkedin.svg') }}" alt=""/></a>
                                     </li>
                                 @endif
@@ -238,6 +238,9 @@
                                    </div>
                                 </div>
                             </div>
+                        <button class="bd-c-afd449  bg-f1a527 btn btn-lg hover-border-one mt-3 text-002a5c " onclick="window.location='{{ route('alumni.profile.generate-cv') }}'">
+                            Generate CV
+                        </button>
                         </div>
 
                     </div>
@@ -269,44 +272,8 @@
                                             </div>
                                         </div>
                                         <!-- Personal Info -->
-                                        <div class="col-md-6">
-                                            <div class="primary-form-group">
-                                                <div class="primary-form-group-wrap">
-                                                    <label for="epFullName"
-                                                           class="form-label">{{ __('First Name') }}</label>
-                                                    <input type="text" class="primary-form-control" id="epFullName"
-                                                           value="{{auth('alumni')->user()->first_name}}"
-                                                           name="first_name"
-                                                           placeholder="{{ __('Your First Name') }}"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="primary-form-group">
-                                                <div class="primary-form-group-wrap">
-                                                    <label for="epFullName"
-                                                           class="form-label">{{ __('Last Name') }}</label>
-                                                    <input type="text" class="primary-form-control" id="epFullName"
-                                                           value="{{auth('alumni')->user()->last_name}}"
-                                                           name="last_name"
-                                                           placeholder="{{ __('Your Last Name') }}"/>
-                                                </div>
-                                            </div>
-                                        </div>
 
 
-                                        <div class="col-md-6">
-                                            <div class="primary-form-group">
-                                                <div class="primary-form-group-wrap">
-                                                    <label for="epBirthDate" class="form-label">{{ __('Birth Date')
-                                                    }}</label>
-                                                    <input type="date" class="primary-form-control"
-                                                           value="{{ auth('alumni')->user()?->date_of_birth}}"
-                                                           name="date_of_birth"
-                                                           id="epBirthDate"/>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="col-md-12">
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
@@ -745,9 +712,7 @@
                             </form>
                         </div>
                     </div>
-                    <button onclick="window.location='{{ route('alumni.profile.generate-cv') }}'">
-                        Download CV
-                    </button>
+
                 </div>
             </div>
         </div>

@@ -39,16 +39,16 @@
                         class="video">
                         <video
                             src="{{ asset(getFile($media->file_manager->path ?? '', $media->file_manager->storage_type)) }}"></video>
-                        <button class="vidPly-btn"><img src="{{ asset('assets/images/icon/play-btn.svg')}}" /></button>
+                        <button class="vidPly-btn"><img src="{{ asset('public/assets/images/icon/play-btn.svg')}}" /></button>
                         @if($index == 2 && count($post->media) > 3)
                         <div class='morePhotos'>+{{ count($post->media)-$index }}</div>
                         @endif
                     </a>
                 </li>
                 @endif
-                @endforeach 
+                @endforeach
             </ul>
-            
+
             @elseif(0)
 
             @foreach ($chat->media as $index => $media)
@@ -66,7 +66,7 @@
                 </div>
             </div>
             @endif
-            @endforeach 
+            @endforeach
             @else
             <p>{!! nl2br($chat->message) !!}</p>
             @endif
@@ -131,9 +131,9 @@
                     </a>
                 </li>
                 @endif
-                @endforeach 
+                @endforeach
             </ul>
-            
+
             @elseif(0)
 
             @foreach ($chat->media as $index => $media)
@@ -151,7 +151,7 @@
                 </div>
             </div>
             @endif
-            @endforeach 
+            @endforeach
             @else
             <p>{!! nl2br($chat->message) !!}</p>
             @endif

@@ -30,7 +30,7 @@
                                             class="text-danger">*</span></label>
                                     <select class="primary-form-control sf-select-without-search" name="employee_status"
                                         id="employeeStatus">
-                                        @foreach (getEmployeeStatus() as$value)
+                                        @foreach (getEmployeeStatus() as $value)
                                         <option value="{{ $value }}">{{ $value }}</option>
                                         @endforeach
                                     </select>

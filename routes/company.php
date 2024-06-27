@@ -51,4 +51,13 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
 
 
     });
+    Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
+        Route::post('store', [PostController::class, 'store'])->name('store');
+        Route::delete('delete', [PostController::class, 'delete'])->name('delete');
+        Route::get('edit', [PostController::class, 'edit'])->name('edit');
+        Route::PUT('update', [PostController::class, 'update'])->name('update');
+        Route::get('single-post', [PostController::class, 'getSinglePost'])->name('single');
+        Route::get('load-post-body', [PostController::class, 'getSinglePostBody'])->name('single.body');
+
+    });
 });

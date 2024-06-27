@@ -22,16 +22,6 @@ use App\Http\Controllers\Admin\Website\WebsiteSettingController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
@@ -74,7 +64,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('/', [ProfileController::class, 'myProfile'])->name('index');
         Route::get('change-password', [ProfileController::class, 'changePassword'])->name('change-password');
         Route::post('change-password', [ProfileController::class, 'changePasswordUpdate'])->name('change-password.update')->middleware('isDemo');
-        Route::post('update', [ProfileController::class, 'update'])->name('update')->middleware('isDemo');
+        Route::post('update', [ProfileController::class, 'update'])->name('update');
     });
     Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
         Route::post('store', [PostController::class, 'store'])->name('store');

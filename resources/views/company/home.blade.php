@@ -16,7 +16,61 @@
     <div class="p-30">
         <section class="home-section">
             <div class="home-content">
+                <div class="mb-3">
+                    <form class="ajax reset" id="post-form" method="post" enctype="multipart/form-data"
+                          action="{{ route('company.posts.store') }}" data-handler="postResponse">
+                        @csrf
+                        <!-- Create Post -->
+                        <div class="p-25 bg-white bd-one bd-c-black-10 bd-ra-25">
+                            <!-- Title -->
+                            <h4 class="fs-20 fw-600 lh-24 text-1b1c17 pb-26">{{ __('Create Post') }}</h4>
+                            <!-- User -->
 
+                            <div class="d-flex align-items-center cg-10 pb-20">
+                                <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-cdef84 rounded-circle overflow-hidden"><img
+                                        src="{{ asset('public/storage/admin'.'/'.auth('company')->user()->image) }}"
+                                        class="w-100"
+                                        onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
+                                        alt="{{auth('company')->user()->name}}" />
+                                </div>
+                                <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{auth('company')->user()->name}}</h4>
+                            </div>
+                            <!-- Post Input -->
+                            <div class="pb-15">
+                                <textarea name="body" class="form-control postInput" placeholder="{{ __('What’s on your mind?') }}"></textarea>
+                            </div>
+                            <div class="">
+                                <!-- Attachment preview -->
+                                <div id="files-area" class="pb-10">
+                                    <span id="filesList">
+                                        <span id="files-names"></span>
+                                    </span>
+                                </div>
+                                <!-- Add image/video - post button -->
+                                <div class="d-flex justify-content-between align-items-center flex-wrap g-10">
+                                    <!-- Add image/video -->
+                                    <div class="d-flex align-items-center cg-15">
+                                        <p class="fs-16 lh-18 fw-500 text-707070">{{ __('Add to your post') }}:</p>
+                                        <div class="align-items-center cg-10 d-flex flex-shrink-0">
+                                            <label for="mAttachment1"><img
+                                                    src="{{ asset('public/assets/images/icon/post-photo.svg') }}"
+                                                    alt="" /></label>
+                                            <input type="file" name="file[]"
+                                                   accept=".png,.jpg,.svg,.jpeg,.gif,.mp4,.mov,.avi,.mkv,.webm,.flv"
+                                                   id="mAttachment1" class="d-none" multiple />
+                                            <label for="mAttachment1"><img
+                                                    src="{{ asset('public/assets/images/icon/post-video.svg') }}"
+                                                    alt="" /></label>
+                                        </div>
+                                    </div>
+                                    <!-- Post button -->
+                                    <button type="submit"
+                                            class="border-0 py-10 px-26 bd-ra-12 bg-cdef84 hover-bg-one">{{ __('Post Now') }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <div id="post-block" class="mt-15 d-flex flex-column rg-15">
                     @include('admin.partials.post',$posts)
                 </div>

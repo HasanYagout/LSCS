@@ -220,7 +220,6 @@
                                                         src="{{ asset('public/assets/images/icon/dollar-coin.svg') }}"
                                                         alt="" />
                                                 </div>
-                                                <p class="fs-14 fw-400 lh-16 text-707070">{{ $job->salary }}</p>
                                             </li>
                                         </ul>
                                         <!-- Link -->
@@ -449,7 +448,6 @@
                                             <div class="d-flex"><img
                                                     src="{{ asset('public/assets/images/icon/dollar-coin.svg') }}"
                                                     alt="" /></div>
-                                            <p class="fs-14 fw-400 lh-16 text-707070">{{ $job->salary }}</p>
                                         </li>
                                     </ul>
                                     <!-- Link -->
