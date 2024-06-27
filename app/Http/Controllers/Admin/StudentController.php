@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Yajra\DataTables\Facades\DataTables;
 
 
 class StudentController extends Controller
@@ -20,15 +21,22 @@ class StudentController extends Controller
     use ResponseTrait;
     public function index(Request $request)
     {
-        $students = Student::with('major')->orderBy('student_id', 'DESC')->get();
-
         if ($request->ajax()) {
+            $studentsQuery = Student::with('major')->orderBy('student_id', 'DESC');
+
+            // Handle searching
+            if ($request->has('search') && $request->search['value'] != '') {
+                $searchValue = $request->search['value'];
+                $studentsQuery->where('student_id', 'LIKE', "%{$searchValue}%")
+                    ->orWhere('first_name', 'LIKE', "%{$searchValue}%")
+                    ->orWhere('last_name', 'LIKE', "%{$searchValue}%");
+            }
+
+            $students = $studentsQuery->get();
             $studentIds = $students->pluck('student_id');
             $activeAlumni = Alumni::whereIn('student_id', $studentIds)->whereNull('deleted_at')->pluck('student_id')->all();
 
-            Log::info('Active Alumni IDs', $activeAlumni);  // Log active alumni IDs to check
-
-            return datatables($students)
+            return DataTables::of($students)
                 ->addIndexColumn()
                 ->addColumn('major', function ($student) {
                     return $student->major ? $student->major->name : '';
@@ -36,18 +44,18 @@ class StudentController extends Controller
                 ->addColumn('action', function ($student) use ($activeAlumni) {
                     $checked = in_array($student->student_id, $activeAlumni) ? 'checked' : '';
                     return '<div class="form-check form-switch">
-                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $student->id . '" id="toggleStatus' . $student->id . '" ' . $checked . '>
-                        <label class="form-check-label" for="toggleStatus' . $student->id . '"></label>
-                    </div>';
+                    <input class="form-check-input toggle-status" type="checkbox" data-id="' . $student->student_id . '" id="toggleStatus' . $student->student_id . '" ' . $checked . '>
+                    <label class="form-check-label" for="toggleStatus' . $student->student_id . '"></label>
+                </div>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
 
         $data['title'] = __('Students List');
-        $data['students'] = $students;
         return view('admin.students.all', $data);
     }
+
 
     public function info($id)
     {
@@ -57,6 +65,7 @@ class StudentController extends Controller
 
     public function update(Request $request)
     {
+
         $student = Student::with('major')->where('student_id', $request->student_id)->first();
 
         if (!$student) {

@@ -51,6 +51,9 @@ class AlumniController extends Controller
         if ($request->ajax()) {
             return datatables($alumniData)
                 ->addIndexColumn()
+                ->addColumn('student_id', function ($data) {
+                    return $data->student_id;
+                })
                 ->addColumn('first_name', function ($data) {
                     return $data->first_name;
                 })

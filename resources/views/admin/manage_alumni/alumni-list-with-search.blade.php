@@ -26,6 +26,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">
+                                    <div>{{ __('Student ID') }}</div>
+                                </th>
+                                <th scope="col">
                                     <div>{{ __('First Name') }}</div>
                                 </th>
                                 <th scope="col">
