@@ -48,6 +48,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
 
     Route::get('home', [HomeController::class, 'index'])->name('home');
     Route::get('images', [ProfileController::class, 'images'])->name('images');
+    Route::post('change-password', [ProfileController::class, 'changePassword'])->name('change-password');
 
     Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function () {
         Route::get('/', [RecommendationController::class, 'index'])->name('index');
@@ -81,7 +82,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
     });
 
     Route::get('settings', [SettingController::class, 'settings'])->name('settings');
-    Route::post('change-password', [SettingController::class, 'changePasswordUpdate'])->name('change-password')->middleware('isDemo');
+
     Route::post('setting-update', [SettingController::class, 'settingUpdate'])->name('setting_update');
 
     Route::post('phone-verification-sms-send', [ProfileController::class, 'smsSend'])->name('phone.verification.sms.send');

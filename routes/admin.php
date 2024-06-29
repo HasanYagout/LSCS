@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AlumniController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\CompanyController;
@@ -19,11 +20,20 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StoryController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\Website\WebsiteSettingController;
-use App\Http\Controllers\AdminController;
+
 use Illuminate\Support\Facades\Route;
 
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::post('delete/{id}', [AdminController::class,'delete'])->name('delete');
+    Route::get('edit/{id}', [AdminController::class,'edit'])->name('edit');
+    Route::post('update', [AdminController::class,'update'])->name('update');
+    Route::get('add', [AdminController::class, 'add'])->name('add');
+    Route::post('store', [AdminController::class, 'store'])->name('store');
+    Route::get('list', [AdminController::class, 'list'])->name('list');
+    Route::post('status/{id}', [AdminController::class, 'status'])->name('status');
+    Route::post('reset-password/{id}', [AdminController::class, 'resetPassword'])->name('reset-password');
+
     Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
         Route::get('/code/captcha/{tmp}', 'LoginController@captcha')->name('default-captcha');
         Route::get('login', [LoginController::class,'login'])->name('login');
@@ -41,9 +51,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function () {
                 Route::get('/edit/{id}', [DashboardController::class, 'recommendation_edit'])->name('edit');
                 Route::post('store', [DashboardController::class, 'store'])->name('store');
+                Route::post('/status', [DashboardController::class, 'status_update'])->name('status.update');
             });
-                Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-            Route::post('/status', [DashboardController::class, 'status_update'])->name('status.update');
+            Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
 
         });
 
@@ -135,7 +146,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::get('all-notice', [NoticeController::class, 'allNotice'])->name('all.notice');
     Route::get('notice-details/{slug}', [NoticeController::class, 'noticeDetails'])->name('notice.details');
     Route::get('all-news', [NewsController::class, 'allNews'])->name('all.news');
-    Route::get('news-details/{slug}', [NewsController::class, 'newsDetails'])->name('news.details');
 // Stories route start
     Route::group(['prefix' => 'stories', 'as' => 'stories.'], function () {
         Route::get('create', [StoryController::class, 'create'])->name('create');

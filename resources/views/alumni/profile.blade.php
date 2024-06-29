@@ -286,6 +286,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <!-- Contact Info -->
                                 <div class="pb-30">
                                     <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Contact Info') }}</h4>
@@ -710,6 +711,43 @@
                                         class="py-13 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">{{
                                 __('Save Changes') }}</button>
                             </form>
+                            <div class="pb-30 py-30">
+                                <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Change Password') }}</h4>
+                                <div class=" container rg-25">
+                                    <form id="changePasswordForm" action="{{ route('alumni.change-password') }}" method="POST">
+                                        @csrf
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="primary-form-group">
+                                                    <div class="primary-form-group-wrap">
+                                                        <label for="current_password" class="form-label">{{ __('Current Password') }}</label>
+                                                        <input type="password" name="current_password" class="primary-form-control" placeholder="Enter Old Password" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="primary-form-group">
+                                                    <div class="primary-form-group-wrap">
+                                                        <label for="new_password" class="form-label">{{ __('New Password') }}</label>
+                                                        <input type="password" name="new_password" class="primary-form-control" id="new_password" placeholder="{{ __('Enter New Password') }}" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="primary-form-group">
+                                                    <div class="primary-form-group-wrap">
+                                                        <label for="new_password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
+                                                        <input type="password" name="new_password_confirmation" class="primary-form-control" id="new_password_confirmation" placeholder="{{ __('Confirm Password') }}" required />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <button type="submit" class="py-13 mt-17 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">Reset</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -893,6 +931,7 @@
                 </div>
             </div>
         </div>
+
         <div id="companySectionContainer"></div>
     </div>
 
@@ -987,20 +1026,22 @@
                     experienceCount++;  // Increment experience count
                 }
             });
-
-            function initializeSummernote(elementId) {
-                $('#' + elementId).summernote({
-                    placeholder: "Write description...",
-                    tabsize: 2,
-                    minHeight: 183,
-                    toolbar: [
-                        ["font", ["bold", "italic", "underline"]],
-                        ["para", ["ul", "ol", "paragraph"]],
-                    ],
-                });
-            }
         });
+        <script>
+            function initializeSummernote(elementId) {
+            $('#' + elementId).summernote({
+                placeholder: "Write description...",
+                tabsize: 2,
+                minHeight: 183,
+                toolbar: [
+                    ["font", ["bold", "italic", "underline"]],
+                    ["para", ["ul", "ol", "paragraph"]],
+                ],
+            });
+        }
+
     </script>
+
     <script src="{{ asset('public/alumni/js/profile.js') }}"></script>
     <script src="{{ asset('public/alumni/js/cvs.js') }}"></script>
 @endpush
