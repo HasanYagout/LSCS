@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Major;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,13 +17,15 @@ class StudentFactory extends Factory
      */
     public function definition(): array
     {
+        $majors = Major::pluck('id')->all();
+
         return [
             'student_id' => $this->faker->unique()->randomNumber(8),
             'first_name' => $this->faker->firstName,
             'middle_name' => $this->faker->lastName,
             'last_name' => $this->faker->lastName,
             'gpa' => $this->faker->randomFloat(2, 1, 4),
-            'major' => $this->faker->jobTitle,
+            'major_id' => $this->faker->randomElement($majors),
             'registration_year' => $this->faker->year,
             'graduation_year' => $this->faker->year,
             'credits_left' => $this->faker->numberBetween(0, 100),

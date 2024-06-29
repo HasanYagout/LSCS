@@ -28,4 +28,15 @@ class JobPost extends Model
         'created_by',
         'updated_by'
     ];
+    public function company()
+    {
+        return $this->belongsTo(Company::class,'user_id');
+    }
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class,'user_id');
+    }
+
+
+
 }

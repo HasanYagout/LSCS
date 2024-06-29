@@ -1,10 +1,10 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @push('title')
 {{ __('Profile View') }}
 @endpush
 @section('content')
 
-<div class="p-30">
+<div class="p-30" >
     <div class="">
         <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{ __('Alumni Profile View') }}</h4>
         <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">

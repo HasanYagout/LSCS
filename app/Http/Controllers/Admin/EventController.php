@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Traits\ResponseTrait;
 use App\Http\Services\EventService;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -30,7 +31,7 @@ class EventController extends Controller
         $data['title'] = __('Create Event');
         $data['showEvent'] = 'show';
         $data['activeEventCreate'] = 'active';
-        $data['categories'] = EventCategory::where('tenant_id', getTenantId())->get();
+        $data['categories'] = EventCategory::all();
         // if ($request->ajax()) {
         //     return $this->eventService->list();
         // }
@@ -44,7 +45,7 @@ class EventController extends Controller
         if ($request->ajax()) {
             return $this->eventService->myEvent();
         }
-        return view('admin.event.myEvent.index', $data);
+        return view('admin.event.my-event', $data);
     }
     public function all(Request $request)
     {
@@ -56,7 +57,7 @@ class EventController extends Controller
             return $this->eventService->allEvent();
         }
 
-        return view('admin.event.allEvent.index', $data);
+        return view('admin.event.all', $data);
     }
 
     public function pending(Request $request){
@@ -68,20 +69,46 @@ class EventController extends Controller
         }
         return view('admin.event.pending.index', $data);
     }
-    public function store(Request $request)
+    public function store(EventRequest $request)
+    {
+       return $this->eventService->store($request);
+
+    }
+    public function details($slug)
+    {
+        $data['title'] = __('Event Details');
+        $data['showEvent'] = 'show';
+        $data['activeAllEvent'] = 'active';
+        $data['event'] = Event::where('slug', $slug)->first();
+        return view('admin.event.event-details', $data);
+    }
+    public function edit($slug)
+    {
+        $data['title'] = __('Edit Event');
+        $data['categories'] = EventCategory::all();
+        $data['event'] = $this->eventService->getEvent($slug);
+        return view('admin.event.pending.edit', $data);
+    }
+
+    public function update(EventRequest $request, $slug)
+    {
+        return $this->eventService->update($request, $slug);
+    }
+
+    public function toggleStatus(Request $request)
+    {
+        $event = Event::find($request->id);
+        if ($event) {
+            $event->status = $event->status == STATUS_ACTIVE ? STATUS_INACTIVE : STATUS_ACTIVE;
+            $event->save();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false]);
+    }
+
+    public function delete($id)
     {
 
-       $event=new Event();
-        $event->event_category_id=$request->event_category_id;
-        $event->title=$request->title;
-        $event->slug=$request->slug = getSlug($request->title) . '-' . rand(100000, 999999);
-        $event->thumbnail=$request->file('thumbnail')->getClientOriginalName();
-        $event->date=$request->date;
-        $event->description=$request->description;
-        $event->user_id=auth('admin')->id();
-        $event->save();
-        return $this->success([], getMessage(CREATED_SUCCESSFULLY));
-
-
+        return $this->eventService->deleteById($id);
     }
 }

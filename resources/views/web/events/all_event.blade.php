@@ -4,7 +4,7 @@
 @endpush
 @section('content')
 
-<section class="breadcrumb-wrap py-50 py-md-75 py-lg-100" data-background="{{getSettingImage('page_breadcrumb')}}">
+<section class="breadcrumb-wrap py-50 py-md-75 py-lg-100">
     <div class="text-center position-relative">
       <h4 class="fs-50 fw-700 lh-60 text-white pb-8">{{$title}}</h4>
       <ul class="breadcrumb-list">
@@ -24,7 +24,7 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="bd-ra-25 bg-event-bg p-20 hover-scale-img">
                     <div class="bd-ra-20 overflow-hidden h-215">
-                        <img class="w-100 h-100 object-fit-cover" src="{{getFileUrl($event->thumbnail)}}" alt="{{__('event-img')}}">
+                        <img class="w-100 h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/events').'/'.$event->thumbnail}}" alt="{{__('event-img')}}">
                     </div>
                     <div class="pt-25 pl-7 pb-14">
                         <div class="d-flex align-items-center cg-63 pb-10">

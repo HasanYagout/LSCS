@@ -28,7 +28,6 @@ class EventCategoryRequest extends FormRequest
             'name' => [
                 'bail',
                 'required',
-                new UniqueWithConditions('event_categories', 'name', $this->id, 'id', ['tenant_id' => getTenantId()])
             ],
         ];
     }

@@ -46,7 +46,7 @@
                     <div class="primary-form-group">
                         <div class="primary-form-group-wrap zImage-upload-details">
                             <div class="zImage-inside">
-                                <div class="d-flex pb-12"><img src="{{asset('assets/images/icon/upload-img-1.svg')}}" alt="" /></div>
+                                <div class="d-flex pb-12"><img src="{{asset('public/assets/images/icon/upload-img-1.svg')}}" alt="" /></div>
                                 <p class="fs-15 fw-500 lh-16 text-1b1c17">{{__('Drag & drop files here')}}</p>
                             </div>
                             <label for="zImageUpload" class="form-label">{{__('Upload Image')}} <span class="text-mime-type">(jpg,jpeg,png)</span> <span class="text-danger">*</span></label>

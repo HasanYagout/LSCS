@@ -1,42 +1,29 @@
 @extends('layouts.app')
 
 @push('title')
-{{$title}}
+    {{$title}}
 @endpush
 
 @section('content')
-    <!-- Page content area start -->
-    <div class="p-30">
-        <div class="">
-            <input type="hidden" id="news-list-route" value="{{ route('all.news') }}">
-            <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{$title}}</h4>
-            <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
-              <!-- Table -->
-              <div class="table-responsive zTable-responsive">
-                <table class="table zTable" id="newsDataTable">
-                    <thead>
-                      <tr>
-                        <th scope="col"><div>{{ __('Image') }}</div></th>
-                        <th scope="col"><div>{{ __('Title') }}</div></th>
-                        <th scope="col"><div>{{ __('Category') }}</div></th>
-                        <th scope="col"><div>{{ __('Status') }}</div></th>
-                        <th scope="col"><div>{{ __('Name') }}</div></th>
-                         <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>
-                      </tr>
-                    </thead>
-                  </table>
-              </div>
-            </div>
-          </div>
+    <div class="container mt-5">
+        <div class="row">
+
+            @forelse($newsData as $news)
+                <div class="col-xl-3 col-md-6 col-sm-6 mb-4">
+                    <div class="border-0 card news-card overflow-hidden rounded-4 shadow">
+                        <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/news').'/'.$news->image}}" class="card-img-top" alt="News Image" style=" object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title text-f1a527" style="color: #002a5c;">{{$news->title}}</h5>
+                            <p class="card-text news-card-text fs-13" style="color: #002a5c;">{{ getSubText($news->details, 200)}}</p>
+                            <a href="{{route('alumni.news.details',$news->slug)}}" class="bg-f1a527 border-0 btn btn-primary btn-read-more">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <p class="text-center w-100 py-5">{{__('No News Found')}}</p>
+            @endforelse
         </div>
     </div>
-    <!-- Page content area end -->
-
 @endsection
-
-@push('script')
-<script src="{{ asset('admin/js/news.js') }}"></script>
-@endpush
-
 
 

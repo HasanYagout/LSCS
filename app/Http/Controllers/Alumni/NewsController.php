@@ -20,20 +20,19 @@ class NewsController extends Controller
         $this->newsService = new NewsService();
     }
 
-    public function allNews(Request $request){
-        if ($request->ajax()) {
-            return $this->newsService->list();
-        }
+    public function index(Request $request){
+
         $categoryService = new NewsCategoryService();
         $tagService = new NewsTagService();
         $data['categories'] = $categoryService->activeCategory();
-        $data['tags'] = $tagService->activeTag();
-
         $data['title']= 'All News List';
+        $data['activeManageNews'] = 'active';
+        $data['newsData']=News::all();
         return view('alumni.news.all-news', $data);
     }
 
-    public function newsDetails($slug){
+    public function details($slug){
+
         $data['title']= 'News Details';
         $data['news']= News::where('slug',$slug)->first();
         return view('alumni.news.news-details', $data);

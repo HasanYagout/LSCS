@@ -1,16 +1,14 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 @push('title')
 {{$title}}
 @endpush
-
 @section('content')
-<div class="p-30">
+<div class="p-30" >
     <div class="">
         <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{$title}}</h4>
         <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
             <input type="hidden" id="my-job-post-route" value="{{ route('admin.jobs.create') }}">
-            <form class="ajax reset" data-handler="commonResponseRedirect"
-                data-redirect-url="{{route('admin.jobs.my-job-post')}}" action="{{ route('admin.jobs.add') }}"
+            <form class="ajax reset" data-handler="commonResponseRedirect" action="{{ route('company.jobs.add') }}"
                 method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="max-w-840">
@@ -32,44 +30,16 @@
                                             class="text-danger">*</span></label>
                                     <select class="primary-form-control sf-select-without-search" name="employee_status"
                                         id="employeeStatus">
-                                        @foreach (getEmployeeStatus() as $key=>$value)
-                                        <option value="{{ $key }}">{{ $value }}</option>
+                                        @foreach (getEmployeeStatus() as $value)
+                                        <option value="{{ $value }}">{{ $value }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="primary-form-group">
-                                <div class="primary-form-group-wrap">
-                                    <label for="jobCompensationBenefits" class="form-label">{{__('Compensation &
-                                        Benefits')}} <span class="text-danger">*</span></label>
-                                    <input type="text" name="compensation_n_benefits" class="primary-form-control"
-                                        id="compensation_n_benefits" placeholder="{{ __('As per Company policy') }}" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="primary-form-group">
-                                <div class="primary-form-group-wrap">
-                                    <label for="jobUploadCompanyLogo" class="form-label">{{__('Upload Company Logo')}}
-                                        <span class="text-mime-type">(jpg,jpeg,png)</span> <span
-                                            class="text-danger">*</span></label>
-                                    <input type="file" name="company_logo" class="primary-form-control"
-                                        id="company_logo" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="primary-form-group">
-                                <div class="primary-form-group-wrap">
-                                    <label for="jobSalary" class="form-label">{{__('Salary')}} <span
-                                            class="text-danger">*</span></label>
-                                    <input type="text" name="salary" class="primary-form-control" id="salary"
-                                        placeholder="$45k" />
-                                </div>
-                            </div>
-                        </div>
+
+
+
                         <div class="col-md-6">
                             <div class="primary-form-group">
                                 <div class="primary-form-group-wrap">
@@ -85,18 +55,28 @@
                                 <div class="primary-form-group-wrap">
                                     <label for="application_deadline" class="form-label">{{__('Application Deadline')}}
                                         <span class="text-danger">*</span></label>
-                                    <input type="text" class="primary-form-control date-time-picker"
-                                        id="application_deadline" name="application_deadline" />
+                                    <input type="date" name="application_deadline"  class=" primary-form-control" />
+
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="primary-form-group">
                                 <div class="primary-form-group-wrap">
-                                    <label for="jobURL" class="form-label">{{__('URL')}} <span
-                                            class="text-danger">*</span></label>
+                                    <label for="jobURL" class="form-label">{{__('Placement test Url')}}</label>
                                     <input type="text" name="post_link" class="primary-form-control" id="post_link"
                                         placeholder="{{ __('Apply Url') }}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="primary-form-group">
+                                <div class="primary-form-group-wrap">
+                                    <label for="jobURL" class="form-label">{{__('Skills')}} <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-control skills-select"
+                                             name="skills[]"
+                                            multiple="multiple"></select>
                                 </div>
                             </div>
                         </div>
@@ -157,5 +137,14 @@
 </div>
 @endsection
 @push('script')
+    <script>
+        $('.skills-select').select2({
+            tags: true,
+            tokenSeparators: [',', ' '],
+            placeholder: "Add your skills",
+            allowClear: true,
+            maximumSelectionLength:5
+        });
+    </script>
 <script src="{{ asset('alumni/js/job_post.js') }}"></script>
 @endpush

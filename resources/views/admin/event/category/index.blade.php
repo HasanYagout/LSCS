@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @push('title')
 {{$title}}
@@ -7,7 +7,7 @@
 
 @section('content')
 <!-- Page content area start -->
-<div class="p-30">
+<div class="p-30" >
     <div>
         <input type="hidden" id="event-category-list-route" value="{{ route('admin.eventCategory.index') }}">
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">

@@ -50,10 +50,8 @@ class EventController extends Controller
         $data['title'] = __('Pending Event');
         $data['showEvent'] = 'show';
         $data['activeEventPending'] = 'active';
-        if ($request->ajax()) {
-            return $this->eventService->pending();
-        }
-        return view('admin.event.pending.index', $data);
+        $data['events']=Event::where('status',STATUS_ACTIVE)->paginate(15);
+        return view('alumni.event.pending', $data);
     }
 
     public function all(Request $request)
@@ -61,10 +59,31 @@ class EventController extends Controller
         $data['title'] = __('All Event');
         $data['showEvent'] = 'show';
         $data['activeAllEvent'] = 'active';
-        if ($request->ajax()) {
-            return $this->eventService->allEvent();
+
+        // Start the query for fetching events
+        $query = Event::query();
+
+        // Check if there is a search term
+        if ($request->has('search') && !empty($request->search)) {
+            $searchTerm = $request->search;
+            // Modify the query to filter based on the search term
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('title', 'like', "%{$searchTerm}%")
+                    ->orWhere('description', 'like', "%{$searchTerm}%");
+
+            });
         }
-        return view('alumni.event.allEvent.index', $data);
+
+        // Continue with status filtering
+        $query->where(function($q) {
+            $q->where('status', STATUS_ACTIVE)
+                ->orWhere('status', STATUS_INACTIVE);
+        });
+
+        // Execute the query and paginate results
+        $data['events'] = $query->paginate(15);
+
+        return view('alumni.event.all', $data);
     }
 
     public function details($slug)
@@ -87,23 +106,7 @@ class EventController extends Controller
         return view('alumni.event.myEvent.index', $data);
     }
 
-    public function edit($slug)
-    {
-        $data['title'] = __('Edit Event');
-        $data['categories'] = EventCategory::where('tenant_id', getTenantId())->get();
-        $data['event'] = $this->eventService->getEvent($slug);
-        return view('admin.event.pending.edit', $data);
-    }
 
-    public function update(EventRequest $request, $slug)
-    {
-        return $this->eventService->update($request, $slug);
-    }
-
-    public function delete($id)
-    {
-        return $this->eventService->deleteById($id);
-    }
 
 
 }

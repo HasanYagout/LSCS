@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Notice extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = ['tenant_id', 'notice_category_id', 'title', 'slug', 'details', 'image', 'status', 'created_by'];
 

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @push('title')
 {{$title}}
@@ -8,7 +8,7 @@
 @section('content')
 <!-- Page content area start -->
 
-<div class="p-30">
+<div class="p-30" >
     <div>
         <input type="hidden" id="news-category-list-route" value="{{ route('admin.news.categories.index') }}">
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
@@ -64,6 +64,7 @@
                                 <div class="primary-form-group-wrap">
                                   <label for="BatchName" class="form-label">{{ __('Status') }} <span class="text-danger">*</span></label>
                                   <select class="primary-form-control sf-select-without-search" id="BatchName" name="status">
+                                    <option value="">Select</option>
                                     <option value="1">{{ __('Active') }}</option>
                                     <option value="0">{{ __('Deactive') }}</option>
                                   </select>
@@ -93,5 +94,5 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('admin/js/newsCategory.js') }}"></script>
+    <script src="{{ asset('public/admin/js/newsCategory.js') }}"></script>
 @endpush

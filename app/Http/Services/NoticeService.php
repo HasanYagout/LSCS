@@ -6,7 +6,10 @@ use App\Models\Notice;
 use App\Models\FileManager;
 use App\Traits\ResponseTrait;
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class NoticeService
 {
@@ -14,11 +17,11 @@ class NoticeService
 
     public function list()
     {
-        $features = Notice::where('tenant_id', getTenantId())->with(['category'])->orderBy('id','DESC');
+        $features = Notice::with(['category'])->orderBy('id','DESC')->get();
         return datatables($features)
             ->addIndexColumn()
             ->addColumn('image', function ($data) {
-                return '<img src="' . getFileUrl($data->image) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                return '<img src="' . asset('public/storage/admin/notice'.'/'.$data->image) . '" alt="icon" class="rounded avatar-xs max-h-35">';
             })
             ->addColumn('user', function ($data) {
                 return htmlspecialchars($data->user->name);
@@ -56,7 +59,7 @@ class NoticeService
     {
         try {
             DB::beginTransaction();
-            if (Notice::where('slug', getSlug($request->title))->withTrashed()->count() > 0) {
+            if (Notice::where('slug', getSlug($request->title))->count() > 0) {
                 $slug = getSlug($request->title) . '-' . rand(100000, 999999);
             } else {
                 $slug = getSlug($request->title);
@@ -67,19 +70,30 @@ class NoticeService
             $notice->notice_category_id = $request->category_id;
             $notice->details = $request->details;
             $notice->status = $request->status;
-            $notice->tenant_id = getTenantId();
-            $notice->created_by = auth()->id();
-
+            $notice->created_by = auth('admin')->id();
             if ($request->hasFile('image')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('notice', $request->image);
-                $notice->image = $uploaded->id;
+                // Get the original file extension
+                $extension = $request->image->getClientOriginalExtension();
+
+                // Generate the new file name
+                $date = Carbon::now()->format('Ymd');
+                $slug = Str::slug($request->title);
+                $randomNumber = rand(1000, 9999);
+                $newFileName = "{$date}_{$slug}_{$randomNumber}.{$extension}";
+                // Save the file to the specified directory
+                $request->image->storeAs('public/admin/notice', $newFileName);
+
+
+                // Get the file URL or ID depending on your file manager
+                $notice->image = $newFileName; // Assuming you want to save the file path
             }
+
 
             $notice->save();
 
             DB::commit();
-            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+            session()->flash('success', 'Notice Created Successfully');
+            return redirect()->route('admin.notices.index');
         } catch (Exception $e) {
             DB::rollBack();
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
@@ -90,28 +104,41 @@ class NoticeService
     {
         try {
             DB::beginTransaction();
-            if (Notice::where('slug', getSlug($request->title))->where('id', '!=', $id)->withTrashed()->count() > 0) {
+            if (Notice::where('slug', getSlug($request->title))->where('id', '!=', $id)->count() > 0) {
                 $slug = getSlug($request->title) . '-' . rand(100000, 999999);
             } else {
                 $slug = getSlug($request->title);
             }
-            $notice = Notice::where('tenant_id', getTenantId())->where('id', $id)->firstOrFail();
+            $notice = Notice::where('id', $id)->firstOrFail();
             $notice->title = $request->title;
             $notice->slug = $slug;
             $notice->notice_category_id = $request->category_id;
             $notice->details = $request->details;
             $notice->status = $request->status;
-
             if ($request->hasFile('image')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('notice', $request->image);
-                $notice->image = $uploaded->id;
+                // Get the original file extension
+                $extension = $request->image->getClientOriginalExtension();
+                Storage::delete('public/admin/notice/' . $notice->image);
+
+                // Generate the new file name
+                $date = Carbon::now()->format('Ymd');
+                $slug = Str::slug($request->title);
+                $randomNumber = rand(1000, 9999);
+                $newFileName = "{$date}_{$slug}_{$randomNumber}.{$extension}";
+                // Save the file to the specified directory
+                $request->image->storeAs('public/admin/notice', $newFileName);
+
+
+                // Get the file URL or ID depending on your file manager
+                $notice->image = $newFileName; // Assuming you want to save the file path
             }
+
 
             $notice->save();
 
             DB::commit();
-            return $this->success([], getMessage(UPDATED_SUCCESSFULLY));
+            session()->flash('success', 'Notice Updated Successfully');
+            return redirect()->route('admin.notices.index');
         } catch (Exception $e) {
             DB::rollBack();
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
@@ -120,28 +147,36 @@ class NoticeService
 
     public function getById($id)
     {
-        return Notice::where('tenant_id', getTenantId())->with(['category'])->where('id', $id)->firstOrFail();
+        return Notice::with(['category'])->where('id', $id)->firstOrFail();
     }
 
     public function getNoticeBySlug($slug)
     {
-        return Notice::where('tenant_id', getTenantId())->where('slug', $slug)->with(['category'])->firstOrFail();
+        return Notice::where('slug', $slug)->with(['category'])->firstOrFail();
     }
 
     public function getFirst()
     {
-        return Notice::where('tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->with(['category'])->first();
+        return Notice::where('status', STATUS_ACTIVE)->with(['category'])->first();
     }
 
     public function deleteById($id)
     {
         try {
-            $notice = Notice::where('id', $id)->firstOrFail();
-            $notice->delete();
             DB::beginTransaction();
+
+            $notice = Notice::where('id', $id)->firstOrFail();
+            Storage::delete('public/admin/notice/' . $notice->image);
+
+            $notice->delete();
+
             DB::commit();
-            $message = getMessage(DELETED_SUCCESSFULLY);
-            return $this->success([], $message);
+
+            // Flash a success message to the session
+            session()->flash('success', 'Notice Deleted Successfully');
+
+            // Redirect to a specific route or action
+            return redirect()->route('admin.notices.index');
         } catch (\Exception $e) {
             DB::rollBack();
             $message = getErrorMessage($e, $e->getMessage());
@@ -153,9 +188,9 @@ class NoticeService
     {
         $first = $this->getFirst()?->id;
         if(is_null($limit)){
-            return Notice::where('tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->where('id', '!=', $first)->with(['category'])->paginate(6);
+            return Notice::where('status', STATUS_ACTIVE)->where('id', '!=', $first)->with(['category'])->paginate(6);
         }else{
-            return Notice::where('tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->limit($limit)->with(['category'])->get();
+            return Notice::where('status', STATUS_ACTIVE)->limit($limit)->with(['category'])->get();
         }
     }
 }

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @push('title')
     {{$title}}
@@ -7,9 +7,10 @@
 
 @section('content')
     <!-- Page content area start -->
-    <div class="p-30">
+    <div class="p-30" >
         <div>
-            <input type="hidden" id="students-list-route" value="{{ route('admin.students.list') }}">
+            <input type="hidden" id="students-list-route" value="{{ route('admin.students.index') }}">
+            <input type="hidden" id="students-update-route" value="{{ route('admin.students.update') }}">
 
             <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
                 <!-- Table -->
@@ -17,14 +18,15 @@
                     <table class="table zTable" id="studentsTable">
                         <thead>
                         <tr>
-                            <th scope="col"><div>{{ __('Student ID') }}</div></th>
-                            <th scope="col"><div>{{ __('First Name') }}</div></th>
-                            <th scope="col"><div>{{ __('Middle Name') }}</div></th>
-                            <th scope="col"><div>{{ __('Last Name') }}</div></th>
-                            <th scope="col"><div>{{ __('GPA') }}</div></th>
-                            <th scope="col"><div>{{ __('Major') }}</div></th>
-                            <th scope="col"><div>{{ __('Credits Left') }}</div></th>
-                            <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('Number') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('Student ID') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('F_Name') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('M_Name') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('L_Name') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('GPA') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('Major') }}</div></th>
+                            <th scope="col"><div class="bg-f5b40a">{{ __('C_Left') }}</div></th>
+                            <th class="w-110 text-center" scope="col"><div class="bg-f5b40a">{{ __('Action') }}</div></th>
                         </tr>
                         </thead>
                     </table>
@@ -79,6 +81,8 @@
         </div>
     </div>
     <!-- Edit Modal section end -->
+
+
 @endsection
 
 @push('script')

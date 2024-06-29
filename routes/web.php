@@ -27,12 +27,7 @@ Route::group(['namespace' => 'web'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');
 
 
-    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
-        Route::get('login', [LoginController::class,'login'])->name('login');
-        Route::post('login',[LoginController::class,'submit'])->name('submit');
-        Route::post('register',[LoginController::class,'register'])->name('register');
-        Route::get('logout', 'LoginController@logout')->name('logout');
-    });
+
     Route::get('ticket-verify/{ticket}', [TicketVerifyController::class, 'ticketPreview'])->name('ticket.verify');
 
 // alumni

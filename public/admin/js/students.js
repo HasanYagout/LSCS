@@ -26,15 +26,21 @@
         },
         dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"d-flex align-items-center cg-5"<"tableSearch float-start"f><"z-filter-button">>><"col-sm-6"<"tableLengthInput float-end"l>><"col-sm-12"<"z-filter-block">>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
         columns: [
-            { "data": "student_id", "name": "student.student_id", responsivePriority: 1 },
-            { "data": "first_name", "name": "student.first_name", responsivePriority: 1 },
-            { "data": "middle_name", "name": "student.middle_name", responsivePriority: 2 },
-            { "data": "last_name", "name": "student.last_name", responsivePriority: 3 },
-            { "data": "gpa", "name": "student.gpa"},
-            { "data": "major", "name": "student.major" },
-            { "data": "credits_left", searchable: false, responsivePriority: 2},
-            { "data": "action", searchable: false, responsivePriority: 3 },
+            { data: null, name: 'number', searchable: false, orderable: false, responsivePriority: 1 }, // For row numbers
+            { data: 'student_id', name: 'student_id', searchable: true, responsivePriority: 3 },
+            { data: 'first_name', name: 'first_name', searchable: true, responsivePriority: 1 },
+            { data: 'middle_name', name: 'middle_name', searchable: true, responsivePriority: 2 },
+            { data: 'last_name', name: 'last_name', searchable: true, responsivePriority: 3 },
+            { data: 'gpa', name: 'gpa', searchable: true },
+            { data: 'major', name: 'major', searchable: true ,responsivePriority: 3}, // Adjusted to search by major name
+            { data: 'credits_left', name: 'credits_left', searchable: true, responsivePriority: 2 },
+            { data: 'action', name: 'action', searchable: false, responsivePriority: 3 }
         ],
+        rowCallback: function(row, data, index) {
+            // Add the row number to the first column
+            var info = table.page.info();
+            $('td:eq(0)', row).html(info.start + index + 1);
+        },
         "initComplete": function( settings, json ) {
             $('.z-filter-block').html($('#search-section').html());
             $('#search-section').remove();
@@ -54,9 +60,13 @@
 		</button>`);
         },
     });
-    $(document).on('click','.editStudent',function(e){
+    $(document).on('change', '.toggle-status', function(e) {
+        var $switch = $(this);
+        var studentId = $switch.data('id');
+        var newStatus = $switch.is(':checked') ? 1 : 0;
+
         Swal.fire({
-            title: 'Sure! You want to change the status to Alumni?',
+            title: 'Sure! You want to change the status?',
             text: "You won't be able to revert this!",
             icon: 'warning',
             showCancelButton: true,
@@ -66,31 +76,33 @@
         }).then((result) => {
             if (result.value) {
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
-                var buttonValue = $('.editStudent').val();
                 $.ajax({
                     type: 'POST',
-                    url: 'students/update',
+                    url: $('#students-update-route').val(), // Replace with your actual route
                     data: {
-                        // 'selectedStatus':selectedStatus,
-                        // 'alumniUserId':alumniUserId,
-                        '_token':csrfToken,
-                        'buttonValue': buttonValue // Include the button value in the data
-
+                        '_token': csrfToken,
+                        'student_id': studentId,
+                        'status': newStatus
                     },
-                    success: function (response) {
-                        if (response.status === true) {
+                    success: function(response) {
+                        if (response.success) {
                             toastr.success(response.message);
+                        } else {
+                            toastr.error(response.message);
                         }
-
                         $('#alumni-all-list-filter').DataTable().ajax.reload();
                     },
-                    error: function (error) {
-                        toastr.error(error.responseJSON.message)
+                    error: function(error) {
+                        toastr.error(error.responseJSON.message);
+                        $('#alumni-all-list-filter').DataTable().ajax.reload();
                     }
-                })
-            }else{
+                });
+            } else {
+                // Revert the switch state if the user cancels
+                $switch.prop('checked', !newStatus);
                 $('#alumni-all-list-filter').DataTable().ajax.reload();
             }
-        })
-    })
+        });
+    });
+
 })(jQuery)

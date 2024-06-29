@@ -10,7 +10,7 @@ use App\Traits\ResponseTrait;
 use App\Http\Requests\JobPostRequest;
 use App\Http\Services\NoticeCategoryService;
 
-class JobsController extends Controller
+class   JobsController extends Controller
 {
     use ResponseTrait;
     public $jobPostService ;
@@ -30,28 +30,7 @@ class JobsController extends Controller
 
     public function add(Request $request)
     {
-        $jobPost = new JobPost();
-        if (JobPost::where('slug', getSlug($request->title))->withTrashed()->count() > 0) {
-            $slug = getSlug($request->title) . '-' . rand(100000, 999999);
-        } else {
-            $slug = getSlug($request->title);
-        }
-        $jobPost->title = $request->title;
-        $jobPost->slug = $slug;
-        $jobPost->compensation_n_benefits = $request->compensation_n_benefits;
-        $jobPost->salary = $request->salary;
-        $jobPost->location = $request->location;
-        $jobPost->post_link = $request->post_link;
-        dd($jobPost);
-        $jobPost->application_deadline = $request->application_deadline;
-        $jobPost->job_responsibility = $request->job_responsibility;
-        $jobPost->job_context = $request->job_context;
-        $jobPost->educational_requirements = $request->educational_requirements;
-        $jobPost->additional_requirements = $request->additional_requirements;
-        $jobPost->employee_status = $request->employee_status;
-        $jobPost->status = JOB_STATUS_PENDING;
-        $jobPost->tenant_id = getTenantId();
-        $jobPost->user_id = auth('admin')->id();
+      return $this->jobPostService->store($request);
     }
 
     public function myJobPost(Request $request)
@@ -67,9 +46,13 @@ class JobsController extends Controller
     public function info($slug)
     {
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        return view('alumni.jobs.edit-form', $data);
+        return view('admin.jobs.edit-form', $data);
     }
+    public function toggleStatus(Request $request, $id)
+    {
+       return $this->jobPostService->changeStatus($request,$id);
 
+    }
     public function update(JobPostRequest $request, $slug)
     {
         return $this->jobPostService->update($slug, $request);
@@ -83,13 +66,13 @@ class JobsController extends Controller
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        return view('alumni.jobs.job_post_view', $data);
+        return view('admin.jobs.job_post_view', $data);
     }
 
     public function all(Request $request)
     {
         if ($request->ajax()) {
-            return $this->jobPostService->getAllJobPostList();
+         return $this->jobPostService->getAllJobPostList();
         }
         $data['title'] = __('All Job Post');
         $data['showJobPostManagement'] = 'show';

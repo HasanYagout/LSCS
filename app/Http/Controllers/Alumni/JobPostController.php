@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Alumni;
 
 use App\Http\Controllers\Controller;
+use App\Models\AppliedJobs;
+use App\Models\Company;
+use App\Models\CV;
+use App\Models\JobPost;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Services\JobPostService;
 use App\Traits\ResponseTrait;
@@ -18,29 +23,16 @@ class JobPostController extends Controller
     {
         $this->jobPostService = new JobPostService();
     }
-    public function createJobPost(Request $request)
+
+
+    public function pending(Request $request)
     {
-        $data['title'] = __('Create Job Post');
+
+        $data['title'] = __('Pending Jobs');
         $data['showJobPostManagement'] = 'show';
-        $data['activeJobPostCreate'] = 'active-color-one';
-        return view('alumni.jobs.create', $data);
-
-    }
-
-    public function addJobPost(JobPostRequest $request)
-    {
-        return  $this->jobPostService->store($request);
-    }
-
-    public function myJobPost(Request $request)
-    {
-        if ($request->ajax()) {
-            return $this->jobPostService->getMyJobPostList();
-        }
-        $data['title'] = __('My Job Post');
-        $data['showJobPostManagement'] = 'show';
-        $data['activeMyJobPostList'] = 'active-color-one';
-        return view('alumni.jobs.my-job-post', $data);
+        $data['activePendingJobPostList'] = 'active-color-one';
+        $data['appliedJobs'] = AppliedJobs::with('job')->where('alumni_id',auth('alumni')->id())->paginate();
+        return view('alumni.jobs.pending', $data);
     }
     public function info($slug)
     {
@@ -56,22 +48,52 @@ class JobPostController extends Controller
     {
         return $this->jobPostService->deleteById($slug);
     }
-    public function details($slug)
+    public function details(Company $company,$slug)
     {
+
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
+        $data['cvs']=CV::where('alumni_id',auth('alumni')->id())->get();
+        $data['company']=$company;
+        $data['slug']=$slug;
+        return view('alumni.jobs.job_post_view', $data);
+    }
+    public function jobDetails($slug)
+    {
+        $data['title'] = __('Job Details');
+        $data['jobPostData'] = $this->jobPostService->getBySlug($slug);;
         return view('alumni.jobs.job_post_view', $data);
     }
 
-    public function allJobPost(Request $request)
+    public function apply(Request $request, $company, $slug)
     {
-        if ($request->ajax()) {
-            return $this->jobPostService->getAllJobPostList();
-        }
+       return $this->jobPostService->apply($request, $company, $slug);
+    }
+
+    public function all(Request $request)
+    {
         $data['title'] = __('All Job Post');
         $data['showJobPostManagement'] = 'show';
         $data['activeAllJobPostList'] = 'active-color-one';
+
+        // Retrieve the search term from the request
+        $searchTerm = $request->input('search');
+
+        // Filter jobs based on the search term
+        $data['jobs'] = JobPost::query()
+            ->where(function($query) use ($searchTerm) {
+                $query->where('title', 'LIKE', "%{$searchTerm}%")
+                    ->orWhereHas('company', function($query) use ($searchTerm) {
+                        $query->where('name', 'LIKE', "%{$searchTerm}%");
+                    })
+                    ->orWhere('location', 'LIKE', "%{$searchTerm}%");
+            })
+            ->where('status', STATUS_ACTIVE)  // Assuming you still want to filter by status
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
         return view('alumni.jobs.all-job-post', $data);
     }
+
 }

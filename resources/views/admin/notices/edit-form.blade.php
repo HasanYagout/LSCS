@@ -1,4 +1,5 @@
 <form class="ajax reset" action="{{ route('admin.notices.update', $notice->id) }}" method="post"
+      enctype="multipart/form-data"
     data-handler="commonResponseForModal">
     @csrf
     <div class="modal-body zModalTwo-body model-lg">
@@ -65,7 +66,7 @@
                     <div class="primary-form-group">
                         <div class="primary-form-group-wrap zImage-upload-details">
                             <div class="zImage-inside">
-                                <div class="d-flex pb-12"><img src="{{asset('assets/images/icon/upload-img-1.svg')}}"
+                                <div class="d-flex pb-12"><img src="{{asset('public/assets/images/icon/upload-img-1.svg')}}"
                                         alt="" /></div>
                                 <p class="fs-15 fw-500 lh-16 text-1b1c17">{{__('Drag & drop files here')}}</p>
                             </div>
@@ -73,7 +74,7 @@
                                     class="text-mime-type">(jpg,jpeg,png)</span> <span
                                     class="text-danger">*</span></label></label>
                             <div class="upload-img-box">
-                                <img src="{{ getFileUrl($notice->image) }}">
+                                <img src="{{ asset('public/storage/admin/notice'.'/'.$notice->image) }}">
                                 <input type="file" name="image" accept="image/*" onchange="previewFile(this)">
                             </div>
                         </div>

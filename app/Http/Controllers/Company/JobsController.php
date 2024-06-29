@@ -1,14 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\company\CreateJobRequest;
+use App\Models\Alumni;
+use App\Models\AppliedJobs;
 use App\Models\JobPost;
+use App\Models\Major;
 use Illuminate\Http\Request;
 use App\Http\Services\JobPostService;
 use App\Traits\ResponseTrait;
 use App\Http\Requests\JobPostRequest;
 use App\Http\Services\NoticeCategoryService;
+use Illuminate\Support\Str;
 
 class JobsController extends Controller
 {
@@ -24,50 +29,19 @@ class JobsController extends Controller
         $data['title'] = __('Create Job Post');
         $data['showJobPostManagement'] = 'show';
         $data['activeJobPostCreate'] = 'active-color-one';
-        return view('admin.jobs.create', $data);
+        return view('company.jobs.create', $data);
 
     }
 
-    public function add(Request $request)
+    public function add(CreateJobRequest $request)
     {
-        $jobPost = new JobPost();
-        if (JobPost::where('slug', getSlug($request->title))->withTrashed()->count() > 0) {
-            $slug = getSlug($request->title) . '-' . rand(100000, 999999);
-        } else {
-            $slug = getSlug($request->title);
-        }
-        $jobPost->title = $request->title;
-        $jobPost->slug = $slug;
-        $jobPost->compensation_n_benefits = $request->compensation_n_benefits;
-        $jobPost->salary = $request->salary;
-        $jobPost->location = $request->location;
-        $jobPost->post_link = $request->post_link;
-        dd($jobPost);
-        $jobPost->application_deadline = $request->application_deadline;
-        $jobPost->job_responsibility = $request->job_responsibility;
-        $jobPost->job_context = $request->job_context;
-        $jobPost->educational_requirements = $request->educational_requirements;
-        $jobPost->additional_requirements = $request->additional_requirements;
-        $jobPost->employee_status = $request->employee_status;
-        $jobPost->status = JOB_STATUS_PENDING;
-        $jobPost->tenant_id = getTenantId();
-        $jobPost->user_id = auth('admin')->id();
+        return $this->jobPostService->store($request);
     }
 
-    public function myJobPost(Request $request)
-    {
-        if ($request->ajax()) {
-            return $this->jobPostService->getMyJobPostList();
-        }
-        $data['title'] = __('My Job Post');
-        $data['showJobPostManagement'] = 'show';
-        $data['activeMyJobPostList'] = 'active-color-one';
-        return view('admin.jobs.my-job-post', $data);
-    }
     public function info($slug)
     {
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        return view('alumni.jobs.edit-form', $data);
+        return view('company.jobs.edit-form', $data);
     }
 
     public function update(JobPostRequest $request, $slug)
@@ -78,12 +52,18 @@ class JobsController extends Controller
     {
         return $this->jobPostService->deleteById($slug);
     }
-    public function details($slug)
+    public function details($company,$slug)
     {
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        return view('alumni.jobs.job_post_view', $data);
+        $data['majors']=Major::all();
+        $data['years']=Alumni::distinct()->pluck('graduation_year')->toArray();
+        $data['gpas'] = Alumni::select('gpa')->get()->map(function ($user) {
+            return round($user->gpa);
+        })->toArray();
+
+        return view('company.jobs.job_post_view', $data);
     }
 
     public function all(Request $request)
@@ -94,7 +74,55 @@ class JobsController extends Controller
         $data['title'] = __('All Job Post');
         $data['showJobPostManagement'] = 'show';
         $data['activeAllJobPostList'] = 'active-color-one';
-        return view('admin.jobs.all-job-post', $data);
+        return view('company.jobs.all-job-post', $data);
+    }
+
+    public function applied(Request $request,$id)
+    {
+
+        if ($request->ajax()) {
+            $applied = AppliedJobs::with('alumni')->where('company_id', auth('company')->id())->where('job_id',$id)->orderBy('id', 'desc')->get();
+
+            return datatables($applied)
+                ->addIndexColumn()
+                ->addColumn('name', function ($data) {
+
+                    return $data->alumni->first_name . ' ' . $data->alumni->last_name;
+                })
+                ->addColumn('gpa', function ($data) {
+                    return $data->alumni->GPA;
+                })
+                ->addColumn('major',function ($data){
+                    return $data->alumni->major;
+                })
+                ->addColumn('graduation_year', function ($data){
+                    return $data->alumni->graduation_year;
+                })
+//                ->addColumn('action', function ($data) {
+//                    if (auth('company')->user()->role_id == USER_ROLE_COMPANY) {
+//                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+//                                <li class="d-flex gap-2">
+//                                    <button onclick="getEditModal(\'' . route('company.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="' . __('Edit') . '">
+//                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
+//                                    </button>
+//                                    <button onclick="deleteItem(\'' . route('company.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
+//                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
+//                                    </button>
+//                                    <a href="' . route('company.jobs.details', ['company' => auth('company')->id(), 'slug' => $data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+//                                </li>
+//                            </ul>';
+//                    } else {
+//                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+//                    <li class="d-flex gap-2">
+//                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+//                    </li>
+//                </ul>';
+//                    }
+//
+//                })
+                ->rawColumns(['name','gpa','major','graduation_year'])
+                ->make(true);
+        }
     }
     public function pending(Request $request)
     {
@@ -104,6 +132,17 @@ class JobsController extends Controller
         $data['title'] = __('Pending Job List');
         $data['showJobPostManagement'] = 'show';
         $data['activePendingJobPostList'] = 'active-color-one';
-        return view('admin.jobs.pending-job-post', $data);
+        return view('company.jobs.pending-job-post', $data);
+    }
+    public function toggleStatus(Request $request,$id)
+    {
+        return $this->jobPostService->changeStatus($request,$id);
+//        $job = JobPost::find($request->id);
+//        if ($job) {
+//            $job->status = $job->status == STATUS_ACTIVE ? STATUS_INACTIVE : STATUS_ACTIVE;
+//            $job->save();
+//            return response()->json(['success' => true]);
+//        }
+//        return response()->json(['success' => false]);
     }
 }

@@ -7,7 +7,7 @@
 
 @section('content')
 <!-- Page content area start -->
-<div class="p-30">
+<div class="p-30" >
     <div>
         <input type="hidden" id="membership-create-route" value="{{ route('admin.membership.index') }}">
 

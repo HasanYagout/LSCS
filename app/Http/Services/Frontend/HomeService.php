@@ -22,14 +22,13 @@ class HomeService
         $upcomingEvents = Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->with('category')->get();
         return $upcomingEvents;
     }
-    public function getPhotoGalleries(){
-        $photoGallery = PhotoGallery::where('photo_galleries.tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->get();
-        return $photoGallery;
-    }
+//    public function getPhotoGalleries(){
+//        $photoGallery = PhotoGallery::where('photo_galleries.tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->get();
+//        return $photoGallery;
+//    }
 
     public function getAlumni($limit){
-        return Alumni::where(['status'=> STATUS_ACTIVE])
-        ->orderBy('created_at', 'DESC')
+        return Alumni::orderBy('id', 'DESC')
         ->limit($limit)->get();
     }
 
@@ -38,11 +37,11 @@ class HomeService
     }
 
     public function getNews($limit){
-        return News::where('news.tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->with(['category', 'author'])->orderBy('id','DESC')->paginate($limit);
+        return News::where('status', STATUS_ACTIVE)->with(['category', 'author'])->orderBy('id','DESC')->paginate($limit);
     }
 
     public function getNotice($limit){
-        return Notice::where('notices.tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->with(['category'])->orderBy('id','DESC')->paginate($limit);
+        return Notice::where('status', STATUS_ACTIVE)->with(['category'])->orderBy('id','DESC')->paginate($limit);
     }
 
     public function getMembership(){
@@ -50,7 +49,7 @@ class HomeService
     }
 
     public function getJob($limit){
-        return JobPost::where('jobs.tenant_id', getTenantId())->where('status',JOB_STATUS_APPROVED)->orderBy('id','desc')->paginate($limit);
+        return JobPost::where('status',JOB_STATUS_APPROVED)->orderBy('id','desc')->paginate($limit);
     }
 
     public function getStories($limit){

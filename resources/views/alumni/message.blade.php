@@ -3,7 +3,7 @@
 {{ $title }}
 @endpush
 @section('content')
-<div class="p-30">
+<div class="p-30" >
     <!-- Start -->
     <div class="content-chat">
         <!-- Left -->
@@ -42,7 +42,7 @@
                 </div>
                 <!-- Body -->
                 <div class="body-chat-message-user" id="chat-body-{{ $user->id }}">
-                    
+
                 </div>
             </div>
             @endforeach

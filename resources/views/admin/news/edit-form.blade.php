@@ -1,4 +1,4 @@
-<form class="ajax reset" action="{{ route('admin.news.update', $news->id) }}" method="post"
+<form class="ajax reset" action="{{ route('admin.news.update', $news->id) }}" method="post" enctype="multipart/form-data"
     data-handler="commonResponseForModal">
     @csrf
     <div class="modal-body zModalTwo-body model-lg">
@@ -37,18 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="primary-form-group">
-                    <div class="primary-form-group-wrap">
-                      <label for="BatchName" class="form-label">{{ __('Tag') }} <span class="text-danger">*</span></label>
-                      <select name="tag_ids[]" id="tag_ids" multiple class="tag_ids primary-form-control sf-select-edit-modal">
-                        @foreach ($tags as $tag)
-                            <option {{ in_array($tag->id, $oldTags) ? 'selected' : '' }} value="{{ $tag->id }}">{{ $tag->name }}</option>
-                        @endforeach
-                    </select>
-                    </div>
-                </div>
-            </div>
+
             <div class="col-md-6">
                 <div class="primary-form-group">
                     <div class="primary-form-group-wrap">
@@ -74,13 +63,13 @@
             <div class="primary-form-group">
                 <div class="primary-form-group-wrap zImage-upload-details">
                     <div class="zImage-inside">
-                    <div class="d-flex pb-12"><img src="{{ asset('assets/images/icon/upload-img-1.svg')}}" alt="" /></div>
+                    <div class="d-flex pb-12"><img src="{{ asset('public/assets/images/icon/upload-img-1.svg')}}" alt="" /></div>
                     <p class="fs-15 fw-500 lh-16 text-1b1c17">{{__('Drag & drop files here')}}</p>
                     </div>
                     <label for="zImageUpload" class="form-label">{{__('Upload Image')}} <span
                             class="text-mime-type">(jpg,jpeg,png)</span></label>
                     <div class="upload-img-box">
-                        <img src="{{ getFileUrl($news->image) }}">
+                        <img src="{{ asset('public/storage/admin/news'.'/'.$news->image) }}">
                         <input type="file" name="image" accept="image/*" onchange="previewFile(this)">
                     </div>
                 </div>

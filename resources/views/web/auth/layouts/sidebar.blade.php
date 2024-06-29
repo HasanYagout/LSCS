@@ -164,7 +164,7 @@
                                    href="{{ route('stories.create') }}">{{ __('Create Story') }}</a></li>
                             @if (auth()->user()->role == USER_ROLE_ADMIN)
                                 <li><a class="{{ $activePendingStoryList ?? '' }}"
-                                       href="{{ route('admin.stories.pending') }}">{{ __('Pending Story') }}</a>
+                                       href="{{ route('admin.stories.active') }}">{{ __('Pending Story') }}</a>
                                 </li>
                             @endif
                             <li><a class="{{ $activeMyStoryList ?? '' }}"

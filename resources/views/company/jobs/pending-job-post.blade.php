@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @push('title')
     {{$title}}
@@ -8,9 +8,9 @@
 
 
 <!-- Page content area start -->
-<div class="p-30">
+<div class="p-30" >
     <div>
-        <input type="hidden" id="job-post-list-route" value="{{ route('admin.jobs.pending') }}">
+        <input type="hidden" id="job-post-list-route" value="{{ route('company.jobs.pending') }}">
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
             <h4 class="fs-24 fw-500 lh-34 text-black">{{$title}}</h4>
         </div>
@@ -20,13 +20,11 @@
             <table class="table zTable" id="jobPostPendingdataTable">
               <thead>
                 <tr>
-                  <th scope="col"><div>{{ __('Company') }}</div></th>
+
                   <th scope="col"><div>{{ __('Job Title') }}</div></th>
                   <th scope="col"><div>{{ __('Employee Status') }}</div></th>
-                  <th scope="col"><div>{{ __('Salary') }}</div></th>
                   <th scope="col"><div>{{ __('Application Deadline') }}</div></th>
                   <th scope="col"><div>{{ __('Status') }}</div></th>
-                   <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>
                 </tr>
               </thead>
             </table>
@@ -49,5 +47,5 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('alumni/js/job_post.js') }}"></script>
+<script src="{{ asset('public/company/js/job_pending.js') }}"></script>
 @endpush

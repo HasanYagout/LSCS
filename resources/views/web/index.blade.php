@@ -5,7 +5,7 @@
 @section('content')
 
     <!-- Start Banner -->
-    <section class="home-banner" data-background="{{ asset(getFileUrl(getOption('banner_background_breadcrumb'))) }}">
+    <section class="home-banner">
         <div class="container">
             <div class="row justify-content-center position-relative">
                 <div class="col-lg-10">
@@ -43,22 +43,22 @@
                 <div class="items d-flex justify-content-center flex-wrap g-25">
                     <div
                         class="item flex-grow-1 max-w-370 bd-one bd-c-black-10 bd-ra-14 px-26 pt-51 pb-35 bg-white text-center hover-scale-1-1">
-                        <img src="{{ asset(getFileUrl(getOption('join_us_left_icon'))) }}" class="mb-20" alt="" />
-                        <h4 class="fs-24 fw-500 lh-28 text-black-color pb-9">{{ getOption('join_us_left_title') }}</h4>
+                        <img src="{{ asset('public/assets/images/hand.png') }}" class="mb-20" alt="" />
+                        <h4 class="fs-24 fw-500 lh-28 text-black-color pb-9">{{ __('Reconnect With Friends') }}</h4>
                         <p class="fs-18 fw-400 lh-28 text-para-color">{!! getOption('join_us_left_description') !!}</p>
                     </div>
                     <div
                         class="item flex-grow-1 max-w-370 bd-one bd-c-black-10 bd-ra-14 px-26 pt-51 pb-35 bg-white text-center hover-scale-1-1">
-                        <img src="{{ asset(getFileUrl(getOption('join_us_middle_icon'))) }}" class="mb-20"
-                            alt="" />
-                        <h4 class="fs-24 fw-500 lh-28 text-black-color pb-9">{{ getOption('join_us_middle_title') }}</h4>
+                        <img src="{{ asset(asset('public/assets/images/calender.png')) }}" class="mb-20"
+                             alt="" />
+                        <h4 class="fs-24 fw-500 lh-28 text-black-color pb-9">{{ __('Attend Events') }}</h4>
                         <p class="fs-18 fw-400 lh-28 text-para-color">{!! getOption('join_us_middle_description') !!}</p>
                     </div>
                     <div
                         class="item flex-grow-1 max-w-370 bd-one bd-c-black-10 bd-ra-14 px-26 pt-51 pb-35 bg-white text-center hover-scale-1-1">
-                        <img src="{{ asset(getFileUrl(getOption('join_us_right_icon'))) }}" class="mb-20"
-                            alt="" />
-                        <h4 class="fs-24 fw-500 lh-28 text-black-color pb-9">{{ getOption('join_us_right_title') }}</h4>
+                        <img src="{{ asset(asset('public/assets/images/arrow.png')) }}" class="mb-20"
+                             alt="" />
+                        <h4 class="fs-24 fw-500 lh-28 text-black-color pb-9">{{ __('Advance Your Career') }}</h4>
                         <p class="fs-18 fw-400 lh-28 text-para-color">{!! getOption('join_us_right_description') !!}</p>
                     </div>
                 </div>
@@ -67,31 +67,9 @@
     </section>
     <!-- End Join with community -->
 
-    <!-- Start About -->
-    <section class="position-relative" id="about-us-section">
-        <div class="about-img position-absolute bottom-0 start-0 d-none d-xl-block"><img
-                src="{{ asset(getFileUrl(getOption('about_us_background_breadcrumb'))) }}" alt="" /></div>
-        <div class="container">
-            <div class="row justify-content-center justify-content-xl-end">
-                <div class="col-xl-8 col-lg-10">
-                    <div class="about-content">
-                        <span
-                            class="py-15 px-25 d-inline-block mb-29 bg-white bd-ra-12 fs-18 fw-400 lh-18 text-black-color">{{ __('About Us') }}</span>
-                        <h4 class="pb-32 fs-50 fw-700 lh-46 text-black-color">{{ getOption('about_us_title') }}</h4>
-                        <div class="list-pb-22">
-                            {!! getOption('about_us_description') !!}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End About -->
-
     <!-- Start Upcoming Events -->
     @if (count($upcomingEvents))
-        <section class="upcoming-events"
-            data-background="{{ asset(getFileUrl(getOption('upcoming_events_background'))) }}">
+        <section class="upcoming-events">
             <div class="container position-relative">
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
@@ -155,7 +133,7 @@
                                                 <div class="col-xl-6">
                                                     <a href="{{ route('event.view.details', $upcomingEvent->slug) }}"
                                                         class="up-event-img hover-scale-img-two"><img
-                                                            src="{{ getFileUrl($upcomingEvent->thumbnail) }}"
+                                                            src="{{ asset('public/storage/admin/events').'/'.$upcomingEvent->thumbnail }}"
                                                             alt="{{ $upcomingEvent->title }}"
                                                             class="w-100 h-100 object-fit-cover" /></a>
                                                 </div>
@@ -190,7 +168,7 @@
                     <ul class="stories-list">
                         @foreach ($stories as $story)
                             <li class="hover-scale-img">
-                                <div class="img"><img src="{{ getFileUrl($story->thumbnail) }}"
+                                <div class="img"><img src="{{ asset('public/storage/admin/story').'/'.$story->thumbnail }}"
                                         alt="{{ $story->title }}" /></div>
                                 <div class="content">
                                     <div class="d-flex align-items-center cg-11 pb-10">
@@ -237,16 +215,16 @@
                             <div
                                 class="flex-grow-1 max-w-sm-188 w-100 p-30 bd-one bd-c-black-10 bd-ra-10 bg-event-bg d-flex flex-column justify-content-center align-items-center hover-scale-1-1 countUp-item">
                                 <h4 class="fs-36 fw-600 lh-36 text-black-color counter">
-                                    {{ $totalDepartments }}
+                                    {{ $totalCompanies }}
                                 </h4>
-                                <p class="fs-18 fw-400 lh-28 text-para-color">{{ __("Department's") }}</p>
+                                <p class="fs-18 fw-400 lh-28 text-para-color">{{ __("Companies") }}</p>
                             </div>
                             <div
                                 class="flex-grow-1 max-w-sm-188 w-100 p-30 bd-one bd-c-black-10 bd-ra-10 bg-event-bg d-flex flex-column justify-content-center align-items-center hover-scale-1-1 countUp-item">
                                 <h4 class="fs-36 fw-600 lh-36 text-black-color counter">
-                                    {{ $totalSessions }}
+                                    {{ $totalJobs }}
                                 </h4>
-                                <p class="fs-18 fw-400 lh-28 text-para-color">{{ __('Sessions') }}</p>
+                                <p class="fs-18 fw-400 lh-28 text-para-color">{{ __('Jobs') }}</p>
                             </div>
                         </div>
                     </div>
@@ -278,13 +256,13 @@
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="bd-ra-25 bg-event-bg hover-scale-img">
                             <div class="bd-ra-25 overflow-hidden h-341">
-                                <img class="w-100 h-100 object-fit-cover" src="{{ getFileUrl($alumni->image) }}"
+                                <img onerror="this.src='{{asset('public/storage/alumni/image/def.png')}}'" class="w-100 h-100 object-fit-cover" src="{{ asset('public/storage/alumni/image') .'/'.$alumni->image}}"
                                     alt="{{ $alumni->name }}" />
                             </div>
                             <div class="pt-21 pb-23 px-10 text-center">
-                                <h4 class="fs-20 fw-600 lh-28 text-black-color pb-2">{{ $alumni->name }}</h4>
-                                <p class="fs-18 fw-400 lh-28 text-para-color">{{ $alumni->department_name }},
-                                    {{ __('Batch') }} {{ $alumni->batch_name }}</p>
+                                <h4 class="fs-20 fw-600 lh-28 text-black-color pb-2">{{ $alumni->first_name.' '.$alumni->last_name }}</h4>
+                                <p class="fs-18 fw-400 lh-28 text-para-color">{{ $alumni->major }},
+                                    {{ __('Batch') }} {{ $alumni->graduation_year }}</p>
                             </div>
                         </div>
                     </div>
@@ -293,45 +271,6 @@
         </div>
     </section>
     <!-- End New Alumni -->
-
-    <!-- Start Gallery -->
-    <section class="pb-110">
-        <div class="container">
-            <!--  -->
-            <div class="row justify-content-center">
-                <div class="col-lg-5">
-                    <!--  -->
-                    <div class="text-center pb-50 header-one">
-                        <span
-                            class="d-inline-block py-15 px-25 bg-color4 bd-ra-12 fs-18 fw-400 lh-18 text-black-color mb-25">{{ __('Gallery') }}</span>
-                        <h4 class="fs-50 fw-700 lh-60 text-black-color pb-14">{{ __('Image Gallery') }}</h4>
-                        <p class="fs-18 fw-400 lh-28 text-para-color">
-                            {{ __('The Alumni Association leverages the resources, talents, and initiatives of alumni and friends to advise.') }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper imageGallery">
-                <div class="swiper-wrapper">
-                    @foreach ($photoGalleries as $photoGallery)
-                        <div class="swiper-slide">
-                            <div class="galleryImage-item bd-ra-25 overflow-hidden galleryMain">
-                                <a href="{{ getFileUrl($photoGallery->photo) }}" title="{{ $photoGallery->caption }}">
-                                    <img src="{{ getFileUrl($photoGallery->photo) }}" alt="{{ $photoGallery->caption }}"
-                                        class="w-100 h-100 object-fit-cover" />
-                                </a>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="gallery-button">
-                    <div class="swiper-button-next"><i class="fa-solid fa-long-arrow-right"></i></div>
-                    <div class="swiper-button-prev"><i class="fa-solid fa-long-arrow-left"></i></div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End Gallery -->
 
     <!-- Start Blog -->
     <section class="pb-110">
@@ -355,20 +294,23 @@
             <div class="row rg-24 pb-50">
                 @foreach ($news as $singleNews)
                     <div class="col-lg-4 col-md-6">
-                        <div class="hover-scale-img bd-one bd-c-black-10 bd-ra-25 bg-event-bg hover-scale-img">
+                        <div class="hover-scale-img bd-one bd-c-black-10 bd-ra-14 bg-event-bg hover-scale-img">
                             <div class="bd-ra-14 overflow-hidden h-234 position-relative">
-                                <img class="w-100 h-100 object-fit-cover" src="{{ getFileUrl($singleNews->image) }}"
+                                <img class="w-100 h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/news').'/'.$singleNews->image }}"
                                     alt="{{ $singleNews->title }}" />
                                 <p
-                                    class="position-absolute top-22 left-22 p-10 bd-ra-10 bg-primary-color max-w-77 fs-16 fw-400 lh-19 text-black-color text-center">
+                                    class="position-absolute top-22 left-22 p-10 bd-ra-10 bg-secondary-color max-w-77 fs-16 fw-400 lh-19 text-black-color text-center">
                                     {{ \Carbon\Carbon::parse($singleNews->created_at)->format('M d, Y') }}</p>
                             </div>
+
                             <div class="pt-29 pb-34 px-25">
                                 <div class="d-flex align-items-center cg-10 pb-10">
-                                    <div class="w-30 h-30 rounded-circle overflow-hidden"><img
-                                            src="{{ getFileUrl($singleNews->author->image) }}"
-                                            alt="{{ $singleNews->author->name }}" /></div>
-                                    <p class="fs-16 fw-400 lh-14 text-para-color">BY : {{ $singleNews->author->name }},
+                                    <div class="w-30 h-30 rounded-circle overflow-hidden">
+                                        <img
+                                            onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
+                                            src="{{ asset('public/storage/admin').'/'.$singleNews->author->image }}"
+                                            alt="{{ $singleNews->author->first_name }}" /></div>
+                                    <p class="fs-16 fw-400 lh-14 text-para-color">BY : {{ $singleNews->author->first_name }},
                                         {{ $singleNews->category->name }}</p>
                                 </div>
                                 <h4

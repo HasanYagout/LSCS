@@ -7,7 +7,7 @@
 
 @section('content')
 <!-- Page content area start -->
-<div class="p-30">
+<div class="p-30" >
     <div>
         <input type="hidden" id="my-ticket-list-route" value="{{ route('event.my-ticket') }}">
         <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
