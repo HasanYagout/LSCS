@@ -24,10 +24,8 @@ class CreateJobRequest extends FormRequest
         return [
             'title' => 'required',
             'employee_status' => 'required',
-            'compensation_n_benefits' => 'required',
-            'salary' => 'required',
             'location' => 'required',
-            'application_deadline' => 'required|date',
+            'application_deadline' => 'bail|required|date|after_or_equal:today',
             'post_link' => 'required',
             'job_context' => 'required',
             'job_responsibility' => 'required',

@@ -67,6 +67,8 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::post('update', [ProfileController::class, 'userProfileUpdate'])->name('update');
         Route::post('add', [ProfileController::class, 'addEducation'])->name('add-education');
         Route::post('add-experience', [ProfileController::class, 'addExperience'])->name('add-experience');
+        Route::get('generate-cv', [ProfileController::class, 'generateCV'])->name('generate-cv');
+        Route::post('add-cv', [ProfileController::class, 'addCV'])->name('add-cv');
     });
 
 
@@ -116,7 +118,7 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
         Route::get('my-job-post', [JobPostController::class, 'myJobPost'])->name('my-job-post');
         Route::post('apply/{company}/{slug}', [JobPostController::class, 'apply'])->name('apply');
         Route::get('/pending', [JobPostController::class, 'pending'])->name('pending');
-        Route::get('job-view-details/{slug}', [JobPostController::class, 'jobDetails'])->name('details');
+        Route::get('job-view-details/{company}/{slug}', [JobPostController::class, 'details'])->name('details');
 
     });
 // Job Post route end
@@ -147,8 +149,6 @@ Route::group(['namespace' => 'Alumni', 'prefix' => 'alumni', 'as' => 'alumni.'],
     Route::get('all-notice', [NoticeController::class, 'allNotice'])->name('all.notice');
     Route::get('notice-details/{slug}', [NoticeController::class, 'noticeDetails'])->name('notice.details');
 
-    Route::get('all-news', [NewsController::class, 'allNews'])->name('all.news');
-    Route::get('news-details/{slug}', [NewsController::class, 'newsDetails'])->name('news.details');
 
         Route::group(['prefix' => 'news', 'as' => 'news.'], function () {
             Route::get('list', [NewsController::class, 'index'])->name('index');

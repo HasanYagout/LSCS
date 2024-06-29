@@ -39,7 +39,7 @@
                     @if ($authenticatedUser)
                         <div class="w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-cdef84">
                             <img onerror="this.src='{{ asset('public/assets/images/no-image.jpg') }}'"
-                                 src="{{ asset('public/storage') . '/' . $authenticatedGuard . '/' . $authenticatedUser->image }}"
+                                 src="{{ asset('public/storage') . '/' . $authenticatedGuard . '/'.'image'.'/' . $authenticatedUser->image }}"
                                  alt="{{ $authenticatedUser->first_name . ' ' . $authenticatedUser->last_name }}" />
                         </div>
                         <div class="text-start d-none d-sm-block">

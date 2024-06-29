@@ -26,6 +26,9 @@
                         <thead>
                             <tr>
                                 <th scope="col">
+                                    <div>{{ __('Student ID') }}</div>
+                                </th>
+                                <th scope="col">
                                     <div>{{ __('First Name') }}</div>
                                 </th>
                                 <th scope="col">
@@ -41,9 +44,7 @@
                                 <th class="min-w-150 w-110" scope="col">
                                     <div>{{ __('Change status') }}</div>
                                 </th>
-                                <th scope="col" class="text-center max-w-150 ">
-                                    <div>{{ __('Recommendation') }}</div>
-                                </th>
+
                             </tr>
                         </thead>
                     </table>
@@ -70,7 +71,8 @@
                 <div class="modal-body zModalTwo-body">
                     <div class="text-center py-30">
                         <p class="fs-14 fw-500 lh-18 text-707070 pb-10">{{ __('Contact with') }} <span
-                                class="contact-name"></span></p>
+                                class="contact-name"></span>
+                        </p>
                         <h4 class="fs-32 fw-500 lh-42 text-black show-email"></h4>
                     </div>
                 </div>

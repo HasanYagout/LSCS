@@ -51,6 +51,9 @@ class AlumniController extends Controller
         if ($request->ajax()) {
             return datatables($alumniData)
                 ->addIndexColumn()
+                ->addColumn('student_id', function ($data) {
+                    return $data->student_id;
+                })
                 ->addColumn('first_name', function ($data) {
                     return $data->first_name;
                 })
@@ -74,11 +77,11 @@ class AlumniController extends Controller
                 </li>
             </ul>';
                 })
-                ->addColumn('recommendation', function ($data) {
-                    return '<button onclick="getEditModal(\'' . route('admin.alumni.gallery', $data->id) . '\', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="' . __('Upload') . '">
-                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="upload" />
-                        </button>';
-                })
+//                ->addColumn('recommendation', function ($data) {
+//                    return '<button onclick="getEditModal(\'' . route('admin.alumni.gallery', $data->id) . '\', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="' . __('Upload') . '">
+//                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="upload" />
+//                        </button>';
+//                })
                 ->rawColumns(['first_name', 'last_name', 'graduation_year', 'major', 'recommendation','status'])
                 ->make(true);
         }
@@ -113,6 +116,7 @@ class AlumniController extends Controller
 
     public function alumniChangeStatus(Request $request)
     {
+
         return $this->alumniService->changeAlumniStatus($request);
     }
 

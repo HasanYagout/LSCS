@@ -56,6 +56,16 @@
 @section('content')
     <div class="container">
         <div class="row">
+            <form action="{{ route('alumni.event.all') }}" method="GET" class="mb-4">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search events" name="search" value="{{ request('search') }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
             @foreach($events as $event)
                 <div class="col-md-4 mt-30">
                     <div class="card news-card">
@@ -68,7 +78,7 @@
                         $formattedDate = $date->format('M d');
                             @endphp
                             <p class="card-text news-card-text">{{$formattedDate}}</p>
-                            <h5 class="card-title news-card-title">{!! Str::limit($event->description, 150, '...'); !!}</h5>
+                            <h5 class="card-title news-card-title">{!! Str::limit($event->title, 150, '...'); !!}</h5>
                             <a href="{{route('alumni.event.details',$event->slug)}}" class="btn btn-read-more">Read More</a>
                         </div>
                     </div>

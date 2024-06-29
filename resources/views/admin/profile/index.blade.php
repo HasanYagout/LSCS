@@ -32,7 +32,7 @@
 
                             <div class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-cdef84">
                                 <img class="w-100" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
-                                     src="{{ asset('public/storage/admin').'/'.auth('admin')->user()->image}}"
+                                     src="{{ asset('public/storage/admin').'/'.'image'.'/'.auth('admin')->user()->image}}"
                                     alt="{{auth('admin')->user()->first_name.' '.auth('admin')->user()->last_name}}" />
                             </div>
 
@@ -80,11 +80,7 @@
                         <!-- Bio -->
                         <div class="col-lg-8">
                             <div class="py-20 px-25 bd-ra-10 bg-f9f9f9">
-                                <!-- Bio text -->
-                                <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                    <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-10">{{ __('Profile Bio') }}</h4>
-                                    <p class="fs-14 fw-400 lh-24 text-707070 pb-12">{!! auth('admin')->user()?->about_me !!}</p>
-                                </div>
+
                                 <!-- Personal Info -->
                                 <ul class="zList-one">
                                     <li>
@@ -106,46 +102,26 @@
                                     @endif
 
                                     <li>
-                                        <p>{{ __('City') }} :</p>
-                                        <p> {{ auth('admin')->user()?->city }}</p>
+                                        <p>{{ __('Phone') }} :</p>
+                                        <p> {{ auth('admin')->user()?->mobile }}</p>
                                     </li>
                                     <li>
-                                        <p>{{ __('Country') }} :</p>
-                                        <p>{{ auth('admin')->user()?->country }}</p>
+                                        <p>{{ __('Email') }} :</p>
+                                        <p>{{ auth('admin')->user()?->email }}</p>
                                     </li>
 
                                 </ul>
                             </div>
                         </div>
                         <!-- Info -->
-                        <div class="col-lg-4">
-                            <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
-                                <div class="">
-                                    <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-10">{{ __('Professional Info') }}</h4>
-                                    <ul class="zList-one">
-                                        <li>
-                                            <p>{{ __('Company Name') }} :</p>
-                                            <p>{{ auth('admin')->user()?->company }}</p>
-                                        </li>
-                                        <li>
-                                            <p>{{ __('Designation') }} :</p>
-                                            <p>{{ auth('admin')->user()?->company_designation }}</p>
-                                        </li>
-                                        <li>
-                                            <p>{{ __('Office Address') }} :</p>
-                                            <p>{{ auth('admin')->user()?->company_address }}</p>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 <!-- Edit Profile -->
                 <div class="tab-pane fade" id="editProfile-tab-pane" role="tabpanel" aria-labelledby="editProfile-tab"
                     tabindex="0">
                     <div class="max-w-840">
-                        <form method="POST" class="ajax" data-handler="commonResponseRedirect"
+                        <form method="POST" class="ajax" data-handler="commonResponseRedirect" enctype="multipart/form-data"
                             data-redirect-url="{{ route('admin.profile.index') }}" action="{{ route('admin.profile.update') }}">
                             @csrf
                             <!-- Photo -->
@@ -157,8 +133,8 @@
                                     <!-- Photo -->
                                     <div class="pb-40">
                                         <div class="upload-img-box profileImage-upload">
-                                            <div class="icon"><img src="assets/images/icon/edit-2.svg" alt="" /></div>
-                                            <img src="{{ asset('public/storage/admin').'/'.auth('admin')->user()->image }}" />
+                                            <div class="icon"><img src="{{asset('public/assets/images/icon/edit-2.svg')}}" alt="" /></div>
+                                            <img onerror="this.src='{{ asset('public/assets/images/no-image.jpg') }}'" src="{{ asset('public/storage/admin').'/'.'image'.'/'.auth('admin')->user()->image }}" />
                                             <input type="file" name="image" id="zImageUpload" accept="image/*,video/*"
                                                 onchange="previewFile(this)" />
                                         </div>
@@ -167,24 +143,24 @@
                                     <div class="col-md-6">
                                         <div class="primary-form-group">
                                             <div class="primary-form-group-wrap">
-                                                <label for="epFullName" class="form-label">{{ __('Full Name') }}</label>
+                                                <label for="epFullName" class="form-label">{{ __('First Name') }}</label>
                                                 <input type="text" class="primary-form-control" id="epFullName"
-                                                    value="{{auth('admin')->user()->first_name}}" name="name"
-                                                    placeholder="{{ __('Your Name') }}" />
+                                                    value="{{auth('admin')->user()->first_name}}" name="f_name"
+                                                    placeholder="{{ __('Your First Name') }}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="primary-form-group">
+                                            <div class="primary-form-group-wrap">
+                                                <label for="epFullName" class="form-label">{{ __('Last Name') }}</label>
+                                                <input type="text" class="primary-form-control" id="epFullName"
+                                                       value="{{auth('admin')->user()->last_name}}" name="l_name"
+                                                       placeholder="{{ __('Your Last Name') }}" />
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-12">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epAbout" class="form-label">{{ __('About Me') }}</label>
-                                                <textarea class="primary-form-control min-h-180" id="epAbout"
-                                                    name="about_me"
-                                                    placeholder="{{ __('Type about yourself') }}">{!! auth('admin')->user()?->about_me !!}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <!-- Contact Info -->
@@ -207,159 +183,17 @@
                                             <div class="primary-form-group-wrap">
                                                 <label for="epEmail" class="form-label">{{ __('Personal Email Address')
                                                     }}</label>
-                                                <input type="email" value="{{auth('admin')->user()->email}}" name="email" disabled
+                                                <input type="email" value="{{auth('admin')->user()->email}}" name="email"
                                                     class="primary-form-control" id="epEmail"
                                                     placeholder="{{ __('Your Email') }}" />
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epLinkedin" class="form-label">{{ 'Linkedin Url' }}</label>
-                                                <input type="url" value="{{ auth('admin')->user()?->linkedin_url }}"
-                                                    name="linkedin_url" class="primary-form-control" id="epLinkedin"
-                                                    placeholder="{{ __('Your Linkedin Profile Url') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epFacebook" class="form-label">{{ __('Facebook Url')
-                                                    }}</label>
-                                                <input type="url" value="{{ auth('admin')->user()?->facebook_url }}"
-                                                    name="facebook_url" class="primary-form-control" id="epFacebook"
-                                                    placeholder="{{ __('Your Facebook Profile Url') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epTwitter" class="form-label">{{ __('Twitter Url')
-                                                    }}</label>
-                                                <input type="url" value="{{ auth('admin')->user()?->twitter_url }}"
-                                                    name="twitter_url" class="primary-form-control" id="epTwitter"
-                                                    placeholder="{{ __('Your Twitter Profile Url') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epInstagram" class="form-label">{{ __('Instagram Url')
-                                                    }}</label>
-                                                <input type="url" value="{{ auth('admin')->user()?->instagram_url }}"
-                                                    name="instagram_url" class="primary-form-control" id="epInstagram"
-                                                    placeholder="{{ __('Your Instagram Profile Url') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
 
-                            <div class="pb-30">
-                                <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-20">{{ __('Professional Info') }}</h4>
-                                <div class="row rg-25">
-                                    <div class="col-md-6">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epCompanyName" class="form-label">{{ __('Company Name')
-                                                    }}</label>
-                                                <input type="text" value="{{ auth('admin')->user()?->company }}" name="company"
-                                                    class="primary-form-control" id="epCompanyName"
-                                                    placeholder="{{ __('Your Current Company') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epDesignation" class="form-label">{{ __('Designation')
-                                                    }}</label>
-                                                <input type="text" value="{{ auth('admin')->user()?->company_designation }}"
-                                                    name="company_designation" class="primary-form-control"
-                                                    id="epDesignation"
-                                                    placeholder="{{ __('Your Current Designation') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epCompanyAddress" class="form-label">{{ __('Address')
-                                                    }}</label>
-                                                <input type="text" value="{{ auth('admin')->user()?->company_address }}"
-                                                    name="company_address" class="primary-form-control"
-                                                    id="epCompanyAddress"
-                                                    placeholder="{{ __('Your Company Address') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Address -->
-                            <div class="pb-30">
-                                <h4 class="fs-18 fw-500 lh-22 text-1b1c17 pb-20">{{ __('Address') }}</h4>
-                                <div class="row rg-25">
-                                    <div class="col-md-6">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epCity" class="form-label">{{ __('City') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" class="primary-form-control"
-                                                    value="{{ auth('admin')->user()?->city }}" name="city" id="epCity"
-                                                    placeholder="{{ __('Current Company City') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epCity" class="form-label">{{ __('State') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" class="primary-form-control"
-                                                    value="{{ auth('admin')->user()?->state }}" name="state" id="epCity"
-                                                    placeholder="{{ __('Current Company State') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epCountry" class="form-label">{{ __('Country') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" value="{{ auth('admin')->user()?->country }}" name="country"
-                                                    class="primary-form-control" id="epCountry"
-                                                    placeholder="{{ __('Current Company Country') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epZipCode" class="form-label">{{ __('Zip Code') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" value="{{ auth('admin')->user()?->zip }}" name="zip"
-                                                    class="primary-form-control" id="epZipCode"
-                                                    placeholder="{{ __('Current Company Zip Code') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="primary-form-group">
-                                            <div class="primary-form-group-wrap">
-                                                <label for="epAddress" class="form-label">{{ __('Address') }} <span
-                                                        class="text-danger">*</span></label>
-                                                <input type="text" value="{{ auth('admin')->user()?->address }}" name="address"
-                                                    class="primary-form-control" id="epAddress"
-                                                    placeholder="{{ __('Current Company Address') }}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                             <button type="submit"
                                 class="py-13 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">{{
                                 __('Save Changes') }}</button>
@@ -428,16 +262,6 @@
     </div>
 </div>
 
-{{--<input type="hidden" id="job-post-list-route" value="{{ route('admin.cvs.all') }}">--}}
-
-<table class="table zTable" id="cvsTable">
-    <thead>
-    <tr>
-        <th scope="col"><div>{{ __('Name') }}</div></th>
-        <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>
-    </tr>
-    </thead>
-</table>
 @endsection
 
 @push('script')

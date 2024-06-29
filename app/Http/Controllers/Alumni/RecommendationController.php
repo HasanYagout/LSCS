@@ -10,12 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class RecommendationController extends Controller
 {
-    public function index()
-    {
-        return view('alumni.recommendation.index');
-    }
-
-    public function list(Request $request)
+    public function index(Request $request)
     {
         if ($request->ajax()) {
             $recommendations = Recommendation::with(['alumni', 'admin'])
@@ -62,13 +57,20 @@ class RecommendationController extends Controller
                 ->rawColumns(['status','action'])
                 ->make(true);
         }
-
-
+        $data['title'] = __('All Recommendations');
+        $data['showRecommendationManagement']='show';
+        $data['activeRecommendation']='active';
+        return view('alumni.recommendation.index',$data);
     }
+
+
 
     public function create(Request $request){
         $data['title'] = __('Create Recommendation');
         $data['admins']=Admin::where('role_id',4)->get();
+        $data['showRecommendationManagement']='show';
+
+        $data['activeRequest']='active';
         return view('alumni.recommendation.create',$data);
     }
 

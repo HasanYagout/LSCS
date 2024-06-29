@@ -26,6 +26,7 @@ Version: 1.0
     --secondary-color: #f1a527;
     --light-secondary-color:#ffbd4f;
   --hover-color: #f1a527;
+    --hover-color-dark:#EF750F;
   --bColor: #707070;
   --colorOne: #707070;
   --colorTwo: #ebedf0;
@@ -1522,6 +1523,9 @@ bg-custom-secondary{
 .hover-bg-two:hover {
   background-color: var(--primary-color) !important;
 }
+.hover-bg-one-dark:hover{
+    background-color: var(--hover-color-dark) !important;
+}
 .hover-border-one:hover {
   border-color: var(--primary-color) !important;
 }
@@ -2096,7 +2100,7 @@ bg-custom-secondary{
   font-weight: 500;
   line-height: 1rem;
   color: var(--text-black);
-  background-color: var(--color15);
+  background-color: var(--secondary-color);
 }
 .zBadge-free {
   display: inline-block;
@@ -3712,7 +3716,7 @@ html,
 body {
   height: 100%;
   font-family: "Inter Tight", sans-serif;
-  background-color: var(--body-bg);
+  /*background-color: var(--body-bg);*/
   color: var(--bColor);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -38,7 +38,7 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
 
     Route::group(['prefix' => 'jobs', 'as' => 'jobs.'], function () {
         Route::post('add', [JobsController::class, 'add'])->name('add');
-        Route::post('status', [JobsController::class, 'toggleStatus'])->name('status');
+        Route::post('status/{id}', [JobsController::class, 'toggleStatus'])->name('status');
         Route::get('create', [JobsController::class, 'create'])->name('create');
         Route::get('/pending', [JobsController::class, 'pending'])->name('pending');
         Route::get('info/{slug}', [JobsController::class, 'info'])->name('info');
@@ -49,6 +49,15 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
         Route::get('details/{company}/{slug}', [JobsController::class, 'details'])->name('details');
         Route::get('applied/{id}', [JobsController::class, 'applied'])->name('applied');
 
+
+    });
+    Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
+        Route::post('store', [PostController::class, 'store'])->name('store');
+        Route::delete('delete', [PostController::class, 'delete'])->name('delete');
+        Route::get('edit', [PostController::class, 'edit'])->name('edit');
+        Route::PUT('update', [PostController::class, 'update'])->name('update');
+        Route::get('single-post', [PostController::class, 'getSinglePost'])->name('single');
+        Route::get('load-post-body', [PostController::class, 'getSinglePostBody'])->name('single.body');
 
     });
 });

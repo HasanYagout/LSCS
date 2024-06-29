@@ -32,6 +32,10 @@ class JobPost extends Model
     {
         return $this->belongsTo(Company::class,'user_id');
     }
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class,'user_id');
+    }
 
 
 

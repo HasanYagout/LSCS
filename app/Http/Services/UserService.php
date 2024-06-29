@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Services\SmsMail\TwilioService;
 use App\Models\Alumni;
+use App\Models\CV;
 use App\Models\FileManager;
 use App\Models\User;
 use App\Traits\ResponseTrait;
@@ -121,6 +122,7 @@ class UserService
 
     public function profileUpdate($request)
     {
+
         $authUser = auth('alumni')->user();
         try {
             DB::beginTransaction();
@@ -134,6 +136,8 @@ class UserService
                 $filename = $date . '_' . $randomSlug . '_' . $randomNumber . '.' . $image->getClientOriginalExtension();
                 $image->storeAs('alumni/image', $filename, 'public');
             }
+            $skillsData = $request->has('skills') && is_array($request->skills) ? json_encode($request->skills) : null;
+
 
 
             foreach($request->education['id'] ?? [] as $index => $id){
@@ -141,13 +145,14 @@ class UserService
                 $authUser->education()->where('id', $id)->update([
                     'type' => $request->education['type'][$index],
                     'name' => $request->education['name'][$index],
-                    'details' => $request->education['details'][$index],
+                    'title' => $request->education['title'][$index],
                     'start_date' => $request->education['start_date'][$index],
                     'end_date' => $request->education['end_date'][$index],
                 ]);
             }
-
             $authUser->education()->whereNotIn('id', $request->education['id'] ?? [])->delete();
+
+
 
             foreach($request->experience['id'] ?? [] as $index => $id){
 
@@ -160,7 +165,6 @@ class UserService
                 ]);
             }
 
-
             $authUser->experience()->whereNotIn('id', $request->experience['id'] ?? [])->delete();
 
 
@@ -170,6 +174,9 @@ class UserService
                 'date_of_birth' => $request['date_of_birth']?? $authUser->date_of_birth,
                 'about_me' => $request['about_me']?? $authUser->about_me,
                 'image' => $filename,
+                'email' => $request['email'],
+                'phone' => $request['mobile'],
+                'linedin_url' => $request['linkedin_url'],
                 'linkedin_url' => $request['linkedin_url']?? $authUser->linkedin_url,
                 'facebook_url' => $request['facebook_url']?? $authUser->facebook_url,
                 'twitter_url' => $request['twitter_url']?? $authUser->twitter_url,
@@ -179,13 +186,15 @@ class UserService
                 'company_address' => $request['company_address'] ?? '',
                 'city' => $request['city']?? $authUser->city,
                 'address' => $request['address']?? $authUser->address,
-                'skills' => json_encode($request->skills)?? $authUser->skills,
+                'skills' => $skillsData,
+
             ]);
 
 
 
             DB::commit();
-            return $this->success([], getMessage(UPDATED_SUCCESSFULLY));
+            session()->flash('success', 'Profile Updated Successfully');
+            return redirect()->route('alumni.profile.index');
         } catch (Exception $e) {
             dd($e);
             DB::rollBack();
@@ -198,6 +207,12 @@ class UserService
     {
         $authUser = auth('alumni')->user();
 
+        // Check if the user already has three education records
+
+        if ($authUser->experience()->count() >= 3) {
+            session()->flash('error', 'You have reached the maximum limit for experience records.');
+            return redirect()->route('alumni.profile.index');
+        }
         $data = $request->validate([
             "name" =>  'bail|required|max:195',
             "position" =>  'bail|required|max:195',
@@ -220,7 +235,50 @@ class UserService
 
 
             DB::commit();
-            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+            session()->flash('success', 'Experience Added Successfully');
+            return redirect()->route('alumni.profile.index');
+        } catch (Exception $e) {
+            dd($e);
+            DB::rollBack();
+            session()->flash('error', $e);
+            return redirect()->route('alumni.profile.index');
+        }
+    }
+
+    public function addCV(Request $request)
+    {
+
+        $data = $request->validate([
+            'cv.*' => 'required|mimes:pdf|max:2048', // Validate each file as PDF
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            if ($request->hasFile('cv')) {
+                foreach ($request->file('cv') as $cv) {
+                    $date = date('Ymd'); // Current date
+                    $randomNumber = rand(1000, 9999); // Random number
+                    $originalName = pathinfo($cv->getClientOriginalName(), PATHINFO_FILENAME);
+                    $slug = Str::slug($originalName); // Slugified file name
+                    $extension = $cv->getClientOriginalExtension(); // File extension
+                    $fileName = "{$date}_{$randomNumber}_{$slug}.{$extension}"; // Combine them
+                    $cv->move(storage_path('app/public/alumni/cv'), $fileName);
+
+                    CV::create([
+                        'alumni_id' => auth('alumni')->id(),
+                        'name' => $fileName,
+                        'slug' => Str::slug($slug),
+                    ]);
+                }
+            }
+
+
+            DB::commit();
+
+            // Flash success message and redirect
+            return redirect()->route('alumni.profile.index')
+            ->with('success', getMessage(CREATED_SUCCESSFULLY));
         } catch (Exception $e) {
             dd($e);
             DB::rollBack();
@@ -231,10 +289,16 @@ class UserService
     public function addEducation(Request $request)
     {
         $authUser = auth('alumni')->user();
+        // Check if the user already has three education records
+
+        if ($authUser->education()->count() >= 3) {
+            session()->flash('error', 'You have reached the maximum limit for education records.');
+            return redirect()->route('alumni.profile.index');
+        }
         $data = $request->validate([
             "education_type" =>  'bail|required|max:195',
             "education_name" =>  'bail|required|max:195',
-            "education_details" =>  'bail|required|max:1000',
+            "education_title" =>  'bail|required|max:1000',
             "education_start_date" =>  'required',
             "education_end_date" =>  'required',
         ]);
@@ -245,7 +309,7 @@ class UserService
                 'alumni_id'=>auth('alumni')->user()->id,
                 'type' => $data['education_type'],
                 'name' => $data['education_name'],
-                'details' => $data['education_details'],
+                'title' => $data['education_title'],
                 'start_date' => $data['education_start_date'],
                 'end_date' => $data['education_end_date'],
             ]);
@@ -253,7 +317,8 @@ class UserService
 
 
             DB::commit();
-            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+            session()->flash('success', 'Education Added Successfully');
+            return redirect()->route('alumni.profile.index');
         } catch (Exception $e) {
             dd($e);
             DB::rollBack();

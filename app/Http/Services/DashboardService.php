@@ -30,7 +30,7 @@ class DashboardService
     }
 
     public function getLatestJobs(){
-        $latestJobs = JobPost::orderBy('application_deadline', 'DESC')->with('company')->where('status', STATUS_ACTIVE)->limit(2)->get();
+        $latestJobs = JobPost::orderBy('application_deadline', 'DESC')->with('company','admin')->where('status', STATUS_ACTIVE)->limit(2)->get();
 
         return $this->success($latestJobs);
     }

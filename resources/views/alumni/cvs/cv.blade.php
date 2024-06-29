@@ -2,104 +2,152 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Friendly CV</title>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
         body {
-            font-size: 14px;
-        }
-        .container {
-            display: flex;
-        }
-        .left, .right {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            margin: 40px auto;
+            max-width: 800px;
+            background-color: #f8f8f8;
             padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: #333;
         }
-        .left {
-            width: 35%;
-            background-color: #002a5c;
-            color: white;
-            padding: 20px;
+
+        header {
+            text-align: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
-        .right {
-            width: 65%;
-            background-color: #f1a527;
-            padding: 20px;
+
+        header h1 {
+            font-size: 28px;
+            margin: 0;
+            color: #333;
         }
-        .left h1 {
-            font-size: 30px;
+
+        header p {
+            font-size: 16px;
+            color: #666;
+            margin: 4px 0;
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        section h2 {
+            font-size: 22px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
             margin-bottom: 10px;
+            color: #333;
         }
-        .left h2 {
-            font-size: 20px;
-            margin-bottom: 5px;
+
+        section ul {
+            list-style-type: none;
+            padding: 0;
         }
-        .left p, .right p {
+
+        section li {
             margin-bottom: 10px;
+            padding-left: 10px;
+            position: relative;
         }
-        .left hr {
-            border: 1px solid white;
-            margin: 10px 0;
+
+        section li::before {
+            content: "•";
+            color: #333;
+            font-size: larger;
+            position: absolute;
+            left: 0;
         }
-        .section-title {
-            font-size: 18px;
+
+        strong {
+            color: #333;
             font-weight: bold;
-            margin-bottom: 10px;
         }
-        .experience-item, .education-item, .language-item {
-            margin-bottom: 10px;
+
+        .skills li, .experience li {
+            padding-left: 15px;
         }
-        .experience-item span, .education-item span, .language-item span {
-            display: block;
+
+        .skills ul {
+            columns: 2;
+            -webkit-columns: 2;
+            -moz-columns: 2;
+        }
+
+        .skills li {
+            -webkit-column-break-inside: avoid;
+            page-break-inside: avoid;
+            break-inside: avoid;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="left">
-        <h1>{{$cv->first_name}} {{$cv->last_name}}</h1>
-        <hr>
-        <h2>Contact Info</h2>
-        <p>Phone: {{$cv->phone}}</p>
-        <p>Email: {{$cv->email}}</p>
-        <p>Address: {{$cv->address}}</p>
-        <hr>
-        <h2>Education</h2>
-        @foreach(json_decode($cv->education) as $education)
-            <div class="education-item">
-                <span>{{$education->start_date}} - {{$education->end_date}}</span>
-                <span>{{$education->title}}</span>
-                <span>{{$education->name}}</span>
-            </div>
-        @endforeach
-        <hr>
-        <h2>Languages</h2>
-        @foreach(json_decode($cv->languages) as $language)
-            <div class="language-item">
-                <span>{{$language->name}}</span>
-                <span>{{$language->level}}</span>
-            </div>
-        @endforeach
-    </div>
-    <div class="right">
-        <div class="section-title">Profile</div>
-        <p>{!! $cv->profile !!}</p>
-        <hr>
-        <div class="section-title">Experience</div>
-        @foreach(json_decode($cv->experience) as $experience)
-            <div class="experience-item">
-                <span>{{$experience->start_date}} - {{$experience->end_date}}</span>
-                <span>{{$experience->company}}</span>
-                <span>{{$experience->position}}</span>
-                <span>{{$experience->details}}</span>
-            </div>
-        @endforeach
-    </div>
-{{--    {{dd('dsadsa')}}--}}
-</div>
+<header>
+    <h1>{{$user->first_name.' '.$user->last_name}}</h1>
+    <p>Software Developer | Web Designer</p>
+    <p>Email: {{$user->email}} | Phone: {{$user->phone}}</p>
+</header>
+
+<section class="education">
+    <h2>Education</h2>
+    <ul>
+    @foreach($user->education as $education)
+            @if($education->type === 'university')
+                <li>
+                    <strong>{{$education->title}}</strong> - {{$education->name}}
+                    ({{\Illuminate\Support\Carbon::parse($education->start_date)->format('Y')}} -
+                    @if(\Illuminate\Support\Carbon::parse($education->end_date)->format('Y') == now()->format('Y'))
+                        Present)
+                    @else
+                        {{\Illuminate\Support\Carbon::parse($education->end_date)->format('Y')}}
+                    @endif
+                </li>
+            @else
+        <li><strong>{{$education->title}}</strong> - {{$education->name}} ({{\Illuminate\Support\Carbon::parse($education->start_date)->format('Y')}} - {{\Illuminate\Support\Carbon::parse($education->end_date)->format('Y')}})</li>
+
+            @endif
+
+    @endforeach
+    </ul>
+</section>
+
+<section class="experience">
+    <h2>Professional Experience</h2>
+    <ul>
+        @if($user->experience)
+            @foreach($user->experience as $experience)
+                <strong>{{$experience->position}}</strong> - {{$experience->name}} ({{\Illuminate\Support\Carbon::parse($experience->start_date)->format('Y')}}-{{\Illuminate\Support\Carbon::parse($education->end_date)->format('Y') == now()->format('Y')?'present':\Illuminate\Support\Carbon::parse($education->end_date)->format('Y')}})
+
+                {!! $experience->details !!}
+
+
+            @endforeach
+        @endif
+
+
+    </ul>
+</section>
+
+        @if($user->skills)
+<section class="skills">
+    <h2>Skills</h2>
+    <ul>
+
+            @foreach(json_decode($user->skills) as $skill)
+                <li>{{$skill}}</li>
+            @endforeach
+
+    </ul>
+</section>
+        @endif
+
 </body>
 </html>

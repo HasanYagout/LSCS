@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\CV;
 use App\Models\JobPost;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Services\JobPostService;
 use App\Traits\ResponseTrait;
@@ -29,8 +30,8 @@ class JobPostController extends Controller
 
         $data['title'] = __('Pending Jobs');
         $data['showJobPostManagement'] = 'show';
-        $data['activeMyJobPostList'] = 'active-color-one';
-        $data['appliedJobs'] = AppliedJobs::with('job')->where('alumni_id',auth('alumni')->id())->get();
+        $data['activePendingJobPostList'] = 'active-color-one';
+        $data['appliedJobs'] = AppliedJobs::with('job')->where('alumni_id',auth('alumni')->id())->paginate();
         return view('alumni.jobs.pending', $data);
     }
     public function info($slug)
@@ -62,31 +63,37 @@ class JobPostController extends Controller
     {
         $data['title'] = __('Job Details');
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);;
-        return view('alumni.jobs.job_details', $data);
+        return view('alumni.jobs.job_post_view', $data);
     }
 
-    public function apply(Request $request,$company,$slug)
+    public function apply(Request $request, $company, $slug)
     {
-        $job = new AppliedJobs();
-        $job->alumni_id = auth('alumni')->id();
-        $job->company_id = $company;
-        $job->cv_id=$request->cv_id;
-        $jobPost = JobPost::where('slug', $slug)->first();
-        $job->job_id = $jobPost->id;
-        $jobPost->applied_by += 1; // Increment the applied_by field by 1
-        $jobPost->save(); // Save the updated job post
-        $job->save();
+       return $this->jobPostService->apply($request, $company, $slug);
     }
 
     public function all(Request $request)
     {
-
         $data['title'] = __('All Job Post');
         $data['showJobPostManagement'] = 'show';
         $data['activeAllJobPostList'] = 'active-color-one';
-        $data['jobs']=JobPost::where('status', STATUS_ACTIVE)
-            ->orWhere('status', STATUS_INACTIVE)
-            ->get();
+
+        // Retrieve the search term from the request
+        $searchTerm = $request->input('search');
+
+        // Filter jobs based on the search term
+        $data['jobs'] = JobPost::query()
+            ->where(function($query) use ($searchTerm) {
+                $query->where('title', 'LIKE', "%{$searchTerm}%")
+                    ->orWhereHas('company', function($query) use ($searchTerm) {
+                        $query->where('name', 'LIKE', "%{$searchTerm}%");
+                    })
+                    ->orWhere('location', 'LIKE', "%{$searchTerm}%");
+            })
+            ->where('status', STATUS_ACTIVE)  // Assuming you still want to filter by status
+            ->orderBy('id', 'desc')
+            ->paginate(10);
+
         return view('alumni.jobs.all-job-post', $data);
     }
+
 }

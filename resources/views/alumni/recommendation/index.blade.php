@@ -1,9 +1,11 @@
 @extends('layouts.app')
-
+@push('title')
+    {{ __($title) }}
+@endpush
 @section('content')
     <div class="p-30">
         <div>
-            <input type="hidden" id="recommendation-route" value="{{ route('alumni.recommendation.list') }}">
+            <input type="hidden" id="recommendation-route" value="{{ route('alumni.recommendation.index') }}">
             <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
             </div>
             <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">

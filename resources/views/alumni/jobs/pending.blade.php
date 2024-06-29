@@ -87,7 +87,7 @@
                 </div>
             @endforeach
         </div>
-
+        {{$jobs->paginate()}}
         <!-- Repeat the above card for each job listing -->
     </div>
 

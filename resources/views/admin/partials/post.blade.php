@@ -7,7 +7,7 @@
         <!-- User -->
         <div class="d-flex align-items-center cg-10">
             <div class="flex-shrink-0 w-45 h-45 bd-one bd-c-cdef84 rounded-circle overflow-hidden">
-                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $post->created_by == 'admin' ? asset('public/storage/admin/' . $post->creator->image) : asset('public/storage/company/' . $post->creator->image) }}" class="w-100" alt="{{__('post')}}" />
+                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $post->created_by == 'admin' ? asset('public/storage/admin/' .'image'.'/'. $post->creator->image) : asset('public/storage/company/' .'image'.'/'. $post->creator->image) }}" class="w-100" alt="{{__('post')}}" />
             </div>
             <div class="">
                 <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{ $post->created_by == 'admin' ? $post->creator->first_name .' '.$post->creator->last_name : $post->creator->name }}</h4>
@@ -96,8 +96,8 @@
                 <a href="{{ asset('public/storage/posts').'/'.$media->name}}"
                     class="video">
                     <video
-                        src="{{ asset('public/storage/posts').'/'.$media->name}}}"></video>
-                    <button class="vidPly-btn"><img src="{{ asset('assets/images/icon/play-btn.svg')}}" /></button>
+                        src="{{ asset('public/storage/posts').'/'.$media->name}}"></video>
+                    <button class="vidPly-btn"><img src="{{ asset('public/assets/images/icon/play-btn.svg')}}" /></button>
                     @if($index == 2 && count($post->media) > 3)
                     <div class='morePhotos'>+{{ count($post->media)-$index }}</div>
                     @endif

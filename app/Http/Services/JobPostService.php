@@ -1,13 +1,16 @@
 <?php
 
 namespace App\Http\Services;
+use App\Models\AppliedJobs;
 use App\Models\JobPost;
 use App\Traits\ResponseTrait;
 use App\Models\FileManager;
 use App\Models\Notice;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class JobPostService
@@ -21,6 +24,55 @@ class JobPostService
     public function getBySlug($slug)
     {
         return JobPost::where('slug', $slug)->firstOrFail();
+    }
+
+    public function apply(Request $request, $company, $slug)
+    {
+        DB::beginTransaction();
+
+        try {
+            // Validate the request data, specifically ensuring cv_id is present
+            $validatedData = $request->validate([
+                'cv_id' => 'required|integer',  // Validate that cv_id is required and is an integer
+            ]);
+
+            $alumniId = auth('alumni')->id();
+            $jobPost = JobPost::where('slug', $slug)->firstOrFail();
+
+            // Check if the alumni has already applied for the job
+            $alreadyApplied = AppliedJobs::where('alumni_id', $alumniId)
+                ->where('job_id', $jobPost->id)
+                ->exists();
+
+            if ($alreadyApplied) {
+                session()->flash('error', 'You have already applied for this job.');
+                return redirect()->route('alumni.jobs.all-job-post');
+            }
+
+            // Proceed with the application
+            $job = new AppliedJobs();
+            $job->alumni_id = $alumniId;
+            $job->company_id = $company;
+            $job->cv_id = $validatedData['cv_id']; // Use the validated cv_id
+            $job->job_id = $jobPost->id;
+            $jobPost->applied_by += 1;  // Increment the applied_by field by 1
+            $jobPost->save(); // Save the updated job post
+            $job->save();
+
+            // Commit the transaction
+            DB::commit();
+
+            session()->flash('success', 'Job Applied Successfully');
+            return redirect()->route('alumni.jobs.all-job-post');
+        } catch (\Exception $e) {
+            // Roll back the transaction on error
+            DB::rollBack();
+            // Log the error for administrative review
+            Log::error('Job application error: ' . $e->getMessage());
+            // Flash a more descriptive error message to the session
+            session()->flash('error',  $e->getMessage());
+            return redirect()->route('alumni.jobs.all-job-post');
+        }
     }
 
     public function getMyJobPostList(){
@@ -70,65 +122,94 @@ class JobPostService
 
 
     public function getAllJobPostList(){
-        $features = JobPost::where('tenant_id', getTenantId())->where('status',JOB_STATUS_APPROVED)->orderBy('id','desc')->get();
+        $authUser = $this->getAuthenticatedUser(['company', 'admin']);
+        if ($authUser->name=='admin'){
+            $features = JobPost::where('posted_by','admin')->orWhere('posted_by','company')->orderBy('id','desc')->get();
+
+        }
+        else{
+        $features = JobPost::where('user_id',$authUser->user()->id)->where('posted_by',$authUser->name)->orderBy('id','desc')->get();
+        }
+
         return datatables($features)
             ->addIndexColumn()
-            ->addColumn('company_logo', function ($data) {
-                return '<img src="' . getFileUrl($data->company_logo) . '" alt="icon" class="rounded avatar-xs max-h-35">';
-            })
-            ->addColumn('title', function ($data) {
-                return htmlspecialchars($data->title);
-            })
-            ->addColumn('employee_status', function ($data) {
-                return $this->getEmployeeStatusById($data->employee_status);
-            })
+            ->addColumn('company_logo', function ($data) use($authUser){
 
-            ->addColumn('application_deadline', function ($data) {
-               return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
-            })
-            ->addColumn('status', function ($data) {
-                return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
-            })
-            ->addColumn('action', function ($data) {
-                if(auth()->user()->role == USER_ROLE_ADMIN){
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                                <li class="d-flex gap-2">
-                                    <button onclick="getEditModal(\'' . route('jobPost.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                                    </button>
-                                    <button onclick="deleteItem(\'' . route('jobPost.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                                    </button>
-                                    <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
-                                </li>
-                            </ul>';
-                }else{
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                    <li class="d-flex gap-2">
-                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
-                    </li>
-                </ul>';
+                if ($authUser->name=='admin'){
+                    if ($data->posted_by=='company'){
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                    }
+                    else{
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . auth('admin')->user()->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+
+                    }
                 }
 
             })
+            ->addColumn('company', function ($data) {
 
-            ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'salary', 'application_deadline'])
+                return htmlspecialchars($data->title);
+            })
+            ->addColumn('posted_by', function ($data) {
+
+                return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16' . ($data->posted_by == 'admin' ? ' text-0fa958 bg-0fa958-10' : ' text-f5b40a bg-f5b40a-10') . '">' . $data->posted_by . '</p>';
+
+            })
+
+            ->addColumn('status', function ($data){
+                $checked = $data->status ? 'checked' : '';
+                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                <li class="d-flex gap-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
+                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
+                    </div>
+                </li>
+            </ul>';
+            })
+            ->addColumn('action', function ($data) use ($authUser) {
+                $auth = $authUser->user()->getTable() === 'companies' ? 'company' : 'admin';
+                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                                <li class="d-flex gap-2">
+                                    <button onclick="getEditModal(\'' . route($auth.'.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
+                                    </button>
+                                    <button onclick="deleteItem(\'' . route($auth.'.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
+                                    </button>
+                                    <a href="' . route($auth.'.jobs.details', ['company'=>auth('company')->id(),'slug'=>$data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+                                </li>
+                            </ul>';
+            })
+            ->rawColumns(['company_logo','posted_by','status' ,'action', 'company', 'employee_status', 'application_deadline'])
             ->make(true);
     }
 
 
     public function getPendingJobPostList(){
-        $features = JobPost::where('status',JOB_STATUS_APPROVED)->where('posted_by','company')->orderBy('id','desc')->get();
+
+        $authUser = $this->getAuthenticatedUser(['company', 'admin']);
+        if ($authUser->name=='admin'){
+            $features = JobPost::where('posted_by','admin')->where('status',JOB_STATUS_APPROVED)->orWhere('posted_by','company')->orderBy('id','desc')->get();
+
+        }
+        else{
+            $features = JobPost::where('user_id',$authUser->user()->id)->where('status',JOB_STATUS_APPROVED)->where('posted_by',$authUser->name)->orderBy('id','desc')->get();
+        }
+
         return datatables($features)
             ->addIndexColumn()
-            ->addColumn('company_logo', function ($data) {
-                if ($data->posted_by=='company'){
-                    return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
-                }
-                else{
-                    return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . auth('admin')->user()->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+            ->addColumn('company_logo', function ($data) use($authUser) {
+                if ($authUser->name=='admin'){
+                    if ($data->posted_by=='company'){
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                    }
+                    else{
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . auth('admin')->user()->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
 
+                    }
                 }
+
             })
             ->addColumn('title', function ($data) {
                 return htmlspecialchars($data->title);
@@ -154,25 +235,50 @@ class JobPostService
             ->make(true);
     }
 
+    public function changeStatus(Request $request, $id)
+    {
+        $job = JobPost::with('company')->find($id);
+        if (!$job) {
+            return response()->json(['success' => false, 'message' => 'Job not found.']);
+        }
 
-    public function store($request)
+        if (auth('admin')->check() && $job->company && $job->company->status == 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to update job status because the associated company is inactive. Please update the company status first.'
+            ]);
+        }
+
+        // Proceed with updating the job status
+        $job->status = $request->status;
+        $job->save();
+
+        return response()->json(['success' => true, 'message' => 'Job status updated successfully.']);
+    }
+
+    public function store(Request $request)
     {
         try {
             DB::beginTransaction();
-            if (JobPost::where('slug', getSlug($request->title))->count() > 0) {
-                $slug = getSlug($request->title) . '-' . rand(100000, 999999);
-            } else {
-                $slug = getSlug($request->title);
+
+            // Helper to get the authenticated user from multiple guards
+            $authUser = $this->getAuthenticatedUser(['company', 'admin']);
+
+            if (!$authUser) {
+                return redirect()->route('login')->with('error', 'Not authenticated');
             }
+            // Generate a unique slug
+            $slugBase = Str::slug($request->title);
+            $slug = JobPost::where('slug', 'like', $slugBase . '%')->exists() ?
+                $slugBase . '-' . rand(100000, 999999) : $slugBase;
 
             $jobPost = new JobPost();
             $jobPost->title = $request->title;
             $jobPost->slug = $slug;
-            $jobPost->user_id = auth('company')->id();
-            $jobPost->compensation_n_benefits = $request->compensation_n_benefits;
-            $jobPost->salary = $request->salary;
+            $jobPost->user_id = $authUser->user()->id;
+            $jobPost->posted_by = $authUser->name; // Use table name as a proxy for role if roles are distinct by table
             $jobPost->location = $request->location;
-            $jobPost->post_link = $request->post_link?$request->post_link:'';
+            $jobPost->post_link = $request->post_link ?: '';
             $jobPost->application_deadline = $request->application_deadline;
             $jobPost->job_responsibility = $request->job_responsibility;
             $jobPost->job_context = $request->job_context;
@@ -180,33 +286,30 @@ class JobPostService
             $jobPost->additional_requirements = $request->additional_requirements;
             $jobPost->employee_status = $request->employee_status;
             $jobPost->status = JOB_STATUS_PENDING;
-            $jobPost->posted_by= 'company';
+            $jobPost->skills = json_encode($request->skills);
 
-            if ($request->hasFile('company_logo')) {
-                // Get the original file extension
-                $extension = $request->company_logo->getClientOriginalExtension();
-
-                // Generate the new file name
-                $date = Carbon::now()->format('Ymd');
-                $slug = Str::slug($request->title);
-                $randomNumber = rand(1000, 9999);
-                $newFileName = "{$date}_{$slug}_{$randomNumber}.{$extension}";
-                // Save the file to the specified directory
-                $request->company_logo->storeAs('public/company/logo/', $newFileName);
-
-
-                // Get the file URL or ID depending on your file manager
-                $jobPost->company_logo = $newFileName; // Assuming you want to save the file path
-            }
             $jobPost->save();
             DB::commit();
-            session()->flash('success','Job Created Successfully');
+            session()->flash('success', 'Job Created Successfully');
             return redirect()->route('company.jobs.all-job-post');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
-            return $this->error([], getMessage(SOMETHING_WENT_WRONG));
+            session()->flash('error', 'Failed to create job: ' . $e->getMessage());
+            return back();
         }
+    }
 
+    /**
+     * Helper to get the authenticated user from multiple guards.
+     */
+    private function getAuthenticatedUser(array $guards)
+    {
+        foreach ($guards as $guard) {
+            if (auth($guard)->check()) {
+                return auth($guard);
+            }
+        }
+        return null;
     }
 
     public function update($oldSlug, $request)
@@ -219,14 +322,13 @@ class JobPostService
             } else {
                 $slug = getSlug($request->title);
             }
-
             $jobPost = JobPost::where('slug',$oldSlug)->firstOrFail();
             $jobPost->title = $request->title;
-            $jobPost->compensation_n_benefits = $request->compensation_n_benefits;
-            $jobPost->salary = $request->salary;
+
             $jobPost->location = $request->location;
-            $jobPost->post_link = $request->post_link;
+            $jobPost->placement_link = $request->post_link;
             $jobPost->application_deadline = $request->application_deadline;
+            $jobPost->skills = $request->skills;
             $jobPost->job_responsibility = $request->job_responsibility;
             $jobPost->educational_requirements = $request->educational_requirements;
             $jobPost->additional_requirements = $request->additional_requirements;
@@ -235,11 +337,8 @@ class JobPostService
                 $jobPost->status = $request->status;
             }
             $jobPost->job_context = $request->job_context;
-            if ($request->hasFile('company_logo')) {
-                $new_file = new FileManager();
-                $uploaded = $new_file->upload('job_post', $request->company_logo);
-                $jobPost->company_logo = $uploaded->id;
-            }
+
+
             $jobPost->save();
             DB::commit();
             session()->flash('success','Job updated successfully');

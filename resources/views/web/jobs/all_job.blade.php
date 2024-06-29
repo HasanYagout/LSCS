@@ -3,7 +3,7 @@
     {{ $title }}
 @endpush
 @section('content')
-    <section class="breadcrumb-wrap py-50 py-md-75 py-lg-100" data-background="{{ getSettingImage('page_breadcrumb') }}">
+    <section class="breadcrumb-wrap py-50 py-md-75 py-lg-100">
         <div class="text-center position-relative">
             <h4 class="fs-50 fw-700 lh-60 text-white pb-8">{{ $title }}</h4>
             <ul class="breadcrumb-list">
@@ -26,7 +26,7 @@
                                 <div class="d-flex align-items-center flex-wrap flex-sm-nowrap rg-10 cg-11 pb-17">
                                     <div
                                         class="flex-shrink-0 w-51 h-51 bd-one bd-c-stroke-color rounded-circle d-flex justify-content-center align-items-center">
-                                        <img src="{{ getFileUrl($job->company_logo) }}" alt="">
+                                        <img src="{{ asset('public/storage/company').'/'.$job->company_logo }}" alt="">
                                     </div>
                                     <div class="">
                                         <h4 class="fs-20 fw-500 lh-18 text-black-color mb-8 line-clamp-1 sf-text-ellipsis">
@@ -54,7 +54,7 @@
                                                 src="{{ asset('/frontend/images/icon/bag-suitcase.svg') }}" alt="">
                                         </div>
                                         <p class="fs-18 fw-400 lh-16 text-para-color">
-                                            {{ getEmployeeStatus($job->employee_status) }}, </p>
+                                            {{ $job->employee_status}}, </p>
                                     </div>
                                     <div class="d-flex align-items-center cg-7">
                                         <div class="d-flex"><img src="{{ asset('public/frontend/images/icon/location-1.svg') }}"

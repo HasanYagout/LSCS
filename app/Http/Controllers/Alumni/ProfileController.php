@@ -31,6 +31,7 @@ class ProfileController extends Controller
     public function profile()
     {
         $data['activeProfile'] = 'active';
+        $data['showProfileManagement'] = 'show';
         $data['user'] = $this->userService->userData();
         return view('alumni.profile',$data);
     }
@@ -40,9 +41,34 @@ class ProfileController extends Controller
         return $this->userService->profileUpdate($request);
     }
 
+    public function generateCV()
+    {
+        $user = auth('alumni')->user(); // Load the user with related data
+        $html = view('alumni.cvs.cv', compact('user'))->render();
+
+        $mpdf = new \Mpdf\Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 10,
+            'margin_bottom' => 10,
+            'margin_header' => 10,
+            'margin_footer' => 10
+        ]);
+        $mpdf->WriteHTML($html);
+        $mpdf->Output('detailed_cv.pdf', 'D'); // D - download, I - inline
+    }
+
     public function addEducation(Request $request){
 
         return $this->userService->addEducation($request);
+    }
+
+    public function addCV(Request $request)
+    {
+        return $this->userService->addCV($request);
+
     }
 
     public function addExperience(Request $request)
@@ -56,33 +82,13 @@ class ProfileController extends Controller
        return $this->userService->changePasswordUpdate($request);
     }
 
-    public function security(){
-        $user = User::where('id',auth()->user()->id)->first();
-        $google2fa = new Google2FA();
-        $data['qr_code']= $google2fa->getQRCodeInline(
-            getOption('app_name'),
-            $user->email,
-            $user->google2fa_secret
-        );
-        return view('profile.security',$data);
-    }
 
-    public function smsSend(Request $request){
-        return $this->userService->smsSend($request);
-    }
-    public function smsReSend(){
-        return $this->userService->smsReSend();
-    }
-    public function smsVerify(Request $request){
-        $request->validate([
-            'opt-field.*' => 'required|numeric|',
-        ]);
-        return $this->userService->smsVerify($request);
-    }
+
 
 
 
     public function list_cvs(Request $request){
+
         if ($request->ajax()) {
             $cvs = CV::where('alumni_id',auth('alumni')->id())->orderBy('id','desc')->get();
 
@@ -107,9 +113,11 @@ class ProfileController extends Controller
                 ->make(true);
         }
         $data['title'] = __('All Job Post');
-        $data['showJobPostManagement'] = 'show';
-        $data['activeAllJobPostList'] = 'active-color-one';
-        return view('alumni.jobs.all-job-post', $data);
+        $data['showCvManagement'] = 'show';
+        $data['activeCvList'] = 'active-color-one';
+        $data['cvs']=auth('alumni')->user()->cvs;
+
+        return view('alumni.cvs.all', $data);
     }
 
     public function create_cv()

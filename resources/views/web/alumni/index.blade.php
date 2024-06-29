@@ -4,7 +4,7 @@
 @endpush
 @section('content')
 
-    <section class="breadcrumb-wrap py-50 py-md-75 py-lg-100" data-background="{{getSettingImage('page_breadcrumb')}}">
+    <section class="breadcrumb-wrap py-50 py-md-75 py-lg-100">
         <div class="text-center position-relative">
             <h4 class="fs-50 fw-700 lh-60 text-white pb-8">{{$title}}</h4>
             <ul class="breadcrumb-list">
@@ -20,12 +20,12 @@
             <div class="pb-62">
                 <div class="row rg-24">
 
-                    @forelse ( $allAlumni as $alumni )
+                    @forelse ( $allAlumni as $alumni)
 
                         <div class="col-lg-3 col-md-4 col-sm-6">
                             <div class="bd-ra-25 bg-event-bg">
                                 <div class="bd-ra-25 overflow-hidden h-341">
-                                    <img class="w-100 h-100 object-fit-cover" src="{{getFileUrl($alumni->image)}}" alt="{{$alumni->first_name}}">
+                                    <img class="w-100 h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/alumni').'/'.$alumni->image}}" alt="{{$alumni->first_name}}">
                                 </div>
                                 <div class="pt-21 pb-23 px-10 text-center">
                                     <h4 class="fs-20 fw-600 lh-28 text-black-color pb-2">{{$alumni->first_name.' '.$alumni->last_name}}</h4>

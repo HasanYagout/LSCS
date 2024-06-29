@@ -143,7 +143,6 @@
                                                         src="{{ asset('public/assets/images/icon/dollar-coin.svg') }}"
                                                         alt="" />
                                                 </div>
-                                                <p class="fs-14 fw-400 lh-16 text-707070">{{ $job->salary }}</p>
                                             </li>
                                         </ul>
                                         <!-- Link -->
@@ -202,7 +201,7 @@
                             <!-- Title -->
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Latest News') }}</h4>
-                                <a href="{{ route('alumni.all.news') }}"
+                                <a href="{{ route('alumni.news.index') }}"
                                    class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
@@ -376,7 +375,6 @@
                                             <div class="d-flex"><img
                                                     src="{{ asset('public/assets/images/icon/dollar-coin.svg') }}"
                                                     alt="" /></div>
-                                            <p class="fs-14 fw-400 lh-16 text-707070">{{ $job->salary }}</p>
                                         </li>
                                     </ul>
                                     <!-- Link -->
@@ -434,7 +432,7 @@
                         <!-- Title -->
                         <div class="d-flex justify-content-between align-items-center pb-30">
                             <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Latest News') }}</h4>
-                            <a href="{{ route('alumni.all.news') }}"
+                            <a href="{{ route('alumni.news.index') }}"
                                class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
                                 <span>{{ __('See All') }}</span>
                                 <span><i class="fa-solid fa-arrow-right"></i></span>
