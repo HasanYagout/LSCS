@@ -88,18 +88,6 @@
                                         <p>{{ auth('admin')->user()->first_name.' '.auth('admin')->user()->last_name }}</p>
                                     </li>
 
-                                    @if (auth('admin')->user()->show_email_in_public == STATUS_SUCCESS)
-                                    <li>
-                                        <p>{{ __('Email') }} :</p>
-                                        <p>{{auth('admin')->user()->email}}</p>
-                                    </li>
-                                    @endif
-                                    @if (auth('admin')->user()->show_phone_in_public == STATUS_SUCCESS)
-                                    <li>
-                                        <p>{{ __('Phone') }} :</p>
-                                        <p>{{auth('admin')->user()->phone}}</p>
-                                    </li>
-                                    @endif
 
                                     <li>
                                         <p>{{ __('Phone') }} :</p>
@@ -197,7 +185,10 @@
                             <button type="submit"
                                 class="py-13 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">{{
                                 __('Save Changes') }}</button>
+                            <button type="button" onclick="resetPassword('{{ route('admin.reset-password', ['id' => auth('admin')->id()]) }}')" class="py-13 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">Reset Password</button>
+
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -281,6 +272,43 @@
                 }
             });
         });
+    </script>
+    <script>
+        // Function to handle resetting password
+        function resetPassword(url, id) {
+            Swal.fire({
+                title: 'Reset Password',
+                text: 'Are you sure you want to reset this admin\'s password?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Reset It!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function (response) {
+                            if (response.message) {
+                                Swal.fire('Success', response.message, 'success');
+                                window.location.href = '{{ route("admin.auth.login") }}'; // Redirect to admin login page
+
+                            } else {
+                                Swal.fire('Error', 'Failed to reset password.', 'error');
+                            }
+                        },
+                        error: function (error) {
+                            Swal.fire('Error', 'Failed to reset password: ' + error.responseJSON.error, 'error');
+                        }
+                    });
+                }
+            });
+        }
+
     </script>
 <script src="{{ asset('public/admin/js/profile.js') }}"></script>
 <script src="{{ asset('public/admin/js/cvs.js') }}"></script>

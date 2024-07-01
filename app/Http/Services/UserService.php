@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class UserService
@@ -175,7 +176,7 @@ class UserService
                 'about_me' => $request['about_me']?? $authUser->about_me,
                 'image' => $filename,
                 'email' => $request['email'],
-                'phone' => $request['mobile'],
+                'mobile' => $request['mobile'],
                 'linedin_url' => $request['linkedin_url'],
                 'linkedin_url' => $request['linkedin_url']?? $authUser->linkedin_url,
                 'facebook_url' => $request['facebook_url']?? $authUser->facebook_url,
@@ -325,31 +326,41 @@ class UserService
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
         }
     }
-    public function changePasswordUpdate(Request $request)
+    public function changePassword(Request $request)
     {
+        // Using the custom 'alumni' guard
+        $guard = Auth::guard('alumni');
 
-        $request->validate([
-            'current_password' => 'required',
-            'password' => 'bail|required|min:6|confirmed',
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required|min:6',
+            'new_password' => 'required|min:6|confirmed',
         ]);
 
-        try {
-            $hashedPassword = Auth::user()->password;
-
-            if (Hash::check($request->current_password, $hashedPassword)) {
-                DB::beginTransaction();
-                $user = User::find(Auth::id());
-                $user->password = Hash::make($request->password);
-                $user->save();
-                DB::commit();
-                return $this->success([], getMessage(UPDATED_SUCCESSFULLY));
-            } else {
-                return $this->error([], "Current password dose not match!");
-            }
-        }catch (Exception $e){
-            return $this->error([], getMessage(SOMETHING_WENT_WRONG));
+        if ($validator->fails()) {
+            // Flash error message to the session
+            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Validation failed.');
         }
 
+        $user = $guard->user();
+        // Check if the current_password is correct
+        if (!Hash::check($request->current_password, $user->password)) {
+            // Flash error message to the session
+            return redirect()->back()->with('error', 'The current password is incorrect.');
+        }
+
+        DB::beginTransaction();
+        try {
+            // Set the new password
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            DB::commit();
+            // Flash success message to the session
+            return redirect()->route('your-success-route')->with('success', 'Password updated successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Flash error message to the session
+            return redirect()->back()->with('error', 'Something went wrong, please try again.');
+        }
     }
     public function settingUpdate(Request $request)
     {

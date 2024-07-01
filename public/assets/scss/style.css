@@ -2607,7 +2607,7 @@ bg-custom-secondary{
   padding: 0 !important;
 }
 .zTable > :not(caption):first-child > * > * > * {
-  background-color: var(--colorNine);
+  background-color: var(--secondary-color);
 }
 .zTable > :not(caption):first-child > * > *:first-child {
   padding-left: 0 !important;

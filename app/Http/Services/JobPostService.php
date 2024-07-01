@@ -82,7 +82,7 @@ class JobPostService
         return datatables($features)
             ->addIndexColumn()
             ->addColumn('company_logo', function ($data) {
-                return '<img src="' . asset('public/storage/company').'/'.$data->company->image . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
             })
             ->addColumn('title', function ($data) {
                 return htmlspecialchars($data->title);

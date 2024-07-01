@@ -22,7 +22,7 @@ class StudentController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $studentsQuery = Student::with('major')->orderBy('student_id', 'DESC');
+            $studentsQuery = Student::with('major')->where('credits_left','==',0)->orderBy('student_id', 'DESC');
 
             // Handle searching
             if ($request->has('search') && $request->search['value'] != '') {

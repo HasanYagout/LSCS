@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\DashboardService;
+use App\Models\Admin;
 use App\Models\Alumni;
 use App\Models\Event;
 use App\Models\Recommendation;
@@ -117,6 +118,8 @@ class DashboardController extends Controller
         return response()->json(['message' => 'Recommendation request submitted successfully.']);
     }
 
+
+
     public function recommendation_edit(Request $request,$id)
     {
         $data['recommendation']=Recommendation::findOrFail($id);
@@ -172,7 +175,6 @@ class DashboardController extends Controller
         Toastr::error('No files were uploaded.');
         return redirect()->back();
     }
-
 
 
 

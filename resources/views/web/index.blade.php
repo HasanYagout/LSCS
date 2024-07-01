@@ -296,18 +296,21 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="hover-scale-img bd-one bd-c-black-10 bd-ra-14 bg-event-bg hover-scale-img">
                             <div class="bd-ra-14 overflow-hidden h-234 position-relative">
-                                <img class="w-100 h-100 object-fit-cover" src="{{ asset('public/storage/admin/news').'/'.$singleNews->image }}"
+                                <img class="w-100 h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/news').'/'.$singleNews->image }}"
                                     alt="{{ $singleNews->title }}" />
                                 <p
                                     class="position-absolute top-22 left-22 p-10 bd-ra-10 bg-secondary-color max-w-77 fs-16 fw-400 lh-19 text-black-color text-center">
                                     {{ \Carbon\Carbon::parse($singleNews->created_at)->format('M d, Y') }}</p>
                             </div>
+
                             <div class="pt-29 pb-34 px-25">
                                 <div class="d-flex align-items-center cg-10 pb-10">
-                                    <div class="w-30 h-30 rounded-circle overflow-hidden"><img
+                                    <div class="w-30 h-30 rounded-circle overflow-hidden">
+                                        <img
+                                            onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                             src="{{ asset('public/storage/admin').'/'.$singleNews->author->image }}"
-                                            alt="{{ $singleNews->author->name }}" /></div>
-                                    <p class="fs-16 fw-400 lh-14 text-para-color">BY : {{ $singleNews->author->name }},
+                                            alt="{{ $singleNews->author->first_name }}" /></div>
+                                    <p class="fs-16 fw-400 lh-14 text-para-color">BY : {{ $singleNews->author->first_name }},
                                         {{ $singleNews->category->name }}</p>
                                 </div>
                                 <h4
