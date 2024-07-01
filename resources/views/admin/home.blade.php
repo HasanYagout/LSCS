@@ -89,7 +89,7 @@
                                     </div>
                                     <!-- Post button -->
                                     <button type="submit"
-                                        class="border-0 py-10 px-26 bd-ra-12 bg-cdef84 hover-bg-one">{{ __('Post Now') }}</button>
+                                        class="border-0 py-10 px-26 bd-ra-12 bg-f1a527">{{ __('Post Now') }}</button>
                                 </div>
                             </div>
                         </div>

@@ -10,6 +10,7 @@
             border-radius: 8px;
             margin-bottom: 20px;
             padding: 20px;
+            border-color: #0b0b0b;
         }
         .job-card .card-header {
             background: #fff;

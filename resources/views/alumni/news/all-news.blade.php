@@ -3,6 +3,56 @@
 @push('title')
     {{$title}}
 @endpush
+@push('style')
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        border-color: #0b0b0b;
+    }
+    .navbar {
+        background-color: #002a5c;
+    }
+    .navbar-brand {
+        color: #f1a527;
+    }
+    .news-card {
+        border-color: black;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+    .news-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    .news-card .card-body {
+        padding: 20px;
+        background-color: #ffffff;
+    }
+    .news-card-title {
+        color: #002a5c;
+        font-size: 1.5rem;
+    }
+    .news-card-text {
+        color: #002a5c;
+        margin-top: 10px;
+    }
+    .news-card .btn-read-more {
+        background-color: #f1a527;
+        color: #ffffff;
+        border-radius: 50px;
+        margin-top: 15px;
+    }
+    .footer {
+        background-color: #002a5c;
+        color: #ffffff;
+        padding: 20px 0;
+        text-align: center;
+    }
+</style>
+@endpush
 
 @section('content')
     <div class="container mt-5">

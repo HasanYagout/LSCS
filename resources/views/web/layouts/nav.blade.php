@@ -1,28 +1,9 @@
 <!-- Start Header -->
 <div class="">
     <!-- Top Header -->
-    <div class="pt-19 pb-15 d-none d-lg-block">
-        <div class="container">
-            <div class="row align-items-center rg-10">
+
                 <!-- Left -->
-                <div class="col-lg-6">
-                    <div
-                        class="d-flex justify-content-center justify-content-lg-start align-items-center flex-wrap cg-23 rg-10">
-                        <a href="mailto:{{ getOption('app_email') }}"
-                            class="d-flex align-items-center cg-7 fs-18 fw-600 lh-28 text-black-color">
-                            <div class="d-flex"><img src="{{ asset('public/frontend/images/icon/envelope.svg') }}"
-                                    alt="" /></div>
-                            <p>{{ __('Email') }} : <span class="fw-500">{{ getOption('app_email') }}</span></p>
-                        </a>
-                        <a href="tel:{{ getOption('app_contact_number') }}"
-                            class="d-flex align-items-center cg-7 fs-18 fw-600 lh-28 text-black-color">
-                            <div class="d-flex"><img src="{{ asset('public/frontend/images/icon/phone.svg') }}"
-                                    alt="" /></div>
-                            <p>{{ __('Hotline') }} : <span class="fw-500">{{ getOption('app_contact_number') }}</span>
-                            </p>
-                        </a>
-                    </div>
-                </div>
+
                 <!-- Right -->
                 <div class="col-lg-6">
                     <div class="d-flex justify-content-center justify-content-lg-end align-items-center g-11">
@@ -58,17 +39,6 @@
                                 </ul>
                             </div>
                         @endif
-                        @auth()
-                            <a href="{{ route('alumni.auth.login') }}"
-                                class="d-flex py-6 px-24 bg-white bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color hover-bg-color-primary hover-border-color-primary">{{ __('Go To Community') }}</a>
-                        @else
-                            <a href="{{ route('alumni.auth.login') }}"
-                                class="d-flex py-6 px-24 bg-black-color bd-ra-8 fs-18 fw-500 lh-28 text-white hover-bg-color-primary hover-color-black">{{ __('Login') }}</a>
-                            @if (!getOption('disable_registration'))
-                                <a href="{{ route('alumni.auth.register') }}"
-                                    class="d-flex py-6 px-24 bg-white bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color hover-bg-color-primary hover-border-color-primary">{{ __('Sign Up') }}</a>
-                            @endif
-                        @endauth
                     </div>
                 </div>
             </div>
@@ -103,6 +73,7 @@
                                     <a class="nav-link fs-18 fw-500 lh-28 text-black-color p-0 active"
                                         aria-current="page" href="{{ route('index') }}">{{ __('Home') }}</a>
                                 </li>
+
                                 <li class="nav-item"><a class="nav-link fs-18 fw-500 lh-28 text-black-color p-0"
                                         href="{{ route('all.alumni') }}">{{ __('Alumni') }}</a></li>
                                 <li class="nav-item"><a class="nav-link fs-18 fw-500 lh-28 text-black-color p-0"
@@ -114,11 +85,11 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link fs-18 fw-500 lh-28 text-black-color p-0 dropdown-toggle menu-dropdown-toggle"
                                         href="#" role="button" data-bs-toggle="dropdown"
-                                        aria-expanded="false">{{ __('Community') }}</a>
+                                        aria-expanded="false">{{ __('Company') }}</a>
                                     <ul class="dropdown-menu">
                                         <li>
                                             <a class="dropdown-item" href="{{ route('all.job') }}">
-                                                {{ __('Find Job') }}
+                                                {{ __('Sign up') }}
                                                 <span><i class="fa-solid fa-long-arrow-right"></i></span>
                                             </a>
                                         </li>
@@ -130,18 +101,15 @@
                                         </li>
                                         <li>
                                             <a class="dropdown-item" href="{{ route('all.stories') }}">
-                                                {{ __('Stories') }}
+                                                {{ __('Login') }}
                                                 <span><i class="fa-solid fa-long-arrow-right"></i></span>
                                             </a>
+
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="nav-item d-lg-none"><a
-                                        class="nav-link d-flex justify-content-lg-end align-items-center cg-16 fs-18 fw-600 lh-28 text-black-color"
-                                        href="{{ route('contact_us') }}">
-                                        {{ __('Contact us') }}
-                                        <span><i class="fa-solid fa-arrow-right"></i></span></a></li>
                             </ul>
+
                             <div class="pt-20 w-100 d-lg-none">
                                 <div
                                     class="d-flex justify-content-start align-items-center flex-wrap cg-23 rg-10 pb-30">
@@ -214,12 +182,18 @@
                     </nav>
                 </div>
                 <!-- Right -->
-                <div class="col-lg-2 d-none d-lg-block">
-                    <a href="{{ route('contact_us') }}"
-                        class="d-flex justify-content-lg-end align-items-center cg-16 fs-18 fw-600 lh-28 text-black-color">
-                        {{ __('Contact us') }}
-                        <span><i class="fa-solid fa-arrow-right"></i></span>
-                    </a>
+                <div class="col-lg-2 d-none d-lg-flex">
+                    @auth()
+                        <a href="{{ route('alumni.auth.login') }}"
+                           class="d-flex py-6 px-24 bg-white bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color hover-bg-color-primary hover-border-color-primary">{{ __('Go To Community') }}</a>
+                    @else
+                        <a href="{{ route('alumni.auth.login') }}"
+                           class="d-flex flex-wrappy-6 px-24 bg-white bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color hover-bg-color-primary hover-border-color-primary">{{ __('Login') }}</a>
+                        @if (!getOption('disable_registration'))
+                            <a href="{{ route('alumni.auth.register') }}"
+                               class="d-flex py-6 px-24 bg-white bd-one bd-ra-8 fs-18 fw-500 lh-28 text-black-color hover-bg-color-primary hover-border-color-primary">{{ __('Sign Up') }}</a>
+                        @endif
+                    @endauth
                 </div>
             </div>
         </div>
