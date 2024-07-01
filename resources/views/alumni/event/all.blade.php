@@ -9,6 +9,7 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f9f9f9;
+            border-color: #0b0b0b;
         }
         .navbar {
             background-color: #002a5c;
@@ -17,10 +18,9 @@
             color: #f1a527;
         }
         .news-card {
-            border: none;
+            border-color: black;
             border-radius: 10px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 42, 92, 0.2);
             overflow: hidden;
         }
         .news-card img {
@@ -38,11 +38,13 @@
         }
         .news-card-text {
             color: #002a5c;
+            margin-top: 10px;
         }
         .news-card .btn-read-more {
             background-color: #f1a527;
             color: #ffffff;
             border-radius: 50px;
+            margin-top: 15px;
         }
         .footer {
             background-color: #002a5c;
@@ -54,11 +56,11 @@
 @endpush
 
 @section('content')
-    <div class="container">
+    <div class="container mt-5">
         <div class="row">
-            <form action="{{ route('alumni.event.all') }}" method="GET" class="mb-4">
+            <form action="{{ route('alumni.jobs.all-job-post') }}" method="GET" class="mb-4">
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search events" name="search" value="{{ request('search') }}">
+                    <input type="text" class="form-control" placeholder="Search Events" name="search" value="{{ request('search') }}">
                     <div class="input-group-append">
                         <button class="btn btn-outline-secondary" type="submit">Search</button>
                     </div>

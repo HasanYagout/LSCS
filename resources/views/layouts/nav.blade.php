@@ -1,8 +1,9 @@
 @php use Illuminate\Support\Facades\Auth; @endphp
 <div
-    class="main-header pt-28 pb-27 px-30  bg-002a5c d-flex justify-content-between align-items-center">
+    class="main-header pt-28 pb-27 px-30  bg-f1a527 d-flex justify-content-between align-items-center" style="background: url("{{asset('public/frontend/images/community-bg.png')}}")" data-background="{{asset('public/frontend/images/community-bg.png')}}">
 
-    <div class="d-flex align-items-center cg-15">
+    <div class="d-flex align-items-center cg-15" >
+
         <!-- Mobile Menu Button -->
         <div class="mobileMenu">
             <button
@@ -11,7 +12,7 @@
         </div>
         @if(auth('admin')->check() && auth('admin')->user()->role_id == USER_ROLE_ADMIN)
             <a href="{{ route('admin.list-search-with-filter') }}"
-               class="d-none  d-sm-inline-block fs-15 fw-500 lh-25 text-white  py-10 px-26 bg-f1a527 bd-ra-12 hover-bg-one">{{
+               class="d-none  d-sm-inline-block fs-15 fw-500 lh-25 text-white  py-10 px-26 bg-002a5c bd-ra-12 hover-bg-#002a5c">{{
             __('Find an Alumni') }}</a>
         @endif
     </div>

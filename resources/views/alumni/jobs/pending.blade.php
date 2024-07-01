@@ -10,7 +10,7 @@
             border-radius: 8px;
             margin-bottom: 20px;
             padding: 20px;
-            box-shadow: 6px 6px 8px 4px rgba(241, 165, 39, 0.5); /* Updated shadow color */
+            border-color: #0b0b0b/* Updated shadow color */
         }
         .job-card .card-header {
             background: #fff;

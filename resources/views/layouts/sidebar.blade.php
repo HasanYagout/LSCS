@@ -15,12 +15,8 @@
 
     <div class="zSidebar">
         <div class="zSidebar-overlay"></div>
-        <a href="{{ route('index') }}" class="d-block mx-26 mb-27 max-w-146 pt-23">
-            {{--        @if(centralDomain() && isAddonInstalled('ALUSAAS'))--}}
-            {{--        <img class="max-h-35" src="{{ getSettingImageCentral('app_logo') }}" alt="{{ getOption('app_name') }}"/>--}}
-            {{--        @else--}}
-            {{--        <img class="max-h-35" src="{{ getSettingImage('app_logo') }}" alt="{{ getOption('app_name') }}"/>--}}
-            {{--        @endif--}}
+        <a href="{{ route('index') }}" class="d-block mx-26 mb-27 max-w-50 pt-3">
+            <img class="max-h-50" src="{{ asset('public/frontend/images/liu-logo.png') }}" alt="LIU-LOGO"/>
         </a>
         <!-- Menu & Logout -->
         <div class="zSidebar-fixed">
