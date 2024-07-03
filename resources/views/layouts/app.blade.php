@@ -16,6 +16,7 @@
                 @include('layouts.nav')
                 <!-- Content -->
                 @yield('content')
+
             </div>
         </div>
     </div>
@@ -24,6 +25,7 @@
         @include('cookie-consent::index')
     </div>
     @endif
+
     @include('layouts.script')
     {!! Toastr::message() !!}
 </body>

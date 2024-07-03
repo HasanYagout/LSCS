@@ -12,7 +12,12 @@
     }
 @endphp
 @if($authenticatedGuard && $authenticatedUser)
-
+    <style>
+        .zSidebar {
+            overflow-y: auto; /* Add scrollbar for overflow in y-axis */
+            max-height: 100vh; /* Ensure it doesn't exceed the viewport height */
+        }
+    </style>
     <div class="zSidebar">
         <div class="zSidebar-overlay"></div>
         <a href="{{ route('index') }}" class="d-block mx-26 mb-27 max-w-50 pt-3">
@@ -474,7 +479,7 @@
 
                     </li>
                 @endif
-                    @if($authenticatedGuard!='alumni')
+                 @if($authenticatedGuard!='alumni')
                         <li>
                             <a href="{{ route($authenticatedGuard.'.profile.index') }}"
                                class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">
