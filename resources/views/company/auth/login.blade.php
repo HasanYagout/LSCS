@@ -5,11 +5,15 @@
 @endpush
 
 @section('content')
-    <div class="register-area">
-        <div class="register-wrap">
+    <div class="register-area"
+         style="background-image: url('{{ asset('public/frontend/images/community-bg-1.png') }}');
 
-            <div class="register-right">
-                <div class="primary-form">
+
+              background-size: cover;">
+        <div class="register-wrap"style="max-width: 600px;">
+
+            <div class="register-right"style="border: 5px solid darkblue; border-radius: 10px; padding: 100px;)>
+                <div class="primary-form>
                     <!-- Title -->
                     <div class="pb-40">
                         <h2 class="fs-32 fw-600 lh-38 text-1b1c17 pb-3">{{ __('Log In') }}</h2>

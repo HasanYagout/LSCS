@@ -5,8 +5,9 @@
 @endpush
 
 @section('content')
-    <div class="register-area">
-        <div class="register-wrap">
+    <div class="register-area"
+         style="background-image: url('{{ asset('public/frontend/images/community-bg-1.png') }}');
+        <div class="register-wrap>"
 {{--            <div class="register-left section-bg-img"--}}
 {{--                style="background-image: url({{ getSettingImage('login_left_image') }})">--}}
 {{--                <div class="register-left-wrap">--}}
@@ -16,8 +17,8 @@
 {{--                    <p class="fs-16 fw-400 lh-24 text-white">{{ getOption('sign_up_left_text_subtitle') }}</p>--}}
 {{--                </div>--}}
 {{--            </div>--}}
-            <div class="register-right">
-                <div class="primary-form">
+    <div class="register-right"style="border: 5px solid darkblue; border-radius: 10px; padding: 50px;background-color: white;)>
+                <div class="primary-form>"
                     <!-- Title -->
                     <div class="pb-40">
                         <h2 class="fs-32 fw-600 lh-38 text-1b1c17 pb-3">{{ __('Log In') }}</h2>
