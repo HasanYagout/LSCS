@@ -24,12 +24,12 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="hover-scale-img bd-one bd-c-black-10 bd-ra-25 bg-event-bg">
                         <div class="bd-ra-14 overflow-hidden h-234 position-relative">
-                            <img class="w-100 h-100 object-fit-cover" src="{{getFileUrl($news->image)}}" alt="">
+                            <img class="w-100 h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/news').'/'.$news->image}}" alt="">
                             <p class="position-absolute top-22 left-22 p-10 bd-ra-10 bg-primary-color max-w-77 fs-16 fw-400 lh-19 text-black-color text-center">{{ date('M d, Y', strtotime($news->created_at)) }}</p>
                         </div>
                     <div class="pt-29 pb-34 px-25">
                         <div class="d-flex align-items-center cg-10 pb-10">
-                            <div class="w-30 h-30 rounded-circle overflow-hidden"><img src="{{getFileUrl($news->author->image)}}" alt=""></div>
+                            <div class="w-30 h-30 rounded-circle overflow-hidden"><img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/image').'/'.$news->author->image}}" alt=""></div>
                             <p class="fs-16 fw-400 lh-14 text-para-color">{{__('BY')}} : {{$news->author->name}}</p>
                         </div>
                         <h4 class="fs-24 fw-600 lh-34 line-clamp-2 mb-25 min-h-auto min-h-md-68 sf-text-ellipsis text-black-color">{{ $news->title }}</h4>
