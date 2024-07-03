@@ -265,7 +265,7 @@ Version: 1.0
   color: var(--white-70) !important;
 }
 
-.text-002a5c {
+.text-primary-color {
   color: var(--primary-color) !important;
 }
 
@@ -328,7 +328,7 @@ Version: 1.0
 .text-0fa958-10 {
   color: var(--colorTwelve-10) !important;
 }
-.text-f1a527{
+.text-secondary-color{
     color: var(--secondary-color) !important;
 
 }
@@ -441,14 +441,14 @@ Version: 1.0
   background-color: var(--white-70) !important;
 }
 
-.bg-002a5c {
+.bg-primary-color {
   background-color: var(--primary-color) !important;
 }
 .bg-primary-light{
     background-color: var(--primary-light) !important;
 
 }
-.bg-f1a527 {
+.bg-secondary-color {
   background-color: var(--hover-color) !important;
 }
 .bg-light{

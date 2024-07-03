@@ -73,7 +73,7 @@
                             <div class="d-flex align-items-center">
                                 <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/').'/'.$job->posted_by.'/'.$job->company->image}}" class="rounded-circle mr-3" alt="Company Logo">
                                 <div class="mx-26">
-                                    <h5 class="mb-0 text-002a5c">{{$job->company->name}}</h5>
+                                    <h5 class="mb-0 text-primary-color">{{$job->company->name}}</h5>
                                     <small class="text-muted">{{$job->title}}</small>
                                 </div>
                             </div>

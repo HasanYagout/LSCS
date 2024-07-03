@@ -116,7 +116,7 @@ class AdminController extends Controller
                     return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16' . ($data->role_id == '1' ? ' text-0fa958 bg-0fa958-10' : ' text-f5b40a bg-f5b40a-10') . '">' . $data->role->name . '</p>';
                 })
                 ->addColumn('reset_password', function ($data) {
-                    return '<button onclick="resetPassword(\''. route('admin.reset-password', ['id' => $data->id]) . '\', ' . $data->id . ')" class="bg-f1a527 btn btn-sm text-white">Reset Password</button>';
+                    return '<button onclick="resetPassword(\''. route('admin.reset-password', ['id' => $data->id]) . '\', ' . $data->id . ')" class="bg-secondary-color btn btn-sm text-white">Reset Password</button>';
                 })
                 ->addColumn('status', function ($data) {
                     $checked = $data->status ? 'checked' : '';

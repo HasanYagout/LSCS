@@ -19,13 +19,13 @@
                         <thead>
                         <tr>
                             <th scope="col">
-                                <div class="bg-f1a527">{{ __('Image') }}</div>
+                                <div class="bg-secondary-color">{{ __('Image') }}</div>
                             </th>
                             <th scope="col">
-                                <div class="bg-f1a527">{{ __('Title') }}</div>
+                                <div class="bg-secondary-color">{{ __('Title') }}</div>
                             </th>
                             <th scope="col">
-                                <div class="bg-f1a527">{{ __('Status') }}</div>
+                                <div class="bg-secondary-color">{{ __('Status') }}</div>
                             </th>
 
                         </tr>

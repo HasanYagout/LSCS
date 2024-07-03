@@ -27,11 +27,12 @@ class JobPostController extends Controller
 
     public function pending(Request $request)
     {
-
         $data['title'] = __('Pending Jobs');
         $data['showJobPostManagement'] = 'show';
         $data['activePendingJobPostList'] = 'active-color-one';
-        $data['appliedJobs'] = AppliedJobs::with('job')->where('alumni_id',auth('alumni')->id())->paginate();
+        $data['appliedJobs'] = AppliedJobs::with('job')
+            ->where('alumni_id', auth('alumni')->id())
+            ->paginate(10); // Specify the number of items per page
         return view('alumni.jobs.pending', $data);
     }
     public function info($slug)

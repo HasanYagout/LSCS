@@ -49,7 +49,7 @@
                         @if(isset($jobPostData->skills))
                                 <ul class="fs-14 d-flex fw-400 lh-18 text-707070">
                             @foreach(json_decode($jobPostData->skills) as $skill)
-                                   <li class="p-1 d-flex bg-f1a527 text-002a5c rounded m-1"> {{$skill }}</li>
+                                   <li class="p-1 d-flex bg-secondary-color text-primary-color rounded m-1"> {{$skill }}</li>
                             @endforeach
                                 </ul>
                         @endif

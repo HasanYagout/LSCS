@@ -52,7 +52,7 @@
                         @if(isset($jobPostData->skills))
                             <ul class="fs-14 d-flex fw-400 lh-18 text-707070">
                                 @foreach(json_decode($jobPostData->skills) as $skill)
-                                    <li class="p-1 px-14 d-flex bg-f1a527 text-002a5c rounded m-1"> {{$skill }}</li>
+                                    <li class="p-1 px-14 d-flex bg-secondary-color text-primary-color rounded m-1"> {{$skill }}</li>
                                 @endforeach
                             </ul>
                         @endif
@@ -67,7 +67,7 @@
                                     <option value="{{ $cv->id }}">{{ $cv->name }}</option>
                                 @endforeach
                             </select>
-                            <button class="bd-c-afd449 d-inline-block fs-15 fw-500 lh-25 mt-20 px-30 py-13 rounded-3 text-f1a527">{{ __('Apply Now') }}</button>
+                            <button class="bd-c-afd449 d-inline-block fs-15 fw-500 lh-25 mt-20 px-30 py-13 rounded-3 text-secondary-color">{{ __('Apply Now') }}</button>
                         </form>
                     </div>
                 </div>

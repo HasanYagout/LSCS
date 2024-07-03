@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@include('admin.auth.layouts.header')
+@include('company.auth.layouts.header')
 {{--{!! RecaptchaV3::initJs() !!}--}}
 
 <body>
+@include('company.auth.layouts.nav')
 
-    @if (getOption('app_preloader_status', 0) == STATUS_ACTIVE)
-    <div id="preloader">
-        <div id="preloader_status">
-            <img src="{{ getSettingImage('app_preloader') }}" alt="{{ getOption('app_name') }}" />
-        </div>
+<div id="preloader">
+    <div id="preloader_status">
+        <img src="{{ asset('public/frontend/images/liu-logo.png') }}" alt="{{ getOption('app_name') }}" />
     </div>
-    @endif
+</div>
 
     @yield('content')
     @if (!empty(getOption('cookie_status')) && getOption('cookie_status') == STATUS_ACTIVE)

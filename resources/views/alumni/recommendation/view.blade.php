@@ -6,7 +6,7 @@
             @foreach (json_decode($recommendations) as $file)
                 <div class="col-md-4 mb-4">
                     <div class="card">
-                        <div class="card-header bg-002a5c text-f5b40a">
+                        <div class="card-header bg-primary-color text-f5b40a">
                             <h5 class="card-title">Recommendation {{ $loop->iteration }}</h5>
 
                         </div>
@@ -14,10 +14,10 @@
                             <embed src="{{ route('alumni.recommendation.view', ['file' => $file]) }}" type="application/pdf" width="100%" height="300px" />
 
                         </div>
-                        <div class="card-footer bg-002a5c">
+                        <div class="card-footer bg-primary-color">
                             <div class="d-flex justify-content-between">
-                                <a  href="{{ route('alumni.recommendation.download', ['file' => $file]) }}" class="btn h-100 bg-f1a527 text-white">Download</a>
-                                <a href="{{ route('alumni.recommendation.view', ['file' => $file]) }}" target="_blank" class="btn h-100 bg-f1a527 text-white">View</a>
+                                <a  href="{{ route('alumni.recommendation.download', ['file' => $file]) }}" class="btn h-100 bg-secondary-color text-white">Download</a>
+                                <a href="{{ route('alumni.recommendation.view', ['file' => $file]) }}" target="_blank" class="btn h-100 bg-secondary-color text-white">View</a>
                             </div>
                         </div>
                     </div>

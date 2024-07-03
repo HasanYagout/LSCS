@@ -1,4 +1,4 @@
-@extends('admin.auth.layouts.app')
+@extends('company.auth.layouts.app')
 
 @push('title')
     {{ __('Login') }}

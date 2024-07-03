@@ -66,7 +66,7 @@
                     <div class="card-body">
                         <h4 class="title">{{$notice->title}}</h4>
                         <p class="card-text news-card-text fs-13">{{ getSubText($notice->details, 200) }}</p>
-                        <a href="{{route('alumni.notice.details', $notice->slug)}}" class="bg-f1a527 border-0 btn btn-primary btn-read-more">{{__('More Details')}}</a>
+                        <a href="{{route('alumni.notice.details', $notice->slug)}}" class="bg-secondary-color border-0 btn btn-primary btn-read-more">{{__('More Details')}}</a>
                     </div>
                     </div>
                 </div>

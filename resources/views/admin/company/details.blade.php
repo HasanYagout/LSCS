@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card text-center">
-                        <div class="card-header text-white text-002a5c bg-light ">
+                        <div class="card-header text-white text-primary-color bg-light ">
                             <img  onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/company' . $company->logo) }}" alt="Company Logo" class=" object-fit-cover rounded-circle">
                             <h2>{{ $company->name }}</h2>
                         </div>

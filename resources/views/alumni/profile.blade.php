@@ -41,7 +41,7 @@
                                 </div>
 
                                 <div class="">
-                                    <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-f1a527">{{auth('alumni')->user()->first_name.' '.auth('alumni')->user()->last_name}}</h4>
+                                    <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-secondary-color">{{auth('alumni')->user()->first_name.' '.auth('alumni')->user()->last_name}}</h4>
                                     <p class="fs-14 fw-400 lh-17 text-707070 pb-10">
                                         {{--                                    {{dd(json_decode(auth('alumni')->user()?->experience)[0])}}--}}
                                     </p>
@@ -88,7 +88,7 @@
                                             <div class="py-20 px-25 bd-ra-10 bg-f9f9f9">
                                                 <!-- Bio text -->
                                                 <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Profile Bio') }}</h4>
+                                                    <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('Profile Bio') }}</h4>
                                                     <p class="fs-14 fw-400 lh-24 text-707070 pb-12">{!! auth('alumni')->user()?->about_me !!}</p>
                                                 </div>
                                                 <!-- Personal Info -->
@@ -118,7 +118,7 @@
                                         <div class="col-md-12">
                                             <div class="py-20 px-30 bd-ra-10 bg-f9f9f9  m-auto">
                                                 <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Experience Info') }}</h4>
+                                                    <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('Experience Info') }}</h4>
                                                 </div>
                                             @foreach(auth('alumni')->user()?->experience as $experience)
 
@@ -136,7 +136,7 @@
                                                                 $endDate = new DateTime($experience->end_date);
                                                             @endphp
                                                             <span
-                                                                class="text-f1a527-50">{{ $startDate->format('M Y') .' - '.$endDate->format('M Y')}}</span>
+                                                                class="text-secondary-color-50">{{ $startDate->format('M Y') .' - '.$endDate->format('M Y')}}</span>
                                                         </li>
                                                         <li>
                                                             <p>{{$experience->company_address}}</p>
@@ -162,7 +162,7 @@
                                        <div class="col-md-12">
                                            <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
                                                <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                                   <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Educational Info') }}</h4>
+                                                   <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('Educational Info') }}</h4>
                                                </div>
 
                                                @foreach( auth('alumni')->user()?->education as $education)
@@ -188,7 +188,7 @@
                                        <div class="col-md-12">
                                            <div class="py-20 mt-3 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
                                                <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                                   <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('Skills') }}</h4>
+                                                   <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('Skills') }}</h4>
 
                                                </div>
                                                <ul class="zList-one d-flex">
@@ -198,7 +198,7 @@
 
                                                    @if ($skills)
                                                        @foreach ($skills as $skill)
-                                                           <li class="p-1 d-flex bg-f1a527 rounded m-1">
+                                                           <li class="p-1 d-flex bg-secondary-color rounded m-1">
                                                                <p>{{ $skill }}</p>
                                                            </li>
                                                        @endforeach
@@ -210,7 +210,7 @@
                                        <div class="col-md-12">
                                            <div class="py-20 mt-3 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
                                                <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                                   <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-10">{{ __('CVs') }}</h4>
+                                                   <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('CVs') }}</h4>
 
                                                </div>
                                                    <div class="container">
@@ -238,7 +238,7 @@
                                    </div>
                                 </div>
                             </div>
-                        <button class="bd-c-afd449  bg-f1a527 btn btn-lg hover-border-one mt-3 text-002a5c " onclick="window.location='{{ route('alumni.profile.generate-cv') }}'">
+                        <button class="bd-c-afd449  bg-secondary-color btn btn-lg hover-border-one mt-3 text-primary-color " onclick="window.location='{{ route('alumni.profile.generate-cv') }}'">
                             Generate CV
                         </button>
                         </div>
@@ -257,7 +257,7 @@
                                 <div class="pb-40"></div>
                                 <!-- Personal Info -->
                                 <div class="pb-30">
-                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Personal Info') }}</h4>
+                                    <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-20">{{ __('Personal Info') }}</h4>
                                     <div class="row rg-25">
                                         <!-- Photo -->
                                         <div class="pb-40">
@@ -289,7 +289,7 @@
 
                                 <!-- Contact Info -->
                                 <div class="pb-30">
-                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Contact Info') }}</h4>
+                                    <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-20">{{ __('Contact Info') }}</h4>
                                     <div class="row rg-25">
                                         <div class="col-md-6">
                                             <div class="primary-form-group">
@@ -369,7 +369,7 @@
                                     </div>
                                 </div>
                                 <div class="pb-30">
-                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Education Info') }}</h4>
+                                    <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-20">{{ __('Education Info') }}</h4>
                                     <div class="row rg-25">
 
                                         @forelse (auth('alumni')->user()->education as $education)
@@ -504,7 +504,7 @@
                                 </div>
 
                                 <div class="pb-30">
-                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Experience Info') }}</h4>
+                                    <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-20">{{ __('Experience Info') }}</h4>
                                     <div class="row rg-25">
                                         @forelse (auth('alumni')->user()->experience as $experience)
 
@@ -623,7 +623,7 @@
                                     </div>
                                 </div>
                                 <div class="pb-30">
-                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Skills') }}</h4>
+                                    <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-20">{{ __('Skills') }}</h4>
                                     <div class="primary-form-group">
                                         <div class="primary-form-group-wrap">
                                             <label for="skills" class="form-label">Skills</label>
@@ -640,7 +640,7 @@
                                 </div>
                                 <!-- Address -->
                                 <div class="pb-30">
-                                    <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('CVs Info') }}</h4>
+                                    <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-20">{{ __('CVs Info') }}</h4>
                                     <div class="row rg-25 ">
                                         @forelse (auth('alumni')->user()->cvs as $cv)
 
@@ -712,7 +712,7 @@
                                 __('Save Changes') }}</button>
                             </form>
                             <div class="pb-30 py-30">
-                                <h4 class="fs-18 fw-500 lh-22 text-f1a527 pb-20">{{ __('Change Password') }}</h4>
+                                <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-20">{{ __('Change Password') }}</h4>
                                 <div class=" container rg-25">
                                     <form id="changePasswordForm" action="{{ route('alumni.change-password') }}" method="POST">
                                         @csrf
