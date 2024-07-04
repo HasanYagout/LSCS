@@ -62,31 +62,31 @@
                                 class="fa-solid fa-times"></i></button>
                         <ul class="navbar-nav justify-content-around menu-navbar-nav justify-content-center flex-wrap cg-42 rg-10 w-100">
                             <li class="nav-item">
-                                <a class="nav-link fs-18 fw-500 lh-28 text-white p-0 active"
+                                <a class="nav-link hover-color-one fs-18 fw-500 lh-28 text-white p-0 active"
                                    aria-current="page" href="{{ route('index') }}">{{ __('Home') }}</a>
                             </li>
 
-                            <li class="nav-item"><a class="nav-link fs-18 fw-500 lh-28 text-white p-0"
+                            <li class="nav-item"><a class="nav-link hover-color-one fs-18 fw-500 lh-28 text-white p-0"
                                                     href="{{ route('all.alumni') }}">{{ __('Alumni') }}</a></li>
-                            <li class="nav-item"><a class="nav-link fs-18 fw-500 lh-28 text-white p-0"
+                            <li class="nav-item"><a class="nav-link hover-color-one fs-18 fw-500 lh-28 text-white p-0"
                                                     href="{{ route('all.event') }}">{{ __('Events') }}</a></li>
-                            <li class="nav-item"><a class="nav-link fs-18 fw-500 lh-28 text-white p-0"
+                            <li class="nav-item"><a class="nav-link hover-color-one fs-18 fw-500 lh-28 text-white p-0"
                                                     href="{{ route('our.news') }}">{{ __('News') }}</a></li>
-                            <li class="nav-item"><a class="nav-link fs-18 fw-500 lh-28 text-white p-0"
+                            <li class="nav-item"><a class="nav-link hover-color-one fs-18 fw-500 lh-28 text-white p-0"
                                                     href="{{ route('our.notice') }}">{{ __('Notice') }}</a></li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link fs-18 fw-500 lh-28 text-white p-0 dropdown-toggle menu-dropdown-toggle"
+                                <a class="nav-link fs-18 hover-color-one fw-500 lh-28 text-white p-0 dropdown-toggle menu-dropdown-toggle"
                                    href="#" role="button" data-bs-toggle="dropdown"
                                    aria-expanded="false">{{ __('Company') }}</a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('company.auth.register') }}">
+                                        <a class="dropdown-item hover-color-one" href="{{ route('company.auth.register') }}">
                                             {{ __('Sign up') }}
                                             <span><i class="fa-solid fa-long-arrow-right"></i></span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('company.auth.login') }}">
+                                        <a class="dropdown-item hover-color-one" href="{{ route('company.auth.login') }}">
                                             {{ __('Login') }}
                                             <span><i class="fa-solid fa-long-arrow-right"></i></span>
                                         </a>

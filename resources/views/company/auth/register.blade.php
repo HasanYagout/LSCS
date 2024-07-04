@@ -4,9 +4,9 @@
 @endpush
 
 @section('content')
-    <div class="register-area" style="background-image: url('{{ asset('public/frontend/images/community-bg-1.png') }}');
+    <div class="register-area register-wrap" style="background-image: url('{{ asset('public/frontend/images/community-bg-1.png') }}');
 
-        <div class="register-wrap>
+        <div class=">
 {{--            <div class="register-left section-bg-img"--}}
 {{--                style="background-image: url({{ getSettingImage('login_left_image') }})">--}}
 {{--                <div class="register-left-wrap">--}}
@@ -16,11 +16,11 @@
 {{--                    <p class="fs-16 fw-400 lh-24 text-white">{{ getOption('sign_up_left_text_subtitle') }}</p>--}}
 {{--                </div>--}}
 {{--            </div>--}}
-            <div class="register-right"style="border: 5px solid darkblue; border-radius: 10px; padding: 50px;background-color: white;>
-                <div class="primary-form>
+            <div class="register-right bg-white container pd register-right rounded-5 s shadow-lg" style="padding: 50px;>
+                <div class=">
                     <!-- Title -->
                     <div class="pb-40">
-                        <h2 class="fs-32 fw-600 lh-38 text-1b1c17 pb-3">{{ __('Create Account') }}</h2>
+                        <h2 class="fs-32 fw-600 lh-38 text-secondary-color pb-3">{{ __('Create Account') }}</h2>
 {{--                        <h4 class="fs-16 fw-400 lh-25">{{ __('Already have an account?') }} <a href="{{ route('login') }}"--}}
 {{--                                class="text-decoration-underline fw-500 text-black hover-color-one">{{__('Sign In')}}</a></h4>--}}
                     </div>
@@ -84,24 +84,30 @@
 
                             <div class="primary-form-group">
                                 <div class="primary-form-group-wrap">
-                                    <label for="Password" class="form-label">{{ __('Password') }}<span
-                                            class="text-danger"> *</span></label>
-                                    <input type="password" class="primary-form-control" id="Password" name="password"
-                                        placeholder="********" />
+                                    <label for="Password" class="form-label">{{ __('Password') }}<span class="text-danger"> *</span></label>
+                                    <div class="input-group position-relative">
+                                        <input type="password" class="primary-form-control" id="Password" name="password" placeholder="********" />
+                                        <button type="button" style="right: 0" class="btn btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password top-0 toggle-password" aria-label="Show Password">
+                                            <i class="fa fa-eye "></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 @error('password')
-                                    <span class="fs-12 text-danger">{{ $message }}</span>
+                                <span class="fs-12 text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="primary-form-group">
                                 <div class="primary-form-group-wrap">
-                                    <label for="ConfirmPassword" class="form-label">{{ __('Confirm Password') }}<span
-                                            class="text-danger"> *</span></label>
-                                    <input type="password" class="primary-form-control" id="ConfirmPassword"
-                                        name="password_confirmation" placeholder="********" />
+                                    <label for="ConfirmPassword" class="form-label">{{ __('Confirm Password') }}<span class="text-danger"> *</span></label>
+                                    <div class="input-group position-relative">
+                                        <input type="password" class="primary-form-control" id="ConfirmPassword" name="password_confirmation" placeholder="********" />
+                                        <button type="button" style="right: 0" class="btn btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password top-0 toggle-password" aria-label="Show Password">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 @error('password_confirmation')
-                                    <span class="fs-12 text-danger">{{ $message }}</span>
+                                <span class="fs-12 text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             @if (!empty(getOption('google_recaptcha_status')) && getOption('google_recaptcha_status') == 1)

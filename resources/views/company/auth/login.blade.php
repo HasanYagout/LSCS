@@ -10,13 +10,13 @@
 
 
               background-size: cover;">
-        <div class="register-wrap"style="max-width: 600px;">
+        <div class="register-wrap" style="max-width: 600px;">
 
-            <div class="register-right"style="border: 5px solid darkblue; border-radius: 10px; padding: 100px;)>
-                <div class="primary-form>
+            <div class="register-right bg-white container pd register-right rounded-5 s shadow-lg" style=" padding: 60px;)>
+                <div class=">
                     <!-- Title -->
                     <div class="pb-40">
-                        <h2 class="fs-32 fw-600 lh-38 text-1b1c17 pb-3">{{ __('Log In') }}</h2>
+                        <h2 class="fs-32 fw-600 lh-38 text-secondary-color pb-3">{{ __('Log In') }}</h2>
                         @if (getOption('disable_registration') != 1)
 {{--                            <h4 class="fs-16 fw-400 lh-25">{{ __('Don’t have an account?') }} <a--}}
 {{--                                    href="{{ route('register') }}"--}}
@@ -31,8 +31,8 @@
                         <div class="form-wrap pb-14">
                             <div class="primary-form-group">
                                 <div class="primary-form-group-wrap">
-                                    <label for="EmailAddress" class="form-label">{{ __('Email Address') }}</label>
-                                    <input type="text" class="primary-form-control" id="EmailAddress" name="email"
+                                    <label for="EmailAddress" class="form-label text-secondary-color">{{ __('Email Address') }}</label>
+                                    <input type="text" class="primary-form-control rounded-3" id="EmailAddress" name="email"
                                         value="{{ old(' email') }}" placeholder="{{ __(' Your Email') }}" required />
                                 </div>
                                 @error('email')
@@ -41,12 +41,16 @@
                             </div>
                             <div class="primary-form-group">
                                 <div class="primary-form-group-wrap">
-                                    <label for="Password" class="form-label">{{__('Password')}}</label>
-                                    <input type="password" class="primary-form-control" id="Password" name="password"
-                                        placeholder="********" required />
+                                    <label for="Password" class="form-label text-secondary-color">{{__('Password')}}</label>
+                                    <div class="input-group position-relative">
+                                        <input type="password" class="primary-form-control rounded-3" id="Password" name="password" placeholder="********" required />
+                                        <button type="button" class="btn btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password  top-0 toggle-password end-0" aria-label="Show Password">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 @error('password')
-                                    <span class="fs-12 text-danger">{{ $message }}</span>
+                                <span class="fs-12 text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             @if (!empty(getOption('google_recaptcha_status')) && getOption('google_recaptcha_status') == 1)
@@ -65,7 +69,6 @@
 {{--                        <a href="{{ route('password.request') }}"--}}
 {{--                            class="d-inline-block fs-12 fw-400 lh-22 text-707070 mb-25 hover-color-one">{{ __('Forgot your Password?') }}</a>--}}
                         <button type="submit" class="d-flex justify-content-center align-items-center w-100 border-0 fs-15 fw-500 lh-25 text-1b1c17 p-13 bd-ra-12 bg-cdef84 hover-bg-one">{{ __('Log In') }}</button>
-                        <a href="{{route('company.auth.register')}}" class="d-flex justify-content-center align-items-center w-100 border-0 fs-15 fw-500 lh-25 text-1b1c17 p-13 bd-ra-12 bg-cdef84 hover-bg-one">{{ __('register') }}</a>
                     </form>
 
                     @if (getOption('google_login_status') == 1 || getOption('facebook_login_status') == 1)

@@ -5006,7 +5006,7 @@ input[type=number] {
   color: var(--text-black);
 }
 .primary-form-group .primary-form-group-wrap .primary-form-control:hover, .primary-form-group .primary-form-group-wrap .primary-form-control:focus {
-  border-color: var(--primary-color);
+  border-color: var(--secondary-color);
 }
 .primary-form-group .primary-form-group-wrap .primary-form-control::placeholder {
   font-size: 0.875rem;

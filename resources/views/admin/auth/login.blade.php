@@ -5,24 +5,14 @@
 @endpush
 
 @section('content')
-    <div class="register-area"
-         style="background-image: url('{{ asset('public/frontend/images/community-bg-1.png') }}');
-        <div class="register-wrap">
-{{--            <div class="register-left section-bg-img"--}}
-{{--                style="background-image: url({{ getSettingImage('login_left_image') }})">--}}
-{{--                <div class="register-left-wrap">--}}
-{{--                    <a class="d-inline-block mb-26 max-w-150" href="{{ route('index') }}"><img--}}
-{{--                            src="{{ getSettingImage('app_logo') }}" alt="{{ getOption('app_name') }}" /></a>--}}
-{{--                    <h2 class="fs-36 fw-600 lh-34 text-white pb-8">{{ getOption('sign_up_left_text_title') }}</h2>--}}
-{{--                    <p class="fs-16 fw-400 lh-24 text-white">{{ getOption('sign_up_left_text_subtitle') }}</p>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-    <div class="register-right"style="border: 5px solid darkblue; border-radius: 10px; padding: 50px;background-color: white;>
-                <div class="primary-form>
-                <div class="primary-form">
+    <div class="register-area" style="background-image: url('{{ asset('public/frontend/images/community-bg-1.png') }}')">
+
+    <div class="register-right bg-white container pd register-right rounded-5 s shadow-lg" style="padding: 50px;">
+
+    <div class="primary-form">
                     <!-- Title -->
                     <div class="pb-40">
-                        <h2 class="fs-32 fw-600 lh-38 text-1b1c17 pb-3">{{ __('Log In') }}</h2>
+                        <h2 class="fs-32 fw-600 lh-38 text-secondary-color pb-3">{{ __('Log In') }}</h2>
 
                     </div>
                     <!-- Form -->
@@ -31,8 +21,8 @@
                         <div class="form-wrap pb-14">
                             <div class="primary-form-group">
                                 <div class="primary-form-group-wrap">
-                                    <label for="EmailAddress" class="form-label">{{ __('Email Address') }}</label>
-                                    <input type="text" class="primary-form-control" id="EmailAddress" name="email"
+                                    <label for="EmailAddress" class="form-label text-secondary-color">{{ __('Email Address') }}</label>
+                                    <input type="text" class="primary-form-control rounded-3" id="EmailAddress" name="email"
                                         value="{{ old(' email') }}" placeholder="{{ __(' Your Email') }}" required />
                                 </div>
                                 @error('email')
@@ -41,12 +31,16 @@
                             </div>
                             <div class="primary-form-group">
                                 <div class="primary-form-group-wrap">
-                                    <label for="Password" class="form-label">{{__('Password')}}</label>
-                                    <input type="password" class="primary-form-control" id="Password" name="password"
-                                        placeholder="********" required />
+                                    <label for="Password" class="form-label text-secondary-color">{{__('Password')}}</label>
+                                    <div class="input-group position-relative">
+                                        <input type="password" class="primary-form-control rounded-3" id="Password" name="password" placeholder="********" required />
+                                        <button type="button" class="btn btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute  toggle-password top-0 toggle-password end-0" aria-label="Show Password">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 @error('password')
-                                    <span class="fs-12 text-danger">{{ $message }}</span>
+                                <span class="fs-12 text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
 
@@ -58,9 +52,9 @@
 
                 </div>
 
-            </div>
-        </div>
-    </div>
+
+
+ </div>
 @endsection
 
 @push('script')
