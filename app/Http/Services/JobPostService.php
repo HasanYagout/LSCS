@@ -77,10 +77,16 @@ class JobPostService
         }
     }
 
-    public function getMyJobPostList(){
-        $features = JobPost::where('user_id', auth('admin')->id())
-            ->where('posted_by','admin')
-            ->orderBy('id','desc')->get();
+    public function getMyJobPostList($request){
+        $query = JobPost::where('user_id', auth('admin')->id())
+            ->where('posted_by','admin');
+
+        if ($request->search['value']) {
+            $search = $request->search['value'];
+            $query->where('title', 'like', "%{$search}%");
+        }
+        $features = $query->orderBy('id', 'desc')->get();
+
         return datatables($features)
             ->addIndexColumn()
             ->addColumn('company_logo', function ($data) {
@@ -123,41 +129,63 @@ class JobPostService
     }
 
 
-    public function getAllJobPostList(){
+    public function getAllJobPostList($request){
         $authUser = $this->getAuthenticatedUser(['company', 'admin']);
-        if ($authUser->name=='admin'){
-            $features = JobPost::where('posted_by','admin')->orWhere('posted_by','company')->orderBy('id','desc')->get();
+        $query = JobPost::with('company'); // Eager load the company relationship
 
+        if ($authUser->name == 'admin') {
+            $query->where(function($q) {
+                $q->where('posted_by', 'admin')
+                    ->orWhere('posted_by', 'company');
+            });
+        } else {
+            $query->where('user_id', $authUser->user()->id)
+                ->where('posted_by', $authUser->name);
         }
-        else{
-        $features = JobPost::where('user_id',$authUser->user()->id)->where('posted_by',$authUser->name)->orderBy('id','desc')->get();
+
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $query->where(function($query) use ($search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhereHas('company', function($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
+            });
         }
+
+        if ($request->postedBy && $request->postedBy != 'all') {
+            $query->where('posted_by', $request->postedBy);
+        }
+
+        if ($request->status && $request->status != 'all') {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->company && $request->company != 'all') {
+            $query->whereHas('company', function($q) use ($request) {
+                $q->where('name', 'like', "%{$request->company}%");
+            });
+        }
+
+        $features = $query->orderBy('id', 'desc')->get();
 
         return datatables($features)
             ->addIndexColumn()
-            ->addColumn('company_logo', function ($data) use($authUser){
-
-                if ($authUser->name=='admin'){
-                    if ($data->posted_by=='company'){
+            ->addColumn('company_logo', function ($data) use ($authUser) {
+                if ($authUser->name == 'admin') {
+                    if ($data->posted_by == 'company') {
                         return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
-                    }
-                    else{
+                    } else {
                         return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . auth('admin')->user()->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
-
                     }
                 }
-
             })
             ->addColumn('company', function ($data) {
-
-                return htmlspecialchars($data->title);
+                return $data->company ? $data->company->name : '';
             })
             ->addColumn('posted_by', function ($data) {
-
                 return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16' . ($data->posted_by == 'admin' ? ' text-0fa958 bg-0fa958-10' : ' text-f5b40a bg-f5b40a-10') . '">' . $data->posted_by . '</p>';
-
             })
-
             ->addColumn('status', function ($data){
                 $checked = $data->status ? 'checked' : '';
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
@@ -171,33 +199,44 @@ class JobPostService
             })
             ->addColumn('action', function ($data) use ($authUser) {
                 $auth = $authUser->user()->getTable() === 'companies' ? 'company' : 'admin';
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                                <li class="d-flex gap-2">
-                                    <button onclick="getEditModal(\'' . route($auth.'.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                                    </button>
-                                    <button onclick="deleteItem(\'' . route($auth.'.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                                    </button>
-                                    <a href="' . route($auth.'.jobs.details', ['company'=>auth('company')->id(),'slug'=>$data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
-                                </li>
-                            </ul>';
+                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                        <li class="d-flex gap-2">
+                            <button onclick="getEditModal(\'' . route($auth.'.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                                <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
+                            </button>
+                            <button onclick="deleteItem(\'' . route($auth.'.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+                                <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
+                            </button>
+                            <a href="' . route($auth.'.jobs.details', ['company' => auth('company')->id(),'slug' => $data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+                        </li>
+                    </ul>';
             })
-            ->rawColumns(['company_logo','posted_by','status' ,'action', 'company', 'employee_status', 'application_deadline'])
+            ->rawColumns(['company_logo', 'posted_by', 'status', 'action', 'company'])
             ->make(true);
     }
 
 
-    public function getPendingJobPostList(){
+    public function getPendingJobPostList($request){
 
         $authUser = $this->getAuthenticatedUser(['company', 'admin']);
         if ($authUser->name=='admin'){
-            $features = JobPost::where('posted_by','admin')->where('status',JOB_STATUS_APPROVED)->orWhere('posted_by','company')->orderBy('id','desc')->get();
+            $query = JobPost::where('status', JOB_STATUS_APPROVED)
+                ->where(function($query) {
+                    $query->where('posted_by', 'admin')
+                        ->orWhere('posted_by', 'company');
+                });
 
         }
         else{
-            $features = JobPost::where('user_id',$authUser->user()->id)->where('status',JOB_STATUS_APPROVED)->where('posted_by',$authUser->name)->orderBy('id','desc')->get();
+            $query = JobPost::where('user_id',$authUser->user()->id)->where('status',JOB_STATUS_APPROVED)->where('posted_by',$authUser->name);
         }
+
+        if ($request->search['value']) {
+            $search = $request->search['value'];
+            $query->where('title', 'like', "%{$search}%");
+        }
+        $features= $query->orderBy('id', 'desc')
+            ->get();
 
         return datatables($features)
             ->addIndexColumn()

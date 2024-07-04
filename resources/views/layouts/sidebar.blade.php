@@ -76,7 +76,7 @@
                                 @endif
                                 <li>
                                     <a class="{{ $activePendingJobPostList ?? '' }}"
-                                       href="{{ route($authenticatedGuard.'.jobs.pending') }}">{{ __('Pending Jobs') }}</a>
+                                       href="{{ route($authenticatedGuard.'.jobs.pending') }}">{{ __('Active Jobs') }}</a>
                                 </li>
 
                                 <li>

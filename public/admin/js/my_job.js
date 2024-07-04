@@ -26,16 +26,12 @@
         },
         dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"d-flex align-items-center cg-5"<"tableSearch float-start"f><"z-filter-button">>><"col-sm-6"<"tableLengthInput float-end"l>><"col-sm-12"<"z-filter-block">>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
         columns: [
-            { "data": "company_logo", "name": "job.company_logo", responsivePriority: 1 },
-            { "data": "title", "name": "job.title", responsivePriority: 1 },
-            { "data": "employee_status", "name": "job.employee_status", responsivePriority: 1 },
-            // { "data": "salary", "name": "job.salary", responsivePriority: 2 },
-            { "data": "application_deadline", "name": "job.application_deadline", responsivePriority: 3 },
-            { "data": "status", "name": "job.application_deadline", responsivePriority: 3 },
-            { "data": "action", "name": "job.action"},
-            // { "data": "major", "name": "student.major" },
-            // { "data": "credits_left", searchable: false, responsivePriority: 2},
-            // { "data": "action", searchable: false, responsivePriority: 3 },
+            { "data": "company_logo", "name": "company_logo", "searchable": false, "orderable": false, responsivePriority: 1 },
+            { "data": "title", "name": "title", "searchable": true, "orderable": true, responsivePriority: 1 },
+            { "data": "employee_status", "name": "employee_status", "searchable": true, "orderable": true, responsivePriority: 1 },
+            { "data": "application_deadline", "name": "application_deadline", "searchable": true, "orderable": true, responsivePriority: 3 },
+            { "data": "status", "name": "status", "searchable": true, "orderable": true, responsivePriority: 3 },
+            { "data": "action", "name": "action", "searchable": false, "orderable": false},
         ],
         "initComplete": function( settings, json ) {
             $('.z-filter-block').html($('#search-section').html());

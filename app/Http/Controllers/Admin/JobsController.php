@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\JobPost;
 use Illuminate\Http\Request;
 use App\Http\Services\JobPostService;
@@ -36,7 +37,7 @@ class   JobsController extends Controller
     public function myJobPost(Request $request)
     {
         if ($request->ajax()) {
-            return $this->jobPostService->getMyJobPostList();
+            return $this->jobPostService->getMyJobPostList($request);
         }
         $data['title'] = __('My Job Post');
         $data['showJobPostManagement'] = 'show';
@@ -72,19 +73,21 @@ class   JobsController extends Controller
     public function all(Request $request)
     {
         if ($request->ajax()) {
-         return $this->jobPostService->getAllJobPostList();
+         return $this->jobPostService->getAllJobPostList($request);
         }
         $data['title'] = __('All Job Post');
         $data['showJobPostManagement'] = 'show';
         $data['activeAllJobPostList'] = 'active-color-one';
+
+        $data['companies'] = JobPost::with('company')->get();
         return view('admin.jobs.all-job-post', $data);
     }
     public function pending(Request $request)
     {
         if ($request->ajax()) {
-            return $this->jobPostService->getPendingJobPostList();
+            return $this->jobPostService->getPendingJobPostList($request);
         }
-        $data['title'] = __('Pending Job List');
+        $data['title'] = __('Active Job List');
         $data['showJobPostManagement'] = 'show';
         $data['activePendingJobPostList'] = 'active-color-one';
         return view('admin.jobs.pending-job-post', $data);
