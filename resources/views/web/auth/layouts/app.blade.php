@@ -5,7 +5,7 @@
 {{--{!! RecaptchaV3::initJs() !!}--}}
 
 <body>
-@include('web.auth.layouts.nav')
+@include('layouts.auth-nav')
 
 
     <div id="preloader">
