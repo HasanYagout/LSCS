@@ -143,6 +143,22 @@ class JobPostService
                 ->where('posted_by', $authUser->name);
         }
 
+
+
+        if ($request->postedBy && $request->postedBy != 'all' && !is_null($request->postedBy)) {
+            $query->where('posted_by', $request->postedBy);
+        }
+
+        if ($request->status && $request->status != 'all' && !is_null($request->postedBy)) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->company && $request->company != 'all' && !is_null($request->postedBy)) {
+            $query->whereHas('company', function($q) use ($request) {
+                $q->where('name', 'like', "%{$request->company}%");
+            });
+        }
+
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
             $query->where(function($query) use ($search) {
@@ -150,20 +166,6 @@ class JobPostService
                     ->orWhereHas('company', function($q) use ($search) {
                         $q->where('name', 'like', "%{$search}%");
                     });
-            });
-        }
-
-        if ($request->postedBy && $request->postedBy != 'all') {
-            $query->where('posted_by', $request->postedBy);
-        }
-
-        if ($request->status && $request->status != 'all') {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->company && $request->company != 'all') {
-            $query->whereHas('company', function($q) use ($request) {
-                $q->where('name', 'like', "%{$request->company}%");
             });
         }
 

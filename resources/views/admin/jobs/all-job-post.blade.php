@@ -58,7 +58,8 @@
 
                             <select class="sf-select-without-search primary-form-control" name='department'
                                     id='posted_by'>
-                                <option selected="" value='all'>{{__('All')}}</option>
+                                <option value="" selected disabled>{{__('Choose')}}</option>
+                                <option  value='all'>{{__('All')}}</option>
                                 <option  value='admin'>{{__('Admin')}}</option>
                                 <option  value='company'>{{__('Company')}}</option>
 
@@ -72,7 +73,8 @@
                             <label for="passing_year" class="form-label">{{__('Status')}}</label>
                             <select class="sf-select-without-search primary-form-control" name='passing_year'
                                     id='status'>
-                                <option selected="" value='all'>{{__('All')}}</option>
+                                <option value="" selected disabled>{{__('Choose')}}</option>
+                                <option value='all'>{{__('All')}}</option>
                                 <option  value='1'>{{__('Active')}}</option>
                                 <option  value='0'>{{__('Inactive')}}</option>
 
@@ -87,7 +89,8 @@
                             <label for="is_member" class="form-label">{{__('Company')}}</label>
                             <select class="sf-select-without-search primary-form-control" name='company'
                                     id='company'>
-                                <option value="all" selected>{{__('All')}}</option>
+                                <option value="" selected disabled>{{__('Choose')}}</option>
+                                <option value="all" >{{__('All')}}</option>
                                 @foreach($companies as $company)
                                     <option value="{{$company->company->name}}">{{$company->company->name}}</option>
                                 @endforeach
