@@ -52,16 +52,8 @@
                            aria-expanded="{{ isset($showJobPostManagement) ? 'true' : '' }}" aria-controls="jobPost"
                            class="d-flex align-items-center cg-10 {{ isset($showJobPostManagement) ? 'active' : 'collapsed' }}">
                             <div class="d-flex">
-                                <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
-                                     xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="5.20801" y="5.11185" width="14.5833" height="17.7083" rx="2"
-                                          stroke="white" stroke-opacity="0.7" stroke-width="1.5"/>
-                                    <path d="M9.375 10.3202H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                          stroke-linecap="round"/>
-                                    <path d="M9.375 14.4868H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                          stroke-linecap="round"/>
-                                    <path d="M9.375 18.6535H13.5417" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                          stroke-linecap="round"/>
+                                <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-briefcase text-white-70" viewBox="0 0 16 16">
+                                    <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5m1.886 6.914L15 7.151V12.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V7.15l6.614 1.764a1.5 1.5 0 0 0 .772 0M1.5 4h13a.5.5 0 0 1 .5.5v1.616L8.129 7.948a.5.5 0 0 1-.258 0L1 6.116V4.5a.5.5 0 0 1 .5-.5"/>
                                 </svg>
                             </div>
                             <span class="">{{__('Jobs')}}</span>
@@ -182,14 +174,9 @@
                                aria-expanded="{{ isset($showCompanyManagement) ? 'true' : '' }}" aria-controls="storyMenu"
                                class="d-flex align-items-center cg-10 {{ isset($showCompanyManagement) ? 'active' : 'collapsed' }}">
                                 <div class="d-flex">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20"
-                                         fill="none">
-                                        <path d="M1.71387 11.4286L10.9996 2.14285L20.2853 11.4286" stroke="white"
-                                              stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                              stroke-linejoin="round"/>
-                                        <path d="M4.57129 8.57144L4.57129 17.8572H17.4284V8.57144" stroke="white"
-                                              stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                              stroke-linejoin="round"/>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-building text-white-70" viewBox="0 0 16 16">
+                                        <path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM4.5 8a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z"/>
+                                        <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>
                                     </svg>
                                 </div>
                                 <span class="">{{__('Companies')}}</span>

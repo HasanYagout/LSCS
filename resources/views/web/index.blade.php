@@ -15,12 +15,12 @@
                         </p>
                         <div class="d-flex justify-content-center align-items-center flex-wrap g-10">
                             <a href="#about-us-section"
-                                class="py-15 px-32 bd-one bd-c-white bd-ra-12 d-flex align-items-center cg-16 bg-transparent fs-18 fw-600 lh-28 text-white hover-bg-color-primary hover-border-color-primary hover-color-white">
+                                class="align-items-center bd-c-white bd-one bd-ra-12 bg-primary-color cg-16 d-flex fs-18 fw-600 hover-bg-color-primary hover-border-color-primary hover-color-white lh-28 px-32 py-15 text-white">
                                 {{ __('About Us') }}
                                 <i class="fa-solid fa-long-arrow-right"></i>
                             </a>
                             <a href="{{ route('all.event') }}"
-                                class="py-15 px-32 bd-one bd-c-white bd-ra-12 d-flex align-items-center cg-16 bg-transparent fs-18 fw-600 lh-28 text-white hover-bg-color-primary hover-border-color-primary hover-color-white">
+                                class="align-items-center bd-c-white bd-one bd-ra-12 bg-primary-color cg-16 d-flex fs-18 fw-600 hover-bg-color-primary hover-border-color-primary hover-color-white lh-28 px-32 py-15 text-white">
                                 {{ __('All Events') }}
                                 <i class="fa-solid fa-long-arrow-right"></i>
                             </a>
@@ -168,7 +168,7 @@
                     <ul class="stories-list">
                         @foreach ($stories as $story)
                             <li class="hover-scale-img">
-                                <div class="img"><img src="{{ asset('public/storage/admin/story').'/'.$story->thumbnail }}"
+                                <div class="img"><img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/story').'/'.$story->thumbnail }}"
                                         alt="{{ $story->title }}" /></div>
                                 <div class="content">
                                     <div class="d-flex align-items-center cg-11 pb-10">
@@ -256,7 +256,7 @@
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="bd-ra-25 bg-event-bg hover-scale-img">
                             <div class="bd-ra-25 overflow-hidden h-341">
-                                <img onerror="this.src='{{asset('public/storage/alumni/image/def.png')}}'" class="w-100 h-100 object-fit-cover" src="{{ asset('public/storage/alumni/image') .'/'.$alumni->image}}"
+                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" class="w-100 h-100 object-fit-cover" src="{{ asset('public/storage/alumni/image') .'/'.$alumni->image}}"
                                     alt="{{ $alumni->name }}" />
                             </div>
                             <div class="pt-21 pb-23 px-10 text-center">
