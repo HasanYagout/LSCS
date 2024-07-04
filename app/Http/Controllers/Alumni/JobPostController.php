@@ -55,17 +55,12 @@ class JobPostController extends Controller
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        $data['cvs']=CV::where('alumni_id',auth('alumni')->id())->get();
+        $data['cvs']=CV::where('alumni_id',auth('alumni')->user()->student_id)->get();
         $data['company']=$company;
         $data['slug']=$slug;
         return view('alumni.jobs.job_post_view', $data);
     }
-    public function jobDetails($slug)
-    {
-        $data['title'] = __('Job Details');
-        $data['jobPostData'] = $this->jobPostService->getBySlug($slug);;
-        return view('alumni.jobs.job_post_view', $data);
-    }
+
 
     public function apply(Request $request, $company, $slug)
     {

@@ -56,12 +56,23 @@ class JobsController extends Controller
     {
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
-        $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        $data['majors']=Major::all();
-        $data['years']=Alumni::distinct()->pluck('graduation_year')->toArray();
-        $data['gpas'] = Alumni::select('gpa')->get()->map(function ($user) {
-            return round($user->gpa);
-        })->toArray();
+
+        // Get job post data by slug with eager loaded relationships
+        $jobPostData = $this->jobPostService->getBySlug($slug);
+
+        // Get the major IDs from the jobPostData
+        $majorIds = $jobPostData->appliedJobs->pluck('alumni.major')->unique()->toArray();
+        // Get distinct majors, years, and GPAs from the alumni who applied
+        $data['majors'] = Major::whereIn('name', $majorIds)->get();
+
+        $data['years'] = $jobPostData->appliedJobs->pluck('alumni.graduation_year')->unique()->toArray();
+
+        $data['gpas'] = $jobPostData->appliedJobs->pluck('alumni.GPA')->map(function ($gpa) {
+            return round($gpa);
+        })->unique()->toArray();
+
+
+        $data['jobPostData'] = $jobPostData;
 
         return view('company.jobs.job_post_view', $data);
     }
@@ -81,48 +92,57 @@ class JobsController extends Controller
     {
 
         if ($request->ajax()) {
-            $applied = AppliedJobs::with('alumni')->where('company_id', auth('company')->id())->where('job_id',$id)->orderBy('id', 'desc')->get();
+            $applied = AppliedJobs::with(['alumni', 'cv'])
+                ->where('company_id', auth('company')->id())
+                ->where('job_id', $id)
+                ->when($request->filled('selectedMajor') && $request->selectedMajor != "0", function ($query) use ($request) {
+                    return $query->whereHas('alumni', function ($query) use ($request) {
+                        $query->where('major', $request->selectedMajor);
+                    });
+                })
+                ->when($request->filled('selectedYear') && $request->selectedYear != "0", function ($query) use ($request) {
+                    return $query->whereHas('alumni', function ($query) use ($request) {
+                        $query->where('graduation_year', $request->selectedYear);
+                    });
+                })
+                ->when($request->filled('gpa') && $request->gpa != "-1", function ($query) use ($request) {
+                    $gpa = (float) $request->gpa;
+                    $lowerBound = $gpa - 1;
+                    return $query->whereHas('alumni', function ($query) use ($lowerBound, $gpa) {
+                        $query->whereBetween('GPA', [$lowerBound, $gpa]);
+                    });
+                })
+                ->orderBy('id', 'desc')
+                ->get();
 
             return datatables($applied)
                 ->addIndexColumn()
                 ->addColumn('name', function ($data) {
-
-                    return $data->alumni->first_name . ' ' . $data->alumni->last_name;
+                    return '<a class="text-707070 text-decoration-underline" href="' . route('company.jobs.alumni-profile', ['id' => $data->alumni->student_id]) . '">' . $data->alumni->first_name . ' ' . $data->alumni->last_name . '</a>';
                 })
                 ->addColumn('gpa', function ($data) {
                     return $data->alumni->GPA;
                 })
-                ->addColumn('major',function ($data){
+                ->addColumn('major', function ($data) {
                     return $data->alumni->major;
                 })
-                ->addColumn('graduation_year', function ($data){
+                ->addColumn('graduation_year', function ($data) {
                     return $data->alumni->graduation_year;
                 })
-//                ->addColumn('action', function ($data) {
-//                    if (auth('company')->user()->role_id == USER_ROLE_COMPANY) {
-//                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-//                                <li class="d-flex gap-2">
-//                                    <button onclick="getEditModal(\'' . route('company.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="' . __('Edit') . '">
-//                                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-//                                    </button>
-//                                    <button onclick="deleteItem(\'' . route('company.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
-//                                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-//                                    </button>
-//                                    <a href="' . route('company.jobs.details', ['company' => auth('company')->id(), 'slug' => $data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
-//                                </li>
-//                            </ul>';
-//                    } else {
-//                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-//                    <li class="d-flex gap-2">
-//                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
-//                    </li>
-//                </ul>';
-//                    }
-//
-//                })
-                ->rawColumns(['name','gpa','major','graduation_year'])
+                ->addColumn('action', function ($data) {
+                    return '<a href="' . asset('public/storage/alumni/cv/' . $data->cv->name) . '" class="btn btn-sm bg-71e3ba" download><i class="fa text-white fa-download"></i></a>';
+                })
+                ->rawColumns(['name', 'gpa', 'major', 'graduation_year', 'action'])
                 ->make(true);
         }
+    }
+    public function alumniProfile($id)
+    {
+
+        $data['activeProfile'] = 'active';
+        $data['showProfileManagement'] = 'show';
+        $data['user'] = Alumni::where('student_id', $id)->first();
+        return view('alumni.profile', $data);
     }
     public function pending(Request $request)
     {

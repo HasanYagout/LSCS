@@ -23,7 +23,9 @@ class JobPostService
     }
     public function getBySlug($slug)
     {
-        return JobPost::where('slug', $slug)->firstOrFail();
+        return JobPost::where('slug', $slug)
+            ->with(['appliedJobs.alumni', 'appliedJobs.cv']) // Eager load alumni and cv data
+            ->firstOrFail();
     }
 
     public function apply(Request $request, $company, $slug)
@@ -36,7 +38,7 @@ class JobPostService
                 'cv_id' => 'required|integer',  // Validate that cv_id is required and is an integer
             ]);
 
-            $alumniId = auth('alumni')->id();
+            $alumniId = auth('alumni')->user()->student_id;
             $jobPost = JobPost::where('slug', $slug)->firstOrFail();
 
             // Check if the alumni has already applied for the job

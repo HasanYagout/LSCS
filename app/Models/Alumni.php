@@ -14,7 +14,7 @@ class Alumni extends Authenticatable
     protected $dates=['deleted_at'];
     public function appliedJobs()
     {
-        return $this->hasMany(AppliedJobs::class, 'job_id');
+        return $this->hasMany(AppliedJobs::class, 'alumni_id', 'student_id');
     }
     public function recommendations()
     {
@@ -27,7 +27,7 @@ class Alumni extends Authenticatable
     }
     public function cvs()
     {
-        return $this->hasMany(CV::class, 'alumni_id');
+        return $this->hasMany(CV::class, 'alumni_id','student_id');
     }
     public function experience()
     {

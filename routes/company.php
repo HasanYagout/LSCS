@@ -42,8 +42,10 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
         Route::get('create', [JobsController::class, 'create'])->name('create');
         Route::get('/pending', [JobsController::class, 'pending'])->name('pending');
         Route::get('info/{slug}', [JobsController::class, 'info'])->name('info');
+        Route::get('alumni-profile/{id}', [JobsController::class, 'alumniProfile'])->name('alumni-profile');
         Route::post('update/{slug}', [JobsController::class, 'update'])->name('update');
         Route::post('delete/{slug}', [JobsController::class, 'delete'])->name('delete');
+
         Route::get('all-job-post', [JobsController::class, 'all'])->name('all-job-post');
         Route::get('my-job-post', [JobsController::class, 'myJobPost'])->name('my-job-post');
         Route::get('details/{company}/{slug}', [JobsController::class, 'details'])->name('details');
@@ -51,13 +53,5 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
 
 
     });
-    Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
-        Route::post('store', [PostController::class, 'store'])->name('store');
-        Route::delete('delete', [PostController::class, 'delete'])->name('delete');
-        Route::get('edit', [PostController::class, 'edit'])->name('edit');
-        Route::PUT('update', [PostController::class, 'update'])->name('update');
-        Route::get('single-post', [PostController::class, 'getSinglePost'])->name('single');
-        Route::get('load-post-body', [PostController::class, 'getSinglePostBody'])->name('single.body');
 
-    });
 });

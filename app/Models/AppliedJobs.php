@@ -21,6 +21,16 @@ class AppliedJobs extends Model
 
     public function alumni()
     {
-        return $this->belongsTo(Alumni::class, 'alumni_id');
+        return $this->belongsTo(Alumni::class, 'alumni_id', 'student_id');
+    }
+
+    public function cv()
+    {
+        return $this->belongsTo(CV::class, 'cv_id');
+    }
+
+    public function jobPost()
+    {
+        return $this->belongsTo(JobPost::class, 'job_id');
     }
 }

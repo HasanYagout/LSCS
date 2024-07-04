@@ -37,6 +37,9 @@ class JobPost extends Model
         return $this->belongsTo(Admin::class,'user_id');
     }
 
-
+    public function appliedJobs()
+    {
+        return $this->hasMany(AppliedJobs::class, 'job_id');
+    }
 
 }

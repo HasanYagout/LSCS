@@ -9,4 +9,8 @@ class CV extends Model
 {
     use HasFactory;
     protected $fillable=['alumni_id','name','slug'];
+    public function appliedJobs()
+    {
+        return $this->hasMany(AppliedJobs::class, 'cv_id');
+    }
 }

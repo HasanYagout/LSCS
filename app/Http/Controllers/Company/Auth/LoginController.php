@@ -17,27 +17,6 @@ class LoginController extends Controller
         $this->middleware('guest:admin', ['except' => ['logout']]);
     }
 
-//    public function captcha($tmp)
-//    {
-//
-//        $phrase = new PhraseBuilder;
-//        $code = $phrase->build(4);
-//        $builder = new CaptchaBuilder($code, $phrase);
-//        $builder->setBackgroundColor(220, 210, 230);
-//        $builder->setMaxAngle(25);
-//        $builder->setMaxBehindLines(0);
-//        $builder->setMaxFrontLines(0);
-//        $builder->build($width = 100, $height = 40, $font = null);
-//        $phrase = $builder->getPhrase();
-//
-//        if(Session::has('default_captcha_code')) {
-//            Session::forget('default_captcha_code');
-//        }
-//        Session::put('default_captcha_code', $phrase);
-//        header("Cache-Control: no-cache, must-revalidate");
-//        header("Content-Type:image/jpeg");
-//        $builder->output();
-//    }
 
     public function login()
     {
@@ -63,7 +42,7 @@ class LoginController extends Controller
         // Attempt authentication with the provided credentials
         if ($user && Auth::guard('company')->attempt($credentials, $request->remember)) {
             // Authentication successful
-            return redirect()->route('company.home');
+            return redirect()->route('company.jobs.all-job-post')->with('info','welcome '.$user->name);
         }
 
         // Default response for failed authentication

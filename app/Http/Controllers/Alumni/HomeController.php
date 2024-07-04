@@ -28,7 +28,7 @@ class HomeController extends BaseController
         $data['latestNotice'] = $this->dashboardService->getLatestNotice()->getData()->data;
         $data['user'] = auth('alumni')->user();
         $data['posts']=$this->dashboardService->getPosts();
-        return view('alumni.home', $data);
+        return view('alumni.home', $data)->with('info','welcome'.auth('alumni')->user()->first_name);
     }
 
     public function loadMorePost(Request $request)

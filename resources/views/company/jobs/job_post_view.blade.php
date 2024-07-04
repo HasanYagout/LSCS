@@ -66,11 +66,12 @@
                                     <div class="primary-form-group">
                                         <div class="primary-form-group-wrap">
                                             <label for="Department" class="form-label">{{__('Department')}}</label>
+
                                             <select class="sf-select-without-search primary-form-control" name='department'
                                                     id='department'>
                                                 <option selected="" value=0>{{__('All Majors')}}</option>
                                                 @foreach ($majors as $major)
-                                                    <option value="{{ $major->id }}">{{ $major->name }}</option>
+                                                    <option value="{{ $major->name}}">{{ $major->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -94,8 +95,8 @@
                                     <div class="primary-form-group">
                                         <div class="primary-form-group-wrap">
                                             <label for="is_member" class="form-label">{{__('GPA')}}</label>
-                                            <select class="sf-select-without-search primary-form-control" name='is_member'
-                                                    id='is-member'>
+                                            <select class="sf-select-without-search primary-form-control" name='gpa'
+                                                    id='GPA'>
                                                 <option value="-1" selected>{{__('All')}}</option>
                                                 @foreach ($gpas as $gpa)
                                                     <option value="{{ $gpa }}">{{ $gpa }}</option>
@@ -105,10 +106,7 @@
                                     </div>
                                 </div>
 
-                                            <select class="js-example-basic-single" name="state">
-                                                <option value="AL">Alabama</option>
-                                                <option value="WY">Wyoming</option>
-                                            </select>
+
 
 {{--                                <div class="item">--}}
 {{--                                    <div class="primary-form-group">--}}
@@ -142,7 +140,6 @@
                         <th scope="col"><div>{{ __('GPA') }}</div></th>
                         <th scope="col"><div>{{ __('Major') }}</div></th>
                         <th scope="col"><div>{{ __('Graduation Year') }}</div></th>
-                         <th scope="col"><div>{{ __('Status') }}</div></th>
                         <th class="w-110 text-center" scope="col"><div>{{ __('Action') }}</div></th>
                     </tr>
                     </thead>

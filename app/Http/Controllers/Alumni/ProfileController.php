@@ -32,7 +32,7 @@ class ProfileController extends Controller
     {
         $data['activeProfile'] = 'active';
         $data['showProfileManagement'] = 'show';
-        $data['user'] = $this->userService->userData();
+        $data['user'] = auth('alumni')->user();
         return view('alumni.profile',$data);
     }
 

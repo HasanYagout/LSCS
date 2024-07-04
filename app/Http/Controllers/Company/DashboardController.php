@@ -26,14 +26,10 @@ class DashboardController extends Controller
 
         $data['pageTitle'] = __('Dashboard');
         $data['activeDashboard'] = 'active';
-
         $dashboardService = new DashboardService();
-        $data['totalJobs'] = JobPost::where('company_id', auth('company')->id())->count();
-
+        $data['totalJobs'] = JobPost::where('user_id', auth('company')->id())->where('posted_by','company')->count();
         $d = array();
-
         $data['dayList'] = json_encode(array_reverse($d));
-
         return view('company.dashboard', $data);
     }
 
