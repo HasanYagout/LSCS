@@ -44,6 +44,7 @@
             </div>
         </div>
     </div>
+
     <!-- Edit Modal section end -->
 @endsection
 

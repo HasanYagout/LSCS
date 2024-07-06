@@ -85,9 +85,21 @@ class JobPostService
             $search = $request->search['value'];
             $query->where('title', 'like', "%{$search}%");
         }
-        $features = $query->orderBy('id', 'desc')->get();
 
-        return datatables($features)
+        // Handle ordering
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                // Ensure the column exists in the database to avoid errors
+                if (in_array($orderBy, ['company.name', 'title', 'application_deadline', 'posted_by', 'status'])) {
+                    $orderDirection = $order['dir'];
+                    $query->orderBy($orderBy, $orderDirection);
+                }
+            }
+        } else {
+            $query->orderBy('id', 'desc');
+        }
+        return datatables($query)
             ->addIndexColumn()
             ->addColumn('company_logo', function ($data) {
                 return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
@@ -129,54 +141,65 @@ class JobPostService
     }
 
 
-    public function getAllJobPostList($request){
+    public function getAllJobPostList(Request $request)
+    {
         $authUser = $this->getAuthenticatedUser(['company', 'admin']);
         $query = JobPost::with('company'); // Eager load the company relationship
 
-// Base query adjustments based on user type
-        $query->where(function($q) use ($authUser, $request) {
+        // Base query adjustments based on user type
+        $query->where(function ($q) use ($authUser, $request) {
             if ($authUser->name == 'admin') {
                 $q->where('posted_by', 'admin')
-                ->orWhere('posted_by','company');
+                    ->orWhere('posted_by', 'company');
             } else {
                 $q->where('user_id', $authUser->user()->id)
                     ->where('posted_by', $authUser->name);
             }
-
         });
 
-            // Conditionally add status filter
-            if (isset($request->status) && $request->status != 'all') {
+        // Conditionally add status filter
+        if (isset($request->status) && $request->status != 'all') {
+            $query->where('status', $request->status);
+        }
 
-                $query->where('status', $request->status);
-            }
-// Additional filters
+        // Additional filters
         if (isset($request->postedBy) && $request->postedBy != 'all') {
             $query->where('posted_by', $request->postedBy);
         }
 
         if (isset($request->company) && $request->company != 'all') {
-            $query->whereHas('company', function($q) use ($request) {
+            $query->whereHas('company', function ($q) use ($request) {
                 $q->where('name', 'like', "%{$request->company}%");
             });
         }
 
-// Handle search input only if it has a value
+        // Handle search input only if it has a value
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
-                    ->orWhereHas('company', function($q) use ($search) {
+                    ->orWhereHas('company', function ($q) use ($search) {
                         $q->where('name', 'like', "%{$search}%");
                     });
             });
         }
 
-// Dump the SQL query and bindings
+        // Handle ordering
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                // Ensure the column exists in the database to avoid errors
+                if (in_array($orderBy, ['company.name', 'title', 'application_deadline', 'posted_by', 'status'])) {
+                    $orderDirection = $order['dir'];
+                    $query->orderBy($orderBy, $orderDirection);
+                }
+            }
+        } else {
+            $query->orderBy('id', 'desc');
+        }
 
-        $features = $query->orderBy('id', 'desc')->get();
-
-        return datatables($features)
+        // Handle DataTables response
+        return datatables($query)
             ->addIndexColumn()
             ->addColumn('company_logo', function ($data) use ($authUser) {
                 if ($authUser->name == 'admin') {
@@ -193,7 +216,7 @@ class JobPostService
             ->addColumn('posted_by', function ($data) {
                 return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16' . ($data->posted_by == 'admin' ? ' text-0fa958 bg-0fa958-10' : ' text-f5b40a bg-f5b40a-10') . '">' . $data->posted_by . '</p>';
             })
-            ->addColumn('status', function ($data){
+            ->addColumn('status', function ($data) {
                 $checked = $data->status ? 'checked' : '';
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                 <li class="d-flex gap-2">
@@ -208,19 +231,20 @@ class JobPostService
                 $auth = $authUser->user()->getTable() === 'companies' ? 'company' : 'admin';
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                         <li class="d-flex gap-2">
-                            <button onclick="getEditModal(\'' . route($auth.'.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                            <button onclick="getEditModal(\'' . route($auth . '.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
                                 <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                             </button>
-                            <button onclick="deleteItem(\'' . route($auth.'.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+                            <button onclick="deleteItem(\'' . route($auth . '.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
                                 <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                             </button>
-                            <a href="' . route($auth.'.jobs.details', ['company' => auth('company')->id(),'slug' => $data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+                            <a href="' . route($auth . '.jobs.details', ['company' => auth('company')->id(), 'slug' => $data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
                         </li>
                     </ul>';
             })
             ->rawColumns(['company_logo', 'posted_by', 'status', 'action', 'company'])
             ->make(true);
     }
+
 
 
     public function getPendingJobPostList($request){
@@ -266,11 +290,20 @@ class JobPostService
                     });
             });
         }
-
-// Dump the SQL query and bindings
-
-        $features = $query->orderBy('id', 'desc')->get();
-        return datatables($features)
+        // Handle ordering
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                // Ensure the column exists in the database to avoid errors
+                if (in_array($orderBy, ['company.name', 'title', 'application_deadline', 'posted_by', 'status'])) {
+                    $orderDirection = $order['dir'];
+                    $query->orderBy($orderBy, $orderDirection);
+                }
+            }
+        } else {
+            $query->orderBy('id', 'desc');
+        }
+        return datatables($query)
             ->addIndexColumn()
             ->addColumn('company_logo', function ($data) use($authUser) {
                 if ($authUser->name=='admin'){

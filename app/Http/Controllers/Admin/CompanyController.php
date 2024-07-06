@@ -30,44 +30,7 @@ class CompanyController extends Controller
     {
 
         if ($request->ajax()) {
-            $companies = Company::where('status',STATUS_ACTIVE)
-                ->orWhere('status',STATUS_INACTIVE)
-                ->orderBy('id','desc')
-                ->get();
-
-            return datatables($companies)
-                ->addIndexColumn()
-                ->addColumn('name', function ($data) {
-                    return $data->name;
-                })
-                ->addColumn('email',function($data){
-                    return $data->email;
-                })
-                ->addColumn('phone',function($data){
-                    return $data->phone;
-                })
-                ->addColumn('status', function ($data) {
-                    $checked = $data->status ? 'checked' : '';
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                <li class="d-flex gap-2">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
-                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
-                    </div>
-                </li>
-            </ul>';
-                })
-
-                ->addColumn('action', function ($data) {
-                        return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                                <li class="d-flex gap-2">
-                                    <a href="' . route('admin.company.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
-                                </li>
-                            </ul>';
-
-                })
-                ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'status', 'application_deadline'])
-                ->make(true);
+            return $this->companyService->all($request);
         }
         $data['title'] = __('All Companies');
         $data['showCompanyManagement'] = 'show';
@@ -78,33 +41,9 @@ class CompanyController extends Controller
     {
 
         if ($request->ajax()) {
-            $companies = Company::where('status',STATUS_ACTIVE)
-                ->orderBy('id','desc')
-                ->get();
-
-            return datatables($companies)
-                ->addIndexColumn()
-                ->addColumn('name', function ($data) {
-                    return $data->name;
-                })
-                ->addColumn('email',function($data){
-                    return $data->email;
-                })
-                ->addColumn('phone',function($data){
-                    return $data->phone;
-                })
-                ->addColumn('status', function ($data) {
-                    if ($data->status == 1) {
-                        return '<span class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-0fa958 bg-0fa958-10">'.__('Active').'</span>';
-                    } else {
-                        return '<span class="zBadge-free">'.__('Deactivate').'</span>';
-                    }
-                })
-
-                ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'status', 'application_deadline'])
-                ->make(true);
+        return $this->companyService->active($request);
         }
-        $data['title'] = __('All Companies');
+        $data['title'] = __('Active Companies');
         $data['showCompanyManagement'] = 'show';
         $data['activeCompanyActiveList'] = 'active-color-one';
         return view('admin.company.active', $data);
@@ -113,42 +52,9 @@ class CompanyController extends Controller
     public function pending(Request $request)
     {
         if ($request->ajax()) {
-            $companies = Company::where('status',STATUS_INACTIVE)->orderBy('id','desc')->get();
-            return datatables($companies)
-                ->addIndexColumn()
-                ->addColumn('name', function ($data) {
-                    return $data->name;
-                })
-                ->addColumn('email',function($data){
-                    return $data->email;
-                })
-                ->addColumn('phone',function($data){
-                    return $data->phone;
-                })
-                ->addColumn('status', function ($data) {
-                    $checked = $data->status ? 'checked' : '';
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                <li class="d-flex gap-2">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
-                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
-                    </div>
-                </li>
-            </ul>';
-                })
-
-                ->addColumn('action', function ($data) {
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                                <li class="d-flex gap-2">
-                                    <a href="' . route('admin.company.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
-                                </li>
-                            </ul>';
-
-                })
-                ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'status', 'application_deadline'])
-                ->make(true);
+          return $this->companyService->pending($request);
         }
-        $data['title'] = __('All Companies');
+        $data['title'] = __('Pending Companies');
         $data['showCompanyManagement'] = 'show';
         $data['activePendingCompanyList'] = 'active-color-one';
         return view('admin.company.pending', $data);

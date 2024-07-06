@@ -28,9 +28,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::post('delete/{id}', [AdminController::class,'delete'])->name('delete');
     Route::get('edit/{id}', [AdminController::class,'edit'])->name('edit');
     Route::post('update', [AdminController::class,'update'])->name('update');
-    Route::get('add', [AdminController::class, 'add'])->name('add');
+    Route::get('list', [AdminController::class, 'index'])->name('index');
     Route::post('store', [AdminController::class, 'store'])->name('store');
-    Route::get('list', [AdminController::class, 'list'])->name('list');
     Route::post('status/{id}', [AdminController::class, 'status'])->name('status');
     Route::post('reset-password/{id}', [AdminController::class, 'resetPassword'])->name('reset-password');
 

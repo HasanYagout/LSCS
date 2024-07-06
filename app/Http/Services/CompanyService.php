@@ -35,4 +35,169 @@ class CompanyService
             return response()->json(['success' => false, 'message' => 'Failed to update status: ' . $e->getMessage()]);
         }
     }
+
+    public function all($request)
+    {
+        $query = Company::where('status',STATUS_ACTIVE)
+            ->orWhere('status',STATUS_INACTIVE);
+
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $query->where(function ($q) use ($search) {
+                $q->where('email', 'like', "%{$search}%")
+                    ->orWhere('name', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                $orderDirection = $order['dir'];
+                $query->orderBy($orderBy, $orderDirection);
+            }
+        } else {
+            $query->orderBy('id', 'desc');
+        }
+
+        return datatables($query)
+            ->addIndexColumn()
+            ->addColumn('name', function ($data) {
+                return $data->name;
+            })
+            ->addColumn('email',function($data){
+                return $data->email;
+            })
+            ->addColumn('phone',function($data){
+                return $data->phone;
+            })
+            ->addColumn('status', function ($data) {
+                $checked = $data->status ? 'checked' : '';
+                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                <li class="d-flex gap-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
+                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
+                    </div>
+                </li>
+            </ul>';
+            })
+
+            ->addColumn('action', function ($data) {
+                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                                <li class="d-flex gap-2">
+                                    <a href="' . route('admin.company.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+                                </li>
+                            </ul>';
+
+            })
+            ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'status', 'application_deadline'])
+            ->make(true);
+    }
+
+    public function active( $request)
+    {
+        $query = Company::where('status', STATUS_ACTIVE);
+
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $query->where(function ($q) use ($search) {
+                $q->where('email', 'like', "%{$search}%")
+                    ->orWhere('name', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                $orderDirection = $order['dir'];
+                // Ensure the column exists in the database to avoid errors
+                if (in_array($orderBy, ['email', 'name', 'phone', 'status', 'id'])) {
+                    $query->orderBy($orderBy, $orderDirection);
+                }
+            }
+        } else {
+            $query->orderBy('id', 'desc');
+        }
+
+
+
+        return datatables($query)
+            ->addIndexColumn()
+            ->addColumn('name', function ($data) {
+                return $data->name;
+            })
+            ->addColumn('email', function($data) {
+                return $data->email;
+            })
+            ->addColumn('phone', function($data) {
+                return $data->phone;
+            })
+            ->addColumn('status', function ($data) {
+                if ($data->status == 1) {
+                    return '<span class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-0fa958 bg-0fa958-10">'.__('Active').'</span>';
+                } else {
+                    return '<span class="zBadge-free">'.__('Deactivate').'</span>';
+                }
+            })
+            ->rawColumns(['status'])
+            ->make(true);
+    }
+
+
+    public function pending($request)
+    {
+
+        $query = Company::where('status',STATUS_INACTIVE);
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $query->where(function ($q) use ($search) {
+                $q->where('email', 'like', "%{$search}%")
+                    ->orWhere('name', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                $orderDirection = $order['dir'];
+                $query->orderBy($orderBy, $orderDirection);
+            }
+        } else {
+            $query->orderBy('id', 'desc');
+        }
+        return datatables($query)
+            ->addIndexColumn()
+            ->addColumn('name', function ($data) {
+                return $data->name;
+            })
+            ->addColumn('email',function($data){
+                return $data->email;
+            })
+            ->addColumn('phone',function($data){
+                return $data->phone;
+            })
+            ->addColumn('status', function ($data) {
+                $checked = $data->status ? 'checked' : '';
+                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                <li class="d-flex gap-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
+                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
+                    </div>
+                </li>
+            </ul>';
+            })
+
+            ->addColumn('action', function ($data) {
+                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                                <li class="d-flex gap-2">
+                                    <a href="' . route('admin.company.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+                                </li>
+                            </ul>';
+
+            })
+            ->rawColumns(['company_logo', 'action', 'title', 'employee_status', 'status', 'application_deadline'])
+            ->make(true);
+    }
 }

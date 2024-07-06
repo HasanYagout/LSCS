@@ -34,7 +34,7 @@
             { "data": "status", "name": "status", responsivePriority: 3, orderable: true, searchable: true },
             { "data": "action", "name": "action", responsivePriority: 3, orderable: false, searchable: false }
         ],
-        "initComplete": function(settings, json) {
+        "initComplete": function (settings, json) {
             $('.z-filter-block').html($('#search-section').html());
             $('#search-section').remove();
 
@@ -60,7 +60,7 @@
         e.preventDefault();
     });
 
-    $(document).on('change', '.toggle-status', function(e) {
+    $(document).on('change', '.toggle-status', function (e) {
         var $switch = $(this);
         var jobId = $switch.data('id');
         var newStatus = $switch.is(':checked') ? 1 : 0;
@@ -84,7 +84,7 @@
                         _token: csrfToken,
                         status: newStatus
                     },
-                    success: function(response) {
+                    success: function (response) {
                         if (response.success) {
                             toastr.success(response.message);
                         } else {
@@ -92,7 +92,7 @@
                         }
                         table.ajax.reload();
                     },
-                    error: function(error) {
+                    error: function (error) {
                         toastr.error(error.responseJSON.message);
                         table.ajax.reload();
                     }

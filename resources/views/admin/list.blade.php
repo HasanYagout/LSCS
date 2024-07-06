@@ -5,7 +5,7 @@
 @section('content')
     <div class="p-30" >
         <div>
-            <input type="hidden" id="instructor-list-route" value="{{ route('admin.list') }}">
+            <input type="hidden" id="instructor-list-route" value="{{ route('admin.index') }}">
             <input type="hidden" id="instructor-status-route" value="{{ route('admin.status',':id') }}">
             <div class="d-flex flex-wrap justify-content-between align-items-center pb-16">
                 <h4 class="fs-24 fw-500 lh-34 text-black">{{ $pageTitle }}</h4>
@@ -115,6 +115,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade zModalTwo" id="edit-modal" aria-hidden="true" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content zModalTwo-content">
@@ -122,6 +123,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 @push('script')
     <script>

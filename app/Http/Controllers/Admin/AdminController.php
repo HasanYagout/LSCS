@@ -34,7 +34,9 @@ class AdminController extends Controller
 
     public function edit($id)
     {
+
         $data['admin'] = $this->adminService->getById($id);
+
         return view('admin.edit-form', $data);
     }
     public function status(Request $request,$id)
@@ -42,7 +44,6 @@ class AdminController extends Controller
 
         try {
             $admin = Admin::findOrFail($id); // Find admin by ID
-
             $admin->status = $request->status; // Update status
             $admin->save(); // Save changes
 
@@ -60,11 +61,14 @@ class AdminController extends Controller
 
     }
 
-    public function add()
+    public function index(Request $request)
     {
-        $data['pageTitle'] = __('Add Instructor');
-        $data['activeInstructor'] = 'active';
-        return view('admin.add', $data);
+        if ($request->ajax()) {
+            return $this->adminService->list($request);
+        }
+        $data['pageTitle'] = __('List Admin');
+        $data['activeAdmin'] = 'active';
+        return view('admin.list', $data);
     }
     public function store(Request $request)
     {
@@ -87,65 +91,10 @@ class AdminController extends Controller
         $admin->status=1;
         $admin->save();
 
-        return redirect()->route('admin.add')->with('success', 'Admin added successfully!');
+        return redirect()->route('admin.index')->with('success', 'Admin added successfully!');
     }
 
-    public function list(Request $request)
-    {
-        if ($request->ajax()) {
-            $allInstructors = Admin::where('status', 1)
-                ->orWhere('status',0)
-                ->orderBy('id', 'desc');
-            return datatables($allInstructors)
-                ->addIndexColumn()
-                ->addColumn('image', function ($data) {
-                    return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . auth('admin')->user()->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
 
-                })
-                ->addColumn('first_name', function ($data) {
-                    return $data->first_name;
-                })
-                ->addColumn('last_name', function ($data) {
-                    return $data->last_name;
-                })
-                ->addColumn('email', function ($data) {
-                    return $data->email;
-                })
-                ->addColumn('type', function ($data) {
-
-                    return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16' . ($data->role_id == '1' ? ' text-0fa958 bg-0fa958-10' : ' text-f5b40a bg-f5b40a-10') . '">' . $data->role->name . '</p>';
-                })
-                ->addColumn('reset_password', function ($data) {
-                    return '<button onclick="resetPassword(\''. route('admin.reset-password', ['id' => $data->id]) . '\', ' . $data->id . ')" class="bg-secondary-color btn btn-sm text-white">Reset Password</button>';
-                })
-                ->addColumn('status', function ($data) {
-                    $checked = $data->status ? 'checked' : '';
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                <li class="d-flex gap-2">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
-                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
-                    </div>
-                </li>
-            </ul>';
-                })
-                ->addColumn('action', function ($data){
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                            <li class="d-flex gap-2">
-                                <button onclick="getEditModal(\'' . route('admin.edit', $data->id) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                                </button>
-
-                                <button onclick="deleteItem(\'' . route('admin.delete', $data->id) . '\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                                </button>
-                            </li>
-                        </ul>';
-                })
-                ->rawColumns(['action','reset_password','status', 'type', 'image'])
-                ->make(true);
-        }
-    }
     public function resetPassword(Request $request, $id)
     {
 

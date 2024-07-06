@@ -34,9 +34,8 @@ class StoryService
             $query->where('title', 'like', "%{$search}%");
         }
 
-        $features = $query->orderBy('id', 'desc')->get();
 
-        return datatables($features)
+        return datatables($query)
             ->addIndexColumn()
             ->addColumn('thumbnail', function ($data) {
                 return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/story'.'/'.$data->thumbnail) . '" alt="Story" class="rounded avatar-xs max-h-35">';
@@ -67,9 +66,8 @@ class StoryService
             $query->where('title', 'like', "%{$search}%");
         }
 
-        $features = $query->orderBy('id', 'desc')->get();
 
-        return datatables($features)
+        return datatables($query)
             ->addIndexColumn()
             ->addColumn('thumbnail', function ($data) {
                 return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/story'.'/'.$data->thumbnail) . '" alt="Story" class="rounded avatar-xs max-h-35">';
@@ -98,9 +96,8 @@ class StoryService
             $query->where('title', 'like', "%{$search}%");
         }
 
-        $features = $query->orderBy('id', 'desc')->get();
 
-        return datatables($features)
+        return datatables($query)
             ->addIndexColumn()
             ->addColumn('thumbnail', function ($data) {
                 return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/story'.'/'.$data->thumbnail) . '" alt="Story" class="rounded avatar-xs max-h-35">';

@@ -199,8 +199,8 @@
                             </div>
                         </li>
                         <li>
-                            <a href="{{ route($authenticatedGuard.'.add') }}"
-                               class="{{ $activeInstructor ?? '' }} d-flex align-items-center cg-10">
+                            <a href="{{ route($authenticatedGuard.'.index') }}"
+                               class="{{ $activeAdmin ?? '' }} d-flex align-items-center cg-10">
                                 <div class="d-flex">
                                     <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
                                          xmlns="http://www.w3.org/2000/svg">
