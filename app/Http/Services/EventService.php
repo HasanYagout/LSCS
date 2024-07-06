@@ -40,12 +40,22 @@ class EventService
     }
 
 
-    public function allEvent()
+    public function allEvent( $request)
     {
-        $allEvent = Event::where('status', STATUS_ACTIVE)
-            ->orWhere('status', STATUS_PENDING)
-            ->orderBy('created_at', 'desc');
-        return datatables($allEvent)
+        $query = Event::select('events.*', 'event_categories.name as category_name')
+            ->join('event_categories', 'events.event_category_id', '=', 'event_categories.id')
+            ->whereIn('events.status', [STATUS_ACTIVE, STATUS_PENDING])
+            ->orderBy('events.created_at', 'desc');
+
+        // Handle search
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $query->where(function($q) use ($search) {
+                $q->where('events.title', 'like', "%{$search}%")
+                    ->orWhere('event_categories.name', 'like', "%{$search}%");
+            });
+        }
+        return datatables($query)
             ->addIndexColumn()
             ->addColumn('category', function ($data) {
                 return '<p class="min-w-130 text-center zBadge">' . htmlspecialchars($data->category->name) . '</p>';
@@ -57,27 +67,29 @@ class EventService
                 $checked = $data->status == STATUS_ACTIVE ? 'checked' : '';
                 return '<div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="statusSwitch' . $data->id . '" ' . $checked . ' onclick="toggleStatus(' . $data->id . ')">
-                    </div>';            })
+                    </div>';
+            })
             ->addColumn('action', function ($data){
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                            <li class="d-flex gap-2">
-                                <button onclick="getEditModal(\'' . route('admin.event.edit', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                                </button>
+                        <li class="d-flex gap-2">
+                            <button onclick="getEditModal(\'' . route('admin.event.edit', $data->slug) . '\', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                                <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
+                            </button>
 
-                                <button onclick="deleteItem(\'' . route('admin.event.delete', $data->id) . '\', \'myEventDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                                </button>
+                            <button onclick="deleteItem(\'' . route('admin.event.delete', $data->id) . '\', \'myEventDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+                                <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
+                            </button>
 
-                                <a href="'. route('admin.event.details', $data->slug) .'" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="view">
-                                    <img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="view">
-                                </a>
-                            </li>
-                        </ul>';
+                            <a href="'. route('admin.event.details', $data->slug) .'" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="view">
+                                <img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="view">
+                            </a>
+                        </li>
+                    </ul>';
             })
             ->rawColumns(['action','status', 'category', 'date'])
             ->make(true);
     }
+
 
 
     public function myEvent()

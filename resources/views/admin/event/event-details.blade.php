@@ -20,20 +20,9 @@
             <!-- Image -->
             <div class="bd-one bd-c-1b1c17 bd-ra-20 overflow-hidden mb-20">
                 <!-- Image minimum size 1600*430  -->
-                <img class="w-100" src="{{asset('public/storage/admin/event'.'/'.$event->thumbnail)}}" alt="">
+                <img class="w-100" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/event'.'/'.$event->thumbnail)}}" alt="">
             </div>
-            <!-- Price & Ticket available -->
-            <div class="pb-20 d-flex flex-wrap g-10">
-                @if($event->type == EVENT_TYPE_PAID)
-                <div class="d-flex cg-5 py-7 px-9 bd-ra-6 bg-84dcef">
-                    <div class="d-flex"><img src="{{asset('super_admin/images/icons/money.svg')}}" alt=""></div>
-                    <p class="fs-24 fw-500 lh-23 text-1b1c17">{{showPrice($event->price)}}</p>
-                </div>
-                @endif
-                <p class="fs-18 fw-500 lh-23 text-1b1c17 py-7 px-9 bd-ra-6 bg-e6ef84">{{__('Available Tickets')}} :
-                    <span>{{$event->number_of_ticket_left < 0 ? 0 : $event->number_of_ticket_left}}</span>
-                </p>
-            </div>
+
             <div>
                 <!-- Description & list -->
                 {!! $event->description !!}
