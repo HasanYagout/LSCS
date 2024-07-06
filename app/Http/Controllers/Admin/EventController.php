@@ -43,7 +43,7 @@ class EventController extends Controller
         $data['showEvent'] = 'show';
         $data['activeMyEvent'] = 'active';
         if ($request->ajax()) {
-            return $this->eventService->myEvent();
+            return $this->eventService->myEvent($request);
         }
         return view('admin.event.my-event', $data);
     }

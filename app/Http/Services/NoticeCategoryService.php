@@ -11,16 +11,20 @@ class NoticeCategoryService
 {
     use ResponseTrait;
 
-    public function list()
+    public function list($request)
     {
-        $noticeCategories = NoticeCategory::orderBy('id','DESC');
-        return datatables($noticeCategories)
+        $query = NoticeCategory::orderBy('id','DESC');
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $query->where('name', 'like', "%{$search}%");
+        }
+        return datatables($query)
             ->addIndexColumn()
             ->addColumn('status', function ($data) {
                 if ($data->status == 1) {
-                    return '<p class="zBadge-free">Active</p>';
+                    return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-0fa958 bg-0fa958-10">'.__('Active').'</p>';
                 } else {
-                    return '<p class="zBadge-free">Deactivate</p>';
+                    return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-f5b40a bg-f5b40a-10">'.__('InActive').'</p>';
                 }
             })
 
@@ -54,10 +58,10 @@ class NoticeCategoryService
             $noticeCategory->name = $request->name;
             $noticeCategory->slug = $slug;
             $noticeCategory->status = $request->status;
-            $noticeCategory->tenant_id = getTenantId();
             $noticeCategory->save();
             DB::commit();
-            return $this->success([], getMessage(CREATED_SUCCESSFULLY));
+            session()->flash('success', 'Notice Category Added Successfully');
+            return redirect()->route('admin.notices.categories.index');
         } catch (Exception $e) {
             DB::rollBack();
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));

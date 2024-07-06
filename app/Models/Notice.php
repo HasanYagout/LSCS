@@ -13,7 +13,7 @@ class Notice extends Model
     protected $fillable = ['tenant_id', 'notice_category_id', 'title', 'slug', 'details', 'image', 'status', 'created_by'];
 
     public function user(){
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(Admin::class, 'posted_by');
     }
 
     public function category(){

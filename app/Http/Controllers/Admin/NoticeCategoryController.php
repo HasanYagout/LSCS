@@ -24,7 +24,7 @@ class NoticeCategoryController extends Controller
         $data['showManageNotice'] = 'show';
         $data['activeNoticeCategory'] = 'active';
         if ($request->ajax()) {
-            return $this->noticeCategoryService->list();
+            return $this->noticeCategoryService->list($request);
         }
         return view('admin.notices.categories.index', $data);
     }

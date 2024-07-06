@@ -22,7 +22,7 @@ class NoticeController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return $this->noticeService->list();
+            return $this->noticeService->list($request);
         }
         $categoryService = new NoticeCategoryService();
         $data['title'] = __('Notice');

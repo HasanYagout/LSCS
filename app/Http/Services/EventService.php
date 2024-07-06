@@ -45,7 +45,7 @@ class EventService
         $query = Event::select('events.*', 'event_categories.name as category_name')
             ->join('event_categories', 'events.event_category_id', '=', 'event_categories.id')
             ->whereIn('events.status', [STATUS_ACTIVE, STATUS_PENDING])
-            ->orderBy('events.created_at', 'desc');
+            ->orderBy('events.id', 'desc');
 
         // Handle search
         if ($request->has('search') && $request->search['value'] != '') {
@@ -92,10 +92,22 @@ class EventService
 
 
 
-    public function myEvent()
+    public function myEvent($request)
     {
-        $event = Event::where('user_id', auth('admin')->id())->orderBy('created_at', 'desc');
-        return datatables($event)
+        $query = Event::select('events.*', 'event_categories.name as category_name')
+            ->join('event_categories', 'events.event_category_id', '=', 'event_categories.id')
+            ->where('user_id', auth('admin')->id())
+            ->where('events.status', STATUS_ACTIVE)
+            ->orderBy('events.id', 'desc');
+        // Handle search
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $query->where(function($q) use ($search) {
+                $q->where('events.title', 'like', "%{$search}%")
+                    ->orWhere('event_categories.name', 'like', "%{$search}%");
+            });
+        }
+        return datatables($query)
             ->addIndexColumn()
             ->addColumn('category', function ($data) {
                 return '<p class="min-w-130 text-center zBadge">' . htmlspecialchars($data->category->name) . '</p>';

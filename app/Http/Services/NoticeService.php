@@ -15,32 +15,43 @@ class NoticeService
 {
     use ResponseTrait;
 
-    public function list()
+    public function list( $request)
     {
-        $features = Notice::with(['category'])->orderBy('id','DESC')->get();
-        return datatables($features)
+        $query = Notice::select('notices.*', 'notice_categories.name as category_name')
+            ->join('notice_categories', 'notices.notice_category_id', '=', 'notice_categories.id')
+            ->whereIn('notices.status', [STATUS_ACTIVE, STATUS_PENDING])
+            ->orderBy('notices.id', 'desc');
+
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $query->where(function($q) use ($search) {
+                $q->where('notices.title', 'like', "%{$search}%")
+                    ->orWhere('notice_categories.name', 'like', "%{$search}%");
+            });
+        }
+
+        return datatables($query)
             ->addIndexColumn()
             ->addColumn('image', function ($data) {
-                return '<img src="' . asset('public/storage/admin/notice'.'/'.$data->image) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/notice'.'/'.$data->image) . '" alt="icon" class="rounded avatar-xs max-h-35">';
             })
-            ->addColumn('user', function ($data) {
-                return htmlspecialchars($data->user->name);
+            ->addColumn('title', function ($data) {
+                return $data->title;
             })
             ->addColumn('category', function ($data) {
-                return htmlspecialchars($data->category->name);
+                return htmlspecialchars($data->category_name);
             })
             ->addColumn('status', function ($data) {
-                if ($data->status == 1) {
+                if ($data->status == STATUS_ACTIVE) {
                     return '<span class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-0fa958 bg-0fa958-10">'.__('Published').'</span>';
                 } else {
                     return '<span class="zBadge-free">'.__('Deactivate').'</span>';
                 }
             })
-
             ->addColumn('action', function ($data) {
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                     <li class="d-flex gap-2">
-                        <button onclick="getEditModal(\'' . route('admin.notices.info', $data->id) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                        <button onclick="getEditModal(\'' . route('admin.notices.info', $data->id) . '\', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
                             <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
                         </button>
                         <button onclick="deleteItem(\'' . route('admin.notices.delete', $data->id) . '\', \'noticeDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
@@ -49,11 +60,15 @@ class NoticeService
                     </li>
                 </ul>';
             })
-
-
-            ->rawColumns(['status', 'image', 'action', 'name', 'notice_category_id'])
+            ->rawColumns(['status', 'image', 'action'])
             ->make(true);
     }
+
+
+
+
+
+
 
     public function store($request)
     {

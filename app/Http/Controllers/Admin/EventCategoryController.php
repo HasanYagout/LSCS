@@ -31,7 +31,7 @@ class EventCategoryController extends Controller
         $data['showEvent'] = 'show';
         $data['activeEventCategory'] = 'active';
         if ($request->ajax()) {
-            return $this->eventCategoryService->list();
+            return $this->eventCategoryService->list($request);
         }
         return view('admin.event.category.index', $data);
 

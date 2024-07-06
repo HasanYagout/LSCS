@@ -23,7 +23,7 @@ use App\Http\Controllers\Admin\Website\WebsiteSettingController;
 
 use Illuminate\Support\Facades\Route;
 
-
+Route::middleware(['web'])->group(function () {
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::post('delete/{id}', [AdminController::class,'delete'])->name('delete');
     Route::get('edit/{id}', [AdminController::class,'edit'])->name('edit');
@@ -73,7 +73,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::get('/', [ProfileController::class, 'myProfile'])->name('index');
         Route::get('change-password', [ProfileController::class, 'changePassword'])->name('change-password');
-        Route::post('change-password', [ProfileController::class, 'changePasswordUpdate'])->name('change-password.update')->middleware('isDemo');
         Route::post('update', [ProfileController::class, 'update'])->name('update');
     });
     Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
@@ -87,7 +86,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     });
     Route::group(['prefix' => 'students', 'as' => 'students.'], function () {
         Route::get('/', [StudentController::class, 'index'])->name('index');
-        Route::post('change-password', [StudentController::class, 'changePasswordUpdate'])->name('change-password.update')->middleware('isDemo');
         Route::post('update', [StudentController::class, 'update'])->name('update');
         Route::get('info/{id}', [StudentController::class, 'info'])->name('info');
     });
@@ -107,8 +105,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::post('delete/{id}', [EventController::class, 'delete'])->name('delete');
         Route::post('update/{slug}', [EventController::class, 'update'])->name('update');
         Route::post('admin/event/toggle-status', [EventController::class, 'toggleStatus'])->name('toggleStatus');
-
-
 
     });
 
@@ -218,4 +214,5 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     });
     });
 
+});
 });

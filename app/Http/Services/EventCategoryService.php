@@ -11,10 +11,15 @@ class EventCategoryService
 {
     use ResponseTrait;
 
-    public function list()
+    public function list($request)
     {
-        $eventCategory = EventCategory::query()->orderBy('id','DESC');
-        return datatables($eventCategory)
+        $query = EventCategory::query();
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $query->where('name', 'like', "%{$search}%");
+        }
+        $query->orderBy('id','DESC');
+        return datatables($query)
             ->addIndexColumn()
             ->addColumn('action', function ($data){
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
