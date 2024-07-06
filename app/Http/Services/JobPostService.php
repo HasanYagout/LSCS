@@ -133,41 +133,46 @@ class JobPostService
         $authUser = $this->getAuthenticatedUser(['company', 'admin']);
         $query = JobPost::with('company'); // Eager load the company relationship
 
-        if ($authUser->name == 'admin') {
-            $query->where(function($q) {
+// Base query adjustments based on user type
+        $query->where(function($q) use ($authUser, $request) {
+            if ($authUser->name == 'admin') {
                 $q->where('posted_by', 'admin')
-                    ->orWhere('posted_by', 'company');
-            });
-        } else {
-            $query->where('user_id', $authUser->user()->id)
-                ->where('posted_by', $authUser->name);
-        }
+                ->orWhere('posted_by','company');
+            } else {
+                $q->where('user_id', $authUser->user()->id)
+                    ->where('posted_by', $authUser->name);
+            }
 
+        });
 
+            // Conditionally add status filter
+            if (isset($request->status) && $request->status != 'all') {
 
-        if ($request->postedBy && $request->postedBy != 'all' && !is_null($request->postedBy)) {
+                $query->where('status', $request->status);
+            }
+// Additional filters
+        if (isset($request->postedBy) && $request->postedBy != 'all') {
             $query->where('posted_by', $request->postedBy);
         }
 
-        if ($request->status && $request->status != 'all' && !is_null($request->postedBy)) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->company && $request->company != 'all' && !is_null($request->postedBy)) {
+        if (isset($request->company) && $request->company != 'all') {
             $query->whereHas('company', function($q) use ($request) {
                 $q->where('name', 'like', "%{$request->company}%");
             });
         }
 
+// Handle search input only if it has a value
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
-            $query->where(function($query) use ($search) {
-                $query->where('title', 'like', "%{$search}%")
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
                     ->orWhereHas('company', function($q) use ($search) {
                         $q->where('name', 'like', "%{$search}%");
                     });
             });
         }
+
+// Dump the SQL query and bindings
 
         $features = $query->orderBy('id', 'desc')->get();
 
@@ -221,25 +226,50 @@ class JobPostService
     public function getPendingJobPostList($request){
 
         $authUser = $this->getAuthenticatedUser(['company', 'admin']);
-        if ($authUser->name=='admin'){
-            $query = JobPost::where('status', JOB_STATUS_APPROVED)
-                ->where(function($query) {
-                    $query->where('posted_by', 'admin')
-                        ->orWhere('posted_by', 'company');
-                });
+        $query = JobPost::with('company')->where('status',JOB_STATUS_APPROVED); // Eager load the company relationship
 
+// Base query adjustments based on user type
+        $query->where(function($q) use ($authUser, $request) {
+            if ($authUser->name == 'admin') {
+                $q->where('posted_by', 'admin')
+                    ->orWhere('posted_by','company');
+            } else {
+                $q->where('user_id', $authUser->user()->id)
+                    ->where('posted_by', $authUser->name);
+            }
+
+        });
+
+        // Conditionally add status filter
+        if (isset($request->status) && $request->status != 'all') {
+
+            $query->where('status', $request->status);
         }
-        else{
-            $query = JobPost::where('user_id',$authUser->user()->id)->where('status',JOB_STATUS_APPROVED)->where('posted_by',$authUser->name);
+// Additional filters
+        if (isset($request->postedBy) && $request->postedBy != 'all') {
+            $query->where('posted_by', $request->postedBy);
         }
 
-        if ($request->search['value']) {
+        if (isset($request->company) && $request->company != 'all') {
+            $query->whereHas('company', function($q) use ($request) {
+                $q->where('name', 'like', "%{$request->company}%");
+            });
+        }
+
+// Handle search input only if it has a value
+        if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
-            $query->where('title', 'like', "%{$search}%");
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhereHas('company', function($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
+            });
         }
-        $features= $query->orderBy('id', 'desc')
-            ->get();
 
+// Dump the SQL query and bindings
+
+        $features = $query->orderBy('id', 'desc')->get();
         return datatables($features)
             ->addIndexColumn()
             ->addColumn('company_logo', function ($data) use($authUser) {
@@ -369,7 +399,7 @@ class JobPostService
             $jobPost->title = $request->title;
 
             $jobPost->location = $request->location;
-            $jobPost->placement_link = $request->post_link;
+            $jobPost->placement_link = $request->placement_link;
             $jobPost->application_deadline = $request->application_deadline;
             $jobPost->skills = $request->skills;
             $jobPost->job_responsibility = $request->job_responsibility;

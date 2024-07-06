@@ -34,37 +34,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="primary-form-group">
-                        <div class="primary-form-group-wrap">
-                            <label for="jobCompensationBenefits" class="form-label">{{__('Compensation & Benefits')}}
-                                <span class="text-danger">*</span></label>
-                            <input type="text" name="compensation_n_benefits" class="primary-form-control"
-                                id="compensation_n_benefits" value="{{$jobPostData->compensation_n_benefits??''}}"
-                                placeholder="{{ __('As per Company policy') }}" required />
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                <div class="primary-form-group">
-                    <div class="primary-form-group-wrap">
-                    <label for="jobUploadCompanyLogo" class="form-label">{{__('Upload Company Logo')}} <span
-                        class="text-mime-type">(jpg,jpeg,png)</span> @isset($jobPostData->company_logo) <a href="{{ getFileUrl($jobPostData->company_logo) }}" target="_blank">{{__('View')}}</a> @endisset  </label>
-                    <input type="file" name="company_logo" class="primary-form-control" id="company_logo"/>
-                    <input type="hidden" name="slug" class="primary-form-control" id="slug" value="{{$jobPostData->slug}}"/>
-                    </div>
-                </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="primary-form-group">
-                        <div class="primary-form-group-wrap">
-                            <label for="jobSalary" class="form-label">{{__('Salary')}} <span
-                                    class="text-danger">*</span></label>
-                            <input type="text" name="salary" class="primary-form-control" id="salary"
-                                value="{{$jobPostData->salary??''}}" placeholder="$45k" required />
-                        </div>
-                    </div>
-                </div>
+
+
+
                 <div class="col-md-6">
                     <div class="primary-form-group">
                         <div class="primary-form-group-wrap">
@@ -75,24 +47,27 @@
                         </div>
                     </div>
                 </div>
+                @php
+                    use Carbon\Carbon;
+                @endphp
                 <div class="col-md-6">
                     <div class="primary-form-group">
                         <div class="primary-form-group-wrap">
                             <label for="application_deadline" class="form-label">{{__('Application Deadline')}} <span
                                     class="text-danger">*</span></label>
-                            <input type="text" name="application_deadline" class="primary-form-control date-time-picker"
-                                id="application_deadline" value="{{$jobPostData->application_deadline??''}}" required />
+                            <input type="date" name="application_deadline" class="primary-form-control"
+                                id="application_deadline" value="{{Carbon::parse($jobPostData->application_deadline??'')->format('Y-m-d')}}" required />
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="primary-form-group">
                         <div class="primary-form-group-wrap">
-                            <label for="jobURL" class="form-label">{{__('URL')}} <span
+                            <label for="jobURL" class="form-label">{{__(' Placement URL')}} <span
                                     class="text-danger">*</span></label>
-                            <input type="text" name="post_link" class="primary-form-control" id="post_link"
-                                placeholder="{{ __('Apply Url') }}" required
-                                value="{{$jobPostData->post_link??''}}" />
+                            <input type="text" name="placement_link" class="primary-form-control" id="post_link"
+                                placeholder="{{ __('Placement Url') }}"
+                                value="{{$jobPostData->placement_link??''}}" />
                         </div>
                     </div>
                 </div>

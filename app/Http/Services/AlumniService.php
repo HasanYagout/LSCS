@@ -101,6 +101,78 @@ class AlumniService
 //            ->make(true);
 //    }
 
+    public function getAlumni( $request)
+    {
+        $alumniData = Alumni::with('student'); // Initialize query and eager load student data
+
+        // Filter by selected year
+        if ($request->has('selectedYear') && $request->selectedYear != 0) {
+            $alumniData->where('graduation_year', $request->selectedYear);
+        }
+
+        // Filter by selected major
+        if ($request->has('selectedMajor') && $request->selectedMajor != 0) {
+            $alumniData->where('major', $request->selectedMajor);
+        }
+
+        // Handle search input
+        if ($request->has('search') && isset($request->search['value']) && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $alumniData->where(function ($q) use ($search) {
+                $q->where('student_id', 'like', "%{$search}%")
+                    ->orWhere('first_name', 'like', "%{$search}%")
+                    ->orWhere('last_name', 'like', "%{$search}%");
+            });
+        }
+
+        // Handle ordering
+        if ($request->has('order')) {
+            $columns = $request->input('columns');
+            foreach ($request->input('order') as $order) {
+                $column = $columns[$order['column']]['name'];
+                $direction = $order['dir'];
+                $alumniData->orderBy($column, $direction);
+            }
+        } else {
+            $alumniData->orderBy('id', 'desc');
+        }
+
+        return datatables($alumniData)
+            ->addIndexColumn()
+            ->addColumn('student_id', function ($data) {
+                return $data->student_id;
+            })
+            ->addColumn('first_name', function ($data) {
+                return $data->first_name;
+            })
+            ->addColumn('last_name', function ($data) {
+                return $data->last_name;
+            })
+            ->addColumn('graduation_year', function ($data) {
+                return $data->graduation_year;
+            })
+            ->addColumn('major', function ($data) {
+                return $data->major;
+            })
+            ->addColumn('status', function ($data) {
+                $checked = $data->status ? 'checked' : '';
+                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
+                <li class="d-flex gap-2">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
+                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
+                    </div>
+                </li>
+            </ul>';
+            })
+            ->addColumn('student', function ($data) {
+                return $data->student ? $data->student->name : 'No student data';
+            })
+            ->rawColumns(['first_name', 'last_name', 'graduation_year', 'major', 'status'])
+            ->make(true);
+    }
+
+
     public function getAlumniListAllWithAdvanceFilter($request){
 
         $selectedDepartment = $request->get('selectedDepartment');

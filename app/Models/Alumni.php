@@ -33,4 +33,9 @@ class Alumni extends Authenticatable
     {
         return $this->hasMany(Experience::class, 'alumni_id');
     }
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
 }

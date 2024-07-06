@@ -90,6 +90,7 @@ class   JobsController extends Controller
         $data['title'] = __('Active Job List');
         $data['showJobPostManagement'] = 'show';
         $data['activePendingJobPostList'] = 'active-color-one';
+        $data['companies'] = JobPost::with('company')->get();
         return view('admin.jobs.pending-job-post', $data);
     }
 }

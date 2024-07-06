@@ -2291,8 +2291,8 @@ bg-custom-secondary{
   align-items: center;
 }
 .zBtn-filter[aria-expanded=true], .zBtn-filter:hover {
-  background-color: var(--text-black);
-  background-color: var(--text-black);
+  background-color: var(--secondary-color);
+
 }
 .zBtn-filter[aria-expanded=true] svg ellipse,
 .zBtn-filter[aria-expanded=true] svg path, .zBtn-filter:hover svg ellipse,

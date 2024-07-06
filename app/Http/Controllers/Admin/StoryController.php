@@ -25,7 +25,7 @@ class StoryController extends Controller
     public function myStory(Request $request)
     {
         if ($request->ajax()) {
-            return $this->storyService->getMyStoryList();
+            return $this->storyService->getMyStoryList($request);
         }
         $data['title'] = __('My Story');
         $data['showStoryManagement'] = 'show';
@@ -35,11 +35,11 @@ class StoryController extends Controller
     public function all(Request $request)
     {
         if ($request->ajax()) {
-            return $this->storyService->getAllStoryList();
+            return $this->storyService->getAllStoryList($request);
         }
         $data['title'] = __('All Story');
         $data['showStoryManagement'] = 'show';
-        $data['activeMyStoryList'] = 'active-color-one';
+        $data['activeAllStoryList'] = 'active-color-one';
         return view('admin.stories.list', $data);
     }
     public function create()
@@ -52,7 +52,7 @@ class StoryController extends Controller
     public function active(Request $request)
     {
         if ($request->ajax()) {
-            return $this->storyService->allActiveList();
+            return $this->storyService->allActiveList($request);
         }
         $data['title'] = __('Active Story');
         $data['showStoryManagement'] = 'show';

@@ -151,7 +151,8 @@
                                     </li>
                                     <li><a class="{{ $activeMyStoryList ?? '' }}"
                                            href="{{ route('admin.stories.my-story') }}">{{ __('My Story') }}</a></li>
-                                    <li><a  href="{{ route('admin.stories.all') }}">{{ __('All Story') }}</a></li>
+                                    <li><a class="{{ $activeAllStoryList ?? '' }}"
+                                           href="{{ route('admin.stories.all') }}">{{ __('All Story') }}</a></li>
                                 </ul>
                             </div>
                         </li>

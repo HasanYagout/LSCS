@@ -80,7 +80,7 @@ class JobsController extends Controller
     public function all(Request $request)
     {
         if ($request->ajax()) {
-            return $this->jobPostService->getAllJobPostList();
+            return $this->jobPostService->getAllJobPostList($request);
         }
         $data['title'] = __('All Job Post');
         $data['showJobPostManagement'] = 'show';

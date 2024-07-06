@@ -11,9 +11,9 @@
         ajax: {
             url: $('#job-post-list-route').val(),
             data: function (d) {
-                d.selectedDepartment = $('#department :selected').val();
-                d.selectedPassingYear = $('#passing-year :selected').val();
-                d.isMember = $('#is-member :selected').val();
+                d.postedBy = $('#posted_by :selected').val();
+                d.status = $('#status :selected').val();
+                d.company = $('#company :selected').val();
             }
         },
         language: {

@@ -34,14 +34,7 @@
                         <h4 class="fs-18 fw-500 lh-22 text-1b1c17">{{ __('Job Location') }}</h4>
                         <p class="fs-14 fw-400 lh-18 text-707070">{{ $jobPostData->location ?? '' }}</p>
                     </div>
-                    <div class="d-flex flex-column rg-6">
-                        <h4 class="fs-18 fw-500 lh-22 text-1b1c17">{{ __('Salary') }}</h4>
-                        <p class="fs-14 fw-400 lh-18 text-707070">{{ $jobPostData->salary ?? '' }}</p>
-                    </div>
-                    <div class="d-flex flex-column rg-6">
-                        <h4 class="fs-18 fw-500 lh-22 text-1b1c17">{{ __('Compensation & Benefits') }}</h4>
-                        <p class="fs-14 fw-400 lh-18 text-707070">{{ $jobPostData->compensation_n_benefits ?? '' }}</p>
-                    </div>
+
                     <div class="d-flex flex-column rg-6">
                         <h4 class="fs-18 fw-500 lh-22 text-1b1c17">{{ __('Application Deadline') }}</h4>
                         <p class="fs-14 fw-400 lh-18 text-707070">

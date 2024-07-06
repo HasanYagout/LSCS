@@ -13,7 +13,6 @@
             data: function (d) {
                 d.selectedYear = $('#year').val();
                 d.selectedMajor = $('#major').val();
-                d.search.value = $('#search-input').val(); // Add search input value
             }
         },
         language: {
@@ -27,11 +26,11 @@
         dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"d-flex align-items-center cg-5"<"tableSearch float-start"f><"z-filter-button">>><"col-sm-6"<"tableLengthInput float-end"l>><"col-sm-12"<"z-filter-block">>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
         columns: [
             { data: 'student_id', name: 'student_id', searchable: true, orderable: true },
-            { data: 'first_name', name: 'first_name' },
-            { data: 'last_name', name: 'last_name' },
-            { data: 'graduation_year', name: 'graduation_year' },
-            { data: 'major', name: 'major' },
-            { data: 'status', name: 'status', orderable: false, searchable: false },
+            { data: 'first_name', name: 'first_name', searchable: true, orderable: true },
+            { data: 'last_name', name: 'last_name', searchable: true, orderable: true },
+            { data: 'graduation_year', name: 'graduation_year', searchable: false, orderable: true },
+            { data: 'major', name: 'major', searchable: false, orderable: true },
+            { data: 'status', name: 'status', searchable: false, orderable: false }
         ],
         "initComplete": function( settings, json ) {
             $('.z-filter-block').html($('#search-section').html());

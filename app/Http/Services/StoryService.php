@@ -24,13 +24,22 @@ class StoryService
         return Story::where('slug', $slug)->firstOrFail();
     }
 
-    public function allActiveList()
+    public function allActiveList($request)
     {
-        $pendingStory = Story::orderBy('id', 'desc')->where('status', STATUS_ACTIVE);
-        return datatables($pendingStory)
+        $query = Story::where('posted_by', auth('admin')->id())->where('status',STATUS_ACTIVE);
+
+
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $query->where('title', 'like', "%{$search}%");
+        }
+
+        $features = $query->orderBy('id', 'desc')->get();
+
+        return datatables($features)
             ->addIndexColumn()
             ->addColumn('thumbnail', function ($data) {
-                return '<img src="' . asset('public/storage/admin/story').'/'.$data->thumbnail . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/story'.'/'.$data->thumbnail) . '" alt="Story" class="rounded avatar-xs max-h-35">';
             })
             ->addColumn('action', function ($data) {
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
@@ -48,14 +57,22 @@ class StoryService
             ->make(true);
     }
 
-    public function getMyStoryList()
+    public function getMyStoryList($request)
     {
-        $features = Story::where('posted_by', auth('admin')->id())->orderBy('id', 'desc')->get();
+        $query = Story::where('posted_by', auth('admin')->id());
+
+
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $query->where('title', 'like', "%{$search}%");
+        }
+
+        $features = $query->orderBy('id', 'desc')->get();
 
         return datatables($features)
             ->addIndexColumn()
             ->addColumn('thumbnail', function ($data) {
-                return '<img src="' . asset('public/storage/admin/story'.'/'.$data->thumbnail) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/story'.'/'.$data->thumbnail) . '" alt="Story" class="rounded avatar-xs max-h-35">';
             })
             ->addColumn('status', function ($data) {
                 if($data->status == STATUS_ACTIVE){
@@ -70,15 +87,23 @@ class StoryService
     }
 
 
-    public function getAllStoryList()
+    public function getAllStoryList($request)
     {
 
-        $features = Story::where('posted_by', auth('admin')->id())->orderBy('id', 'desc')->get();
+        $query = Story::where('posted_by', auth('admin')->id());
+
+
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $query->where('title', 'like', "%{$search}%");
+        }
+
+        $features = $query->orderBy('id', 'desc')->get();
 
         return datatables($features)
             ->addIndexColumn()
             ->addColumn('thumbnail', function ($data) {
-                return '<img src="' . asset('public/storage/admin/story'.'/'.$data->thumbnail) . '" alt="icon" class="rounded avatar-xs max-h-35">';
+                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/story'.'/'.$data->thumbnail) . '" alt="Story" class="rounded avatar-xs max-h-35">';
             })
             ->addColumn('status', function ($data) {
                 $checked = $data->status ? 'checked' : '';
@@ -108,48 +133,7 @@ class StoryService
     }
 
 
-    public function getPendingStoryList()
-    {
-        $features = Story::where('status', JOB_STATUS_PENDING)->where('tenant_id', getTenantId())->orderBy('id', 'desc')->get();
-        return datatables($features)
-            ->addIndexColumn()
-            ->addColumn('company_logo', function ($data) {
-                return '<img src="' . getFileUrl($data->company_logo) . '" alt="icon" class="rounded avatar-xs max-h-35">';
-            })
-            ->addColumn('title', function ($data) {
-                return htmlspecialchars($data->title);
-            })
-            ->addColumn('salary', function ($data) {
-                return htmlspecialchars($data->salary);
-            })
-            ->addColumn('application_deadline', function ($data) {
-                return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->application_deadline)->format('l, F j, Y');
-            })
-            ->addColumn('status', function ($data) {
-                if ($data->status == JOB_STATUS_PENDING) {
-                    return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-f5b40a bg-f5b40a-10">Pending</p>';
-                } else if ($data->status == JOB_STATUS_APPROVED) {
-                    return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-0fa958 bg-0fa958-10">Approved</p>';
-                } else if ($data->status == JOB_STATUS_CANCELED) {
-                    return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-ea4335 bg-ea4335-10">Canceled</p>';
-                }
-            })
-            ->addColumn('action', function ($data) {
-                return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                    <li class="d-flex gap-2">
-                        <button onclick="getEditModal(\'' . route('admin.jobPost.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="' . __('Edit') . '">
-                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                        </button>
-                        <button onclick="deleteItem(\'' . route('admin.jobPost.delete', $data->slug) . '\', \'jobPostPendingdataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
-                            <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                        </button>
-                        <a href="' . route('jobPost.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
-                    </li>
-                </ul>';
-            })
-            ->rawColumns(['status', 'company_logo', 'action', 'title', 'salary', 'application_deadline'])
-            ->make(true);
-    }
+
 
 
     public function store($request)

@@ -14,4 +14,8 @@ class Student extends Model
     {
         return $this->belongsTo(Major::class);
     }
+    public function alumni()
+    {
+        return $this->hasOne(Alumni::class);
+    }
 }
