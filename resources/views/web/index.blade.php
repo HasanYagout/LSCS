@@ -68,7 +68,7 @@
     <!-- End Join with community -->
 
     <!-- Start Upcoming Events -->
-    @if (count($upcomingEvents))
+    @if(count($upcomingEvents))
         <section class="upcoming-events">
             <div class="container position-relative">
                 <div class="row justify-content-center">
@@ -103,14 +103,7 @@
                                                         </div>
                                                         <a href="{{ route('event.view.details', $upcomingEvent->slug) }}"
                                                             class="d-inline-block fs-36 fw-600 lh-46 text-black-color mb-14 line-clamp-2 sf-text-ellipsis min-h-92">{{ $upcomingEvent->title }}</a>
-                                                        <div
-                                                            class="d-flex justify-content-center justify-content-xl-start align-items-center cg-7 pb-23">
-                                                            <div class="d-flex"><img
-                                                                    src="{{ asset('public/frontend/images/icon/location.svg') }}"
-                                                                    alt=""></div>
-                                                            <p class="fs-18 fw-500 lh-28 text-para-color">
-                                                                {{ $upcomingEvent->location }}</p>
-                                                        </div>
+
                                                         <ul class="event-duration"
                                                             data-countdown-date="{{ \Carbon\Carbon::parse($upcomingEvent->date)->format('m/d/Y H:i:s') }}">
                                                             <li class="item">
@@ -133,6 +126,7 @@
                                                 <div class="col-xl-6">
                                                     <a href="{{ route('event.view.details', $upcomingEvent->slug) }}"
                                                         class="up-event-img hover-scale-img-two"><img
+                                                            onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                                             src="{{ asset('public/storage/admin/events').'/'.$upcomingEvent->thumbnail }}"
                                                             alt="{{ $upcomingEvent->title }}"
                                                             class="w-100 h-100 object-fit-cover" /></a>
@@ -143,8 +137,8 @@
                                 @endforeach
                             </div>
                             <div class="upEvent-button">
-                                <div class="swiper-button-next"><i class="fa-solid fa-long-arrow-right"></i></div>
-                                <div class="swiper-button-prev"><i class="fa-solid fa-long-arrow-left"></i></div>
+                                <div class="swiper-button-next hover-color-white"><i class="fa-solid fa-long-arrow-right"></i></div>
+                                <div class="swiper-button-prev hover-color-white"><i class="fa-solid fa-long-arrow-left"></i></div>
                             </div>
                         </div>
                     </div>

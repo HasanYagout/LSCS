@@ -97,10 +97,14 @@
                         </div>
                     </form>
                 </div>
+
                 <div id="post-block" class="mt-15 d-flex flex-column rg-15">
                     @include('admin.partials.post',$posts)
                 </div>
-                {{$posts->links()}}
+
+                <div class="py-13">
+                    {{$posts->links()}}
+                </div>
             </div>
             <!-- Right side content -->
             <div class="home-rightSide">
@@ -216,12 +220,7 @@
                                                         alt="" /></div>
                                                 <p class="fs-14 fw-400 lh-16 text-707070">{{ $job->location }}</p>
                                             </li>
-                                            <li class="d-flex align-items-center cg-7">
-                                                <div class="d-flex"><img
-                                                        src="{{ asset('public/assets/images/icon/dollar-coin.svg') }}"
-                                                        alt="" />
-                                                </div>
-                                            </li>
+
                                         </ul>
                                         <!-- Link -->
                                         <a href="{{ route('admin.jobs.details', $job->slug) }}"
@@ -445,11 +444,7 @@
                                             </div>
                                             <p class="fs-14 fw-400 lh-16 text-707070">{{ $job->location }}</p>
                                         </li>
-                                        <li class="d-flex align-items-center cg-7">
-                                            <div class="d-flex"><img
-                                                    src="{{ asset('public/assets/images/icon/dollar-coin.svg') }}"
-                                                    alt="" /></div>
-                                        </li>
+
                                     </ul>
                                     <!-- Link -->
                                     <a href="{{ route('admin.jobs.details', $job->slug) }}"
