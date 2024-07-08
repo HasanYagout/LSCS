@@ -2,12 +2,12 @@
     "use strict";
     var table = $("#appliedJobsTable").DataTable({
         pageLength: 10,
-        ordering: false,
+        ordering: true,
         serverSide: true,
         processing: true,
         destroy: true,
         responsive: true,
-        searching: true,
+        searching: false,
         ajax: {
             url: $('#job-post-list-route').val(),
             data: function (d) {
@@ -24,7 +24,7 @@
             searchPlaceholder: "Search Alumni",
             search: "<span class='searchIcon'><i class='fa-solid fa-magnifying-glass'></i></span>",
         },
-        dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"d-flex align-items-center cg-5"<"tableSearch float-start"f><"z-filter-button">>><"col-sm-6"<"tableLengthInput float-end"l>><"col-sm-12"<"z-filter-block">>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
+        dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"d-flex align-items-center cg-5"<"z-filter-button">>><"col-sm-6"<"tableLengthInput float-end"l>><"col-sm-12"<"z-filter-block">>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
         columns: [
             { "data": "name", "name": "applied.name", responsivePriority: 1 },
             { "data": "gpa", "name": "applied.gpa", responsivePriority: 1 },
@@ -32,7 +32,7 @@
             { "data": "graduation_year", "name": "applied.graduation_year", responsivePriority: 3 },
             { "data": "action", "name": "job.action" },
         ],
-        "initComplete": function (settings, json) {
+        initComplete: function (settings, json) {
             $('.z-filter-block').html($('#search-section').html());
             $('#search-section').remove();
 

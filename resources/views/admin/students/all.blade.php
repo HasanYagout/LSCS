@@ -18,15 +18,15 @@
                     <table class="table zTable" id="studentsTable">
                         <thead>
                         <tr>
-                            <th scope="col"><div class="bg-f5b40a">{{ __('Number') }}</div></th>
-                            <th scope="col"><div class="bg-f5b40a">{{ __('Student ID') }}</div></th>
-                            <th scope="col"><div class="bg-f5b40a">{{ __('F_Name') }}</div></th>
-                            <th scope="col"><div class="bg-f5b40a">{{ __('M_Name') }}</div></th>
-                            <th scope="col"><div class="bg-f5b40a">{{ __('L_Name') }}</div></th>
-                            <th scope="col"><div class="bg-f5b40a">{{ __('GPA') }}</div></th>
-                            <th scope="col"><div class="bg-f5b40a">{{ __('Major') }}</div></th>
-                            <th scope="col"><div class="bg-f5b40a">{{ __('C_Left') }}</div></th>
-                            <th class="w-110 text-center" scope="col"><div class="bg-f5b40a">{{ __('Action') }}</div></th>
+                            <th scope="col"><div class="">{{ __('Number') }}</div></th>
+                            <th scope="col"><div class="">{{ __('Student ID') }}</div></th>
+                            <th scope="col"><div class="">{{ __('F_Name') }}</div></th>
+                            <th scope="col"><div class="">{{ __('M_Name') }}</div></th>
+                            <th scope="col"><div class="">{{ __('L_Name') }}</div></th>
+                            <th scope="col"><div class="">{{ __('GPA') }}</div></th>
+                            <th scope="col"><div class="">{{ __('Major') }}</div></th>
+                            <th scope="col"><div class="">{{ __('C_Left') }}</div></th>
+                            <th class="w-110 text-center" scope="col"><div class="">{{ __('Action') }}</div></th>
                         </tr>
                         </thead>
                     </table>

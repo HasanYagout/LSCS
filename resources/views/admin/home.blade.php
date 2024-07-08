@@ -77,12 +77,14 @@
                                         <p class="fs-16 lh-18 fw-500 text-707070">{{ __('Add to your post') }}:</p>
                                         <div class="align-items-center cg-10 d-flex flex-shrink-0">
                                             <label for="mAttachment1"><img
+                                                    onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                                     src="{{ asset('public/assets/images/icon/post-photo.svg') }}"
                                                     alt="" /></label>
                                             <input type="file" name="file[]"
                                                 accept=".png,.jpg,.svg,.jpeg,.gif,.mp4,.mov,.avi,.mkv,.webm,.flv"
                                                 id="mAttachment1" class="d-none" multiple />
                                             <label for="mAttachment1"><img
+                                                    onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                                     src="{{ asset('public/assets/images/icon/post-video.svg') }}"
                                                     alt="" /></label>
                                         </div>
@@ -121,12 +123,10 @@
                                     <li>
                                         <div class="home-item-one">
                                             <div class="img">
-                                                <img src="{{ asset('public/storage/admin/events').'/'.$event->thumbnail }}"
+                                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/events').'/'.$event->thumbnail }}"
                                                     alt="{{ $event->title }}">
                                                 <ul class="tag d-flex flex-wrap cg-2 rg-5">
-{{--                                                    <li><a--}}
-{{--                                                            class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ eventType($event->type) }}</a>--}}
-{{--                                                    </li>--}}
+
                                                     <li><a
                                                             class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ $event->category->name }}</a>
                                                     </li>
@@ -180,7 +180,7 @@
                                             <div
 
                                                 class="flex-shrink-0 w-45 overflow-hidden h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img src="{{ $job->posted_by=='company' ? asset('public/storage/company').'/'.'image'.'/'.$job->company->image :asset('public/storage/admin').'/'.'image'.'/'.$job->admin->image }}"
+                                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $job->posted_by=='company' ? asset('public/storage/company').'/'.'image'.'/'.$job->company->image :asset('public/storage/admin').'/'.'image'.'/'.$job->admin->image }}"
                                                     alt="{{ $job->title }}" />
                                             </div>
                                             <div class="">
@@ -248,7 +248,7 @@
                                 @foreach ($latestNotice as $notice)
                                     <li>
                                         <div class="home-item-one">
-                                            <div class="img"><img src="{{ asset('public/storage/notice'.'/'.$notice->image) }}"
+                                            <div class="img"><img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/notice'.'/'.$notice->image) }}"
                                                     alt="{{ $notice->title }}" />
                                             </div>
                                             <div class="content">
@@ -290,7 +290,7 @@
                                 @foreach ($latestNews as $news)
                                     <li>
                                         <div class="home-item-one">
-                                            <div class="img"><img src="{{ asset('public/storage/news'.'/'.$news->image) }}"
+                                            <div class="img"><img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/news'.'/'.$news->image) }}"
                                                     alt="{{ $news->title }}" />
                                             </div>
                                             <div class="content">
@@ -306,13 +306,13 @@
                                                 <h4 class="title">{{ $news->title }}</h4>
                                                 <!-- User -->
                                                 <div class="d-flex align-items-center cg-5">
-{{--                                                    <div--}}
-{{--                                                        class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">--}}
-{{--                                                        <img src="{{ asset('public/storage/admin'.'/'.$news->author->image)}}"--}}
-{{--                                                            alt="{{ $news->author->first_name .$news->author->last_name }}" />--}}
-{{--                                                    </div>--}}
-{{--                                                    <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name .$news->author->last_name }}--}}
-{{--                                                    </p>--}}
+                                                    <div
+                                                        class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
+                                                        <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/image'.'/'.$news->author->image)}}"
+                                                            alt="{{ $news->author->first_name .$news->author->last_name }}" />
+                                                    </div>
+                                                    <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name .$news->author->last_name }}
+                                                    </p>
                                                 </div>
                                                 <!-- Link -->
                                                 <a href="{{ route('admin.news.details', $news->slug) }}"
@@ -351,7 +351,7 @@
                                 <li>
                                     <div class="home-item-one">
                                         <div class="img">
-                                            <img src="{{ asset('public/storage/events'.'/'.$event->thumbnail) }}"
+                                            <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/events'.'/'.$event->thumbnail) }}"
                                                 alt="{{ $event->title }}">
                                             <ul class="tag d-flex flex-wrap cg-2 rg-5">
 {{--                                                <li><a--}}
@@ -476,7 +476,7 @@
                             @foreach ($latestNotice as $notice)
                                 <li>
                                     <div class="home-item-one">
-                                        <div class="img"><img src="{{ asset('public/storage/notice'.'/'.$notice->image) }}"
+                                        <div class="img"><img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/notice'.'/'.$notice->image) }}"
                                                 alt="{{ $notice->title }}" /></div>
                                         <div class="content">
                                             <!-- Tab - Date -->
@@ -517,7 +517,7 @@
                             @foreach ($latestNews as $news)
                                 <li>
                                     <div class="home-item-one">
-                                        <div class="img"><img src="{{ asset('public/storage/news'.'/'.$news->image) }}"
+                                        <div class="img"><img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/news'.'/'.$news->image) }}"
                                                 alt="{{ $news->title }}" />
                                         </div>
                                         <div class="content">
@@ -535,7 +535,7 @@
                                             <div class="d-flex align-items-center cg-5">
                                                 <div
                                                     class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
-                                                    <img src="{{ asset('public/storage/news'.'/'.$news->author->image) }}"
+                                                    <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/news'.'/'.$news->author->image) }}"
                                                         alt="{{ $news->author->first_name .$news->author->last_name }}" />
                                                 </div>
                                                 <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name .'f' . $news->author->last_name }}</p>

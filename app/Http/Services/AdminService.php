@@ -46,7 +46,9 @@ class AdminService
         // Handle search
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
-            $allAdmins->where('first_name', 'like', "%{$search}%");
+            $allAdmins->where('first_name', 'like', "%{$search}%")
+            ->where('last_name', 'like', "%{$search}%")
+            ->orWhere('email', 'like', "%{$search}%");
         }
 
         // Handle ordering

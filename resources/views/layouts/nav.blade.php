@@ -83,13 +83,14 @@
                     @endif
                 </ul>
             </div>
-            @if (request()->route()->getName() == 'home')
+
+            @if (request()->route()->getName() == 'admin.home')
             <!-- Home Right side for Mobile view -->
             <button
                 class="d-md-none bd-one bd-c-ededed bd-ra-12 w-30 h-30 d-flex justify-content-center align-items-center text-707070 p-0 bg-transparent"
                 type="button" data-bs-toggle="offcanvas" data-bs-target="#homeRightSideView"
                 aria-controls="homeRightSideView">
-                <img src="{{ asset('assets/images/icon/nav-right-menu.svg') }}" alt="" />
+                <img src="{{ asset('public/assets/images/icon/nav-right-menu.svg') }}" alt="" />
             </button>
             @endif
         </div>

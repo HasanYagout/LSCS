@@ -52,8 +52,9 @@ class JobsController extends Controller
     {
         return $this->jobPostService->deleteById($slug);
     }
-    public function details($company,$slug)
+    public function details(Request $request,$company,$slug)
     {
+
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
 
@@ -88,66 +89,39 @@ class JobsController extends Controller
         return view('company.jobs.all-job-post', $data);
     }
 
-    public function applied(Request $request,$id)
+    public function applied(Request $request, $id)
     {
-
         if ($request->ajax()) {
-            $applied = AppliedJobs::with(['alumni', 'cv'])
-                ->where('company_id', auth('company')->id())
-                ->where('job_id', $id)
-                ->when($request->filled('selectedMajor') && $request->selectedMajor != "0", function ($query) use ($request) {
-                    return $query->whereHas('alumni', function ($query) use ($request) {
-                        $query->where('major', $request->selectedMajor);
-                    });
-                })
-                ->when($request->filled('selectedYear') && $request->selectedYear != "0", function ($query) use ($request) {
-                    return $query->whereHas('alumni', function ($query) use ($request) {
-                        $query->where('graduation_year', $request->selectedYear);
-                    });
-                })
-                ->when($request->filled('gpa') && $request->gpa != "-1", function ($query) use ($request) {
-                    $gpa = (float) $request->gpa;
-                    $lowerBound = $gpa - 1;
-                    return $query->whereHas('alumni', function ($query) use ($lowerBound, $gpa) {
-                        $query->whereBetween('GPA', [$lowerBound, $gpa]);
-                    });
-                })
-                ->orderBy('id', 'desc')
-                ->get();
-
-            return datatables($applied)
-                ->addIndexColumn()
-                ->addColumn('name', function ($data) {
-                    return '<a class="text-707070 text-decoration-underline" href="' . route('company.jobs.alumni-profile', ['id' => $data->alumni->student_id]) . '">' . $data->alumni->first_name . ' ' . $data->alumni->last_name . '</a>';
-                })
-                ->addColumn('gpa', function ($data) {
-                    return $data->alumni->GPA;
-                })
-                ->addColumn('major', function ($data) {
-                    return $data->alumni->major;
-                })
-                ->addColumn('graduation_year', function ($data) {
-                    return $data->alumni->graduation_year;
-                })
-                ->addColumn('action', function ($data) {
-                    return '<a href="' . asset('public/storage/alumni/cv/' . $data->cv->name) . '" class="btn btn-sm bg-71e3ba" download><i class="fa text-white fa-download"></i></a>';
-                })
-                ->rawColumns(['name', 'gpa', 'major', 'graduation_year', 'action'])
-                ->make(true);
+            return $this->jobPostService->applied($request,$id);
         }
     }
     public function alumniProfile($id)
     {
+// Check if the student_id exists in the applied_jobs table
+        $existsInAppliedJobs = AppliedJobs::where('alumni_id', $id)->exists();
 
+        if (!$existsInAppliedJobs) {
+            // Return an error response or redirect to an appropriate page
+            return redirect()->back()->with('error', 'Student ID not found in applied jobs.');
+        }
+
+        // Proceed to fetch the alumni profile
         $data['activeProfile'] = 'active';
         $data['showProfileManagement'] = 'show';
         $data['user'] = Alumni::where('student_id', $id)->first();
-        return view('alumni.profile', $data);
+
+        // Check if the user exists in the Alumni table
+        if (!$data['user']) {
+            // Return an error response or redirect to an appropriate page
+            return redirect()->route('company.jobs.index')->with('error', 'Alumni profile not found.');
+        }
+
+        return view('company.jobs.alumni_profile', $data);
     }
     public function pending(Request $request)
     {
         if ($request->ajax()) {
-            return $this->jobPostService->getPendingJobPostList();
+            return $this->jobPostService->getPendingJobPostList($request);
         }
         $data['title'] = __('Pending Job List');
         $data['showJobPostManagement'] = 'show';

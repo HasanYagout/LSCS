@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\StudentService;
 use App\Models\Alumni;
 use App\Models\Department;
 use App\Models\Student;
@@ -19,37 +20,16 @@ use Yajra\DataTables\Facades\DataTables;
 class StudentController extends Controller
 {
     use ResponseTrait;
+    public $StudentService;
+
+    public function __construct()
+    {
+        $this->StudentService = new StudentService();
+    }
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $studentsQuery = Student::with('major')->where('credits_left','==',0)->orderBy('student_id', 'DESC');
-
-            // Handle searching
-            if ($request->has('search') && $request->search['value'] != '') {
-                $searchValue = $request->search['value'];
-                $studentsQuery->where('student_id', 'LIKE', "%{$searchValue}%")
-                    ->orWhere('first_name', 'LIKE', "%{$searchValue}%")
-                    ->orWhere('last_name', 'LIKE', "%{$searchValue}%");
-            }
-
-            $students = $studentsQuery->get();
-            $studentIds = $students->pluck('student_id');
-            $activeAlumni = Alumni::whereIn('student_id', $studentIds)->whereNull('deleted_at')->pluck('student_id')->all();
-
-            return DataTables::of($students)
-                ->addIndexColumn()
-                ->addColumn('major', function ($student) {
-                    return $student->major ? $student->major->name : '';
-                })
-                ->addColumn('action', function ($student) use ($activeAlumni) {
-                    $checked = in_array($student->student_id, $activeAlumni) ? 'checked' : '';
-                    return '<div class="form-check form-switch">
-                    <input class="form-check-input toggle-status" type="checkbox" data-id="' . $student->student_id . '" id="toggleStatus' . $student->student_id . '" ' . $checked . '>
-                    <label class="form-check-label" for="toggleStatus' . $student->student_id . '"></label>
-                </div>';
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+          return $this->StudentService->list($request);
         }
 
         $data['title'] = __('Students List');

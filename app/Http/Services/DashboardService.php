@@ -25,7 +25,7 @@ class DashboardService
     use ResponseTrait;
 
     public function getUpcomingEvent(){
-        $upcomingEvents = Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->with('category')->limit(2)->get();
+        $upcomingEvents = Event::where('date', '>', now())->orderBy('date', 'Desc')->where('status', STATUS_ACTIVE)->with('category')->limit(2)->get();
         return $this->success($upcomingEvents);
     }
 

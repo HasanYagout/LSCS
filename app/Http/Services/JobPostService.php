@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Services;
+use App\Models\Alumni;
 use App\Models\AppliedJobs;
 use App\Models\JobPost;
 use App\Traits\ResponseTrait;
@@ -145,7 +146,6 @@ class JobPostService
     {
         $authUser = $this->getAuthenticatedUser(['company', 'admin']);
         $query = JobPost::with('company'); // Eager load the company relationship
-
         // Base query adjustments based on user type
         $query->where(function ($q) use ($authUser, $request) {
             if ($authUser->name == 'admin') {
@@ -475,4 +475,84 @@ class JobPostService
     public function getEmployeeStatusById($employee_status_id){
         return getEmployeeStatus($employee_status_id);
     }
+
+    public function applied($request,$id)
+    {
+        $applied = AppliedJobs::with(['alumni', 'cv'])
+            ->where('company_id', auth('company')->id())
+            ->where('job_id', $id)
+            ->when($request->filled('selectedMajor') && $request->selectedMajor != "0", function ($query) use ($request) {
+                return $query->whereHas('alumni', function ($query) use ($request) {
+                    $query->where('major', $request->selectedMajor);
+                });
+            })
+            ->when($request->filled('selectedYear') && $request->selectedYear != "0", function ($query) use ($request) {
+                return $query->whereHas('alumni', function ($query) use ($request) {
+                    $query->where('graduation_year', $request->selectedYear);
+                });
+            })
+            ->when($request->filled('gpa') && $request->gpa != "-1", function ($query) use ($request) {
+                $gpa = (float) $request->gpa;
+                $lowerBound = $gpa - 1;
+                return $query->whereHas('alumni', function ($query) use ($lowerBound, $gpa) {
+                    $query->whereBetween('GPA', [$lowerBound, $gpa]);
+                });
+            });
+
+        // Handle ordering
+        if ($request->has('order')) {
+            $columns = ['name', 'gpa', 'major', 'graduation_year', 'action'];
+            $order = $request->input('order')[0];
+            $orderColumn = $columns[$order['column']];
+            $orderDirection = $order['dir'];
+
+            // Adding additional order columns
+            switch ($orderColumn) {
+                case 'name':
+                    $applied->orderBy(Alumni::select('first_name')
+                        ->whereColumn('alumnis.student_id', 'applied_jobs.alumni_id'), $orderDirection);
+                    break;
+                case 'gpa':
+                    $applied->orderBy(Alumni::select('GPA')
+                        ->whereColumn('alumnis.student_id', 'applied_jobs.alumni_id'), $orderDirection);
+                    break;
+                case 'major':
+                    $applied->orderBy(Alumni::select('major')
+                        ->whereColumn('alumnis.student_id', 'applied_jobs.alumni_id'), $orderDirection);
+                    break;
+                case 'graduation_year':
+                    $applied->orderBy(Alumni::select('graduation_year')
+                        ->whereColumn('alumnis.student_id', 'applied_jobs.alumni_id'), $orderDirection);
+                    break;
+                default:
+                    $applied->orderBy($orderColumn, $orderDirection);
+                    break;
+            }
+        } else {
+            $applied->orderBy('id', 'desc');
+        }
+
+        $appliedData = $applied->get();
+
+        return datatables($appliedData)
+            ->addIndexColumn()
+            ->addColumn('name', function ($data) {
+                return '<a class="text-707070 text-decoration-underline" href="' . route('company.jobs.alumni-profile', ['id' => $data->alumni->student_id]) . '">' . $data->alumni->first_name . ' ' . $data->alumni->last_name . '</a>';
+            })
+            ->addColumn('gpa', function ($data) {
+                return $data->alumni->GPA;
+            })
+            ->addColumn('major', function ($data) {
+                return $data->alumni->major;
+            })
+            ->addColumn('graduation_year', function ($data) {
+                return $data->alumni->graduation_year;
+            })
+            ->addColumn('action', function ($data) {
+                return '<a href="' . asset('public/storage/alumni/cv/' . $data->cv->name) . '" class="btn btn-sm bg-71e3ba" download><i class="fa text-white fa-download"></i></a>';
+            })
+            ->rawColumns(['name', 'gpa', 'major', 'graduation_year', 'action'])
+            ->make(true);
+    }
+
 }

@@ -27,30 +27,7 @@ class NewsCategoryController extends Controller
         $data['showManageNews'] = 'show';
         $data['activeNewsCategory'] = 'active';
         if ($request->ajax()) {
-            $newsCategory = NewsCategory::orderBy('id','DESC');
-            return datatables($newsCategory)
-                ->addIndexColumn()
-                ->addColumn('status', function ($data) {
-                    if ($data->status == 1) {
-                        return '<span class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-0fa958 bg-0fa958-10">Active</span>';
-                    } else {
-                        return '<span class="zBadge-free">Deactivate</span>';
-                    }
-                })
-                ->addColumn('action', function ($data){
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                            <li class="d-flex gap-2">
-                                <button onclick="getEditModal(\'' . route('admin.news.categories.info', $data->id) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                                </button>
-                                <button onclick="deleteItem(\'' . route('admin.news.categories.delete', $data->id) . '\', \'newsCategoryDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                                </button>
-                            </li>
-                        </ul>';
-                })
-                ->rawColumns(['action', 'status'])
-                ->make(true);
+            return $this->newsCategoryService->list();
         }
         return view('admin.news.categories.index', $data);
     }

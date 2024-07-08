@@ -14,8 +14,8 @@
               <div class="d-flex align-items-center cg-8 pb-10">
                 <!-- Author -->
                 <div class="d-flex align-items-center cg-10">
-                  <div class="flex-shrink-0 w-30 h-30 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center"><img src="{{asset('public/storage/admin'.'/'.$news->author->image)}}" alt=""></div>
-                  <p class="fs-14 fw-500 lh-17 text-707070">{{$news->author->name}}</p>
+                  <div class="flex-shrink-0 w-30 h-30 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center"><img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/image'.'/'.$news->author->image)}}" alt=""></div>
+                  <p class="fs-14 fw-500 lh-17 text-707070">{{$news->author->first_name .' '.$news->author->last_name}}</p>
                 </div>
                 <!-- News type -->
                 <p class="zBadge-one">{{$news->category->name}}</p>
@@ -27,7 +27,7 @@
               <!-- Image -->
               <div class="bd-one bd-c-1b1c17 bd-ra-20 overflow-hidden mb-25">
                 <!-- Image minimum size 1600*430  -->
-                <img class="w-100" src="{{asset('public/storage/admin/news'.'/'.$news->image)}}" alt="">
+                <img class="w-100" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/news'.'/'.$news->image)}}" alt="">
               </div>
               <div>
                 <!-- Info -->

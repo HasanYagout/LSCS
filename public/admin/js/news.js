@@ -1,39 +1,29 @@
 (function ($) {
     "use strict";
-
-    $(document).ready(function() {
-        $("#sf-select-news-tag").select2({
-            dropdownCssClass: "sf-select-dropdown",
-            selectionCssClass: "sf-select-section",
-            dropdownParent: $("#add-modal"),
-        });
-    });
-
     $("#newsDataTable").DataTable({
         pageLength: 10,
-        ordering: false,
+        ordering: true,
         serverSide: true,
         processing: true,
-        responsive:true,
+        responsive: true,
         searching: true,
         ajax: $('#news.js').val(),
         language: {
-			paginate: {
-				previous: "<i class='fa-solid fa-angles-left'></i>",
-				next: "<i class='fa-solid fa-angles-right'></i>",
-			},
-			searchPlaceholder: "Search news",
-			search: "<span class='searchIcon'><i class='fa-solid fa-magnifying-glass'></i></span>",
-		},
-		dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"tableSearch float-start"f>><"col-sm-6"<"tableLengthInput float-end"l>>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
-		columns: [
-            {"data": "image", "name": "image", searchable: false, responsivePriority:1},
-            {"data": "title", "name": "title"},
-            {"data": "author", "name": "author"},
-            {"data": "category", "name": "categories.name"},
-            {"data": "status", "name": "categories.name"},
-            {"data": "action", searchable: false, responsivePriority:2},
+            paginate: {
+                previous: "<i class='fa-solid fa-angles-left'></i>",
+                next: "<i class='fa-solid fa-angles-right'></i>",
+            },
+            searchPlaceholder: "Search news",
+            search: "<span class='searchIcon'><i class='fa-solid fa-magnifying-glass'></i></span>",
+        },
+        dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"tableSearch float-start"f>><"col-sm-6"<"tableLengthInput float-end"l>>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
+        columns: [
+            {"data": "image", "name": "image", searchable: false, orderable: false, responsivePriority: 1},
+            {"data": "title", "name": "news.title"},
+            {"data": "author_name", "name": "admins.first_name", searchable: true, orderable: true},
+            {"data": "category", "name": "news_categories.name"},
+            {"data": "status", "name": "status"},
+            {"data": "action", searchable: false, orderable: false, responsivePriority: 2},
         ],
-      });
-
-})(jQuery)
+    });
+})(jQuery);

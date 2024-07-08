@@ -24,10 +24,10 @@
                                 <div>{{ __('Image') }}</div>
                             </th>
                             <th scope="col">
-                                <div>{{ __('First Name') }}</div>
+                                <div>{{ __('F_Name') }}</div>
                             </th>
                             <th scope="col">
-                                <div>{{ __('Last Name') }}</div>
+                                <div>{{ __('L_Name') }}</div>
                             </th>
                             <th scope="col">
                                 <div>{{ __('Email') }}</div>

@@ -52,20 +52,20 @@
                             </div>
                             <!-- Social Link -->
                             <ul class="d-flex align-items-center cg-7">
-{{--                                @if ($user?->facebook_url != null && $user?->facebook_url != '')--}}
-{{--                                    <li>--}}
-{{--                                        <a target="__blank" href="{{ $user?->facebook_url }}"--}}
-{{--                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img--}}
-{{--                                                src="{{ asset('assets/images/icon/facebook.svg') }}" alt=""/></a>--}}
-{{--                                    </li>--}}
-{{--                                @endif--}}
-{{--                                @if ($user?->twitter_url != null && $user?->twitter_url != '')--}}
-{{--                                    <li>--}}
-{{--                                        <a target="__blank" href="{{ $user->alumni?->twitter_url }}"--}}
-{{--                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img--}}
-{{--                                                src="{{ asset('assets/images/icon/twitter.svg') }}" alt=""/></a>--}}
-{{--                                    </li>--}}
-{{--                                @endif--}}
+                                {{--                                @if ($user?->facebook_url != null && $user?->facebook_url != '')--}}
+                                {{--                                    <li>--}}
+                                {{--                                        <a target="__blank" href="{{ $user?->facebook_url }}"--}}
+                                {{--                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img--}}
+                                {{--                                                src="{{ asset('assets/images/icon/facebook.svg') }}" alt=""/></a>--}}
+                                {{--                                    </li>--}}
+                                {{--                                @endif--}}
+                                {{--                                @if ($user?->twitter_url != null && $user?->twitter_url != '')--}}
+                                {{--                                    <li>--}}
+                                {{--                                        <a target="__blank" href="{{ $user->alumni?->twitter_url }}"--}}
+                                {{--                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img--}}
+                                {{--                                                src="{{ asset('assets/images/icon/twitter.svg') }}" alt=""/></a>--}}
+                                {{--                                    </li>--}}
+                                {{--                                @endif--}}
                                 @if ($user?->linkedin_url != null && $user?->linkedin_url != '')
                                     <li>
                                         <a target="__blank" href="{{ $user?->linkedin_url }}"
@@ -73,13 +73,13 @@
                                                 src="{{ asset('public/assets/images/icon/linkedin.svg') }}" alt=""/></a>
                                     </li>
                                 @endif
-{{--                                @if ($user?->instagram_url != null && $user?->instagram_url != '')--}}
-{{--                                    <li>--}}
-{{--                                        <a target="__blank" href="{{ $user?->instagram_url }}"--}}
-{{--                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img--}}
-{{--                                                src="{{ asset('assets/images/icon/instagram.svg') }}" alt=""/></a>--}}
-{{--                                    </li>--}}
-{{--                                @endif--}}
+                                {{--                                @if ($user?->instagram_url != null && $user?->instagram_url != '')--}}
+                                {{--                                    <li>--}}
+                                {{--                                        <a target="__blank" href="{{ $user?->instagram_url }}"--}}
+                                {{--                                           class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img--}}
+                                {{--                                                src="{{ asset('assets/images/icon/instagram.svg') }}" alt=""/></a>--}}
+                                {{--                                    </li>--}}
+                                {{--                                @endif--}}
                             </ul>
                         </div>
                         <div class="container">
@@ -123,122 +123,122 @@
                                                 <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
                                                     <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('Experience Info') }}</h4>
                                                 </div>
-                                            @foreach($user?->experience as $experience)
+                                                @foreach($user?->experience as $experience)
 
-                                                <div class="py-20 bd-ra-10 bg-f9f9f9">
-                                                    <ul class="zList-one">
-                                                        <li class="p-0 lh-1 d-block">
-                                                            <h6 class="fs-4 lh-1">{{ $experience->position}}</h6>
-                                                        </li>
-                                                        <li class="p-0 lh-1 d-block">
-                                                            <h1 class="fw-medium lh-1">{{ $experience->name}}</h1>
-                                                        </li>
-                                                        <li class="d-block p-0">
-                                                            @php
-                                                                $startDate = new DateTime($experience->start_date);
-                                                                $endDate = new DateTime($experience->end_date);
-                                                            @endphp
-                                                            <span
-                                                                class="text-secondary-color-50">{{ $startDate->format('M Y') .' - '.$endDate->format('M Y')}}</span>
-                                                        </li>
-                                                        <li>
-                                                            <p>{{$experience->company_address}}</p>
-                                                        </li>
-                                                        <ul>
-                                                            {!! $experience->details !!}
+                                                    <div class="py-20 bd-ra-10 bg-f9f9f9">
+                                                        <ul class="zList-one">
+                                                            <li class="p-0 lh-1 d-block">
+                                                                <h6 class="fs-4 lh-1">{{ $experience->position}}</h6>
+                                                            </li>
+                                                            <li class="p-0 lh-1 d-block">
+                                                                <h1 class="fw-medium lh-1">{{ $experience->name}}</h1>
+                                                            </li>
+                                                            <li class="d-block p-0">
+                                                                @php
+                                                                    $startDate = new DateTime($experience->start_date);
+                                                                    $endDate = new DateTime($experience->end_date);
+                                                                @endphp
+                                                                <span
+                                                                    class="text-secondary-color-50">{{ $startDate->format('M Y') .' - '.$endDate->format('M Y')}}</span>
+                                                            </li>
+                                                            <li>
+                                                                <p>{{$experience->company_address}}</p>
+                                                            </li>
+                                                            <ul>
+                                                                {!! $experience->details !!}
+                                                            </ul>
+
                                                         </ul>
 
-                                                    </ul>
+
+                                                    </div>
 
 
-                                                </div>
-
-
-                                            @endforeach
-                                        </div>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <!-- Content for the right section -->
-                                   <div class="row">
-                                       <div class="col-md-12">
-                                           <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
-                                               <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                                   <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('Educational Info') }}</h4>
-                                               </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="py-20 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
+                                                <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
+                                                    <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('Educational Info') }}</h4>
+                                                </div>
 
-                                               @foreach( $user?->education as $education)
-                                                   <ul class="zList-one">
-                                                       <li class="d-block">
-                                                           <p class=" fs-4">{{ $education->type }}</p>
-                                                       </li>
+                                                @foreach( $user?->education as $education)
+                                                    <ul class="zList-one">
+                                                        <li class="d-block">
+                                                            <p class=" fs-4">{{ $education->type }}</p>
+                                                        </li>
 
-                                                       <li class="d-block">
-                                                           <p class=" fs-6 fw-light">{{ $education->name }}</p>
-                                                       </li>
+                                                        <li class="d-block">
+                                                            <p class=" fs-6 fw-light">{{ $education->name }}</p>
+                                                        </li>
 
-                                                       <li class="d-block">
-                                                           <p class="text-1b1c17-50">{{ $education->start_date .' - '.$education->end_date}}</p>
-                                                       </li>
-                                                   </ul>
+                                                        <li class="d-block">
+                                                            <p class="text-1b1c17-50">{{ $education->start_date .' - '.$education->end_date}}</p>
+                                                        </li>
+                                                    </ul>
 
-                                               @endforeach
+                                                @endforeach
 
-                                           </div>
+                                            </div>
 
-                                       </div>
-                                       <div class="col-md-12">
-                                           <div class="py-20 mt-3 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
-                                               <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                                   <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('Skills') }}</h4>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="py-20 mt-3 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
+                                                <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
+                                                    <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('Skills') }}</h4>
 
-                                               </div>
-                                               <ul class="zList-one d-flex">
-                                                   @php
-                                                       $skills = json_decode($user?->skills);
-                                                   @endphp
+                                                </div>
+                                                <ul class="zList-one d-flex">
+                                                    @php
+                                                        $skills = json_decode($user?->skills);
+                                                    @endphp
 
-                                                   @if ($skills)
-                                                       @foreach ($skills as $skill)
-                                                           <li class="p-1 d-flex bg-secondary-color rounded m-1">
-                                                               <p>{{ $skill }}</p>
-                                                           </li>
-                                                       @endforeach
-                                                   @endif
-                                               </ul>
-                                           </div>
+                                                    @if ($skills)
+                                                        @foreach ($skills as $skill)
+                                                            <li class="p-1 d-flex bg-secondary-color rounded m-1">
+                                                                <p>{{ $skill }}</p>
+                                                            </li>
+                                                        @endforeach
+                                                    @endif
+                                                </ul>
+                                            </div>
 
-                                       </div>
-                                       <div class="col-md-12">
-                                           <div class="py-20 mt-3 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
-                                               <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                                   <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('CVs') }}</h4>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="py-20 mt-3 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
+                                                <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
+                                                    <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('CVs') }}</h4>
 
-                                               </div>
-                                                   <div class="container">
-                                                   <div class="row g-3">
+                                                </div>
+                                                <div class="container">
+                                                    <div class="row g-3">
 
-                                               @foreach($user->cvs as $cv)
-                                                       <div class="col-md-6">
-                                                           <div class="card">
-                                                               <div class="card-body">
-                                                                   <embed
-                                                                       src="{{asset('public/storage/alumni/cv').'/'.$cv->name}}"
-                                                                       type="application/pdf" width="100%" height="500px">
+                                                        @foreach($user->cvs as $cv)
+                                                            <div class="col-md-6">
+                                                                <div class="card">
+                                                                    <div class="card-body">
+                                                                        <embed
+                                                                            src="{{asset('public/storage/alumni/cv').'/'.$cv->name}}"
+                                                                            type="application/pdf" width="100%" height="500px">
 
-                                                               </div>
-                                                           </div>
-                                                       </div>
-                                               @endforeach
-                                                   </div>
-                                                   </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
 
-                                           </div>
+                                            </div>
 
-                                       </div>
+                                        </div>
 
-                                   </div>
+                                    </div>
                                 </div>
                             </div>
                             @if(auth('alumni')->check())

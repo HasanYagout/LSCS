@@ -35,20 +35,20 @@
             },
             {
                 "data": "first_name",
-                "name": "first_name",
+                "name": "admins.first_name",
                 "responsivePriority": 1,
                 "searchable": true,
                 "orderable": true
             },
             {
                 "data": "last_name",
-                "name": "last_name",
+                "name": "admins.last_name",
                 "searchable": true,
                 "orderable": true
             },
             {
                 "data": "email",
-                "name": "email",
+                "name": "admins.email",
                 "searchable": true,
                 "orderable": true
             },

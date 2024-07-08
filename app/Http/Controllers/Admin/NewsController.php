@@ -27,7 +27,7 @@ class NewsController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-          return $this->newsService->list();
+          return $this->newsService->list($request);
         }
         $categoryService = new NewsCategoryService();
         $tagService = new NewsTagService();
