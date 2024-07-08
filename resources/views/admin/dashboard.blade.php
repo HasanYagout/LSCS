@@ -52,7 +52,7 @@
             </div>
 
 
-        @if(auth('admin')->user()->role_id==USER_ROLE_INSTRUCTOR)
+            @if(auth('admin')->user()->role_id==USER_ROLE_INSTRUCTOR)
                 <div class="pt-30">
                     {{-- <h4 class="fs-24 fw-500 lh-34 text-black pb-16">My Job Post</h4> --}}
                     <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
@@ -88,7 +88,7 @@
 
         </div>
     </div>
-{{--    <input type="hidden" id="recommendation_route" value="{{ route('admin.recommendation') }}">--}}
+    {{--    <input type="hidden" id="recommendation_route" value="{{ route('admin.recommendation') }}">--}}
 @endsection
 
 @push('script')
