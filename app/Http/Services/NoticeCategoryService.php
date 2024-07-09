@@ -13,10 +13,19 @@ class NoticeCategoryService
 
     public function list($request)
     {
-        $query = NoticeCategory::orderBy('id','DESC');
-        if ($request->has('search') && $request->search['value'] != '') {
-            $search = $request->search['value'];
-            $query->where('name', 'like', "%{$search}%");
+        $query = NoticeCategory::query();
+
+        // Handle ordering
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                $orderDirection = $order['dir'];
+                if (in_array($orderBy, ['name', 'status'])) {
+                    $query->orderBy($orderBy, $orderDirection);
+                }
+            }
+        } else {
+            $query->orderBy('id', 'DESC');
         }
         return datatables($query)
             ->addIndexColumn()

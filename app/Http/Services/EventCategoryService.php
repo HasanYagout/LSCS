@@ -18,7 +18,14 @@ class EventCategoryService
             $search = $request->search['value'];
             $query->where('name', 'like', "%{$search}%");
         }
+        // Handle ordering
+        if ($request->has('order') && $request->has('columns')) {
+            $query->orderBy('event_categories.name', $request->order[0]['dir']);
+        }
+        else{
         $query->orderBy('id','DESC');
+        }
+
         return datatables($query)
             ->addIndexColumn()
             ->addColumn('action', function ($data){

@@ -2,7 +2,7 @@
     "use strict";
     var table = $("#companiesTable").DataTable({
         pageLength: 10,
-        ordering: false,
+        ordering: true,
         serverSide: true,
         processing: true,
         destroy: true,

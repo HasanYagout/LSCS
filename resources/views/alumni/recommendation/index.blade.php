@@ -14,9 +14,9 @@
                     <table class="table zTable" id="recommendationTable">
                         <thead>
                         <tr>
-                            <th scope="col"><div class="bg-f5b40a text-primary-color">{{ __('Instructor') }}</div></th>
-                            <th scope="col"><div class="bg-f5b40a text-primary-color">{{ __('Status') }}</div></th>
-                            <th class="w-110 text-center" scope="col"><div class="bg-f5b40a text-primary-color">{{ __('Action') }}</div></th>
+                            <th scope="col"><div class=" text-primary-color">{{ __('Instructor') }}</div></th>
+                            <th scope="col"><div class=" text-primary-color">{{ __('Status') }}</div></th>
+                            <th class="w-110 text-center" scope="col"><div class=" text-primary-color">{{ __('Action') }}</div></th>
                         </tr>
                         </thead>
                     </table>

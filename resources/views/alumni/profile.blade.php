@@ -391,12 +391,12 @@
                                                                 {{ __('Educational Info') }}</h4>
                                                             <div class="d-flex align-items-center cg-16">
                                                                 <button type="button"
-                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one"
+                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-secondary"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#addMoreModal">{{ __('+Add
                                                     More') }}</button>
                                                                 <button type="button"
-                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-one delete-education">{{
+                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-secondary delete-education">{{
                                                     __('Delete') }}</button>
                                                             </div>
                                                         </div>
@@ -405,7 +405,7 @@
                                                             class="d-flex justify-content-end align-items-center flex-wrap g-10 pb-20">
                                                             <div class="d-flex align-items-center cg-16">
                                                                 <button type="button"
-                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-one delete-education">{{
+                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-secondary delete-education">{{
                                                     __('Delete') }}</button>
                                                             </div>
                                                         </div>
@@ -498,7 +498,7 @@
                                                     </h4>
                                                     <div class="d-flex align-items-center cg-16">
                                                         <button type="button"
-                                                                class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one"
+                                                                class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-secondary"
                                                                 data-bs-toggle="modal" data-bs-target="#addMoreModal">{{ __('+Add New')
                                                 }}</button>
                                                     </div>
@@ -525,12 +525,12 @@
                                                                 {{ __('Experience Info') }}</h4>
                                                             <div class="d-flex align-items-center cg-16">
                                                                 <button type="button"
-                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one"
+                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-secondary"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#addExperienceModal">{{ __('+Add
                                                     More') }}</button>
                                                                 <button type="button"
-                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-one delete-experience">{{
+                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-secondary delete-experience">{{
                                                     __('Delete') }}</button>
                                                             </div>
                                                         </div>
@@ -539,7 +539,7 @@
                                                             class="d-flex justify-content-end align-items-center flex-wrap g-10 pb-20">
                                                             <div class="d-flex align-items-center cg-16">
                                                                 <button type="button"
-                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-one delete-experience">{{
+                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-secondary delete-experience">{{
                                                     __('Delete') }}</button>
                                                             </div>
                                                         </div>
@@ -618,7 +618,7 @@
                                                     </h4>
                                                     <div class="d-flex align-items-center cg-16">
                                                         <button type="button"
-                                                                class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one"
+                                                                class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-secondary"
                                                                 data-bs-toggle="modal" data-bs-target="#addExperienceModal">{{ __('+Add New')
                                                 }}</button>
                                                     </div>
@@ -662,12 +662,12 @@
                                                                 {{ __('CV Info') }}</h4>
                                                             <div class="d-flex align-items-center cg-16">
                                                                 <button type="button"
-                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one"
+                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-secondary"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#addCVModal">{{ __('+Add
                                                     More') }}</button>
                                                                 <button type="button"
-                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-one delete-cv">{{
+                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-secondary delete-cv">{{
                                                     __('Delete') }}</button>
                                                             </div>
                                                         </div>
@@ -676,7 +676,7 @@
                                                             class="d-flex justify-content-end align-items-center flex-wrap g-10 pb-20">
                                                             <div class="d-flex align-items-center cg-16">
                                                                 <button type="button"
-                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-one delete-cv">{{
+                                                                        class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-ed0006 text-decoration-underline hover-color-secondary delete-cv">{{
                                                     __('Delete') }}</button>
                                                             </div>
                                                         </div>
@@ -704,7 +704,7 @@
                                                     </h4>
                                                     <div class="d-flex align-items-center cg-16">
                                                         <button type="button"
-                                                                class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one"
+                                                                class="border-0 p-0 bg-transparent fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-secondary"
                                                                 data-bs-toggle="modal" data-bs-target="#addCVModal">{{ __('+Add New')
                                                 }}</button>
                                                     </div>

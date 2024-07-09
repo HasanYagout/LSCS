@@ -11,9 +11,23 @@ class NewsCategoryService
 {
     use ResponseTrait;
 
-    public function list()
+    public function list($request)
     {
-        $newsCategory = NewsCategory::orderBy('id','DESC');
+        $newsCategory = NewsCategory::query();
+
+        // Handle ordering
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                $orderDirection = $order['dir'];
+                if (in_array($orderBy, ['name', 'status'])) {
+                    $newsCategory->orderBy($orderBy, $orderDirection);
+                }
+            }
+        } else {
+            $newsCategory->orderBy('id', 'DESC');
+        }
+
         return datatables($newsCategory)
             ->addIndexColumn()
             ->addColumn('status', function ($data) {
@@ -25,19 +39,20 @@ class NewsCategoryService
             })
             ->addColumn('action', function ($data){
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                            <li class="d-flex gap-2">
-                                <button onclick="getEditModal(\'' . route('admin.news.categories.info', $data->id) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                    <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                                </button>
-                                <button onclick="deleteItem(\'' . route('admin.news.categories.delete', $data->id) . '\', \'newsCategoryDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                    <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                                </button>
-                            </li>
-                        </ul>';
+                        <li class="d-flex gap-2">
+                            <button onclick="getEditModal(\'' . route('admin.news.categories.info', $data->id) . '\', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
+                                <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
+                            </button>
+                            <button onclick="deleteItem(\'' . route('admin.news.categories.delete', $data->id) . '\', \'newsCategoryDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
+                                <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
+                            </button>
+                        </li>
+                    </ul>';
             })
             ->rawColumns(['action', 'status'])
             ->make(true);
     }
+
 
     public function store($request)
     {

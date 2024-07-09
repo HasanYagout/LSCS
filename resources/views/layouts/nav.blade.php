@@ -1,6 +1,6 @@
 @php use Illuminate\Support\Facades\Auth; @endphp
 <div
-    class="main-header pt-28 pb-27 px-30  bg-secondary-color d-flex justify-content-between align-items-center" style="background: url("{{asset('public/frontend/images/community-bg.png')}}")" data-background="{{asset('public/frontend/images/community-bg.png')}}">
+    class="main-header py-10 px-30  bg-secondary-color d-flex justify-content-between align-items-center" style="background: url("{{asset('public/frontend/images/community-bg.png')}}")" data-background="{{asset('public/frontend/images/community-bg.png')}}">
 
     <div class="d-flex align-items-center cg-15" >
 

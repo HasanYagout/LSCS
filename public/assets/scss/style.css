@@ -1514,11 +1514,22 @@ bg-custom-secondary{
   max-width: 100% !important;
 }
 
-.hover-color-one:hover {
-  color: var(--hover-color) !important;
+.hover-color-secondary:hover {
+  color: var(--secondary-color) !important;
+}
+.hover-bd-secondary:hover{
+    border-color: var(--secondary-color) !important;
+
+}
+.hover-bd-primary:hover{
+    border-color: var(--primary-color) !important;
+
+}
+.hover-color-primary:hover {
+    color: var(--primary-color) !important;
 }
 .hover-bg-one:hover {
-  background-color: var(--hover-color) !important;
+  background-color: var(--secondary-color) !important;
 }
 .hover-bg-two:hover {
   background-color: var(--primary-color) !important;

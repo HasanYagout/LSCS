@@ -41,7 +41,7 @@
                         </div>
                     </div>
             @else
-               <h1>No Images Found</h1>
+               <h1 class="m-auto my-5 text-1b1c17-50 w-auto">No Images Found</h1>
            @endif
         </div>
     </div>

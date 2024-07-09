@@ -57,6 +57,31 @@ class DashboardController extends Controller
         if (auth('admin')->user()->role_id == USER_ROLE_ADMIN) {
             return view('admin.dashboard', $data);
         } elseif (auth('admin')->user()->role_id == USER_ROLE_INSTRUCTOR) {
+            $recommendations = Recommendation::whereIn('status', [0, 1, 2, 3])->get();
+
+            $data['recommendations'] = [
+                'Total' => [
+                    'count' => $recommendations->count(),
+                    'icon' => 'bi-list',
+                ],
+                'Pending' => [
+                    'count' => $recommendations->where('status', 0)->count(),
+                    'icon' => 'bi-clock',
+                ],
+                'Confirmed' => [
+                    'count' => $recommendations->where('status', 1)->count(),
+                    'icon' => 'bi-check-circle',
+                ],
+                'Rejected' => [
+                    'count' => $recommendations->where('status', 3)->count(),
+                    'icon' => 'bi-x-circle',
+                ],
+                'Done' => [
+                    'count' => $recommendations->where('status', 2)->count(),
+                    'icon' => 'bi-check',
+                ],
+            ];
+
             if ($request->ajax()) {
                 $recommendation = Recommendation::with('alumni')
                     ->where('admin_id', auth('admin')->user()->id);
@@ -102,8 +127,8 @@ class DashboardController extends Controller
                     })
                     ->addColumn('action', function ($data) {
                         return '<button onclick="getEditModal(\'' . route('admin.instructor.recommendation.edit', $data->id) . '\', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="' . __('Upload') . '">
-                                <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="upload" />
-                            </button>';
+                            <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="upload" />
+                        </button>';
                     })
                     ->rawColumns(['id', 'name', 'status', 'checkbox', 'action'])
                     ->make(true);
@@ -111,6 +136,7 @@ class DashboardController extends Controller
             return view('admin.instructor.dashboard', $data);
         }
     }
+
 
 
     public function status_update(Request $request)
