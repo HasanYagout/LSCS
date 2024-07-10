@@ -16,8 +16,8 @@
 {{--                    <p class="fs-16 fw-400 lh-24 text-white">{{ getOption('sign_up_left_text_subtitle') }}</p>--}}
 {{--                </div>--}}
 {{--            </div>--}}
-            <div class="register-right bg-white container pd register-right rounded-5 s shadow-lg" style="padding: 50px;>
-                <div class=">
+            <div class="register-right bg-white container pd register-right rounded-5 s shadow-lg" style="padding: 50px;">
+                <div>
                     <!-- Title -->
                     <div class="pb-40">
                         <h2 class="fs-32 fw-600 lh-38 text-secondary-color pb-3">{{ __('Create Account') }}</h2>
