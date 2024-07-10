@@ -3,7 +3,7 @@
 
     $("#storyDataTable").DataTable({
         pageLength: 10,
-        ordering: false,
+        ordering: true,
         serverSide: true,
         processing: true,
         responsive:true,

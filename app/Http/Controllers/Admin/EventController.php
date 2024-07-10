@@ -65,7 +65,7 @@ class EventController extends Controller
         $data['showEvent'] = 'show';
         $data['activeEventPending'] = 'active';
         if ($request->ajax()) {
-            return $this->eventService->pending();
+            return $this->eventService->pending($request);
         }
         return view('admin.event.pending.index', $data);
     }

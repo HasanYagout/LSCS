@@ -18,68 +18,93 @@ class NewsService
 
     public function list($request)
     {
-        $query = News::select('news.*', 'news_categories.name as category_name', DB::raw("CONCAT(admins.first_name, ' ', admins.last_name) as author_name"))
+        // Base query to get news with author and category
+        $query = News::select('news.*', 'news_categories.name as category_name')
+            ->with('author')
             ->join('news_categories', 'news.news_category_id', '=', 'news_categories.id')
-            ->join('admins', 'news.posted_by', '=', 'admins.id') // Assuming the foreign key in the news table is author_id
-            ->whereIn('news.status', [STATUS_ACTIVE, STATUS_PENDING])
-            ->orderBy('news.id', 'desc');
+            ->join('admins', 'news.posted_by', '=', 'admins.id') // Assuming the foreign key in the news table is posted_by
+            ->whereIn('news.status', [STATUS_ACTIVE, STATUS_PENDING]);
 
+        // Handle search input
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
             $query->where(function($q) use ($search) {
                 $q->where('news.title', 'like', "%{$search}%")
                     ->orWhere('news_categories.name', 'like', "%{$search}%")
-                    ->orWhere(DB::raw("CONCAT(admins.first_name, ' ', admins.last_name)"), 'like', "%{$search}%");
+                    ->orWhere('admins.first_name', 'like', "%{$search}%");
             });
+        }
+
+        // Handle ordering
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                $orderDirection = $order['dir'];
+
+                if ($orderBy == 'category') {
+                    $query->orderBy('news_categories.name', $orderDirection);
+                }
+                else if ($orderBy == 'author') {
+                    $query->orderBy('admins.first_name', $orderDirection);
+                }
+                else {
+                    $query->orderBy('news.' . $orderBy, $orderDirection);
+                }
+            }
+        } else {
+            $query->orderBy('news.id', 'DESC');
         }
 
         return datatables($query)
             ->addIndexColumn()
             ->addColumn('image', function ($data) {
-                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('/public/storage/admin/news').'/'.$data->image . '" alt="icon" class="max-h-35 rounded avatar-xs tbl-user-image">';
+                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('/public/storage/admin/news') . '/' . $data->image . '" alt="icon" class="max-h-35 rounded avatar-xs tbl-user-image">';
             })
             ->addColumn('title', function ($data) {
                 return $data->title;
             })
-            ->addColumn('author_name', function ($data) {
-                return $data->author_name;
+            ->addColumn('author',function($data){
+                return $data->author->first_name . ' ' . $data->author->last_name;
             })
             ->addColumn('category', function ($data) {
                 return htmlspecialchars($data->category_name);
             })
             ->addColumn('status', function ($data) {
-                if ($data->status == 1) {
-                    return '<span class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-0fa958 bg-0fa958-10">'.__('Published').'</span>';
+                if ($data->status == STATUS_ACTIVE) {
+                    return '<span class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16 text-0fa958 bg-0fa958-10">' . __('Published') . '</span>';
                 } else {
-                    return '<span class="zBadge-free">'.__('Deactivate').'</span>';
+                    return '<span class="zBadge-free">' . __('Deactivate') . '</span>';
                 }
             })
-            ->addColumn('action', function ($data){
-                if(auth('admin')->user()->role_id == USER_ROLE_ADMIN){
+            ->addColumn('action', function ($data) {
+                if (auth('admin')->user()->role_id == USER_ROLE_ADMIN) {
                     return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                        <li class="d-flex gap-2">
-                            <a href="'. route('admin.news.details', $data->slug) .'" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View">
-                                <img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="view">
-                            </a>
-                            <button onclick="getEditModal(\'' . route('admin.news.info', $data->id) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
-                                <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
-                            </button>
-                            <button onclick="deleteItem(\'' . route('admin.news.delete', $data->id) . '\', \'newsDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
-                                <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
-                            </button>
-                        </li>
-                    </ul>';
+                <li class="d-flex gap-2">
+                    <a href="' . route('admin.news.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View">
+                        <img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="view">
+                    </a>
+                    <button onclick="getEditModal(\'' . route('admin.news.info', $data->id) . '\', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="' . __('Edit') . '">
+                        <img src="' . asset('public/assets/images/icon/edit.svg') . '" alt="edit" />
+                    </button>
+                    <button onclick="deleteItem(\'' . route('admin.news.delete', $data->id) . '\', \'newsDataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="' . __('Delete') . '">
+                        <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
+                    </button>
+                </li>
+            </ul>';
                 } else {
                     return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                            <li class="d-flex gap-2">
-                                <a href="'. route('news.details', $data->slug) .'" class="d-block min-w-130 text-decoration-underline fw-600 text-1b1c17">More Details</a>
-                            </li>
-                        </ul>';
+                <li class="d-flex gap-2">
+                    <a href="' . route('news.details', $data->slug) . '" class="d-block min-w-130 text-decoration-underline fw-600 text-1b1c17">More Details</a>
+                </li>
+            </ul>';
                 }
             })
-            ->rawColumns(['author_name', 'image', 'status', 'action'])
+            ->rawColumns(['image', 'status', 'action'])
             ->make(true);
     }
+
+
+
 
 
 

@@ -71,7 +71,7 @@
             @foreach($events as $event)
                 <div class="col-md-4 mt-30">
                     <div class="card news-card">
-                        <img src="{{asset('public/storage/admin/events').'/'.$event->thumbnail}}" alt="News Image">
+                        <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/events').'/'.$event->thumbnail}}" alt="News Image">
                         <div class="card-body">
                             @php
                                 $date = Carbon::parse($event->date);

@@ -16,15 +16,41 @@ class EventService
 {
     use ResponseTrait;
 
-    public function pending()
+    public function pending( $request)
     {
-        $eventPending = Event::with('category')->where('status', STATUS_ACTIVE)
-            ->orderBy('id','DESC');
+        $eventPending = Event::select('events.*', 'event_categories.name as category_name')
+            ->join('event_categories', 'events.event_category_id', '=', 'event_categories.id')
+            ->where('events.status', STATUS_ACTIVE);
+
+        // Handle ordering
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                $orderDirection = $order['dir'];
+
+                if ($orderBy == 'category') {
+                    $eventPending->orderBy('event_categories.name', $orderDirection);
+                } else {
+                    $eventPending->orderBy('events.' . $orderBy, $orderDirection);
+                }
+            }
+        } else {
+            $eventPending->orderBy('events.id', 'DESC');
+        }
+
+        // Handle search
+        if ($request->has('search') && $request->search['value'] != '') {
+            $search = $request->search['value'];
+            $eventPending->where(function($q) use ($search) {
+                $q->where('events.title', 'like', "%{$search}%")
+                    ->orWhere('event_categories.name', 'like', "%{$search}%");
+            });
+        }
 
         return datatables($eventPending)
             ->addIndexColumn()
             ->addColumn('category', function ($data) {
-                return '<p class="min-w-130 text-center zBadge">' . htmlspecialchars($data->category->name) . '</p>';
+                return '<p class="min-w-130 text-center zBadge">' . htmlspecialchars($data->category_name) . '</p>';
             })
             ->addColumn('date', function ($data) {
                 return \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $data->date)->format('jS F, h:i:s A');
@@ -32,20 +58,38 @@ class EventService
             ->addColumn('action', function ($data){
                 $checked = $data->status == STATUS_ACTIVE ? 'checked' : '';
                 return '<div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="statusSwitch' . $data->id . '" ' . $checked . ' onclick="toggleStatus(' . $data->id . ')">
-                    </div>';
+                    <input class="form-check-input" type="checkbox" id="statusSwitch' . $data->id . '" ' . $checked . ' onclick="toggleStatus(' . $data->id . ')">
+                </div>';
             })
-            ->rawColumns(['type', 'action', 'category', 'date'])
+            ->rawColumns(['category', 'date', 'action'])
             ->make(true);
     }
+
+
+
 
 
     public function allEvent( $request)
     {
         $query = Event::select('events.*', 'event_categories.name as category_name')
             ->join('event_categories', 'events.event_category_id', '=', 'event_categories.id')
-            ->whereIn('events.status', [STATUS_ACTIVE, STATUS_PENDING])
-            ->orderBy('events.id', 'desc');
+            ->whereIn('events.status', [STATUS_ACTIVE, STATUS_PENDING]);
+
+
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                $orderDirection = $order['dir'];
+
+                if ($orderBy == 'category') {
+                    $query->orderBy('event_categories.name', $orderDirection);
+                } else {
+                    $query->orderBy('events.' . $orderBy, $orderDirection);
+                }
+            }
+        } else {
+            $query->orderBy('events.id', 'DESC');
+        }
 
         // Handle search
         if ($request->has('search') && $request->search['value'] != '') {
@@ -97,9 +141,23 @@ class EventService
         $query = Event::select('events.*', 'event_categories.name as category_name')
             ->join('event_categories', 'events.event_category_id', '=', 'event_categories.id')
             ->where('user_id', auth('admin')->id())
-            ->where('events.status', STATUS_ACTIVE)
-            ->orderBy('events.id', 'desc');
+            ->where('events.status', STATUS_ACTIVE);
         // Handle search
+        // Handle ordering
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                $orderDirection = $order['dir'];
+
+                if ($orderBy == 'category') {
+                    $query->orderBy('event_categories.name', $orderDirection);
+                } else {
+                    $query->orderBy('events.' . $orderBy, $orderDirection);
+                }
+            }
+        } else {
+            $query->orderBy('events.id', 'DESC');
+        }
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
             $query->where(function($q) use ($search) {

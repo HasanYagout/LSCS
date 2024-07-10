@@ -3,7 +3,7 @@
 
     $("#eventCategoryDataTable").DataTable({
         pageLength: 10,
-        ordering: false,
+        ordering: true,
         serverSide: true,
         processing: true,
         searching: true,
@@ -18,7 +18,7 @@
 		},
 		dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"tableSearch float-start"f>><"col-sm-6"<"tableLengthInput float-end"l>>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
 		columns: [
-            {"data": "name", "name": "name"},
+            {"data": "name", "name": "event_categories.name"},
             {"data": "action", searchable: false, responsivePriority:2},
         ],
       });

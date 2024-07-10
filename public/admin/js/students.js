@@ -2,7 +2,8 @@
     "use strict";
     var table = $("#studentsTable").DataTable({
         pageLength: 10,
-        ordering: false,
+        ordering: true,
+        order: [[1, 'desc']], // Default order: sort by student_id descending
         serverSide: true,
         processing: true,
         destroy: true,
@@ -28,13 +29,13 @@
         columns: [
             { data: null, name: 'number', searchable: false, orderable: false, responsivePriority: 1 }, // For row numbers
             { data: 'student_id', name: 'students.student_id', searchable: true, orderable: true, responsivePriority: 3 },
-            { data: 'first_name', name: 'first_name', searchable: true, responsivePriority: 1 },
-            { data: 'middle_name', name: 'middle_name', searchable: true, responsivePriority: 2 },
-            { data: 'last_name', name: 'last_name', searchable: true, responsivePriority: 3 },
-            { data: 'gpa', name: 'gpa', searchable: true },
-            { data: 'major', name: 'major', searchable: true, responsivePriority: 3 }, // Adjusted to search by major name
-            { data: 'credits_left', name: 'credits_left', searchable: true, responsivePriority: 2 },
-            { data: 'action', name: 'action', searchable: false, responsivePriority: 3 }
+            { data: 'first_name', name: 'students.first_name', searchable: true, orderable: true, responsivePriority: 1 },
+            { data: 'middle_name', name: 'middle_name', searchable: true, orderable: true, responsivePriority: 2 },
+            { data: 'last_name', name: 'last_name', searchable: true, orderable: true, responsivePriority: 3 },
+            { data: 'gpa', name: 'gpa', searchable: true, orderable: true },
+            { data: 'major', name: 'major', searchable: true, orderable: true, responsivePriority: 3 }, // Adjusted to search by major name
+            { data: 'credits_left', name: 'credits_left', searchable: true, orderable: true, responsivePriority: 2 },
+            { data: 'action', name: 'action', searchable: false, orderable: false, responsivePriority: 3 }
         ],
         rowCallback: function(row, data, index) {
             // Add the row number to the first column
@@ -44,7 +45,6 @@
         initComplete: function(settings, json) {
             $('.z-filter-block').html($('#search-section').html());
             $('#search-section').remove();
-
         },
     });
 

@@ -86,7 +86,7 @@
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Upcoming Events') }}</h4>
                                 <a href="{{ route('alumni.event.all') }}"
-                                   class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
+                                   class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-secondary">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
                                 </a>
@@ -126,7 +126,7 @@
                                                 </div>
                                                 <!-- Link -->
                                                 <a href="{{ route('alumni.event.details', $event->slug) }}"
-                                                   class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('Reservation') }}</a>
+                                                   class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-secondary">{{ __('Reservation') }}</a>
                                             </div>
                                         </div>
                                     </li>
@@ -141,7 +141,7 @@
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Jobs') }}</h4>
                                 <a href="{{ route('alumni.jobs.all-job-post') }}"
-                                   class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
+                                   class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-secondary">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
                                 </a>
@@ -201,7 +201,7 @@
                                         </ul>
                                         <!-- Link -->
                                         {{--                                        <a href="{{ route('alumni.jobs.details', $job->slug) }}"--}}
-                                        {{--                                            class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>--}}
+                                        {{--                                            class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-secondary">{{ __('More Details') }}</a>--}}
                                     </li>
                                 @endforeach
                             </ul>
@@ -214,7 +214,7 @@
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Notice') }}</h4>
                                 <a href="{{ route('alumni.all.notice') }}"
-                                   class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
+                                   class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-secondary">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
                                 </a>
@@ -241,7 +241,7 @@
                                                     {{ getSubText($notice->details, 150) }}</p>
                                                 <!-- Link -->
                                                 <a href="{{ route('alumni.notice.details', $notice->slug) }}"
-                                                   class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
+                                                   class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-secondary">{{ __('More Details') }}</a>
                                             </div>
                                         </div>
                                     </li>
@@ -256,7 +256,7 @@
                             <div class="d-flex justify-content-between align-items-center pb-30">
                                 <h4 class="fs-20 fw-600 lh-24 text-1b1c17">{{ __('Latest News') }}</h4>
                                 <a href="{{ route('alumni.news.index') }}"
-                                   class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-one">
+                                   class="flex-shrink-0 fs-14 fw-500 lh-17 text-1b1c17 d-flex align-items-center cg-6 hover-color-secondary">
                                     <span>{{ __('See All') }}</span>
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
                                 </a>
@@ -295,7 +295,7 @@
                                                 </div>
                                                 <!-- Link -->
                                                 <a href="{{ route('alumni.news.details', $news->slug) }}"
-                                                   class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-one">{{ __('More Details') }}</a>
+                                                   class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-secondary">{{ __('More Details') }}</a>
                                             </div>
                                         </div>
                                     </li>

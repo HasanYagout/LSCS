@@ -27,7 +27,7 @@ class NewsCategoryController extends Controller
         $data['showManageNews'] = 'show';
         $data['activeNewsCategory'] = 'active';
         if ($request->ajax()) {
-            return $this->newsCategoryService->list();
+            return $this->newsCategoryService->list($request);
         }
         return view('admin.news.categories.index', $data);
     }

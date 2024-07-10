@@ -20,8 +20,7 @@ class StudentService
     {
         // Query to get students with their major
         $studentsQuery = Student::with('major')
-            ->where('credits_left', 0)
-            ->orderBy('student_id', 'DESC');
+            ->where('credits_left', 0);
 
         // Handle search input
         if ($request->has('search') && isset($request->search['value']) && $request->search['value'] != '') {
@@ -32,6 +31,25 @@ class StudentService
                     ->orWhere('middle_name', 'like', "%{$search}%")
                     ->orWhere('last_name', 'like', "%{$search}%");
             });
+        }
+
+        // Handle ordering
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                $orderDirection = $order['dir'];
+                if (in_array($orderBy, ['student_id', 'first_name', 'middle_name', 'last_name', 'gpa', 'major', 'credits_left'])) {
+                    // Handle ordering by related column (major)
+                    if ($orderBy == 'major') {
+                        $studentsQuery->leftJoin('majors', 'students.major_id', '=', 'majors.id')
+                            ->orderBy('majors.name', $orderDirection);
+                    } else {
+                        $studentsQuery->orderBy($orderBy, $orderDirection);
+                    }
+                }
+            }
+        } else {
+            $studentsQuery->orderBy('student_id', 'desc');
         }
 
         // Get the student IDs to find active alumni

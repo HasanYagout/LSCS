@@ -21,7 +21,7 @@
                     <div class="pb-40">
                         <h2 class="fs-32 fw-600 lh-38 text-1b1c17 pb-3">{{ __('Create Account') }}</h2>
                         <h4 class="fs-16 fw-400 lh-25">{{ __('Already have an account?') }} <a href="{{ route('login') }}"
-                                class="text-decoration-underline fw-500 text-black hover-color-one">{{__('Sign In')}}</a></h4>
+                                class="text-decoration-underline fw-500 text-black hover-color-secondary">{{__('Sign In')}}</a></h4>
                     </div>
                     <!-- Form -->
                     <form action="{{ route('register') }}" enctype="multipart/form-data" method="post">

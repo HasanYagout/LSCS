@@ -58,7 +58,7 @@
 @section('content')
     <div class="container mt-5">
         <div class="row">
-            <form action="{{ route('alumni.jobs.all-job-post') }}" method="GET" class="mb-4">
+            <form action="{{ route('alumni.event.all') }}" method="GET" class="mb-4">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Search Events" name="search" value="{{ request('search') }}">
                     <div class="input-group-append">
@@ -71,12 +71,10 @@
             @foreach($events as $event)
                 <div class="col-md-4 mt-30">
                     <div class="card news-card">
-                        <img src="{{asset('public/storage/admin/events').'/'.$event->thumbnail}}" alt="News Image">
+                        <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/events').'/'.$event->thumbnail}}" alt="News Image">
                         <div class="card-body">
                             @php
                                 $date = Carbon::parse($event->date);
-
-// Format the date as 'Jun 15'
                         $formattedDate = $date->format('M d');
                             @endphp
                             <p class="card-text news-card-text">{{$formattedDate}}</p>

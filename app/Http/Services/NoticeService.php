@@ -17,10 +17,24 @@ class NoticeService
 
     public function list( $request)
     {
-        $query = Notice::select('notices.*', 'notice_categories.name as category_name')
-            ->join('notice_categories', 'notices.notice_category_id', '=', 'notice_categories.id')
-            ->whereIn('notices.status', [STATUS_ACTIVE, STATUS_PENDING])
-            ->orderBy('notices.id', 'desc');
+
+        $query = Notice::query()->select('notices.*', 'notice_categories.name as category_name')
+            ->join('notice_categories', 'notices.notice_category_id', '=', 'notice_categories.id');
+
+        // Handle ordering
+        if ($request->has('order') && $request->has('columns')) {
+            foreach ($request->order as $order) {
+                $orderBy = $request->columns[$order['column']]['data'];
+                $orderDirection = $order['dir'];
+                if ($orderBy == 'category') {
+                    $query->orderBy('notice_categories.name', $orderDirection);
+                } else {
+                    $query->orderBy($orderBy, $orderDirection);
+                }
+            }
+        } else {
+            $query->orderBy('notices.id', 'desc');
+        }
 
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];

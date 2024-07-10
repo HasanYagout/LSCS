@@ -1,5 +1,6 @@
 (function ($) {
     "use strict";
+
     $("#newsDataTable").DataTable({
         pageLength: 10,
         ordering: true,
@@ -7,7 +8,7 @@
         processing: true,
         responsive: true,
         searching: true,
-        ajax: $('#news.js').val(),
+        ajax: $('#newsDataTable').data('source'),
         language: {
             paginate: {
                 previous: "<i class='fa-solid fa-angles-left'></i>",
@@ -20,7 +21,7 @@
         columns: [
             {"data": "image", "name": "image", searchable: false, orderable: false, responsivePriority: 1},
             {"data": "title", "name": "news.title"},
-            {"data": "author_name", "name": "admins.first_name", searchable: true, orderable: true},
+            {"data": "author", "name": "admins.first_name"},
             {"data": "category", "name": "news_categories.name"},
             {"data": "status", "name": "status"},
             {"data": "action", searchable: false, orderable: false, responsivePriority: 2},
