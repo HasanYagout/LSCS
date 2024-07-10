@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class   ProfileController extends Controller
@@ -25,24 +26,8 @@ class   ProfileController extends Controller
         return view('admin.profile.index', $data);
     }
 
-    public function changePassword()
-    {
-        $data['pageTitle'] = 'Change Password';
-        $data['navAccountSettingActiveClass'] = 'mm-active';
-        $data['subNavChangePasswordActiveClass'] = 'mm-active';
-        return view('admin.profile.change-password', $data);
-    }
 
-    public function changePasswordUpdate(Request $request)
-    {
-        $request->validate([
-            'password' => 'required|confirmed|min:6'
-        ]);
-        $user = Auth::user();
-        $user->password = Hash::make($request->password);
-        $user->save();
-        return redirect()->back()->with('success', 'Updated Successfully');
-    }
+
 
     public function update(Request $request)
     {
@@ -82,4 +67,44 @@ class   ProfileController extends Controller
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
         }
     }
+
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required|min:6',
+            'new_password' => 'required|min:6|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            session()->flash('active_tab', 'editProfile-tab');
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', 'Validation failed.');
+        }
+
+        $user = auth('admin')->user();
+        if (!Hash::check($request->current_password, $user->password)) {
+            session()->flash('active_tab', 'editProfile-tab');
+            return redirect()->back()
+                ->with('error', 'The current password is incorrect.');
+        }
+
+        DB::beginTransaction();
+        try {
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            DB::commit();
+
+            // Log out the user and redirect to login page with a success message
+            auth('admin')->logout();
+            return redirect()->route('admin.auth.login')->with('success', 'Password updated successfully. Please log in with your new password.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            session()->flash('active_tab', 'editProfile-tab');
+            return redirect()->back()->with('error', 'Something went wrong, please try again.');
+        }
+    }
+
+
 }

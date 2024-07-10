@@ -3,7 +3,7 @@
     var table = $("#studentsTable").DataTable({
         pageLength: 10,
         ordering: true,
-        order: [[1, 'desc']], // Default order: sort by student_id descending
+        order: [[1, 'desc']], // Default order: sort by id descending
         serverSide: true,
         processing: true,
         destroy: true,
@@ -28,7 +28,7 @@
         dom: '<"tableTop"<"row align-items-center"<"col-sm-6"<"d-flex align-items-center cg-5"<"tableSearch float-start"f><"z-filter-button">>><"col-sm-6"<"tableLengthInput float-end"l>><"col-sm-12"<"z-filter-block">>>>tr<"tableBottom"<"row align-items-center"<"col-sm-6"<"tableInfo"i>><"col-sm-6"<"tablePagi"p>>>><"clear">',
         columns: [
             { data: null, name: 'number', searchable: false, orderable: false, responsivePriority: 1 }, // For row numbers
-            { data: 'student_id', name: 'students.student_id', searchable: true, orderable: true, responsivePriority: 3 },
+            { data: 'id', name: 'students.id', searchable: true, orderable: true, responsivePriority: 3 },
             { data: 'first_name', name: 'students.first_name', searchable: true, orderable: true, responsivePriority: 1 },
             { data: 'middle_name', name: 'middle_name', searchable: true, orderable: true, responsivePriority: 2 },
             { data: 'last_name', name: 'last_name', searchable: true, orderable: true, responsivePriority: 3 },
@@ -69,7 +69,7 @@
                     url: $('#students-update-route').val(), // Replace with your actual route
                     data: {
                         '_token': csrfToken,
-                        'student_id': studentId,
+                        'id': studentId,
                         'status': newStatus
                     },
                     success: function(response) {

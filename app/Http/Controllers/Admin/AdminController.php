@@ -97,7 +97,6 @@ class AdminController extends Controller
 
     public function resetPassword(Request $request, $id)
     {
-
         try {
             $admin = Admin::findOrFail($id); // Find admin by ID
 
@@ -107,13 +106,20 @@ class AdminController extends Controller
             // Update admin's password
             $admin->password = bcrypt($newPassword);
             $admin->save();
-            Auth::guard('admin')->logout();
+
+            // Check if the authenticated admin is the same as the reset admin
+            if (auth('admin')->id() == $id) {
+                auth('admin')->logout();
+                // Return success response indicating logout
+                return response()->json(['message' => 'Password reset successfully. Please log in again.', 'logout' => true]);
+            }
+
             // Return success response
             return response()->json(['message' => 'Password reset successfully.']);
-
         } catch (\Exception $e) {
             // Return error response if reset fails
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
 }

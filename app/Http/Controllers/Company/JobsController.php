@@ -97,7 +97,7 @@ class JobsController extends Controller
     }
     public function alumniProfile($id)
     {
-// Check if the student_id exists in the applied_jobs table
+// Check if the id exists in the applied_jobs table
         $existsInAppliedJobs = AppliedJobs::where('alumni_id', $id)->exists();
 
         if (!$existsInAppliedJobs) {
@@ -108,7 +108,7 @@ class JobsController extends Controller
         // Proceed to fetch the alumni profile
         $data['activeProfile'] = 'active';
         $data['showProfileManagement'] = 'show';
-        $data['user'] = Alumni::where('student_id', $id)->first();
+        $data['user'] = Alumni::where('id', $id)->first();
 
         // Check if the user exists in the Alumni table
         if (!$data['user']) {

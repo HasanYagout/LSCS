@@ -83,10 +83,7 @@ class ProfileController extends Controller
         return $this->userService->changePassword($request);
     }
 
-    public function changePasswordUpdate(Request $request)
-    {
-       return $this->userService->changePasswordUpdate($request);
-    }
+
 
 
 

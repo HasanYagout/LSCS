@@ -39,14 +39,14 @@ class StudentController extends Controller
 
     public function info($id)
     {
-        $data['student'] = Student::where('student_id', $id)->firstOrFail();
+        $data['student'] = Student::where('id', $id)->firstOrFail();
         return view('admin.students.info', $data);
     }
 
     public function update(Request $request)
     {
 
-        $student = Student::with('major')->where('student_id', $request->student_id)->first();
+        $student = Student::with('major')->where('id', $request->id)->first();
 
         if (!$student) {
             return response()->json(['success' => false, 'message' => __('Student not found')]);
@@ -55,7 +55,7 @@ class StudentController extends Controller
         $student->update(['is_alumni' => $request->status]);
 
         // Check if there's an Alumni record, including soft-deleted ones
-        $alumni = Alumni::withTrashed()->where('student_id', $student->student_id)->first();
+        $alumni = Alumni::withTrashed()->where('id', $student->id)->first();
 
         if ($request->status) {
             // If we're setting this student as an alumni
@@ -70,14 +70,14 @@ class StudentController extends Controller
             }
 
             // Update or set the alumni details
-            $alumni->student_id = $student->student_id;
+            $alumni->id = $student->id;
             $alumni->first_name = $student->first_name;
             $alumni->last_name = $student->last_name;
             $alumni->phone = $student->number;
             $alumni->gpa = $student->gpa;
             $alumni->major = $student->major->name;
             $alumni->graduation_year = Carbon::now()->format('o');
-            $alumni->password = Hash::make($student->student_id);  // Consider security implications
+            $alumni->password = Hash::make($student->id);  // Consider security implications
             $alumni->role_id = 2;  // Ensure role_id '2' is correct
             $alumni->email = $student->email;
             $alumni->status = 1;

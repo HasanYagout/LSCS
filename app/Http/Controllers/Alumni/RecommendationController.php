@@ -89,7 +89,7 @@ class RecommendationController extends Controller
             'details' => 'required|string|max:2000',
         ]);
 
-        Recommendation::create(['alumni_id'=>auth('alumni')->id(),
+        Recommendation::create(['alumni_id'=>auth('alumni')->user()->id,
             'admin_id'=>$request->instructor,'status'=>0]);
         return back()->with('success', 'Recommendation request submitted successfully.');
 

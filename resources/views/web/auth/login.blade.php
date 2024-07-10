@@ -37,11 +37,11 @@
                             <div class="primary-form-group">
                                 <div class="primary-form-group-wrap">
 
-                                    <label for="student_id" class="form-label text-secondary-color">{{ __('Student Id') }}</label>
-                                    <input type="number" class="primary-form-control rounded-3" id="student_id" name="student_id"
-                                    value="{{ old('student_id') }}" placeholder="{{ __(' Your ID') }}" required />
+                                    <label for="id" class="form-label text-secondary-color">{{ __('Student Id') }}</label>
+                                    <input type="number" class="primary-form-control rounded-3" id="id" name="id"
+                                    value="{{ old('id') }}" placeholder="{{ __(' Your ID') }}" required />
                                 </div>
-                                @error('student_id')
+                                @error('id')
                                     <span class="fs-12 text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -50,7 +50,7 @@
                                     <label for="Password" class="form-label text-secondary-color">{{__('Password')}}</label>
                                     <div class="input-group position-relative">
                                         <input type="password" class="primary-form-control rounded-3" id="Password" name="password" placeholder="********" required />
-                                        <button type="button" class="btn btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password top-0 toggle-password end-0" aria-label="Show Password">
+                                        <button type="button" class="btn hover-color-secondary btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password top-0 toggle-password end-0" aria-label="Show Password">
                                             <i class="fa fa-eye"></i>
                                         </button>
                                     </div>
@@ -59,83 +59,14 @@
                                 <span class="fs-12 text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            @if (!empty(getOption('google_recaptcha_status')) && getOption('google_recaptcha_status') == 1)
-                                <div class="form-group{{ $errors->has('g-recaptcha-response') ? ' has-error' : '' }}">
-                                    <div class="col-md-6">
-                                        {!! RecaptchaV3::field('register') !!}
-                                        @if ($errors->has('g-recaptcha-response'))
-                                            <span class="help-block">
-                                                <strong>{{ $errors->first('g-recaptcha-response') }}</strong>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
-                            @endif
                         </div>
-{{--                        <a href="{{ route('password.request') }}"--}}
-{{--                            class="d-inline-block fs-12 fw-400 lh-22 text-707070 mb-25 hover-color-secondary">{{ __('Forgot your Password?') }}</a>--}}
+
                         <button type="submit"
                             class="d-flex justify-content-center align-items-center w-100 border-0 fs-15 fw-500 lh-25 text-1b1c17 p-13 bd-ra-12 bg-cdef84 hover-bg-one">{{ __('Log In') }}</button>
                     </form>
 
-                    @if (getOption('google_login_status') == 1 || getOption('facebook_login_status') == 1)
-                        <!-- Another Sign In options -->
-                        <h4 class="position-relative fs-12 fw-400 lh-22 text-707070 text-center mt-20 under-border-one">
-                            <span class="bg-white position-relative px-5">{{ __('Or continue with') }}</span>
-                        </h4>
-                        <ul class="continue-btn-list">
-                            @if (getOption('facebook_login_status') == 1)
-                                <li>
-                                    <a href="{{ route('facebook-login') }}" class="continue-btn">
-                                        <img src="{{ asset('assets/images/facebook.svg') }}" alt="facebook" />
-                                    </a>
-                                </li>
-                            @endif
-                            @if (getOption('google_login_status') == 1)
-                                <li>
-                                    <a href="{{ route('google-login') }}" class="continue-btn">
-                                        <img src="{{ asset('public/assets/images/google.svg') }}" alt="google" />
-                                    </a>
-                                </li>
-                            @endif
-                        </ul>
-                    @endif
                 </div>
-                @if (env('LOGIN_HELP') == 'active')
-                    <div class="row">
-                        <div class="col-md-12 mb-25">
-                            <div class="table-responsive login-info-table mt-3">
-                                <table class="table table-bordered">
-                                    <tbody>
-                                        @if(isCentralDomain())
-                                        <tr>
-                                            <td colspan="2" id="superAdminCredentialShow" class="login-info">
-                                                <b>Super Admin :</b> superadmin@gmail.com | 123456
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" id="adminCredentialShow" class="login-info">
-                                                <b>Admin :</b> admin@gmail.com | 123456
-                                            </td>
-                                        </tr>
-                                        @else
-                                        <tr>
-                                            <td colspan="2" id="adminCredentialShow" class="login-info">
-                                                <b>Admin :</b> admin@gmail.com | 123456
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2" id="userCredentialShow" class="login-info">
-                                                <b>Alumni :</b> alumni@gmail.com | 123456
-                                            </td>
-                                        </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                @endif
+
             </div>
         </div>
     </div>

@@ -72,7 +72,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::get('/', [ProfileController::class, 'myProfile'])->name('index');
-        Route::get('change-password', [ProfileController::class, 'changePassword'])->name('change-password');
+        Route::post('change-password', [ProfileController::class, 'changePassword'])->name('change-password');
         Route::post('update', [ProfileController::class, 'update'])->name('update');
     });
     Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {

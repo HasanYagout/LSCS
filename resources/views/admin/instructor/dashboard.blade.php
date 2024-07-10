@@ -135,10 +135,13 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 
 @endsection
 @push('script')
+
     <script src="{{ asset('public/admin/js/recommendation.js') }}?ver={{ env('VERSION' ,0) }}"></script>
 @endpush

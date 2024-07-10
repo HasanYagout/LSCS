@@ -119,7 +119,7 @@ class AlumniService
         if ($request->has('search') && isset($request->search['value']) && $request->search['value'] != '') {
             $search = $request->search['value'];
             $alumniData->where(function ($q) use ($search) {
-                $q->where('student_id', 'like', "%{$search}%")
+                $q->where('id', 'like', "%{$search}%")
                     ->orWhere('first_name', 'like', "%{$search}%")
                     ->orWhere('last_name', 'like', "%{$search}%");
             });
@@ -139,8 +139,8 @@ class AlumniService
 
         return datatables($alumniData)
             ->addIndexColumn()
-            ->addColumn('student_id', function ($data) {
-                return $data->student_id;
+            ->addColumn('id', function ($data) {
+                return $data->id;
             })
             ->addColumn('first_name', function ($data) {
                 return $data->first_name;

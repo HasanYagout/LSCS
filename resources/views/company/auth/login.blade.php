@@ -44,7 +44,7 @@
                                     <label for="Password" class="form-label text-secondary-color">{{__('Password')}}</label>
                                     <div class="input-group position-relative">
                                         <input type="password" class="primary-form-control rounded-3" id="Password" name="password" placeholder="********" required />
-                                        <button type="button" class="btn btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password  top-0 toggle-password end-0" aria-label="Show Password">
+                                        <button type="button" class="btn hover-color-secondary btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password  top-0 toggle-password end-0" aria-label="Show Password">
                                             <i class="fa fa-eye"></i>
                                         </button>
                                     </div>

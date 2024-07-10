@@ -4,14 +4,27 @@
 @endpush
 
 @section('content')
+    <style>
+        svg{
+            filter: saturate(200%);
 
+
+        }
+        .zNews-item-one {
+            transition: transform 0.3s ease;
+        }
+
+        .zNews-item-one:hover {
+            transform: translateY(-10px);
+        }
+    </style>
     <div class="p-30">
         <div class="">
             <h4 class="fs-24 fw-500 lh-34 text-black pb-16">{{ __($pageTitle) }}</h4>
 
             <div class="row rg-30">
                 @foreach ($items as $item)
-                    <div class="col-md col-lg-4 col-sm-12">
+                    <div class="col-md col-lg-3 col-sm-12">
                         <div class="h-100 zNews-item-one shadow-sm">
                             <div class="content row" style="background-color: #363636;">
                                 <div class="align-items-center col-lg-12 d-flex justify-content-between">

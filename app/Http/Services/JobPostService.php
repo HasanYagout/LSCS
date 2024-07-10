@@ -39,7 +39,7 @@ class JobPostService
                 'cv_id' => 'required|integer',  // Validate that cv_id is required and is an integer
             ]);
 
-            $alumniId = auth('alumni')->user()->student_id;
+            $alumniId = auth('alumni')->user()->id;
             $jobPost = JobPost::where('slug', $slug)->firstOrFail();
 
             // Check if the alumni has already applied for the job
@@ -510,19 +510,19 @@ class JobPostService
             switch ($orderColumn) {
                 case 'name':
                     $applied->orderBy(Alumni::select('first_name')
-                        ->whereColumn('alumnis.student_id', 'applied_jobs.alumni_id'), $orderDirection);
+                        ->whereColumn('alumnis.id', 'applied_jobs.alumni_id'), $orderDirection);
                     break;
                 case 'gpa':
                     $applied->orderBy(Alumni::select('GPA')
-                        ->whereColumn('alumnis.student_id', 'applied_jobs.alumni_id'), $orderDirection);
+                        ->whereColumn('alumnis.id', 'applied_jobs.alumni_id'), $orderDirection);
                     break;
                 case 'major':
                     $applied->orderBy(Alumni::select('major')
-                        ->whereColumn('alumnis.student_id', 'applied_jobs.alumni_id'), $orderDirection);
+                        ->whereColumn('alumnis.id', 'applied_jobs.alumni_id'), $orderDirection);
                     break;
                 case 'graduation_year':
                     $applied->orderBy(Alumni::select('graduation_year')
-                        ->whereColumn('alumnis.student_id', 'applied_jobs.alumni_id'), $orderDirection);
+                        ->whereColumn('alumnis.id', 'applied_jobs.alumni_id'), $orderDirection);
                     break;
                 default:
                     $applied->orderBy($orderColumn, $orderDirection);
@@ -537,7 +537,7 @@ class JobPostService
         return datatables($appliedData)
             ->addIndexColumn()
             ->addColumn('name', function ($data) {
-                return '<a class="text-707070 text-decoration-underline" href="' . route('company.jobs.alumni-profile', ['id' => $data->alumni->student_id]) . '">' . $data->alumni->first_name . ' ' . $data->alumni->last_name . '</a>';
+                return '<a class="text-707070 text-decoration-underline" href="' . route('company.jobs.alumni-profile', ['id' => $data->alumni->id]) . '">' . $data->alumni->first_name . ' ' . $data->alumni->last_name . '</a>';
             })
             ->addColumn('gpa', function ($data) {
                 return $data->alumni->GPA;

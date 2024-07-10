@@ -21,7 +21,7 @@ class AppliedJobs extends Model
 
     public function alumni()
     {
-        return $this->belongsTo(Alumni::class, 'alumni_id', 'student_id');
+        return $this->belongsTo(Alumni::class, 'alumni_id', 'id');
     }
 
     public function cv()

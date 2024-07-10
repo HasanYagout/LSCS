@@ -54,24 +54,24 @@ class LoginController extends Controller
     public function submit(Request $request)
     {
         $request->validate([
-            'student_id' => 'required|digits:8',
+            'id' => 'required|digits:8',
             'password' => 'required|min:6'
         ]);
 
-        $alumni = Alumni::where('student_id', $request->student_id)->first();
+        $alumni = Alumni::where('id', $request->id)->first();
 
         if (isset($admin) && $admin->status != 1) {
             return redirect()->back()->withInput($request->only('email', 'remember'))
                 ->withErrors(['You are blocked!!, contact with admin.']);
         }else{
-            if (auth('alumni')->attempt(['student_id' => $request->student_id, 'password' => $request->password], $request->remember)) {
+            if (auth('alumni')->attempt(['id' => $request->id, 'password' => $request->password], $request->remember)) {
                 return redirect()
                     ->route('alumni.home')
                     ->with('info', 'Welcome ' . $alumni->first_name);
             }
         }
 
-        return redirect()->back()->withInput($request->only('student_id', 'remember'))
+        return redirect()->back()->withInput($request->only('id', 'remember'))
             ->withErrors(['Credentials does not match.']);
 
     }

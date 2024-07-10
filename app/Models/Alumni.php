@@ -14,11 +14,11 @@ class Alumni extends Authenticatable
     protected $dates=['deleted_at'];
     public function appliedJobs()
     {
-        return $this->hasMany(AppliedJobs::class, 'alumni_id', 'student_id');
+        return $this->hasMany(AppliedJobs::class, 'alumni_id', 'id');
     }
     public function recommendations()
     {
-        return $this->hasMany(Recommendation::class, 'alumni_id');
+        return $this->hasMany(Recommendation::class, 'alumni_id','id');
     }
 
     public function education()
@@ -27,7 +27,7 @@ class Alumni extends Authenticatable
     }
     public function cvs()
     {
-        return $this->hasMany(CV::class, 'alumni_id','student_id');
+        return $this->hasMany(CV::class, 'alumni_id','id');
     }
     public function experience()
     {

@@ -87,7 +87,7 @@
                                     <label for="Password" class="form-label">{{ __('Password') }}<span class="text-danger"> *</span></label>
                                     <div class="input-group position-relative">
                                         <input type="password" class="primary-form-control" id="Password" name="password" placeholder="********" />
-                                        <button type="button" style="right: 0" class="btn btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password top-0 toggle-password" aria-label="Show Password">
+                                        <button type="button" style="right: 0" class="btn hover-color-secondary btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password top-0 toggle-password" aria-label="Show Password">
                                             <i class="fa fa-eye "></i>
                                         </button>
                                     </div>
@@ -101,7 +101,7 @@
                                     <label for="ConfirmPassword" class="form-label">{{ __('Confirm Password') }}<span class="text-danger"> *</span></label>
                                     <div class="input-group position-relative">
                                         <input type="password" class="primary-form-control" id="ConfirmPassword" name="password_confirmation" placeholder="********" />
-                                        <button type="button" style="right: 0" class="btn btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password top-0 toggle-password" aria-label="Show Password">
+                                        <button type="button" style="right: 0" class="btn hover-color-secondary btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password top-0 toggle-password" aria-label="Show Password">
                                             <i class="fa fa-eye"></i>
                                         </button>
                                     </div>

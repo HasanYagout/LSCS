@@ -147,8 +147,20 @@
                         },
                         success: function (response) {
                             if (response.message) {
-                                Swal.fire('Success', response.message, 'success');
-
+                                Swal.fire({
+                                    title: 'Success',
+                                    text: response.message,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    if (response.logout) {
+                                        // Redirect to login page if logout is true
+                                        window.location.href = "{{ route('admin.auth.login') }}"; // Correct URL for login
+                                    } else {
+                                        // Optionally handle success for other admins
+                                        window.location.reload(); // Reload the current page
+                                    }
+                                });
                             } else {
                                 Swal.fire('Error', 'Failed to reset password.', 'error');
                             }
@@ -160,6 +172,7 @@
                 }
             });
         }
+
 
     </script>
     <script src="{{ asset('public/admin/js/instructors.js') }}?ver={{ env('VERSION' ,0) }}"></script>

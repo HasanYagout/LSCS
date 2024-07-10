@@ -89,7 +89,6 @@
         var instructorId = $switch.data('id');
         var newStatus = $switch.is(':checked') ? 1 : 0;
         var updateUrl = $('#instructor-status-route').val().replace(':id', instructorId);
-
         Swal.fire({
             title: 'Sure! You want to change the status?',
             text: "You won't be able to revert this!",
