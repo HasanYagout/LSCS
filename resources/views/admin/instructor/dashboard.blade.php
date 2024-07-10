@@ -28,8 +28,6 @@
                         <div class="rounded-3 zNews-item-one">
                             <div class="content row" style="background-color: #363636;">
                                 <div class="align-items-center col-lg-12 d-flex justify-content-between">
-
-
                                     <h4 class="title text-white">{{ $info['count'] }}</h4>
                                     <div class="d-flex justify-content-between">
                                         <div class="d-flex p-2 rounded-4" style="background-color:

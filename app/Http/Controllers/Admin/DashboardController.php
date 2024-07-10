@@ -54,6 +54,52 @@ class DashboardController extends Controller
             return Event::count();
         });
 
+        $data['items'] = [
+            [
+                'title' => __('Total Alumni'),
+                'count' => $data['totalAlumni'],
+                'color' => '#f1a527',
+                'icon' => 'bi-person',
+                'svg' => '<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M8 9a5 5 0 0 0-4.546 2.916C2.164 13.62 3.223 15 4.879 15h6.243c1.656 0 2.715-1.38 1.425-3.084A5 5 0 0 0 8 9z"/>'
+            ],
+            [
+                'title' => __('Total Instructors'),
+                'count' => $data['totalInstructors'],
+                'color' => '#ae75c4',
+                'icon' => 'bi-person',
+                'svg' => '<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M8 9a5 5 0 0 0-4.546 2.916C2.164 13.62 3.223 15 4.879 15h6.243c1.656 0 2.715-1.38 1.425-3.084A5 5 0 0 0 8 9z"/>'
+            ],
+            [
+                'title' => __('Total Admins'),
+                'count' => $data['totalAdmins'],
+                'color' => '#17a2b8',
+                'icon' => 'bi-person',
+                'svg' => '<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/><path d="M8 9a5 5 0 0 0-4.546 2.916C2.164 13.62 3.223 15 4.879 15h6.243c1.656 0 2.715-1.38 1.425-3.084A5 5 0 0 0 8 9z"/>'
+            ],
+            [
+                'title' => __('Upcoming Event'),
+                'count' => $data['totalEvents'],
+                'color' => '#dc3545',
+                'icon' => 'bi-calendar-minus',
+                'svg' => ' <path d="M5.5 9.5A.5.5 0 0 1 6 9h4a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5"/>
+  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>'
+            ],
+            [
+                'title' => __('Total Companies'),
+                'count' => $data['totalCompany'],
+                'color' => '#00ff6c',
+                'icon' => 'bi-building',
+                'svg' => '<path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/><path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>'
+            ],
+            [
+                'title' => __('Total Jobs'),
+                'count' => $data['totalJobs'],
+                'color' => '#f1a527',
+                'icon' => 'bi-briefcase',
+                'svg' => '<path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5m1.886 6.914L15 7.151V12.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V7.15l6.614 1.764a1.5 1.5 0 0 0 .772 0M1.5 4h13a.5.5 0 0 1 .5.5v1.616L8.129 7.948a.5.5 0 0 1-.258 0L1 6.116V4.5a.5.5 0 0 1 .5-.5"/>'
+            ]
+        ];
+
         if (auth('admin')->user()->role_id == USER_ROLE_ADMIN) {
             return view('admin.dashboard', $data);
         } elseif (auth('admin')->user()->role_id == USER_ROLE_INSTRUCTOR) {
