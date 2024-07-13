@@ -328,40 +328,46 @@ class UserService
     }
     public function changePassword(Request $request)
     {
-        // Using the custom 'alumni' guard
-        $guard = Auth::guard('alumni');
-
         $validator = Validator::make($request->all(), [
-            'current_password' => 'required|min:6',
-            'new_password' => 'required|min:6|confirmed',
+            'current_password' => 'required|min:8',
+            'new_password' => 'required|min:8|confirmed',
         ]);
 
         if ($validator->fails()) {
-            // Flash error message to the session
-            return redirect()->back()->withErrors($validator)->withInput()->with('error', 'Validation failed.');
+            session()->flash('active_tab', 'editProfile-tab');
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('error', 'Validation failed.');
         }
 
-        $user = $guard->user();
-        // Check if the current_password is correct
+        $user = auth('alumni')->user();
         if (!Hash::check($request->current_password, $user->password)) {
-            // Flash error message to the session
-            return redirect()->back()->with('error', 'The current password is incorrect.');
+            session()->flash('active_tab', 'editProfile-tab');
+            return redirect()->back()
+                ->with('error', 'The current password is incorrect.');
         }
-
+        // Check if the new password is the same as the old password
+        if (Hash::check($request->new_password, $user->password)) {
+            return back()->withErrors(['new_password' => 'New password cannot be the same as the old password'])
+                ->with('active_tab', 'editProfile-tab');
+        }
         DB::beginTransaction();
         try {
-            // Set the new password
             $user->password = Hash::make($request->new_password);
             $user->save();
             DB::commit();
-            // Flash success message to the session
-            return redirect()->route('your-success-route')->with('success', 'Password updated successfully');
+
+            // Log out the user and redirect to login page with a success message
+            auth('alumni')->logout();
+            return redirect()->route('alumni.auth.login')->with('success', 'Password updated successfully. Please log in with your new password.');
         } catch (\Exception $e) {
             DB::rollBack();
-            // Flash error message to the session
+            session()->flash('active_tab', 'editProfile-tab');
             return redirect()->back()->with('error', 'Something went wrong, please try again.');
         }
     }
+
     public function settingUpdate(Request $request)
     {
         try {

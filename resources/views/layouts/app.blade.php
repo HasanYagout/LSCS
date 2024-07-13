@@ -37,16 +37,16 @@
 <!-- Toastr CSS -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet"/>
 
-<!-- js file  -->
-<script src="{{ asset('public/assets/js/jquery-3.7.0.min.js')}}"></script>
-<script src="{{ asset('public/assets/js/bootstrap.min.js')}}"></script>
-<script src="{{ asset('public/assets/js/plugins.js')}}"></script>
-<script src="{{ asset('public/assets/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{ asset('public/assets/css/summernote/summernote-lite.min.js') }}"></script>
-<script src="{{ asset('public/assets/js/lc_select.min.js') }}"></script>
-<script src="{{ asset('public/assets/js/main.js')}}?ver={{ env('VERSION', 0) }}"></script>
-<script src="{{ asset('public/common/js/common.js')}}?ver={{ env('VERSION' ,0) }}"></script>
-<script src="{{ asset('public/assets/lightbox/js/lightbox.js')}}"></script>
+{{--<!-- js file  -->--}}
+{{--<script src="{{ asset('public/assets/js/jquery-3.7.0.min.js')}}"></script>--}}
+{{--<script src="{{ asset('public/assets/js/bootstrap.min.js')}}"></script>--}}
+{{--<script src="{{ asset('public/assets/js/plugins.js')}}"></script>--}}
+{{--<script src="{{ asset('public/assets/js/dataTables.responsive.min.js')}}"></script>--}}
+{{--<script src="{{ asset('public/assets/css/summernote/summernote-lite.min.js') }}"></script>--}}
+{{--<script src="{{ asset('public/assets/js/lc_select.min.js') }}"></script>--}}
+{{--<script src="{{ asset('public/assets/js/main.js')}}?ver={{ env('VERSION', 0) }}"></script>--}}
+{{--<script src="{{ asset('public/common/js/common.js')}}?ver={{ env('VERSION' ,0) }}"></script>--}}
+{{--<script src="{{ asset('public/assets/lightbox/js/lightbox.js')}}"></script>--}}
 
 @stack('script')
 

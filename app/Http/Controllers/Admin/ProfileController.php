@@ -71,8 +71,8 @@ class   ProfileController extends Controller
     public function changePassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'current_password' => 'required|min:6',
-            'new_password' => 'required|min:6|confirmed',
+            'current_password' => 'required|min:8',
+            'new_password' => 'required|min:8|confirmed',
         ]);
 
         if ($validator->fails()) {
@@ -88,6 +88,11 @@ class   ProfileController extends Controller
             session()->flash('active_tab', 'editProfile-tab');
             return redirect()->back()
                 ->with('error', 'The current password is incorrect.');
+        }
+        // Check if the new password is the same as the old password
+        if (Hash::check($request->new_password, $user->password)) {
+            return back()->withErrors(['new_password' => 'New password cannot be the same as the old password'])
+                ->with('active_tab', 'editProfile-tab');
         }
 
         DB::beginTransaction();

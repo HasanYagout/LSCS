@@ -32,6 +32,11 @@ class HomeController extends Controller
         $this->homeService = new HomeService();
     }
 
+    public function ss()
+    {
+        return view('web.ss');
+    }
+
     public function index(Request $request)
     {
         $data['upcomingEvents'] = $this->homeService->getUpcomingEvent();

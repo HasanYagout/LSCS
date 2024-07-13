@@ -31,8 +31,7 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
     });
     Route::group(['namespace' => 'Profile', 'prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::get('index', [ProfileController::class,'index'])->name('index');
-        Route::get('change-password', [ProfileController::class, 'changePassword'])->name('change-password');
-        Route::post('change-password', [ProfileController::class, 'changePasswordUpdate'])->name('change-password.update')->middleware('isDemo');
+        Route::post('change-password', [ProfileController::class, 'changePassword'])->name('change-password.update');
         Route::post('update', [ProfileController::class, 'update'])->name('update')->middleware('isDemo');
     });
 

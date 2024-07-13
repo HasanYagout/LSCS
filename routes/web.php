@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'web'], function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
+    Route::get('/ss', [HomeController::class, 'ss'])->name('ss');
 
 
 

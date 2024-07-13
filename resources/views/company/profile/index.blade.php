@@ -364,6 +364,41 @@
                                 class="py-13 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">{{
                                 __('Save Changes') }}</button>
                         </form>
+                        <div class="pb-30 py-30">
+                            <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-20">{{ __('Change Password') }}</h4>
+                            <div class="container rg-25">
+                                <form id="changePasswordForm" action="{{ route('company.profile.change-password') }}" method="POST">
+                                    @csrf
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="primary-form-group">
+                                                <div class="primary-form-group-wrap">
+                                                    <label for="current_password" class="form-label">{{ __('Current Password') }}</label>
+                                                    <input type="password" name="current_password" class="primary-form-control" placeholder="Enter Old Password" required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="primary-form-group">
+                                                <div class="primary-form-group-wrap">
+                                                    <label for="new_password" class="form-label">{{ __('New Password') }}</label>
+                                                    <input type="password" name="new_password" class="primary-form-control" id="new_password" placeholder="{{ __('Enter New Password') }}" required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="primary-form-group">
+                                                <div class="primary-form-group-wrap">
+                                                    <label for="new_password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
+                                                    <input type="password" name="new_password_confirmation" class="primary-form-control" id="new_password_confirmation" placeholder="{{ __('Confirm Password') }}" required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="py-13 mt-17 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">Reset</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -384,51 +419,12 @@
                                 src="{{ asset('public/assets/images/icon/delete.svg') }}" alt="" /></button>
                     </div>
                 </div>
-                <!-- Body -->
-{{--                <form method="POST" class="ajax" data-handler="commonResponseForModal"--}}
-{{--                    action="{{ route('company.add_institution') }}">--}}
-{{--                    @csrf--}}
-{{--                    <div class="pb-25">--}}
-{{--                        <div class="row rg-25">--}}
-{{--                            <div class="col-12">--}}
-{{--                                <div class="primary-form-group">--}}
-{{--                                    <div class="primary-form-group-wrap">--}}
-{{--                                        <label for="epDegree1" class="form-label">{{ __('Degree') }}</label>--}}
-{{--                                        <input type="text" class="primary-form-control" id="epDegree1" name="degree"--}}
-{{--                                            placeholder="{{ __('Your Degree') }}" />--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col-12">--}}
-{{--                                <div class="primary-form-group">--}}
-{{--                                    <div class="primary-form-group-wrap">--}}
-{{--                                        <label for="epInstitute" class="form-label">{{ __('Institution') }}</label>--}}
-{{--                                        <input type="text" class="primary-form-control" id="epInstitute"--}}
-{{--                                            name="institute" placeholder="{{ __('Your Institution') }}" />--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="col-12">--}}
-{{--                                <div class="primary-form-group">--}}
-{{--                                    <div class="primary-form-group-wrap">--}}
-{{--                                        <label for="epPassingYear1" class="form-label">{{ __('Passing Year') }}</label>--}}
-{{--                                        <input type="text" class="primary-form-control" id="epPassingYear1"--}}
-{{--                                            name="passing_year" placeholder="{{ __('Your Passing Year') }}" />--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <button type="submit"--}}
-{{--                        class="py-13 px-26 bg-cdef84 border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one">{{--}}
-{{--                        __('Save Now') }}</button>--}}
-{{--                </form>--}}
+
             </div>
         </div>
     </div>
 </div>
 
-{{--<input type="hidden" id="job-post-list-route" value="{{ route('company.cvs.all') }}">--}}
 
 <table class="table zTable" id="cvsTable">
     <thead>
@@ -459,5 +455,4 @@
         });
     </script>
 <script src="{{ asset('public/company/js/profile.js') }}"></script>
-<script src="{{ asset('public/company/js/cvs.js') }}"></script>
 @endpush
