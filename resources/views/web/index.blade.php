@@ -302,7 +302,7 @@
                                     <div class="w-30 h-30 rounded-circle overflow-hidden">
                                         <img
                                             onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
-                                            src="{{ asset('public/storage/admin').'/'.$singleNews->author->image }}"
+                                            src="{{ asset('public/storage/admin/image').'/'.$singleNews->author->image }}"
                                             alt="{{ $singleNews->author->first_name }}" /></div>
                                     <p class="fs-16 fw-400 lh-14 text-para-color">BY : {{ $singleNews->author->first_name }},
                                         {{ $singleNews->category->name }}</p>

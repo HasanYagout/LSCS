@@ -41,7 +41,6 @@
 <script src="{{ asset('public/assets/js/jquery-3.7.0.min.js')}}"></script>
 <script src="{{ asset('public/assets/js/bootstrap.min.js')}}"></script>
 <script src="{{ asset('public/assets/js/plugins.js')}}"></script>
-<script src="{{ asset('public/assets/js/dataTables.js')}}"></script>
 <script src="{{ asset('public/assets/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{ asset('public/assets/css/summernote/summernote-lite.min.js') }}"></script>
 <script src="{{ asset('public/assets/js/lc_select.min.js') }}"></script>
@@ -99,7 +98,9 @@
             }
         });
     }
-
+    $(document).ready(function() {
+        $('.dropdown-toggle').dropdown();
+    });
     @if(Session::has('success'))
     toastr.success("{{ session('success') }}");
     @endif

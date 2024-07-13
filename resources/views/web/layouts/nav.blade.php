@@ -1,50 +1,4 @@
-<!-- Start Header -->
-<div class="">
-    <!-- Top Header -->
 
-                <!-- Left -->
-
-                <!-- Right -->
-                <div class="col-lg-6">
-                    <div class="d-flex justify-content-center justify-content-lg-end align-items-center g-11">
-                        <!-- Language switcher -->
-                        @if (!empty(getOption('show_language_switcher')) && getOption('show_language_switcher') == STATUS_ACTIVE)
-                            <div class="dropdown headerUserDropdown lanDropdown">
-                                <button
-                                    class="dropdown-toggle p-0 border-0 bg-transparent d-flex align-items-center cg-8"
-                                    type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <div
-                                        class="flex-shrink-0 w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-black-5 bg-fafafa d-flex justify-content-center align-items-center">
-                                        <img class="h-100 object-fit-cover w-100" src="{{ asset(selectedLanguage()?->flag) }}"
-                                            alt="" />
-                                    </div>
-                                    <div class="text-start d-none d-md-block">
-                                        <h4 class="fs-15 fw-500 lh-18 text-1b1c17">{{ selectedLanguage()?->language }}
-                                        </h4>
-                                    </div>
-                                </button>
-                                <ul class="dropdown-menu dropdownItem-one">
-                                    @foreach (appLanguages() as $app_lang)
-                                        <li>
-                                            <a class="d-flex align-items-center cg-8"
-                                                href="{{ url('/local/' . $app_lang->iso_code) }}">
-                                                <div class="d-flex">
-                                                    <img src="{{ asset($app_lang->flag) }}" alt=""
-                                                        class="max-w-26" />
-                                                </div>
-                                                <p class="fs-14 fw-500 lh-16 text-707070">{{ $app_lang->language }}</p>
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Main Header -->
     <div class="pt-16 pb-17 bg-primary-color">
         <div class="container">
             <div class="row align-items-center">
@@ -67,20 +21,20 @@
                                     class="fa-solid fa-times"></i></button>
                             <ul class="navbar-nav menu-navbar-nav justify-content-center flex-wrap cg-42 rg-10 w-100">
                                 <li class="nav-item">
-                                    <a class="nav-link fs-18 fw-500 lh-28 text-white p-0 active"
+                                    <a class="nav-link hover-color-secondary fs-18 fw-500 lh-28 text-white p-0 active"
                                         aria-current="page" href="{{ route('index') }}">{{ __('Home') }}</a>
                                 </li>
 
-                                <li class="nav-item"><a class="nav-link fs-18 fw-500 lh-28 text-white p-0"
+                                <li class="nav-item"><a class="nav-link hover-color-secondary fs-18 fw-500 lh-28 text-white p-0"
                                         href="{{ route('all.alumni') }}">{{ __('Alumni') }}</a></li>
-                                <li class="nav-item"><a class="nav-link fs-18 fw-500 lh-28 text-white p-0"
+                                <li class="nav-item"><a class="nav-link hover-color-secondary fs-18 fw-500 lh-28 text-white p-0"
                                         href="{{ route('all.event') }}">{{ __('Events') }}</a></li>
-                                <li class="nav-item"><a class="nav-link fs-18 fw-500 lh-28 text-white p-0"
+                                <li class="nav-item"><a class="nav-link hover-color-secondary fs-18 fw-500 lh-28 text-white p-0"
                                         href="{{ route('our.news') }}">{{ __('News') }}</a></li>
-                                <li class="nav-item"><a class="nav-link fs-18 fw-500 lh-28 text-white p-0"
+                                <li class="nav-item"><a class="nav-link hover-color-secondary fs-18 fw-500 lh-28 text-white p-0"
                                         href="{{ route('our.notice') }}">{{ __('Notice') }}</a></li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link fs-18 fw-500 lh-28 text-white p-0 dropdown-toggle menu-dropdown-toggle"
+                                    <a class="nav-link hover-color-secondary fs-18 fw-500 lh-28 text-white p-0 dropdown-toggle menu-dropdown-toggle"
                                         href="#" role="button" data-bs-toggle="dropdown"
                                         aria-expanded="false">{{ __('Company') }}</a>
                                     <ul class="dropdown-menu">

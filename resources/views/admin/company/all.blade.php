@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('title')
-    {{$title}}
+    {{ $title }}
 @endpush
 
 @section('content')
@@ -72,7 +72,7 @@
                             data: {
                                 _token: '{{ csrf_token() }}',
                                 companyId: companyId,
-                                status: 1
+                                status: 1,
                             },
                             success: function(response) {
                                 // Handle the success response

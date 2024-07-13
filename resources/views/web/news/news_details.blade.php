@@ -23,7 +23,7 @@
             <div class="d-flex justify-content-center align-items-center flex-wrap cg-14 rg-10 pb-10">
               <div class="d-flex align-items-center cg-10">
                 <div class="w-30 h-30 rounded-circle overflow-hidden bd-one bd-c-black-color">
-                    <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin').'/'.$news->author->image}}" alt="">
+                    <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/image').'/'.$news->author->image}}" alt="">
                 </div>
                 <p class="fs-18 fw-500 lh-22 text-para-color">{{$news->author->name}}</p>
               </div>

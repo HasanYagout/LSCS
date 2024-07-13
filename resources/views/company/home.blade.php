@@ -287,7 +287,7 @@
                                                 <div class="d-flex align-items-center cg-5">
                                                     <div
                                                         class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
-                                                        <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset($news->author->image) }}"
+                                                        <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/image').'/'.$news->author->image }}"
                                                              alt="{{ $news->author->first_name.' '.$news->author->last_name }}"/>
                                                     </div>
                                                     <p class="fs-10 fw-400 lh-12 text-707070">{{  $news->author->first_name.' '.$news->author->last_name}}

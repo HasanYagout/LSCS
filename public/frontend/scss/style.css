@@ -1453,6 +1453,9 @@ ul {
 .hover-color-primary:hover {
   color: var(--primary-color) !important;
 }
+.hover-color-secondary:hover {
+    color: var(--secondary-color) !important;
+}
 .hover-bg-color-one:hover {
   background-color: var(--hover-color) !important;
 }
@@ -1806,7 +1809,7 @@ scrollUp
 }
 .menu-dropdown-toggle ~ .dropdown-menu li a:hover {
   background-color: transparent;
-  color: var(--black-color);
+  color: var(--secondary-color);
 }
 @media screen and (min-width: 992px) {
   .menu-dropdown-toggle ~ .dropdown-menu {

@@ -36,6 +36,7 @@
     </style>
 @endpush
 @section('content')
+
     <div class="p-30" >
         <section class="home-section">
             <!-- Posts -->

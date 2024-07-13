@@ -1528,6 +1528,9 @@ bg-custom-secondary{
 .hover-color-primary:hover {
     color: var(--primary-color) !important;
 }
+.hover-color-secondary:hover {
+    color: var(--secondary-color) !important;
+}
 .hover-bg-one:hover {
   background-color: var(--secondary-color) !important;
 }

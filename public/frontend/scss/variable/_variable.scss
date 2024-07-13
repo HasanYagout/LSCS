@@ -6,7 +6,7 @@
     --secondary-color: #f1a527;
   --black-color: #121421;
   --para-color: #707070;
-  --hover-color: #afd449;
+  --hover-color: #f1a527;
   --scroll-track: #efefef;
   --scroll-thumb: #dadada;
   --stroke-color: #e4e6eb;
@@ -50,6 +50,7 @@ $fw_black: 900;
 
 // Color
 $primary-color: var(--primary-color);
+$secondary-color: var(--secondary-color);
 $black-color: var(--black-color);
 $para-color: var(--para-color);
 $hover-color: var(--hover-color);

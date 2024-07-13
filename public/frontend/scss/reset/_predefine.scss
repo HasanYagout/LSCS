@@ -124,12 +124,12 @@ ul {
 }
 
 ::-moz-selection {
-    background: var(--primary-color);
+    background: var(--secondary-color);
     text-shadow: none;
 }
 
 ::selection {
-    background: var(--primary-color);
+    background: var(--secondary-color);
     text-shadow: none;
     color: #ffffff;
 }

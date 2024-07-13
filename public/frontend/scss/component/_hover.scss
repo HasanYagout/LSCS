@@ -15,6 +15,11 @@
                 color: $primary-color !important;
             }
         }
+        &-secondary {
+            &:hover {
+                color: $secondary-color !important;
+            }
+        }
     }
     &-bg {
         &-color {
@@ -31,6 +36,11 @@
             &-primary {
                 &:hover {
                     background-color: $primary-color !important;
+                }
+            }
+            &-secondary {
+                &:hover {
+                    background-color: $secondary-color !important;
                 }
             }
             &-black {
