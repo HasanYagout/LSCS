@@ -554,7 +554,12 @@
                                                     <div class="primary-form-group">
                                                         <div class="primary-form-group-wrap">
                                                             <label for="current_password" class="form-label">{{ __('Current Password') }}</label>
-                                                            <input type="password" name="current_password" class="primary-form-control" placeholder="Enter Old Password" required />
+                                                            <div class="input-group position-relative">
+                                                                <input type="password" name="current_password" class="primary-form-control rounded-3" id="current_password" placeholder="Enter Old Password" required />
+                                                                <button type="button" class="btn hover-color-secondary btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute  toggle-password top-0 toggle-password end-0" aria-label="Show Password">
+                                                                    <i class="fa fa-eye"></i>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

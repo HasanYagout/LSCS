@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -18,7 +23,46 @@ class ProfileController extends Controller
         $data['subNavProfileActiveClass'] = 'mm-active';
         return view('company.profile.index', $data);
     }
+    public function update(Request $request)
+    {
+        $authUser = auth('company')->user();
+        try {
+            DB::beginTransaction();
+            $filename = $authUser->image; // Set default to current image in case no new image is uploaded
+            if ($request->hasFile('image')) {
+                // Delete the old image if it exists
+                if ($authUser->image && Storage::disk('public')->exists('company/image/' . $authUser->image)) {
+                    Storage::disk('public')->delete('company/image/' . $authUser->image);
+                }
+                // Store the new image
+                $image = $request->file('image');
+                $date = now()->toDateString();
+                $randomSlug = Str::slug(Str::random(8)); // Create a random slug
+                $randomNumber = rand(100, 999);
+                $filename = $date . '_' . $randomSlug . '_' . $randomNumber . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('company/image', $filename, 'public');
+            }
 
+            // Update or create the company profile
+            Company::updateOrCreate(['id' => $authUser->id], [
+                'name' => Str::ucfirst($request['name']),
+                'image' => $filename,
+                'email' => $request['email'],
+                'facebook_url' => $request['facebook_url'],
+                'twitter_url' => $request['twitter_url'],
+                'instagram_url' => $request['instagram_url'],
+                'linkedin_url' => $request['linkedin_url'],
+                'phone' => $request['mobile'],
+            ]);
+
+            DB::commit();
+            session()->flash('success', 'Profile Updated Successfully');
+            return redirect()->route('company.profile.index');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Something went wrong. Please try again.']);
+        }
+    }
     public function changePassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
