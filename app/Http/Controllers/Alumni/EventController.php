@@ -38,13 +38,7 @@ class EventController extends Controller
         return view('alumni.event.eventCreate.create', $data);
     }
 
-    public function store(EventRequest $request)
-    {
-        if(isAddonInstalled('ALUSAAS') && getPackageLimit(PACKAGE_RULE_EVENT_LIMIT) != -1 && getPackageLimit(PACKAGE_RULE_EVENT_LIMIT) <= 0){
-            return $this->error([], __('The event create limit has been finished please upgrade the plan from admin panel'));
-        }
-        return  $this->eventService->store($request);
-    }
+
 
     public function pending(Request $request){
         $data['title'] = __('Pending Event');
