@@ -7,15 +7,6 @@
                 </h4>
                 <p class="fs-18 fw-400 lh-28 text-color1">{!! __(getOption('join_our_community_text')) !!}</p>
             </div>
-{{--            <a href="{{ route('login') }}"--}}
-{{--                   class="py-15 px-32 bd-ra-12 d-flex align-items-center cg-16 bg-white hover-bg-color-black hover-color-white fs-18 fw-600 lh-28 text-black-color">--}}
-{{--                    @auth()--}}
-{{--                        {{ __('Go To Community') }}--}}
-{{--                    @else--}}
-{{--                        {{ __('Join Community') }}--}}
-{{--                    @endif--}}
-{{--                    <i class="fa-solid fa-long-arrow-right"></i>--}}
-{{--                </a>--}}
             </div>
         </div>
     </section>
@@ -77,31 +68,11 @@
                                 <li><a href="{{ route('our.news') }}"
                                         class="fs-18 fw-500 lh-28 text-white-80 hover-color-white">{{__('News')}}</a>
                                 </li>
-                                <li><a href="{{ route('pages', 'refund_policy') }}"
-                                        class="fs-18 fw-500 lh-28 text-white-80 hover-color-white">{{ __('Refund
-                                                                                                                                                                                                                                        Policy') }}</a>
-                                </li>
+
                             </ul>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-10">
-                        <div class="pl-lg-60">
-                            <h4 class="fs-24 fw-600 lh-28 text-white pb-25">{{ __('Contact Us') }}</h4>
-                            <ul class="list-pb-13">
-                                <li>
-                                    <p class="fs-18 fw-500 lh-28 text-white-80">{!! nl2br(getOption('app_location')) !!}</p>
-                                </li>
-                                <li>
-                                    <p class="fs-18 fw-500 lh-28 text-white-80">{{ __('Phone') }}:
-                                        {{ getOption('app_contact_number') }}</p>
-                                </li>
-                                <li>
-                                    <p class="fs-18 fw-500 lh-28 text-white-80">{{ __('Email') }}:
-                                        {{ getOption('app_email') }}</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+
                 </div>
             </div>
             <div class="footer-bottom">
