@@ -14,7 +14,6 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
     Route::get('/', function () {
         return redirect()->route('company.auth.login');
     });
-    Route::get('dashboard', [DashboardController::class,'index'])->name('dashboard');
     Route::get('home', [HomeController::class,'index'])->name('home');
     Route::get('all', [DashboardController::class,'all'])->name('all');
     Route::get('info/{id}', [DashboardController::class,'info'])->name('info');
@@ -22,13 +21,6 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
     Route::post('status', [DashboardController::class,'status'])->name('status');
 
 
-    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
-        Route::get('login', [LoginController::class,'login'])->name('login');
-        Route::post('login',[LoginController::class,'submit'])->name('submit');
-        Route::get('logout', [LoginController::class,'logout'])->name('logout');
-        Route::get('register', [LoginController::class,'register'])->name('register');
-        Route::post('store', [LoginController::class,'store'])->name('store');
-    });
     Route::group(['namespace' => 'Profile', 'prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::get('index', [ProfileController::class,'index'])->name('index');
         Route::post('change-password', [ProfileController::class, 'changePassword'])->name('change-password');

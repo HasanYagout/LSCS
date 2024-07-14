@@ -71,7 +71,7 @@ class LoginController extends Controller
             } else {
                 if (auth('company')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
                     return redirect()
-                        ->route('company.dashboard')
+                        ->route('company.jobs.all-job-post')
                         ->with('info', 'Welcome ' . $company->name);
                 }
             }

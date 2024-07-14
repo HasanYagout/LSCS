@@ -15,9 +15,9 @@
 <div class="zSidebar">
     <div class="zSidebar-overlay"></div>
     <!-- Logo -->
-    <a href="{{ route('index') }}" class="d-block mx-26 mb-27 max-w-146 pt-23">
+    <a href="{{ route('index') }}" class="d-block mx-26 mb-27  pt-23">
 
-            <img class="max-h-35" src="{{ asset('public/frontend/images/liu-logo.png') }}" alt="LIU Logo"/>
+            <img class="max-h-69 d-block m-auto" src="{{ asset('public/frontend/images/liu-logo.png') }}" alt="LIU Logo"/>
 
     </a>
     <!-- Menu & Logout -->
@@ -43,50 +43,6 @@
                         </a>
                     </li>
                 @endif
-
-                <li>
-                    <a href="#jobPost" data-bs-toggle="collapse" role="button"
-                       aria-expanded="{{ isset($showJobPostManagement) ? 'true' : '' }}" aria-controls="jobPost"
-                       class="d-flex align-items-center cg-10 {{ isset($showJobPostManagement) ? 'active' : 'collapsed' }}">
-                        <div class="d-flex">
-                            <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-briefcase text-white-70" viewBox="0 0 16 16">
-                                <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5m1.886 6.914L15 7.151V12.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V7.15l6.614 1.764a1.5 1.5 0 0 0 .772 0M1.5 4h13a.5.5 0 0 1 .5.5v1.616L8.129 7.948a.5.5 0 0 1-.258 0L1 6.116V4.5a.5.5 0 0 1 .5-.5"/>
-                            </svg>
-                        </div>
-                        <span class="">{{__('Jobs')}}</span>
-                    </a>
-                    <div class="collapse {{ $showJobPostManagement ?? '' }}" id="jobPost"
-                         data-bs-parent="#sidebarMenu">
-                        <ul class="zSidebar-submenu">
-                            @if($authenticatedGuard!='alumni')
-                                <li>
-                                    <a class="{{ $activeJobPostCreate ?? '' }}"
-                                       href="{{ route($authenticatedGuard.'.jobs.create') }}">{{ __('Create Post') }}</a>
-                                </li>
-                                @if($authenticatedGuard=='admin')
-
-                                    <li>
-                                        <a class="{{ $activeMyJobPostList ?? '' }}"
-                                           href="{{ route($authenticatedGuard.'.jobs.my-job-post') }}">{{ __('My Post') }}</a>
-                                    </li>
-                                @endif
-                            @endif
-                            <li>
-                                <a class="{{ $activePendingJobPostList ?? '' }}"
-                                   href="{{ route($authenticatedGuard.'.jobs.pending') }}">{{ __('Active Jobs') }}</a>
-                            </li>
-
-                            <li>
-                                <a class="{{ $activeAllJobPostList ?? '' }}"
-                                   href="{{ route($authenticatedGuard.'.jobs.all-job-post') }}">{{ __('All Jobs') }}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-
-
-
 
             @endif
             @if($authenticatedGuard=='admin' && auth('admin')->user()->role_id==USER_ROLE_ADMIN)
