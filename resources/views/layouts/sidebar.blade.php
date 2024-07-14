@@ -11,41 +11,13 @@
     }
 @endphp
 @if($authenticatedGuard && $authenticatedUser)
-    <style>
-        .zSidebar {
-            overflow-y: auto; /* Enable vertical scrolling */
-            height: 100vh; /* Full viewport height */
-            position: fixed; /* Fixed position to ensure it stays in place */
-            top: 0; /* Align it to the top of the viewport */
-            left: 0; /* Align it to the left of the viewport */
-            width: 250px; /* Adjust width as per your requirement */
-        }
 
-        .zSidebar::-webkit-scrollbar {
-            width: 0px; /* Adjust the width of the scrollbar */
-        }
-
-        .zSidebar::-webkit-scrollbar-thumb {
-            background-color: #888; /* Scrollbar color */
-            border-radius: 10px; /* Scrollbar corner rounding */
-        }
-
-        .zSidebar::-webkit-scrollbar-thumb:hover {
-            background-color: #555; /* Scrollbar color on hover */
-        }
-
-        /* For Firefox */
-        .zSidebar {
-            scrollbar-width: none; /* Make scrollbar thinner */
-        }
-
-    </style>
 <div class="zSidebar">
     <div class="zSidebar-overlay"></div>
     <!-- Logo -->
     <a href="{{ route('index') }}" class="d-block mx-26 mb-27 max-w-146 pt-23">
 
-            <img src="{{ asset('public/frontend/images/liu-logo.png') }}" alt="LIU Logo"/>
+            <img class="max-h-35" src="{{ asset('public/frontend/images/liu-logo.png') }}" alt="LIU Logo"/>
 
     </a>
     <!-- Menu & Logout -->
