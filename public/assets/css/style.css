@@ -796,7 +796,7 @@ scrollUp
   font-family: "Inter Tight", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
-  color: var(--black-color);
+  color: var(--bColor);
   box-shadow: none;
 }
 .primary-form-group .primary-form-group-wrap .primary-form-control:focus {

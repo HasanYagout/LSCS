@@ -68,7 +68,7 @@
                                                 <div class="primary-form-group-wrap">
                                                     <label for="Password" class="form-label">{{ __('Password') }}<span class="text-danger"> *</span></label>
                                                     <div class="input-group position-relative">
-                                                        <input type="password" class="primary-form-control" id="Password" name="password" placeholder="********" required />
+                                                        <input type="password" class="primary-form-control" id="Password" name="password" placeholder="Enter Password" required />
                                                         <button type="button" style="right: 0" class="btn hover-color-secondary btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password top-0 end-0" aria-label="Show Password">
                                                             <i class="fa fa-eye"></i>
                                                         </button>
@@ -85,7 +85,7 @@
                                                 <div class="primary-form-group-wrap">
                                                     <label for="ConfirmPassword" class="form-label">{{ __('Confirm Password') }}<span class="text-danger"> *</span></label>
                                                     <div class="input-group position-relative">
-                                                        <input type="password" class="primary-form-control" id="ConfirmPassword" name="password_confirmation" placeholder="********" required />
+                                                        <input type="password" class="primary-form-control" id="ConfirmPassword" name="password_confirmation" placeholder="Confirm Password" required />
                                                         <button type="button" style="right: 0" class="btn hover-color-secondary btn-outline-secondary bg-transparent border-0 btn btn-outline-secondary h-100 position-absolute toggle-password top-0 end-0" aria-label="Show Password">
                                                             <i class="fa fa-eye"></i>
                                                         </button>

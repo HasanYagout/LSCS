@@ -2439,7 +2439,7 @@ textarea.zForm-control {
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.5rem;
-  color: var(--text-black);
+  color: var(--bColor);
   box-shadow: none;
 }
 .primary-form-group .primary-form-group-wrap .primary-form-control:focus {
@@ -2452,7 +2452,7 @@ textarea.zForm-control {
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.5rem;
-  color: var(--text-black);
+  color: var(--bColor);
 }
 .primary-form-group .primary-form-group-wrap select.primary-form-control {
   color: var(--text-black);
