@@ -243,10 +243,13 @@
                                                     <div class="primary-form-group-wrap">
                                                         <label for="epPhoneNumber" class="form-label">{{ __('Phone Number')
                                                         }}</label>
-                                                        <input type="mobile" value="{{$user->phone}}"
+                                                        <input type="text" value="{{$user->phone}}"
                                                                name="mobile"
-                                                               class="primary-form-control" id="epPhoneNumber"
-                                                               placeholder="eg: (+880) 1254 8593"/>
+                                                               maxlength="9"
+                                                               minlength="1"
+                                                               class="primary-form-control"
+                                                               id="epPhoneNumber"
+                                                               placeholder="eg: 91254 8593"/>
                                                     </div>
                                                 </div>
                                             </div>

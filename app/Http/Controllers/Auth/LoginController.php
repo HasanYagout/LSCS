@@ -43,7 +43,7 @@ class LoginController extends Controller
             ]);
         } elseif ($request->user_type == 'alumni') {
             $request->validate([
-                'email' => 'required|email|exists:alumnis,email',
+                'email' => 'required|exists:alumnis,id',
                 'password' => 'required|min:8'
             ]);
         }
@@ -76,15 +76,15 @@ class LoginController extends Controller
                 }
             }
         } elseif ($request->user_type == 'alumni') {
-            $alumni = Alumni::where('email', $request->email)->first();
+            $alumni = Alumni::where('id', $request->email)->first();
 
             if (isset($alumni) && $alumni->status != 1) {
                 return redirect()->back()->withInput($request->only('email', 'remember'))
                     ->withErrors(['You are blocked!!, contact with admin.']);
             } else {
-                if (auth('alumni')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+                if (auth('alumni')->attempt(['id' => $request->email, 'password' => $request->password], $request->remember)) {
                     return redirect()
-                        ->route('alumni.dashboard')
+                        ->route('alumni.home')
                         ->with('info', 'Welcome ' . $alumni->first_name);
                 }
             }

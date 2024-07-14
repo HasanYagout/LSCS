@@ -176,7 +176,7 @@ class UserService
                 'about_me' => $request['about_me']?? $authUser->about_me,
                 'image' => $filename,
                 'email' => $request['email'],
-                'mobile' => $request['mobile'],
+                'phone' => $request['mobile'],
                 'linedin_url' => $request['linkedin_url'],
                 'linkedin_url' => $request['linkedin_url']?? $authUser->linkedin_url,
                 'facebook_url' => $request['facebook_url']?? $authUser->facebook_url,

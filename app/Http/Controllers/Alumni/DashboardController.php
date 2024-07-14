@@ -38,46 +38,9 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $data['activeDashboard'] = 'active';
-        $data['news'] = $this->newsService->getAllNews();
+        $data['news'] = $this->newsService->list($request);
 
         return view('alumni.dashboard',$data);
     }
-    public  function tester(){
-        // $customData = ['customField1'=> "With Best Regards",
-        // 'customField2'=> "Zaialumni Authority"];
-        // $userData = auth()->user();
 
-        // genericEmailNotify('',$userData,$customData,'custom-email');
-
-
-        // $user_id = auth()->id();
-        // $title = "Job Post-101";
-        // $details = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book";
-        // $link = "http://localhost:8000/job-post/details/Job-Post-101";
-
-        // setCommonNotification( $title, $details,$link,$user_id);
-
-        // $user_id = auth()->id();
-        // $title = "Job Post-105";
-        // $details = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book";
-        // $link = "http://localhost:8000/job-post/details/Job-Post-105";
-
-        // setCommonNotification( $title, $details,$link,$user_id);
-
-        // $user_id = 2;
-        // $title = "Job Post-101";
-        // $details = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book";
-        // $link = "http://localhost:8000/job-post/details/Job-Post-101";
-
-        // setCommonNotification( $title, $details,$link,$user_id);
-
-        // $user_id = 2;
-        // $title = "Job Post-105";
-        // $details = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book";
-        // $link = "http://localhost:8000/job-post/details/Job-Post-105";
-
-        // setCommonNotification( $title, $details,$link,$user_id);
-
-        //send notification end
-    }
 }
