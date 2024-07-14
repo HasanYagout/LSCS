@@ -12,19 +12,63 @@
     }
 @endphp
 @if($authenticatedGuard && $authenticatedUser)
-    <style>
-        .zSidebar {
-            overflow-y: auto; /* Add scrollbar for overflow in y-axis */
-            max-height: 100vh; /* Ensure it doesn't exceed the viewport height */
-        }
-    </style>
-    <div class="h-100 zSidebar">
+<style>
+    .zSidebar {
+        overflow-y: auto; /* Enable vertical scrolling */
+        height: 100vh; /* Full viewport height */
+        position: fixed; /* Fixed position to ensure it stays in place */
+        top: 0; /* Align it to the top of the viewport */
+        left: 0; /* Align it to the left of the viewport */
+        width: 250px; /* Adjust width as per your requirement */
+    }
+    .zSidebar ul {
+        padding-bottom: 20px; /* Add padding at the bottom for spacing */
+        list-style: none; /* Remove default list styling */
+        padding-left: 0; /* Remove default padding */
+    }
+    .zSidebar ul li {
+        margin: 10px 0; /* Add margin between list items */
+    }
+    .zSidebar a {
+        color: white; /* Text color */
+        text-decoration: none; /* Remove underline */
+        display: flex; /* Flexbox for alignment */
+        align-items: center; /* Center items vertically */
+        padding: 10px; /* Padding for clickable area */
+    }
+    .zSidebar a:hover {
+        background-color: #495057; /* Background on hover */
+    }
+    .zSidebar::-webkit-scrollbar {
+        width: 0px; /* Adjust the width of the scrollbar */
+    }
+
+    .zSidebar::-webkit-scrollbar-thumb {
+        background-color: #888; /* Scrollbar color */
+        border-radius: 10px; /* Scrollbar corner rounding */
+    }
+
+    .zSidebar::-webkit-scrollbar-thumb:hover {
+        background-color: #555; /* Scrollbar color on hover */
+    }
+
+    /* For Firefox */
+    .zSidebar {
+        scrollbar-width: none; /* Make scrollbar thinner */
+    }
+
+    /* Optional: Adjusting the scrollbar track */
+    .zSidebar::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Scrollbar track color */
+    }
+</style>
+    <div class="zSidebar">
         <div class="zSidebar-overlay"></div>
         <a href="{{ route('index') }}" class="d-block mx-26 mb-27 max-w-50 pt-3">
             <img class="max-h-50" src="{{ asset('public/frontend/images/liu-logo.png') }}" alt="LIU-LOGO"/>
         </a>
         <!-- Menu & Logout -->
-        <div class="zSidebar-fixed">
+        <div class="">
             <ul class="zSidebar-menu" id="sidebarMenu">
                 @if($authenticatedGuard=='admin' && auth($authenticatedGuard)->user()->role_id!=USER_ROLE_INSTRUCTOR||$authenticatedGuard=='company'||$authenticatedGuard=='alumni')
                     @if($authenticatedGuard!='company')

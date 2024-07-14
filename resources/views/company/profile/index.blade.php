@@ -143,8 +143,10 @@
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epPhoneNumber" class="form-label">{{ __('Phone Number') }}</label>
-                                                    <input type="mobile" value="{{auth('company')->user()->phone}}" name="mobile"
+                                                    <input type="number" value="{{auth('company')->user()->phone}}" name="mobile"
                                                            class="primary-form-control" id="epPhoneNumber"
+                                                           maxlength="9"
+                                                           minlength="1"
                                                            placeholder="eg: (+880) 1254 8593" />
                                                 </div>
                                             </div>
