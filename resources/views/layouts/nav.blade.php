@@ -70,7 +70,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="d-flex align-items-center cg-8" href="{{ route($authenticatedGuard . '.auth.logout') }}">
+                            <a class="d-flex align-items-center cg-8" href="{{ route('auth.logout') }}">
                                 <div class="d-flex">
                                     <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M9.49935 17.8333C7.28921 17.8333 5.1696 16.9553 3.60679 15.3925C2.04399 13.8297 1.16602 11.7101 1.16602 9.49996C1.16602 7.28982 2.04399 5.17021 3.60679 3.6074C5.1696 2.0446 7.28921 1.16663 9.49935 1.16663" stroke="#707070" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round" />

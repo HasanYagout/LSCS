@@ -50,9 +50,9 @@
 
                                 <div class="d-flex justify-content-start align-items-center flex-wrap g-11 pt-16">
                                     @auth()
-                                        <a href="{{ route('admin.auth.login') }}" class="d-flex py-6 px-24 bg-transparent bd-one bd-ra-8 fs-18 fw-500 lh-28 text-white">{{ __('Go To Community') }}</a>
+                                        <a href="{{ route('auth.login') }}" class="d-flex py-6 px-24 bg-transparent bd-one bd-ra-8 fs-18 fw-500 lh-28 text-white">{{ __('Go To Community') }}</a>
                                     @else
-                                        <a href="{{ route('admin.auth.login') }}" class="align-content-center bg-secondary-color mx-3 text-white btn btn-sm d-flex fw-500 h-100 px-20 py-2">{{ __('Admin Login') }}</a>
+                                        <a href="{{ route('auth.login') }}" class="align-content-center bg-secondary-color mx-3 text-white btn btn-sm d-flex fw-500 h-100 px-20 py-2">{{ __('Admin Login') }}</a>
                                         @if (!getOption('disable_registration'))
                                             <a href="{{ route('company.auth.register') }}" class="align-content-center bg-secondary-color mx-3 text-white btn btn-sm d-flex fw-500 h-100 px-20 py-2">{{ __('Alumni Login') }}</a>
                                         @endif
@@ -65,9 +65,9 @@
                 <div class="col-lg-3 d-none d-lg-block">
                     <div class="d-flex justify-content-start align-items-center g-11 pt-16">
                         @auth()
-                            <a href="{{ route('admin.auth.login') }}" class="d-flex py-6 px-24 bg-transparent bd-one bd-ra-8 fs-18 fw-500 lh-28 text-white">{{ __('Go To Community') }}</a>
+                            <a href="{{ route('auth.login') }}" class="d-flex py-6 px-24 bg-transparent bd-one bd-ra-8 fs-18 fw-500 lh-28 text-white">{{ __('Go To Community') }}</a>
                         @else
-                            <a href="{{ route('admin.auth.login') }}" class="align-content-center bg-secondary-color text-white btn btn-sm d-flex fw-500 h-100 px-20 py-2">{{ __('Admin Login') }}</a>
+                            <a href="{{ route('auth.login') }}" class="align-content-center bg-secondary-color text-white btn btn-sm d-flex fw-500 h-100 px-20 py-2">{{ __('Admin Login') }}</a>
 
                             <a href="{{ route('company.auth.register') }}" class="align-content-center bg-secondary-color  text-white btn btn-sm d-flex fw-500 h-100 px-20 py-2">{{ __('Alumni Login') }}</a>
 

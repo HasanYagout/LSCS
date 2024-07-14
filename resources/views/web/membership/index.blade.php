@@ -70,7 +70,7 @@
                                         {{ __('Get Membership') }}</button>
                                 @else
                                     <a href="{{ route('membership-package') }}"
-                                        class="d-inline-block bd-ra-12 bg-border-color border-0 fs-15 fw-500 lh-25 px-25 py-16 text-black-color hover-bg-color-one">
+                                        class="d-inline-block bd-ra-12 bg-border-color border-0 fs-15 fw-500 lh-25 px-25 py-16 text-black-color hover-bg-secondary">
                                         {{ __('Get Membership') }}</a>
                                 @endif
 

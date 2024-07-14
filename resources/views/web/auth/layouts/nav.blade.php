@@ -176,7 +176,7 @@
                     <a href="{{ route('alumni.auth.login') }}"
                        class="align-content-center bg-secondary-color mx-3 text-white btn btn-sm d-flex fw-500 h-100 px-20 py-2">{{ __('Alumni Login') }}</a>
                     @if (!getOption('disable_registration'))
-                        <a href="{{ route('admin.auth.login') }}"
+                        <a href="{{ route('auth.login') }}"
                            class="align-content-center bg-secondary-color text-white btn btn-sm d-flex fw-500 h-100 px-20 py-2">{{ __('Admin Login') }}</a>
                     @endif
                 @endauth

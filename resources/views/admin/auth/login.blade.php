@@ -16,7 +16,7 @@
 
                     </div>
                     <!-- Form -->
-                    <form method="POST" action="{{ route('admin.auth.login') }}">
+                    <form method="POST" action="{{ route('auth.login') }}">
                         @csrf
                         <div class="form-wrap pb-14">
                             <div class="primary-form-group">

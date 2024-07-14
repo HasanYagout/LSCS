@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AlumniController;
-use App\Http\Controllers\Admin\Auth\LoginController;
+
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventCategoryController;
@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\StoryController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\Website\WebsiteSettingController;
 
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web'])->group(function () {
@@ -33,15 +34,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     Route::post('status/{id}', [AdminController::class, 'status'])->name('status');
     Route::post('reset-password/{id}', [AdminController::class, 'resetPassword'])->name('reset-password');
 
-    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
-        Route::get('/code/captcha/{tmp}', 'LoginController@captcha')->name('default-captcha');
-        Route::get('login', [LoginController::class,'login'])->name('login');
-        Route::post('login',[LoginController::class,'submit']);
-        Route::get('logout', [LoginController::class,'logout'])->name('logout');
-        Route::get('register', [LoginController::class,'register'])->name('register');
-    });
+
     Route::get('/', function () {
-        return redirect()->route('admin.auth.login');
+        return redirect()->route('auth.login');
     });
 
     Route::group(['middleware' => ['admin']], function () {

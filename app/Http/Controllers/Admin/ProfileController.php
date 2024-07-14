@@ -103,7 +103,7 @@ class   ProfileController extends Controller
 
             // Log out the user and redirect to login page with a success message
             auth('admin')->logout();
-            return redirect()->route('admin.auth.login')->with('success', 'Password updated successfully. Please log in with your new password.');
+            return redirect()->route('auth.login')->with('success', 'Password updated successfully. Please log in with your new password.');
         } catch (\Exception $e) {
             DB::rollBack();
             session()->flash('active_tab', 'editProfile-tab');

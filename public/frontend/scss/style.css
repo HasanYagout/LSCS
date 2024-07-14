@@ -18,7 +18,7 @@ Version: 1.0
     --secondary-color: #f1a527;
   --black-color: #121421;
   --para-color: #707070;
-  --hover-color: #afd449;
+  --hover-color: #f1a527;
   --scroll-track: #efefef;
   --scroll-thumb: #dadada;
   --stroke-color: #e4e6eb;
@@ -337,6 +337,9 @@ ul {
 /* Text color */
 .text-primary-color {
   color: var(--primary-color) !important;
+}
+.text-secondary-color {
+    color: var(--secondary-color) !important;
 }
 
 .text-black-color {
@@ -1456,7 +1459,7 @@ ul {
 .hover-color-secondary:hover {
     color: var(--secondary-color) !important;
 }
-.hover-bg-color-one:hover {
+.hover-bg-secondary:hover {
   background-color: var(--hover-color) !important;
 }
 .hover-bg-color-transparent:hover {

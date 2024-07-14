@@ -82,7 +82,7 @@
                             }).then(() => {
                                 if (response.logout) {
                                     // Redirect to login page if logout is true
-                                    window.location.href = {{route('admin.auth.login')}}; // Change to your login URL
+                                    window.location.href = {{route('auth.login')}}; // Change to your login URL
                                 } else {
                                     // Optionally handle success for other admins
                                     window.location.reload(); // Reload the current page

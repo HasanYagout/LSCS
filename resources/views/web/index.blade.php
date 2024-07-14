@@ -192,7 +192,7 @@
                             {{ __('Connect alumni with mentors or coaches who can offer them guidance, advice, or feedback on their personal or professional goals, They can also help them expand their network.') }}
                         </p>
 {{--                        <a href="{{ route('login') }}"--}}
-{{--                            class="mb-54 py-15 px-32 bd-ra-12 d-inline-flex align-items-center cg-16 bg-primary-color fs-18 fw-600 lh-28 text-black-color hover-bg-color-one">--}}
+{{--                            class="mb-54 py-15 px-32 bd-ra-12 d-inline-flex align-items-center cg-16 bg-primary-color fs-18 fw-600 lh-28 text-black-color hover-bg-secondary">--}}
 {{--                            {{ __('Join Community') }}--}}
 {{--                            <i class="fa-solid fa-long-arrow-right"></i>--}}
 {{--                        </a>--}}

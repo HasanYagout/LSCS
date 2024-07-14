@@ -1,8 +1,8 @@
 <?php
 
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Web\AlumniController;
-use App\Http\Controllers\Web\Auth\LoginController;
 use App\Http\Controllers\Web\ContactUsController;
 use App\Http\Controllers\Web\EventController;
 use App\Http\Controllers\Web\HomeController;
@@ -25,11 +25,15 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'web'], function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('index');
-    Route::get('/ss', [HomeController::class, 'ss'])->name('ss');
 
+    Route::group(['namespace' => 'Auth', 'prefix' => 'auth', 'as' => 'auth.'], function () {
+        Route::get('login', [LoginController::class,'login'])->name('login');
+        Route::post('login',[LoginController::class,'submit']);
+        Route::get('logout', [LoginController::class,'logout'])->name('logout');
+        Route::get('register', [LoginController::class,'register'])->name('register');
+        Route::post('store', [LoginController::class,'store'])->name('store');
+    });
 
-
-    Route::get('ticket-verify/{ticket}', [TicketVerifyController::class, 'ticketPreview'])->name('ticket.verify');
 
 // alumni
     Route::get('all-alumni', [AlumniController::class, 'alumni'])->name('all.alumni');
