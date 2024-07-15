@@ -247,14 +247,14 @@
             <!--  -->
             <div class="row rg-24">
                 @foreach ($alumnus as $alumni)
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="bd-ra-25 bg-event-bg hover-scale-img">
+                    <div class="col-lg-3 col-md-4 col-sm-6 ">
+                        <div class="bd-ra-25 bg-event-bg hover-scale-img bg-primary-color">
                             <div class="bd-ra-25 overflow-hidden h-341">
-                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" class="w-100 h-100 object-fit-cover" src="{{ asset('public/storage/alumni/image') .'/'.$alumni->image}}"
+                                <img onerror="this.src='{{asset('public/assets/images/grad.jpeg')}}'" class="w-100 h-100 object-fit-cover container pd register-right rounded-5 s shadow-lg  " src="{{ asset('public/storage/alumni/image') .'/'.$alumni->image}}"
                                     alt="{{ $alumni->name }}" />
                             </div>
-                            <div class="pt-21 pb-23 px-10 text-center">
-                                <h4 class="fs-20 fw-600 lh-28 text-black-color pb-2">{{ $alumni->first_name.' '.$alumni->last_name }}</h4>
+                            <div class="pt-21 pb-23 px-10 text-center bg-primary-color bd-ra-10">
+                                <h4 class="fs-20 fw-600 lh-28 text-scroll-track pb-2">{{ $alumni->first_name.' '.$alumni->last_name }}</h4>
                                 <p class="fs-18 fw-400 lh-28 text-para-color">{{ $alumni->major }},
                                     {{ __('Batch') }} {{ $alumni->graduation_year }}</p>
                             </div>
@@ -290,28 +290,29 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="hover-scale-img bd-one bd-c-black-10 bd-ra-14 bg-event-bg hover-scale-img">
                             <div class="bd-ra-14 overflow-hidden h-234 position-relative">
-                                <img class="w-100 h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/news').'/'.$singleNews->image }}"
+                                <img class="w-100 h-100 object-fit-cover container pd register-right rounded-5 s shadow-lg  " onerror="this.src='{{asset('public/assets/images/ssss.jpg')}}'" src="{{ asset('public/storage/admin/news').'/'.$singleNews->image }}"
                                     alt="{{ $singleNews->title }}" />
                                 <p
-                                    class="position-absolute top-22 left-22 p-10 bd-ra-10 bg-secondary-color max-w-77 fs-16 fw-400 lh-19 text-black-color text-center">
+                                    class="position-absolute top-10 left-22 p-10 bd-ra-10 bg-primary-color max-w-77 fs-16 fw-400 lh-19 text-scroll-track text-center">
                                     {{ \Carbon\Carbon::parse($singleNews->created_at)->format('M d, Y') }}</p>
                             </div>
 
-                            <div class="pt-29 pb-34 px-25">
+                            <div class="pt-20 pb-25 px-25 bg-primary-color bd-ra-10 ">
                                 <div class="d-flex align-items-center cg-10 pb-10">
-                                    <div class="w-30 h-30 rounded-circle overflow-hidden">
+                                    <div class="w-40 h-40 rounded-circle overflow-hidden">
                                         <img
-                                            onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
+                                            class="object-fit-cover"
+                                            onerror="this.src='{{asset('public/assets/images/grad.jpeg')}}'"
                                             src="{{ asset('public/storage/admin/image').'/'.$singleNews->author->image }}"
                                             alt="{{ $singleNews->author->first_name }}" /></div>
-                                    <p class="fs-16 fw-400 lh-14 text-para-color">BY : {{ $singleNews->author->first_name }},
+                                    <p class="fs-16 fw-400 lh-14 text-secondary-color"> {{ $singleNews->author->first_name }},
                                         {{ $singleNews->category->name }}</p>
                                 </div>
                                 <h4
-                                    class="fs-24 fw-600 lh-34 text-black-color mb-25 line-clamp-2 sf-text-ellipsis min-h-68">
+                                    class="fs-24 fw-600 lh-34 text-scroll-track line-clamp-2 sf-text-ellipsis min-h-68 p-10">
                                     {{ $singleNews->title }}</h4>
                                 <a href="{{ route('news.view.details', $singleNews->slug) }}"
-                                    class="fs-18 fw-600 lh-28 text-black-color d-inline-flex align-items-center cg-16 hover-color-primary">
+                                    class="fs-18 fw-600 lh-28 text-scroll-track d-inline-flex align-items-center cg-16 hover-color-secondary bd-c-scroll-track-color bd-one bd-ra-12 p-2 ">
                                     {{ __('Read More') }}
                                     <i class="fa-solid fa-long-arrow-right"></i>
                                 </a>
