@@ -12,7 +12,7 @@
     </section>
     <!-- End Join Community -->
     <!-- Start Footer -->
-    <footer class="footer-section">
+    <footer class="footer-section bg-primary-color">
         <div class="container">
             <div class="footer-top">
                 <div class="row">
