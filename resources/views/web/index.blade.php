@@ -175,7 +175,8 @@
                                         class="mb-16 min-h-68 line-clamp-2 sf-text-ellipsis fs-24 fw-500 lh-34 text-black-color">
                                         {{ $story->title }}</h4>
                                     <a href="{{ route('story.view', $story->slug) }}"
-                                        class="d-flex align-items-center cg-16 fs-18 fw-600 lh-28 text-black-color">
+                                        class="fs-18 fw-600 lh-28 text-black-color d-inline-flex align-items-center cg-16 hover-color-secondary ">
+
                                         {{ __('Know More') }}
                                         <span><i class="fa-solid fa-arrow-right"></i></span>
                                     </a>
