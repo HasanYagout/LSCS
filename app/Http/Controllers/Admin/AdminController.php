@@ -9,6 +9,7 @@ use App\Http\Services\UserService;
 use App\Models\Admin;
 use App\Models\Alumni;
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\PassingYear;
 use App\Traits\ResponseTrait;
@@ -76,20 +77,34 @@ class AdminController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email',
-            'mobile' => 'required|string|unique:admins|max:20',
+            'mobile' => 'required|string|unique:admins,phone|max:20',
+            'type' => 'required|integer' // Assuming 'type' is required and must be an integer
         ]);
 
-        // Store the admin
-        $admin = new Admin();
-        $admin->first_name = $request->input('first_name');
-        $admin->last_name = $request->input('last_name');
-        $admin->email = $request->input('email');
-        $admin->mobile = $request->input('mobile');
-        $admin->password = bcrypt('12345678'); // Default password hashed
-        $admin->image = ''; // Default password hashed
-        $admin->role_id=$request->input('type');
-        $admin->status=1;
-        $admin->save();
+        $defaultPassword = bcrypt('12345678');
+
+        DB::transaction(function () use ($request, $defaultPassword) {
+            // Store the admin
+            $admin = Admin::create([
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'email' => $request->input('email'),
+                'phone' => $request->input('mobile'),
+                'password' => $defaultPassword,
+                'image' => '',
+                'role_id' => $request->input('type'),
+                'status' => 1
+            ]);
+
+            // Store the user
+            User::create([
+                'email' => $request->input('email'),
+                'password' => $defaultPassword,
+                'user_id' => $admin->id,
+                'role_id' => $request->input('type'),
+                'status' => 1
+            ]);
+        });
 
         return redirect()->route('admin.index')->with('success', 'Admin added successfully!');
     }

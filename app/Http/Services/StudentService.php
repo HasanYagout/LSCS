@@ -56,7 +56,6 @@ class StudentService
         $students = $studentsQuery->get();
         $studentIds = $students->pluck('id');
         $activeAlumni = Alumni::whereIn('id', $studentIds)
-            ->whereNull('deleted_at')
             ->pluck('id')
             ->all();
 

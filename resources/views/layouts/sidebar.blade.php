@@ -17,7 +17,7 @@
     <!-- Logo -->
     <a href="{{ route('index') }}" class="d-block mx-26 mb-27  pt-23">
 
-            <img class="max-h-69 d-block m-auto" src="{{ asset('public/frontend/images/liu-logo.png') }}" alt="LIU Logo"/>
+     <img class="max-h-69 d-block m-auto" src="{{ asset('public/frontend/images/liu-logo.png') }}" alt="LIU Logo"/>
 
     </a>
     <!-- Menu & Logout -->
@@ -243,25 +243,6 @@
                     </li>
                 @endif
                 @if($authenticatedGuard=='admin' && auth($authenticatedGuard)->user()->role_id!=USER_ROLE_INSTRUCTOR||$authenticatedGuard=='company'||$authenticatedGuard=='alumni')
-                    @if($authenticatedGuard!='company')
-                        <li>
-                            <a href="{{ route($authenticatedGuard.'.home') }}"
-                               class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">
-                                <div class="d-flex">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20"
-                                         fill="none">
-                                        <path d="M1.71387 11.4286L10.9996 2.14285L20.2853 11.4286" stroke="white"
-                                              stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                              stroke-linejoin="round"/>
-                                        <path d="M4.57129 8.57144L4.57129 17.8572H17.4284V8.57144" stroke="white"
-                                              stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"
-                                              stroke-linejoin="round"/>
-                                    </svg>
-                                </div>
-                                <span class="">{{ __('Home') }}</span>
-                            </a>
-                        </li>
-                    @endif
 
                     <li>
                         <a href="#jobPost" data-bs-toggle="collapse" role="button"

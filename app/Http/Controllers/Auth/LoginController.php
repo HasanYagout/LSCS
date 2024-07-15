@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Alumni;
 use App\Models\Company;
+use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
@@ -30,65 +31,41 @@ class LoginController extends Controller
 
     public function submit(Request $request)
     {
-        // Validation based on user type
-        if ($request->user_type == 'admin') {
-            $request->validate([
-                'email' => 'required|email|exists:admins,email',
-                'password' => 'required|min:8'
-            ]);
-        } elseif ($request->user_type == 'company') {
-            $request->validate([
-                'email' => 'required|email|exists:companies,email',
-                'password' => 'required|min:8'
-            ]);
-        } elseif ($request->user_type == 'alumni') {
-            $request->validate([
-                'email' => 'required|exists:alumnis,id',
-                'password' => 'required|min:8'
-            ]);
-        }
 
-        // Authenticate based on user type
-        if ($request->user_type == 'admin') {
-            $admin = Admin::where('email', $request->email)->first();
 
-            if (isset($admin) && $admin->status != 1) {
-                return redirect()->back()->withInput($request->only('email', 'remember'))
-                    ->withErrors(['You are blocked!!, contact with admin.']);
-            } else {
+        $user = User::with('admin','alumni','company')->where('email', $request->email)->first();
+
+        if (isset($user) && $user->status != 1) {
+            return redirect()->back()->withInput($request->only('email', 'remember'))
+                ->withErrors(['You are blocked!!, contact with admin.']);
+        } else {
+            if ($user->role_id == 1) {
                 if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
                     return redirect()
                         ->route('admin.dashboard')
-                        ->with('info', 'Welcome ' . $admin->first_name);
+                        ->with('info', 'Welcome ' . $user->admin->first_name);
                 }
             }
-        } elseif ($request->user_type == 'company') {
-            $company = Company::where('email', $request->email)->first();
-
-            if (isset($company) && $company->status != 1) {
-                return redirect()->back()->withInput($request->only('email', 'remember'))
-                    ->withErrors(['You are blocked!!, contact with admin.']);
-            } else {
-                if (auth('company')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                    return redirect()
-                        ->route('company.jobs.all-job-post')
-                        ->with('info', 'Welcome ' . $company->name);
-                }
-            }
-        } elseif ($request->user_type == 'alumni') {
-            $alumni = Alumni::where('id', $request->email)->first();
-
-            if (isset($alumni) && $alumni->status != 1) {
-                return redirect()->back()->withInput($request->only('email', 'remember'))
-                    ->withErrors(['You are blocked!!, contact with admin.']);
-            } else {
+            elseif ($user->role_id == 2){
                 if (auth('alumni')->attempt(['id' => $request->email, 'password' => $request->password], $request->remember)) {
                     return redirect()
                         ->route('alumni.home')
-                        ->with('info', 'Welcome ' . $alumni->first_name);
+                        ->with('info', 'Welcome ' . $user->alumni->first_name);
                 }
             }
+            elseif ($user->role_id == 3){
+                if (auth('company')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+                    return redirect()
+                        ->route('company.jobs.all-job-post')
+                        ->with('info', 'Welcome ' . $user->company->name);
+                }
+            }
+
         }
+
+
+
+
 
         return redirect()->back()->withInput($request->only('email', 'remember'))
             ->withErrors(['Credentials do not match.']);
@@ -105,27 +82,42 @@ class LoginController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
+        $fileName = null;
+
         // Handle file upload
         if ($request->hasFile('proposal')) {
             $folderName = Str::slug($request->name . '_' . now(), '_');
             $file = $request->file('proposal');
             $extension = $file->getClientOriginalExtension();
             $fileName = $folderName . '.' . $extension;
-            $filePath = $file->storeAs('public/storage/company/proposal', $fileName);
+            $file->storeAs('public/storage/company/proposal', $fileName);
         } else {
             return redirect()->back()->withErrors(['proposal' => 'Proposal file is required'])->withInput();
         }
 
-        // Create new company record
-        $company = new Company();
-        $company->name = $request->name;
-        $company->slug = Str::slug($request->name) . '_' . uniqid();
-        $company->email = $request->email;
-        $company->password = Hash::make($request->password);
-        $company->phone = $request->mobile;
-        $company->proposal = $fileName;
-        $company->status = STATUS_PENDING;
-        $company->save();
+        $defaultPassword = Hash::make($request->password);
+
+        DB::transaction(function () use ($request, $fileName, $defaultPassword) {
+            // Create new company record
+            $company = Company::create([
+                'name' => $request->input('name'),
+                'slug' => Str::slug($request->input('name')) . '_' . uniqid(),
+                'email' => $request->input('email'),
+                'password' => $defaultPassword,
+                'phone' => $request->input('mobile'),
+                'proposal' => $fileName,
+                'status' => STATUS_PENDING,
+            ]);
+
+            // Create new user record
+            User::create([
+                'email' => $request->input('email'),
+                'password' => $defaultPassword,
+                'user_id' => $company->id,
+                'role_id' => 3,
+                'status' => STATUS_PENDING,
+            ]);
+        });
 
         // Redirect or return response
         return redirect()->route('auth.login')->with('success', 'Registration successful. Please log in.');

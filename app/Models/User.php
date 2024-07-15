@@ -13,7 +13,7 @@ use Stancl\Tenancy\Database\Models\Domain;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -21,8 +21,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'uuid',
-        'tenant_id',
         'name',
         'nick_name',
         'email',
@@ -68,46 +66,23 @@ class User extends Authenticatable
         'last_seen' => 'datetime'
     ];
 
-    public function alumni(){
-        return $this->hasOne(Alumni::class);
-    }
+
 
     public function role()
     {
         return $this->hasOne(Roles::class);
     }
-    public function domain(){
-        return $this->hasOne(Domain::class, 'tenant_id', 'tenant_id');
-    }
-
-    public function institutions(){
-        return $this->hasMany(UserInstitution::class, 'user_id');
-    }
-
-    public function currentMembership(){
-        return $this->hasOne(UserMembershipPlan::class, 'user_id')->where('expired_date', '>=', now())->latest();
-    }
-
-    public function unseen_message()
+    public function admin()
     {
-        return $this->hasMany(Chat::class, 'sender_id')->where(['is_seen' => STATUS_PENDING]);
+        return $this->belongsTo(Admin::class,'user_id');
+    }
+    public function alumni()
+    {
+        return $this->belongsTo(Alumni::class,'user_id');
+    }
+    public function company()
+    {
+        return $this->belongsTo(Company::class,'user_id');
     }
 
-    public function messages()
-    {
-        return $this->hasMany(Chat::class, 'receiver_id')->where('sender_id' , auth()->id());
-    }
-
-    public function currentPlan()
-    {
-        return $this->hasOne(UserPackage::class, 'user_id')->where('status', ACTIVE)->where('end_date', '>=', now());
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-        self::creating(function($model){
-            $model->uuid = Str::uuid()->toString();
-        });
-    }
 }

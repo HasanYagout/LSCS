@@ -31,5 +31,9 @@ class Company extends Authenticatable
     {
         return asset('public/storage/company').'/' . $this->image;
     }
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 
 }

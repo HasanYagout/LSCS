@@ -37,28 +37,6 @@
                                 <span class="fs-12 text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="primary-form-group col-lg-12 py-2">
-                                <div class="primary-form-group-wrap pt-2">
-                                    <label class="form-label text-secondary-color">{{ __('Login As') }}</label>
-                                    <div class="d-flex">
-                                        <div class="form-check me-3">
-                                            <input class="form-check-input user-type" type="radio" name="user_type" id="admin" value="admin" required>
-                                            <label class="form-check-label" for="admin">{{ __('Admin') }}</label>
-                                        </div>
-                                        <div class="form-check me-3">
-                                            <input class="form-check-input user-type" type="radio" name="user_type" id="company" value="company" required>
-                                            <label class="form-check-label" for="company">{{ __('Company') }}</label>
-                                        </div>
-                                        <div class="form-check">
-                                            <input class="form-check-input user-type" type="radio" name="user_type" id="alumni" value="alumni" required>
-                                            <label class="form-check-label" for="alumni">{{ __('Alumni') }}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                @error('user_type')
-                                <span class="fs-12 text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
                         </div>
                         <button type="submit" class="d-flex justify-content-center hover-color-white align-items-center w-100 border-0 fs-15 fw-500 lh-25 text-1b1c17 p-13 bd-ra-12 bg-cdef84 hover-bg-secondary">{{ __('Log In') }}</button>
                     </form>

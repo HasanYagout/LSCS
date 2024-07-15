@@ -31,4 +31,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany(Recommendation::class, 'admin_id');
     }
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

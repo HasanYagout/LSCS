@@ -9,9 +9,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Alumni extends Authenticatable
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
     protected $fillable=['cvs','phone','status','linkedin_url','first_name','experience','education','skills','last_name','email','password','date_of_birth','about_me','image'];
-    protected $dates=['deleted_at'];
+
     public function appliedJobs()
     {
         return $this->hasMany(AppliedJobs::class, 'alumni_id', 'id');
@@ -29,6 +29,7 @@ class Alumni extends Authenticatable
     {
         return $this->hasMany(CV::class, 'alumni_id','id');
     }
+
     public function experience()
     {
         return $this->hasMany(Experience::class, 'alumni_id');
@@ -37,5 +38,10 @@ class Alumni extends Authenticatable
     {
         return $this->belongsTo(Student::class);
     }
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
 
 }
