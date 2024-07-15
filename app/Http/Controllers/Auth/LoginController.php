@@ -9,6 +9,7 @@ use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use App\Models\Admin;
@@ -31,8 +32,6 @@ class LoginController extends Controller
 
     public function submit(Request $request)
     {
-
-
         $user = User::with('admin','alumni','company')->where('email', $request->email)->first();
 
         if (isset($user) && $user->status != 1) {
@@ -60,12 +59,15 @@ class LoginController extends Controller
                         ->with('info', 'Welcome ' . $user->company->name);
                 }
             }
+            else{
+                if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+                    return redirect()
+                        ->route('admin.instructor.dashboard')
+                        ->with('info', 'Welcome ' . $user->admin->first_name);
+                }
+            }
 
         }
-
-
-
-
 
         return redirect()->back()->withInput($request->only('email', 'remember'))
             ->withErrors(['Credentials do not match.']);

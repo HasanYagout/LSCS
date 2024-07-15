@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Admin extends Authenticatable
 {
     use HasFactory;
-    protected $fillable=['first_name','last_name','email','password','image'];
+    protected $fillable=['first_name','last_name','phone','role_id','status','email','password','image'];
 
     public function role()
     {

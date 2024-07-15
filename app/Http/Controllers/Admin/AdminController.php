@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Models\PassingYear;
 use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -85,7 +86,9 @@ class AdminController extends Controller
 
         DB::transaction(function () use ($request, $defaultPassword) {
             // Store the admin
+
             $admin = Admin::create([
+
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
                 'email' => $request->input('email'),
