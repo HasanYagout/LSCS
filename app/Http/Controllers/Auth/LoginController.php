@@ -37,35 +37,43 @@ class LoginController extends Controller
         if (isset($user) && $user->status != 1) {
             return redirect()->back()->withInput($request->only('email', 'remember'))
                 ->withErrors(['You are blocked!!, contact with admin.']);
-        } else {
-            if ($user->role_id == 1) {
-                if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                    return redirect()
-                        ->route('admin.dashboard')
-                        ->with('info', 'Welcome ' . $user->admin->first_name);
+        }
+        else {
+            if (isset($user)){
+                if ($user->role_id == 1) {
+                    if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+                        return redirect()
+                            ->route('admin.dashboard')
+                            ->with('info', 'Welcome ' . $user->admin->first_name);
+                    }
                 }
-            }
-            elseif ($user->role_id == 2){
-                if (auth('alumni')->attempt(['id' => $request->email, 'password' => $request->password], $request->remember)) {
-                    return redirect()
-                        ->route('alumni.home')
-                        ->with('info', 'Welcome ' . $user->alumni->first_name);
+                elseif ($user->role_id == 2){
+                    if (auth('alumni')->attempt(['id' => $request->email, 'password' => $request->password], $request->remember)) {
+                        return redirect()
+                            ->route('alumni.home')
+                            ->with('info', 'Welcome ' . $user->alumni->first_name);
+                    }
                 }
-            }
-            elseif ($user->role_id == 3){
-                if (auth('company')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                    return redirect()
-                        ->route('company.jobs.all-job-post')
-                        ->with('info', 'Welcome ' . $user->company->name);
+                elseif ($user->role_id == 3){
+                    if (auth('company')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+                        return redirect()
+                            ->route('company.jobs.all-job-post')
+                            ->with('info', 'Welcome ' . $user->company->name);
+                    }
+                }
+                else{
+                    if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
+                        return redirect()
+                            ->route('admin.instructor.dashboard')
+                            ->with('info', 'Welcome ' . $user->admin->first_name);
+                    }
                 }
             }
             else{
-                if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                    return redirect()
-                        ->route('admin.instructor.dashboard')
-                        ->with('info', 'Welcome ' . $user->admin->first_name);
-                }
+                return redirect()->back()->withInput($request->only('email', 'remember'))
+                    ->withErrors(['User Not Found']);
             }
+
 
         }
 
