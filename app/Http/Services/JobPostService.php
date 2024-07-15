@@ -393,7 +393,6 @@ class JobPostService
             $jobPost->employee_status = $request->employee_status;
             $jobPost->status = JOB_STATUS_PENDING;
             $jobPost->skills = json_encode($request->skills);
-
             $jobPost->save();
             DB::commit();
             session()->flash('success', 'Job Created Successfully');

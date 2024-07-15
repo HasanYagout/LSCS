@@ -56,6 +56,7 @@ class ProfileController extends Controller
             'margin_header' => 10,
             'margin_footer' => 10
         ]);
+
         $mpdf->WriteHTML($html);
         $mpdf->Output('detailed_cv.pdf', 'D'); // D - download, I - inline
     }

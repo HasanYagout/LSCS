@@ -30,7 +30,6 @@ class JobsController extends Controller
         $data['showJobPostManagement'] = 'show';
         $data['activeJobPostCreate'] = 'active-color-one';
         return view('company.jobs.create', $data);
-
     }
 
     public function add(CreateJobRequest $request)
