@@ -86,7 +86,7 @@
                                         </li>
                                         <li>
                                             <p>{{ __('Phone') }} :</p>
-                                            <p> {{ auth('admin')->user()?->mobile }}</p>
+                                            <p> {{ auth('admin')->user()?->phone }}</p>
                                         </li>
                                         <li>
                                             <p>{{ __('Email') }} :</p>
@@ -150,7 +150,8 @@
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epPhoneNumber" class="form-label">{{ __('Phone Number')
                                                     }}</label>
-                                                    <input type="number" value="{{auth('admin')->user()->mobile}}" name="mobile"
+
+                                                    <input type="number" value="{{auth('admin')->user()->phone}}" name="mobile"
                                                            class="primary-form-control" id="epPhoneNumber"
                                                            maxlength="9"
                                                            minlength="1"

@@ -301,7 +301,7 @@
                                 <div class="d-flex align-items-center cg-10 pb-10">
                                     <div class="w-40 h-40 rounded-circle overflow-hidden">
                                         <img
-                                            class="object-fit-cover"
+                                            class="object-fit-cover h-100"
                                             onerror="this.src='{{asset('public/assets/images/grad.jpeg')}}'"
                                             src="{{ asset('public/storage/admin/image').'/'.$singleNews->author->image }}"
                                             alt="{{ $singleNews->author->first_name }}" /></div>
