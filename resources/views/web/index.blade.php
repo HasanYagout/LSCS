@@ -15,12 +15,12 @@
                         </p>
                         <div class="d-flex justify-content-center align-items-center flex-wrap g-10">
                             <a href="#about-us-section"
-                                class="align-items-center bd-c-white bd-one bd-ra-12 bg-primary-color cg-16 d-flex fs-18 fw-600 hover-bg-color-primary hover-border-color-primary hover-color-white lh-28 px-32 py-15 text-white">
+                                class="align-items-center bd-c-white bd-one bd-ra-12 bg-primary-color cg-16 d-flex fs-18 fw-600 hover-color-secondary fs-18 fw-500 lh-28 text-white lh-28 px-32 py-15 text-white">
                                 {{ __('About Us') }}
                                 <i class="fa-solid fa-long-arrow-right"></i>
                             </a>
                             <a href="{{ route('all.event') }}"
-                                class="align-items-center bd-c-white bd-one bd-ra-12 bg-primary-color cg-16 d-flex fs-18 fw-600 hover-bg-color-primary hover-border-color-primary hover-color-white lh-28 px-32 py-15 text-white">
+                                class="align-items-center bd-c-white bd-one bd-ra-12 bg-primary-color cg-16 d-flex fs-18 fw-600 hover-color-secondary fs-18 fw-500 lh-28 text-white lh-28 px-32 py-15 text-white">
                                 {{ __('All Events') }}
                                 <i class="fa-solid fa-long-arrow-right"></i>
                             </a>
@@ -323,7 +323,8 @@
             </div>
             <div class="text-center">
                 <a href="{{ route('our.news') }}"
-                    class="align-items-center bd-c-black-color bd-one bd-ra-12 bg-white cg-16 d-inline-flex fs-18 fw-600 hover-bg-color-primary hover-border-color-primary justify-content-center lh-28 px-32 py-15 text-black-color hover-color-white">
+                    class="align-items-center bd-c-white bd-one bd-ra-12 bg-primary-color cg-16 d-inline-flex fs-18 fw-600 hover-color-secondary justify-content-center lh-28 px-32 py-15 text-white">
+
                     {{ __('Explore All Blogs') }}
                     <i class="fa-solid fa-long-arrow-right"></i>
                 </a>
