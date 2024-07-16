@@ -15,7 +15,7 @@
                         <div class="d-flex align-items-center flex-wrap g-18 pb-30 border-item-one">
                             <div class="zUser-one">
                                 <div
-                                    class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-cdef84">
+                                    class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-primary-color">
 {{--                                    <img class="w-100" src="{{ asset(getFileUrl($user->image)) }}" alt="{{ $user->name }}" />--}}
                                 </div>
                                 @if (!$user->currentMembership == null)

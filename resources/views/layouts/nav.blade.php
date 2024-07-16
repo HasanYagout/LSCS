@@ -38,7 +38,7 @@
                 <button class="dropdown-toggle p-0 border-0 bg-transparent d-flex align-items-center cg-8" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                     @if ($authenticatedUser)
-                        <div class="w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-cdef84">
+                        <div class="w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-primary-color">
                             <img onerror="this.src='{{ asset('public/assets/images/no-image.jpg') }}'"
                                  src="{{ asset('public/storage') . '/' . $authenticatedGuard . '/'.'image'.'/' . $authenticatedUser->image }}"
                                  alt="{{ $authenticatedUser->first_name . ' ' . $authenticatedUser->last_name }}" />

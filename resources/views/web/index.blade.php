@@ -1,9 +1,36 @@
+@php use Illuminate\Support\Facades\Storage; @endphp
 @extends('web.layouts.app')
 @push('title')
     {{ __('Home') }}
 @endpush
 @section('content')
 
+    <style>
+        .swiper-slide {
+            background-size: cover;
+            background-position: center;
+            height: 100%; /* Ensure the slide takes full height */
+        }
+
+        .transparent-background {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .event-slider {
+            padding: 20px;
+        }
+
+
+
+
+        .event-duration .separate {
+            font-size: 24px;
+            line-height: 1;
+            margin: 0 5px;
+        }
+
+
+    </style>
     <!-- Start Banner -->
     <section class="home-banner">
         <div class="container">
@@ -69,43 +96,57 @@
 
     <!-- Start Upcoming Events -->
     @if(count($upcomingEvents))
-        <section class="upcoming-events">
+        <section>
             <div class="container position-relative">
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
                         <!--  -->
                         <div class="text-center pb-37 max-w-677 m-auto">
                             <span
-                                class="d-inline-block py-15 px-25 rounded-pill bd-one bd-c-white fs-18 fw-400 lh-18 text-white mb-22">{{ __('Upcoming Events') }}</span>
-                            <h4 class="pb-18 fs-50 fw-700 lh-50 text-white">{{ __('Our Upcoming Events') }}</h4>
-                            <p class="fs-18 fw-400 lh-28 text-white">
-                                {{ __('Zaialumni is a user friendly that helps alumni easily connect and manage their activities. Alumni can sign up and get approved by submitting necessary.') }}
-                            </p>
+                                class="d-inline-block py-15 px-25 rounded-pill bd-one bd-c-white fs-18 fw-400 lh-18  mb-22">{{ __('Upcoming Events') }}</span>
+                            <h4 class="pb-18 fs-50 fw-700 lh-50 ">{{ __('Our Upcoming Events') }}</h4>
+
                         </div>
                         <!--  -->
                         <div class="swiper upcomingEvent bd-ra-25">
                             <div class="swiper-wrapper">
-                                @foreach ($upcomingEvents as $upcomingEvent)
-                                    <div class="swiper-slide">
-                                        <div class="event-slider">
+                                @foreach ($upcomingEvents as $key=> $upcomingEvent)
+                                    @php
+                                        // Define the relative path to the image
+                                        $relativePath = 'public/storage/admin/events/'.$upcomingEvent->thumbnail;
+
+                                        // Construct the full server path to the image
+                                        $serverPath = base_path($relativePath);
+
+                                        // Check if the file exists on the server
+                                        $thumbnailUrl = $upcomingEvent->thumbnail && file_exists($serverPath) ? asset($relativePath) : asset('public/assets/images/no-image.jpg');
+
+                                    @endphp
+
+                                    <div class="swiper-slide" style="background-image: url('{{ $thumbnailUrl }}');">
+                                        <div class="event-slider transparent-background">
                                             <div class="row">
-                                                <div class="col-xl-6">
+                                                <div class="col-xl-6 m-auto">
                                                     <div class="up-event-content">
-                                                        <div
-                                                            class="d-flex justify-content-center justify-content-xl-start align-items-center cg-63 pb-11">
-                                                            <p
-                                                                class="fs-18 fw-500 lh-28 text-para-color line-horizontal-event">
+                                                        <div class="d-flex justify-content-center align-items-center cg-63 pb-11">
+                                                            <p class="fs-18 fw-500 lh-28 text-white line-horizontal-event">
                                                                 {{ \Carbon\Carbon::parse($upcomingEvent->date)->format('M d, Y') }}
                                                             </p>
-                                                            <p class="fs-18 fw-500 lh-28 text-para-color">
+                                                            <p class="fs-18 fw-500 lh-28 text-white">
                                                                 {{ \Carbon\Carbon::parse($upcomingEvent->date)->format('h:i A') }}
                                                             </p>
                                                         </div>
                                                         <a href="{{ route('event.view.details', $upcomingEvent->slug) }}"
-                                                            class="d-inline-block fs-36 fw-600 lh-46 text-black-color mb-14 line-clamp-2 sf-text-ellipsis min-h-92">{{ $upcomingEvent->title }}</a>
-
+                                                           class="d-inline-block fs-36 d-block text-center fw-600 lh-46 text-secondary-color mb-14 line-clamp-2 sf-text-ellipsis min-h-92">
+                                                            {{ $upcomingEvent->title }}
+                                                        </a>
                                                         <ul class="event-duration"
                                                             data-countdown-date="{{ \Carbon\Carbon::parse($upcomingEvent->date)->format('m/d/Y H:i:s') }}">
+                                                            <li class="item">
+                                                                <h4 class="eTime" data-days></h4>
+                                                                <p class="eInfo">{{ __('Days') }}</p>
+                                                            </li>
+                                                            <li class="separate">:</li>
                                                             <li class="item">
                                                                 <h4 class="eTime" data-hours></h4>
                                                                 <p class="eInfo">{{ __('Hours') }}</p>
@@ -118,35 +159,35 @@
                                                             <li class="separate">:</li>
                                                             <li class="item">
                                                                 <h4 class="eTime" data-seconds></h4>
-                                                                <p class="eInfo">{{ __('Second') }}</p>
+                                                                <p class="eInfo">{{ __('Seconds') }}</p>
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <a href="{{ route('event.view.details', $upcomingEvent->slug) }}"
-                                                        class="up-event-img hover-scale-img-two"><img
-                                                            onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
-                                                            src="{{ asset('public/storage/admin/events').'/'.$upcomingEvent->thumbnail }}"
-                                                            alt="{{ $upcomingEvent->title }}"
-                                                            class="w-100 h-100 object-fit-cover" /></a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="upEvent-button">
-                                <div class="swiper-button-next hover-color-white"><i class="fa-solid fa-long-arrow-right"></i></div>
-                                <div class="swiper-button-prev hover-color-white"><i class="fa-solid fa-long-arrow-left"></i></div>
-                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- End Upcoming Events -->
+                    <div class="col-lg-12">
+
+                        <div class="upEvent-button">
+                            <div class="swiper-button-next hover-color-secondary"><i class="fa-solid fa-long-arrow-right"></i></div>
+                            <div class="swiper-button-prev hover-color-secondary"><i class="fa-solid fa-long-arrow-left"></i></div>
                         </div>
                     </div>
+
                 </div>
             </div>
+
         </section>
+
     @endif
-    <!-- End Upcoming Events -->
 
     <!-- Start Stories -->
     <section class="pt-110 pb-110 position-relative">
@@ -336,5 +377,27 @@
     <!-- End Blog -->
 @endsection
 @push('script')
-    <script></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const swiper = new Swiper('.swiper', {
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                on: {
+                    slideChange: function () {
+                        const activeSlide = this.slides[this.activeIndex];
+                        const backgroundUrl = activeSlide.style.backgroundImage;
+                        document.querySelector('.swiper').style.backgroundImage = backgroundUrl;
+                    }
+                }
+            });
+
+            // Initial background image
+            const initialSlide = document.querySelector('.swiper-slide-active');
+            const initialBackgroundUrl = initialSlide.style.backgroundImage;
+            document.querySelector('.swiper').style.backgroundImage = initialBackgroundUrl;
+        });
+    </script>
+
 @endpush

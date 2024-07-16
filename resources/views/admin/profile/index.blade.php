@@ -29,7 +29,7 @@
                         <div class="pt-30 pb-40 d-flex justify-content-between align-items-center flex-wrap rg-30">
                             <!-- User Photo ~ name -->
                             <div class="d-flex align-items-center flex-wrap g-18">
-                                <div class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-cdef84">
+                                <div class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-primary-color">
                                     <img class="w-100" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                          src="{{ asset('public/storage/admin').'/'.'image'.'/'.auth('admin')->user()->image}}"
                                          alt="{{auth('admin')->user()->first_name.' '.auth('admin')->user()->last_name}}" />

@@ -5,7 +5,7 @@
     <div class="pb-22 d-flex justify-content-between align-items-center">
         <!-- User -->
         <div class="d-flex align-items-center cg-10">
-            <div class="flex-shrink-0 w-45 h-45 bd-one bd-c-cdef84 rounded-circle overflow-hidden"><img
+            <div class="flex-shrink-0 w-45 h-45 bd-one bd-c-primary-color rounded-circle overflow-hidden"><img
                     src="{{ asset(getFileUrl($post->author->image)) }}" class="w-100" alt="{{ $post->author->name }}" /></div>
             <div class="">
                 <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{ $post->author->name }}</h4>
