@@ -2,6 +2,12 @@
     "use strict";
 
     $(document).ready(function () {
+        // Check if the DataTable is already initialized and destroy if necessary
+        if ($.fn.dataTable.isDataTable('#companiesTable')) {
+            $('#companiesTable').DataTable().clear().destroy();
+        }
+
+        // Initialize DataTable
         var table = $("#companiesTable").DataTable({
             pageLength: 10,
             ordering: true,
@@ -33,6 +39,7 @@
             },
         });
 
+        // Handle status toggle
         $(document).on('change', '.toggle-status', function (e) {
             var $switch = $(this);
             var companyId = $switch.data('id');

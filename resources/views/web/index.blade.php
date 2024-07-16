@@ -291,7 +291,8 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="hover-scale-img bd-one bd-c-black-10 bd-ra-14 bg-event-bg hover-scale-img">
                             <div class="bd-ra-14 overflow-hidden h-234 position-relative">
-                                <img class="w-100 h-100 object-fit-cover container pd register-right rounded-5 s shadow-lg  " onerror="this.src='{{asset('public/assets/images/ssss.jpg')}}'" src="{{ asset('public/storage/admin/news').'/'.$singleNews->image }}"
+                                <img class="w-100 h-100 object-fit-cover container pd register-right rounded-5 s shadow-lg"
+                                     onerror="this.src='{{asset('public/assets/images/ssss.jpg')}}'" src="{{ asset('public/storage/admin/news').'/'.$singleNews->image }}"
                                     alt="{{ $singleNews->title }}" />
                                 <p
                                     class="position-absolute top-10 left-22 p-10 bd-ra-10 bg-primary-color max-w-77 fs-16 fw-400 lh-19 text-scroll-track text-center">
@@ -303,7 +304,7 @@
                                     <div class="w-40 h-40 rounded-circle overflow-hidden">
                                         <img
                                             class="object-fit-cover h-100"
-                                            onerror="this.src='{{asset('public/assets/images/grad.jpeg')}}'"
+                                            onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                             src="{{ asset('public/storage/admin/image').'/'.$singleNews->author->image }}"
                                             alt="{{ $singleNews->author->first_name }}" /></div>
                                     <p class="fs-16 fw-400 lh-14 text-secondary-color"> {{ $singleNews->author->first_name }},

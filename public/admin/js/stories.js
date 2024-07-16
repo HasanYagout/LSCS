@@ -1,5 +1,9 @@
 (function ($) {
     "use strict";
+    // Check if the DataTable is already initialized
+    if ($.fn.dataTable.isDataTable('#storyDataTable')) {
+        $('#storyDataTable').DataTable().clear().destroy();
+    }
 
     $("#storyDataTable").DataTable({
         pageLength: 10,

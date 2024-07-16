@@ -1,5 +1,8 @@
 (function ($) {
     "use strict";
+    if ($.fn.dataTable.isDataTable('#newsCategoryDataTable')) {
+        $('#newsCategoryDataTable').DataTable().clear().destroy();
+    }
 
     $("#newsCategoryDataTable").DataTable({
         pageLength: 10,

@@ -23,7 +23,6 @@
                             <th scope="col"><div class="">{{ __('F_Name') }}</div></th>
                             <th scope="col"><div class="">{{ __('M_Name') }}</div></th>
                             <th scope="col"><div class="">{{ __('L_Name') }}</div></th>
-                            <th scope="col"><div class="">{{ __('GPA') }}</div></th>
                             <th scope="col"><div class="">{{ __('Major') }}</div></th>
                             <th scope="col"><div class="">{{ __('C_Left') }}</div></th>
                             <th class="w-110 text-center" scope="col"><div class="">{{ __('Action') }}</div></th>
