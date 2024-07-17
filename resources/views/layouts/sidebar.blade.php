@@ -67,7 +67,7 @@
                                 </svg>
                             </div>
 
-                            <span class="">{{__('Jobs')}}</span>
+                            <span class="">{{__('Manage Jobs')}}</span>
 
                         </a>
 
@@ -152,7 +152,7 @@
                                         stroke="white" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"/>
                                 </svg>
                             </div>
-                            <span class="">{{__('Stories')}}</span>
+                            <span class="">{{__('Manage Stories')}}</span>
                         </a>
                         <div class="collapse {{ $showStoryManagement ?? '' }}" id="storyMenu"
                              data-bs-parent="#sidebarMenu">
@@ -170,7 +170,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="{{ route('admin.list-search-with-filter') }}"
+                        <a href="{{ route('admin.alumni.list') }}"
                            class="{{ $activeAlumniList ?? '' }} d-flex align-items-center cg-10">
                             <div class="d-flex">
                                 <svg width="25" height="18" viewBox="0 0 25 18" fill="none"
@@ -193,7 +193,7 @@
                                     <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>
                                 </svg>
                             </div>
-                            <span class="">{{__('Companies')}}</span>
+                            <span class="">{{__('Manage Companies')}}</span>
                         </a>
                         <div class="collapse {{ $showCompanyManagement ?? '' }}" id="companiesMenu"
                              data-bs-parent="#sidebarMenu">
@@ -319,7 +319,7 @@
                                     <path d="M16 3L16 7" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
                                 </svg>
                             </div>
-                            <span class="">{{ __('Events') }}</span>
+                            <span class="">{{ __('Manage Events') }}</span>
                         </a>
                         <div class="collapse {{ $showEvent ?? '' }}" id="myEvent" data-bs-parent="#sidebarMenu">
                             <ul class="zSidebar-submenu">

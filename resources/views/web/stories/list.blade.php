@@ -23,7 +23,7 @@
             @forelse ( $stories as $story )
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <div class="hover-scale-img">
-                        <div class="bd-ra-14 overflow-hidden h-157"><img class="w-100 h-100 object-fit-cover" src="{{asset('public/storage/admin/story'.'/'.$story->thumbnail)}}" alt="" /></div>
+                        <div class="bd-ra-14 overflow-hidden h-157"><img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" class="w-100 h-100 object-fit-cover" src="{{asset('public/storage/admin/story'.'/'.$story->thumbnail)}}" alt="" /></div>
                         <div class="pt-24">
                             <div class="d-flex align-items-center cg-11 pb-10">
                                 <div class="d-flex"><img src="{{asset('public/frontend/images/icon/calendar.svg')}}" alt="" /></div>

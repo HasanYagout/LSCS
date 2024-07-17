@@ -60,8 +60,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
         Route::get('active', [CompanyController::class, 'active'])->name('active');
 
     });
-    Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
-    Route::get('alumni/profile/{id}', [AlumniController::class, 'view'])->name('alumni.view');
+
     Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
@@ -155,7 +154,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 
 // Manage Alumni Route Start
     Route::group(['prefix' => 'alumni', 'as' => 'alumni.'], function () {
-        Route::get('list-search-with-filter', [AlumniController::class, 'alumniListWithAdvanceFilter'])->name('list-search-with-filter');
+        Route::get('list', [AlumniController::class, 'alumniList'])->name('list');
+        Route::get('alumni/profile/{id}', [AlumniController::class, 'view'])->name('view');
         Route::get('list-pending-alumni-with-filter', [AlumniController::class, 'alumniPendingListWithAdvanceFilter'])->name('list-pending-alumni-with-filter');
         Route::post('change-alumni-status', [AlumniController::class, 'alumniChangeStatus'])->name('change-alumni-status');
         Route::get('gallery/{alumni}', [AlumniController::class, 'gallery'])->name('gallery');

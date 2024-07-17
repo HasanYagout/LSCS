@@ -24,9 +24,9 @@
                                 </li>
                                 <li class="nav-item"><a class="nav-link hover-color-secondary fs-18 fw-500 lh-28 text-white p-0" href="{{ route('our.news') }}">{{ __('News') }}</a></li>
                                 <li class="nav-item"><a class="nav-link hover-color-secondary fs-18 fw-500 lh-28 text-white p-0" href="{{ route('our.notice') }}">{{ __('Notice') }}</a></li>
-                                <li class="nav-item"><a class="nav-link hover-color-secondary fs-18 fw-500 lh-28 text-white p-0" href="{{ route('all.job') }}">{{ __('Jobs') }}</a></li>
+{{--                                <li class="nav-item"><a class="nav-link hover-color-secondary fs-18 fw-500 lh-28 text-white p-0" href="{{ route('all.job') }}">{{ __('Jobs') }}</a></li>--}}
                                 <li class="nav-item"><a class="nav-link hover-color-secondary fs-18 fw-500 lh-28 text-white p-0" href="{{ route('all.stories') }}">{{ __('Story') }}</a></li>
-{{--                                <li class="nav-item dropdown">--}}
+{{--                            <li class="nav-item dropdown">--}}
 {{--                                    <a class="nav-link fs-18 fw-500 lh-28 text-white p-0 dropdown-toggle menu-dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('Company') }}</a>--}}
 {{--                                    <ul class="dropdown-menu">--}}
 {{--                                        <li>--}}

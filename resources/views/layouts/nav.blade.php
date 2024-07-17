@@ -11,7 +11,7 @@
                 <i class="fa-solid fa-bars"></i></button>
         </div>
         @if(auth('admin')->check() && auth('admin')->user()->role_id == USER_ROLE_ADMIN)
-            <a href="{{ route('admin.list-search-with-filter') }}"
+            <a href="{{ route('admin.alumni.list') }}"
                class="d-none  d-sm-inline-block fs-15 fw-500 lh-25 text-white  py-10 px-26 bg-primary-color bd-ra-12 hover-bg-#002a5c">{{
             __('Find an Alumni') }}</a>
         @endif

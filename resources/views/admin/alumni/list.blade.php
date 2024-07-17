@@ -18,7 +18,7 @@
                 </div>
                 <!-- Table -->
                 <input type="hidden" id="alumni-list-advance-filter-route"
-                    value="{{ route('admin.alumni.list-search-with-filter') }}">
+                    value="{{ route('admin.alumni.list') }}">
                 <input type="hidden" id="alumni-status-update-route"
                     value="{{ route('admin.alumni.change-alumni-status') }}">
                 <div class="table-responsive zTable-responsive">
