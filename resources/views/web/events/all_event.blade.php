@@ -33,7 +33,7 @@
                         <div class="pt-20 pb-25 px-25 shadow-lg p-3 bg-primary-color">
                             <div class="d-flex align-items-center cg-10 pb-10">
                                 <div class="w-40 h-40 rounded-circle overflow-hidden">
-                                    <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
+                                    <img class="object-fit-cover h-100" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                          src="{{asset('public/storage/admin/image').'/'.$event->author->image}}" alt="">
                                 </div>
                                 <p class="fs-16 fw-400 lh-14 text-secondary-color">{{ $event->author->first_name . ' ' . $event->author->last_name }}</p>

@@ -279,9 +279,9 @@
             <div class="row rg-24">
                 @foreach ($alumnus as $alumni)
                     <div class="col-lg-3 col-md-4 col-sm-6 ">
-                        <div class="bg-primary-color hover-scale-img overflow-hidden rounded-top-5">
-                            <div class="h-341 overflow-hidden">
-                                <img onerror="this.src='{{asset('public/assets/images/grad.jpeg')}}'" class="container h-100 object-fit-cover p-0 register-right shadow-lg w-100  " src="{{ asset('public/storage/alumni/image') .'/'.$alumni->image}}"
+                        <div class="bd-ra-25 bg-event-bg hover-scale-img bg-primary-color">
+                            <div class="bd-ra-25 overflow-hidden h-341">
+                                <img onerror="this.src='{{asset('public/assets/images/grad.jpeg')}}'" class="w-100 h-100 object-fit-cover container pd register-right rounded-5 s shadow-lg  " src="{{ asset('public/storage/alumni/image') .'/'.$alumni->image}}"
                                     alt="{{ $alumni->name }}" />
                             </div>
                             <div class="pt-21 pb-23 px-10 text-center bg-primary-color bd-ra-10">
