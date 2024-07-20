@@ -1,13 +1,6 @@
 /*
 ------------- Table of content ----------------
 
-Template Name: zaialumni  Responsive  HTML5 Template
-Template URI: https://zaialumni.com/
-Description: zaialumni  Responsive  HTML5 Template
-Author: Mahmudul Hasan Sohel
-Author URI: https://zainiklab.com/
-Version: 1.0
-
 ---------------------- common content ----------
 1.body reset content
 #.header-area
@@ -5014,11 +5007,11 @@ input[type=number] {
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.5rem;
-  color: var(--bColor);
+  color: var(--black);
   box-shadow: none;
 }
 .primary-form-group .primary-form-group-wrap .primary-form-control:focus {
-  color: var(--bColor);
+  color: var(--black);
 }
 .primary-form-group .primary-form-group-wrap .primary-form-control:hover, .primary-form-group .primary-form-group-wrap .primary-form-control:focus {
   border-color: var(--secondary-color);
