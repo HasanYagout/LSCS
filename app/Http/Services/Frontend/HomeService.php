@@ -19,7 +19,7 @@ class HomeService
     use ResponseTrait;
 
     public function getUpcomingEvent(){
-        $upcomingEvents = Event::where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->with('category')->get();
+        $upcomingEvents = Event::with('author')->where('date', '>', now())->orderBy('date', 'ASC')->where('status', STATUS_ACTIVE)->with('category')->get();
         return $upcomingEvents;
     }
 //    public function getPhotoGalleries(){
@@ -33,7 +33,7 @@ class HomeService
     }
 
     public function getEvent($limit){
-        return Event::where('status', STATUS_ACTIVE)->orderBy('created_at', 'desc')->paginate($limit);
+        return Event::with('author')->where('status', STATUS_ACTIVE)->orderBy('created_at', 'desc')->paginate($limit);
     }
 
     public function getNews($limit){
@@ -44,9 +44,7 @@ class HomeService
         return Notice::where('status', STATUS_ACTIVE)->with(['category'])->orderBy('id','DESC')->paginate($limit);
     }
 
-    public function getMembership(){
-        return Membership::where('membership_plans.tenant_id', getTenantId())->where('status', STATUS_ACTIVE)->orderBy('id','DESC')->get();
-    }
+
 
     public function getJob($limit){
         return JobPost::where('status',JOB_STATUS_APPROVED)->orderBy('id','desc')->paginate($limit);

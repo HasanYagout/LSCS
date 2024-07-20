@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web'])->group(function () {
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::get('email', [AdminController::class,'email']);
+
     Route::post('delete/{id}', [AdminController::class,'delete'])->name('delete');
     Route::get('edit/{id}', [AdminController::class,'edit'])->name('edit');
     Route::post('update', [AdminController::class,'update'])->name('update');

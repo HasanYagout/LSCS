@@ -16,7 +16,8 @@ class Story extends Model
         'status',
     ];
 
-    public function user(){
-        return $this->belongsTo(User::class);
+
+    public function author(){
+        return $this->belongsTo(Admin::class, 'posted_by')->withTrashed();
     }
 }

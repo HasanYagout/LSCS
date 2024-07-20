@@ -279,9 +279,9 @@
             <div class="row rg-24">
                 @foreach ($alumnus as $alumni)
                     <div class="col-lg-3 col-md-4 col-sm-6 ">
-                        <div class="bd-ra-25 bg-event-bg hover-scale-img bg-primary-color">
-                            <div class="bd-ra-25 overflow-hidden h-341">
-                                <img onerror="this.src='{{asset('public/assets/images/grad.jpeg')}}'" class="w-100 h-100 object-fit-cover container pd register-right rounded-5 s shadow-lg  " src="{{ asset('public/storage/alumni/image') .'/'.$alumni->image}}"
+                        <div class="bg-primary-color hover-scale-img overflow-hidden rounded-top-5">
+                            <div class="h-341 overflow-hidden">
+                                <img onerror="this.src='{{asset('public/assets/images/grad.jpeg')}}'" class="container h-100 object-fit-cover p-0 register-right shadow-lg w-100  " src="{{ asset('public/storage/alumni/image') .'/'.$alumni->image}}"
                                     alt="{{ $alumni->name }}" />
                             </div>
                             <div class="pt-21 pb-23 px-10 text-center bg-primary-color bd-ra-10">
@@ -319,9 +319,9 @@
             <div class="row rg-24 pb-50">
                 @foreach ($news as $singleNews)
                     <div class="col-lg-4 col-md-6">
-                        <div class="hover-scale-img bd-one bd-c-black-10 bd-ra-14 bg-event-bg hover-scale-img">
-                            <div class="bd-ra-14 overflow-hidden h-234 position-relative">
-                                <img class="w-100 h-100 object-fit-cover container pd register-right rounded-5 s shadow-lg"
+                        <div class="bd-c-black-10 bd-one rounded-top-4 hover-scale-img">
+                            <div class="rounded-top-4 h-234 overflow-hidden position-relative">
+                                <img class="container h-100 object-fit-cover p-0 register-right shadow-lg w-100"
                                      onerror="this.src='{{asset('public/assets/images/ssss.jpg')}}'" src="{{ asset('public/storage/admin/news').'/'.$singleNews->image }}"
                                     alt="{{ $singleNews->title }}" />
                                 <p
@@ -329,7 +329,7 @@
                                     {{ \Carbon\Carbon::parse($singleNews->created_at)->format('M d, Y') }}</p>
                             </div>
 
-                            <div class="pt-20 pb-25 px-25  shadow-lg p-3 mb-3 bg-primary-color">
+                            <div class="pt-20 pb-25 px-25  shadow-lg p-3  bg-primary-color">
                                 <div class="d-flex align-items-center cg-10 pb-10">
                                     <div class="w-40 h-40 rounded-circle overflow-hidden">
                                         <img

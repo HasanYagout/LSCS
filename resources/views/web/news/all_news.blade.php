@@ -22,16 +22,17 @@
         <div class="row rg-24">
             @forelse ( $allNews as $news )
                 <div class="col-lg-4 col-md-6">
-                    <div class="hover-scale-img bd-one bd-c-black-10 bd-ra-14 bg-event-bg hover-scale-img">
-                        <div class="bd-ra-14 overflow-hidden h-234 position-relative">
-                            <img class="w-100 h-100 object-fit-cover container pd register-right rounded-5 s shadow-lg" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/news').'/'.$news->image}}" alt="">
+                    <div class="bd-c-black-10 bd-one rounded-top-4 hover-scale-img">
+                        <div class="rounded-top-4 h-234 overflow-hidden position-relative">
+                            <img class="container h-100 object-fit-cover p-0 register-right shadow-lg w-100" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/news').'/'.$news->image}}" alt="">
                             <p class="position-absolute top-22 left-22 p-10 bd-ra-10 bg-primary-color max-w-77 fs-16 fw-400 lh-19 text-scroll-track text-center">{{ date('M d, Y', strtotime($news->created_at)) }}</p>
                         </div>
-                        <div class="pt-20 pb-25 px-25  shadow-lg p-3 mb-3 bg-primary-color">
+                        <div class="pt-20 pb-25 px-25  shadow-lg p-3  bg-primary-color">
                             <div class="d-flex align-items-center cg-10 pb-10">
                                 <div class="w-40 h-40 rounded-circle overflow-hidden">
-                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/image').'/'.$news->author->image}}" alt=""></div>
-                            <p class="fs-16 fw-400 lh-14 text-secondary-color">  {{$news->author->name}}</p>
+                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/admin/image').'/'.$news->author->image}}" alt="">
+                                </div>
+                            <p class="fs-16 fw-400 lh-14 text-secondary-color">  {{$news->author->first_name.' '.$news->author->last_name}}</p>
                         </div>
                         <h4 class="fs-24 fw-600 lh-34 text-scroll-track line-clamp-2 sf-text-ellipsis min-h-68 p-10">{{ $news->title }}</h4>
                         <a href="{{route('news.view.details', $news->slug)}}" class="fs-18 fw-600 lh-28 text-scroll-track d-inline-flex align-items-center cg-16 hover-color-secondary bd-c-scroll-track-color bd-one bd-ra-12 p-2">
@@ -47,6 +48,7 @@
 
         </div>
       </div>
+       {{$allNews->links()}}
     </div>
 </section>
 

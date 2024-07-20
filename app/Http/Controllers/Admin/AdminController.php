@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\AdminService;
 use App\Http\Services\AlumniService;
 use App\Http\Services\UserService;
+use App\Mail\TestMail;
 use App\Models\Admin;
 use App\Models\Alumni;
 use App\Models\Department;
@@ -15,6 +16,7 @@ use App\Models\PassingYear;
 use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -27,6 +29,17 @@ class AdminController extends Controller
     {
         $this->adminService = new AdminService();
 
+    }
+
+    public function email()
+    {
+        $details = [
+            'title' => 'Mail from Laravel',
+            'body' => 'This is a test email using Laravel 10.'
+        ];
+
+        Mail::to('yagouthasan3@gmail.com')->send(new TestMail($details));
+        return 'Email sent';
     }
     public function delete($id)
     {
@@ -43,7 +56,6 @@ class AdminController extends Controller
     }
     public function status(Request $request,$id)
     {
-
         try {
             $admin = Admin::findOrFail($id); // Find admin by ID
             $admin->status = $request->status; // Update status

@@ -29,7 +29,7 @@ class Event extends Model
     ];
 
     public function author(){
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Admin::class, 'posted_by')->withTrashed();
     }
 
     public function category(){
@@ -41,7 +41,5 @@ class Event extends Model
         return $this->morphMany(Payment::class, 'paymentable');
     }
 
-    public function eventTicket(){
-        return $this->hasMany(EventTicket::class);
-    }
+
 }

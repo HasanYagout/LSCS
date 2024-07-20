@@ -4,13 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Admin extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
+
     protected $fillable=['first_name','last_name','phone','role_id','status','email','password','image'];
 
+    protected $dates = ['deleted_at'];
     public function role()
     {
         return $this->hasOne(Roles::class, 'id', 'role_id');

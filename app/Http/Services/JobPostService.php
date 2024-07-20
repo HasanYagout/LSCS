@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Services;
+use App\Jobs\SendJobPostEmail;
 use App\Models\Alumni;
 use App\Models\AppliedJobs;
 use App\Models\JobPost;
@@ -395,6 +396,8 @@ class JobPostService
             $jobPost->skills = json_encode($request->skills);
             $jobPost->save();
             DB::commit();
+            // Dispatch the email sending job
+            SendJobPostEmail::dispatch($jobPost);
             session()->flash('success', 'Job Created Successfully');
             return redirect()->route('company.jobs.all-job-post');
         } catch (\Exception $e) {
