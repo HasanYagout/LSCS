@@ -54,6 +54,7 @@
                             <div class="d-flex align-items-center cg-10 pb-20">
                                 <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-primary-color rounded-circle overflow-hidden">
                                     <img
+                                        class="h-100 object-fit-cover"
                                         src="{{ asset('public/storage/admin'.'/'.'image'.'/'.auth('admin')->user()->image) }}"
                                         onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                         alt="{{auth('admin')->user()->name}}"/>
@@ -177,7 +178,7 @@
                                         <div class="d-flex align-items-center cg-10 pb-10">
                                             <div
                                                 class="flex-shrink-0 w-45 overflow-hidden h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $job->posted_by=='company' ? asset('public/storage/company').'/'.'image'.'/'.$job->company->image :asset('public/storage/admin').'/'.'image'.'/'.$job->admin->image }}"
+                                                <img class="h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $job->posted_by=='company' ? asset('public/storage/company').'/'.'image'.'/'.$job->company->image :asset('public/storage/admin').'/'.'image'.'/'.$job->admin->image }}"
                                                     alt="{{ $job->title }}" />
                                             </div>
                                             <div class="">
@@ -299,8 +300,8 @@
                                                 <!-- User -->
                                                 <div class="d-flex align-items-center cg-5">
                                                     <div
-                                                        class="flex-shrink-0 w-18 h-18 bd-one bd-c-1b1c17 rounded-circle overflow-hidden bg-eaeaea d-flex justify-content-center align-items-center">
-                                                        <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/image'.'/'.$news->author->image)}}"
+                                                        class="align-items-center bd-c-1b1c17 bd-one d-flex flex-shrink-0 h-45 justify-content-center overflow-hidden rounded-circle w-45">
+                                                        <img class="h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/image'.'/'.$news->author->image)}}"
                                                             alt="{{ $news->author->first_name .$news->author->last_name }}" />
                                                     </div>
                                                     <p class="fs-10 fw-400 lh-12 text-707070">{{ $news->author->first_name .$news->author->last_name }}
