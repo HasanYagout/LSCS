@@ -142,6 +142,7 @@ class LoginController extends Controller
         if ($guard) {
             auth($guard)->logout();
             $request->session()->invalidate();
+            $request->session()->flash('success', 'You have been logged out successfully!');
         }
 
         return redirect()->route('auth.login');

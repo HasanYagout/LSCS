@@ -28,13 +28,6 @@ Route::middleware(['web'])->group(function () {
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('email', [AdminController::class,'email']);
 
-    Route::post('delete/{id}', [AdminController::class,'delete'])->name('delete');
-    Route::get('edit/{id}', [AdminController::class,'edit'])->name('edit');
-    Route::post('update', [AdminController::class,'update'])->name('update');
-    Route::get('list', [AdminController::class, 'index'])->name('index');
-    Route::post('store', [AdminController::class, 'store'])->name('store');
-    Route::post('status/{id}', [AdminController::class, 'status'])->name('status');
-    Route::post('reset-password/{id}', [AdminController::class, 'resetPassword'])->name('reset-password');
 
 
     Route::get('/', function () {
@@ -42,6 +35,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
     });
 
     Route::group(['middleware' => ['admin']], function () {
+        Route::post('delete/{id}', [AdminController::class,'delete'])->name('delete');
+        Route::get('edit/{id}', [AdminController::class,'edit'])->name('edit');
+        Route::post('update', [AdminController::class,'update'])->name('update');
+        Route::get('list', [AdminController::class, 'index'])->name('index');
+        Route::post('store', [AdminController::class, 'store'])->name('store');
+        Route::post('status/{id}', [AdminController::class, 'status'])->name('status');
+        Route::post('reset-password/{id}', [AdminController::class, 'resetPassword'])->name('reset-password');
 
     Route::group(['prefix' => 'instructor', 'as' => 'instructor.'], function () {
             Route::group(['prefix' => 'recommendation', 'as' => 'recommendation.'], function () {

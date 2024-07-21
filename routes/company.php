@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.'], function () {
     Route::get('/', function () {
-        return redirect()->route('company.auth.login');
+        return redirect()->route('auth.login');
     });
+    Route::group(['middleware' => ['admin']], function () {
     Route::get('home', [HomeController::class,'index'])->name('home');
     Route::get('all', [DashboardController::class,'all'])->name('all');
     Route::get('info/{id}', [DashboardController::class,'info'])->name('info');
@@ -43,6 +44,7 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
         Route::get('applied/{id}', [JobsController::class, 'applied'])->name('applied');
 
 
+    });
     });
 
 });
