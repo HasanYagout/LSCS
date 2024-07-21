@@ -33,7 +33,6 @@ class LoginController extends Controller
     public function submit(Request $request)
     {
         $user = User::with('admin','alumni','company')->where('email', $request->email)->first();
-
         if (isset($user) && $user->status != 1) {
             return redirect()->back()->withInput($request->only('email', 'remember'))
                 ->withErrors(['You are blocked!!, contact with admin.']);
@@ -106,7 +105,6 @@ class LoginController extends Controller
         }
 
         $defaultPassword = Hash::make($request->password);
-
         DB::transaction(function () use ($request, $fileName, $defaultPassword) {
             // Create new company record
             $company = Company::create([

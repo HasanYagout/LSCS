@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\JobPostEmail;
 use App\Mail\TestMail;
 use App\Models\Alumni;
 use App\Models\JobPost;
@@ -11,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendJobPostEmail implements ShouldQueue
@@ -31,20 +33,26 @@ class SendJobPostEmail implements ShouldQueue
      */
     public function handle(): void
     {
-        $users = User::where('status', 1)
-            ->whereIn('role_id', [1])
-            ->whereNotNull('email')
-            ->where('email', '!=', '')
-            ->get();
-
+//        $users = User::where('status', 1)
+//            ->whereIn('role_id', [1])
+//            ->whereNotNull('email')
+//            ->where('email', '!=', '')
+//            ->get();
+//
         $alumni = Alumni::whereNotNull('email')
             ->where('email', '!=', '')
             ->get();
 
-        $recipients = $users->merge($alumni);
+//        $recipients = $users->merge($alumni);
+        foreach ($alumni as $recipient) {
+            try {
+                Mail::to($recipient->email)->queue(new JobPostEmail($this->jobPost));
+                Log::info('Email queued for ' . $recipient->email);
 
-        foreach ($recipients as $recipient) {
-            Mail::to($recipient->email)->send(new TestMail($this->jobPost));
+            } catch (\Exception $e) {
+                // Log the error for debugging
+                Log::error('Failed to queue email to ' . $recipient->email . ': ' . $e->getMessage());
+            }
         }
     }
 }

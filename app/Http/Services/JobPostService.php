@@ -11,6 +11,7 @@ use App\Models\Notice;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -396,8 +397,8 @@ class JobPostService
             $jobPost->skills = json_encode($request->skills);
             $jobPost->save();
             DB::commit();
-            // Dispatch the email sending job
             SendJobPostEmail::dispatch($jobPost);
+            dd('da');
             session()->flash('success', 'Job Created Successfully');
             return redirect()->route('company.jobs.all-job-post');
         } catch (\Exception $e) {

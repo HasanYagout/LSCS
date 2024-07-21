@@ -28,6 +28,7 @@ class EventController extends Controller
     }
     public function create(Request $request)
     {
+        dd('dsa');
         $data['title'] = __('Create Event');
         $data['showEvent'] = 'show';
         $data['activeEventCreate'] = 'active';
