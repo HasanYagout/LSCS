@@ -16,7 +16,7 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('admin')->check()) {
+        if (Auth::check() && Auth::user()->role_id == 1) {
             return $next($request);
         }
         return redirect()->route('auth.login');

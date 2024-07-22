@@ -55,11 +55,11 @@
                                 <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-primary-color rounded-circle overflow-hidden">
                                     <img
                                         class="h-100 object-fit-cover"
-                                        src="{{ asset('public/storage/admin'.'/'.'image'.'/'.auth('admin')->user()->image) }}"
+                                        src="{{ asset('public/storage/admin'.'/'.'image'.'/'.$userInfo->image) }}"
                                         onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
-                                        alt="{{auth('admin')->user()->name}}"/>
+                                        alt="{{$userInfo->name}}"/>
                                 </div>
-                                <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{auth('admin')->user()->name}}</h4>
+                                <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{$userInfo->name}}</h4>
                             </div>
                             <!-- Post Input -->
                             <div class="pb-15">

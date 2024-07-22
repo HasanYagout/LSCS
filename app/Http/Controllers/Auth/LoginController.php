@@ -9,6 +9,7 @@ use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -32,53 +33,45 @@ class LoginController extends Controller
 
     public function submit(Request $request)
     {
-        $user = User::with('admin','alumni','company')->where('email', $request->email)->first();
-        if (isset($user) && $user->status != 1) {
-            return redirect()->back()->withInput($request->only('email', 'remember'))
-                ->withErrors(['You are blocked!!, contact with admin.']);
-        }
-        else {
-            if (isset($user)){
-                if ($user->role_id == 1) {
-                    if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                        return redirect()
-                            ->route('admin.dashboard')
-                            ->with('info', 'Welcome ' . $user->admin->first_name);
-                    }
-                }
-                elseif ($user->role_id == 2){
-                    if (auth('alumni')->attempt(['id' => $request->email, 'password' => $request->password], $request->remember)) {
-                        return redirect()
-                            ->route('alumni.home')
-                            ->with('info', 'Welcome ' . $user->alumni->first_name);
-                    }
-                }
-                elseif ($user->role_id == 3){
-                    if (auth('company')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                        return redirect()
-                            ->route('company.jobs.all-job-post')
-                            ->with('info', 'Welcome ' . $user->company->name);
-                    }
-                }
-                else{
-                    if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                        return redirect()
-                            ->route('admin.instructor.dashboard')
-                            ->with('info', 'Welcome ' . $user->admin->first_name);
-                    }
-                }
-            }
-            else{
-                return redirect()->back()->withInput($request->only('email', 'remember'))
-                    ->withErrors(['User Not Found']);
-            }
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
+        $user = User::where('email', $request->email)->first();
 
+        if ($user && Hash::check($request->password, $user->password)) {
+            Auth::login($user);
+
+            // Check if the user is authenticated
+            if (Auth::check()) {
+                // Redirect based on user role
+                switch ($user->role_id) {
+                    case 1:
+                        return redirect()->route('admin.home');
+                    case 2:
+                        return redirect()->route('company.home');
+                    case 3:
+                        return redirect()->route('alumni.home');
+                    default:
+                        Auth::logout();
+                        return redirect()->route('login.form')->withErrors([
+                            'email' => 'Invalid role specified.',
+                        ]);
+                }
+            } else {
+                // Add debug information
+                return back()->withErrors([
+                    'email' => 'Authentication failed. Please try again.',
+                ]);
+            }
         }
 
-        return redirect()->back()->withInput($request->only('email', 'remember'))
-            ->withErrors(['Credentials do not match.']);
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
+
 
     public function store(Request $request)
     {

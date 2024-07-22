@@ -85,7 +85,7 @@ class StudentController extends Controller
                 $user->role_id = 2;
             }
 
-            $user->email = $student->email;
+            $user->email = $student->id;
             $user->password = Hash::make($student->id);
             $user->status = 1; // Active status
             $user->save();

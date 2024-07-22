@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends BaseController
 {
@@ -19,15 +20,33 @@ class HomeController extends BaseController
 
     public function index(Request $request)
     {
+        $user = Auth::user();
+        $userInfo = null;
 
-        $data['pageTitle'] = __('Timeline');
-        $data['activeHome'] = 'active';
-        $data['upcomingEvents'] = $this->dashboardService->getUpcomingEvent()->getData()->data;
-        $data['latestJobs'] = $this->dashboardService->getLatestJobs()->getData()->data;
-        $data['latestNews'] = $this->dashboardService->getLatestNews()->getData()->data;
-        $data['latestNotice'] = $this->dashboardService->getLatestNotice()->getData()->data;
-        $data['user'] = auth('admin')->user();
-        $data['posts']=$this->dashboardService->getPosts();
+        switch ($user->role_id) {
+            case 1:
+                $userInfo = $user->admin;
+                break;
+            case 2:
+                $userInfo = $user->company;
+                break;
+            case 3:
+                $userInfo = $user->alumni;
+                break;
+            default:
+                abort(403, 'Unauthorized action.');
+        }
+
+        $data = [
+            'pageTitle' => __('Timeline'),
+            'activeHome' => 'active',
+            'upcomingEvents' => $this->dashboardService->getUpcomingEvent()->getData()->data,
+            'latestJobs' => $this->dashboardService->getLatestJobs()->getData()->data,
+            'latestNews' => $this->dashboardService->getLatestNews()->getData()->data,
+            'latestNotice' => $this->dashboardService->getLatestNotice()->getData()->data,
+            'userInfo' => $userInfo,
+            'posts' => $this->dashboardService->getPosts(),
+        ];
 
         return view('admin.home', $data);
     }

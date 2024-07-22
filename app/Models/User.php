@@ -36,7 +36,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'google2fa_secret',
     ];
 
     /**
@@ -57,15 +56,15 @@ class User extends Authenticatable
     }
     public function admin()
     {
-        return $this->belongsTo(Admin::class,'user_id');
+        return $this->belongsTo(Admin::class,'user_id','id');
     }
     public function alumni()
     {
-        return $this->belongsTo(Alumni::class,'user_id');
+        return $this->belongsTo(Alumni::class,'user_id','id');
     }
     public function company()
     {
-        return $this->belongsTo(Company::class,'user_id');
+        return $this->belongsTo(Company::class,'user_id','id');
     }
 
 }

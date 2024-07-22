@@ -1,16 +1,27 @@
 @php
-    use Illuminate\Support\Facades\Auth;$authenticatedGuard = null;
-    $authenticatedUser = null;
+    use Illuminate\Support\Facades\Auth;
 
-    foreach (config('auth.guards') as $guardName => $guardConfig) {
-        if (Auth::guard($guardName)->check()) {
-            $authenticatedGuard = $guardName;
-            $authenticatedUser = Auth::guard($guardName)->user();
-            break;
+    $authenticatedUser = Auth::user();
+    $userInfo = null;
+    $guard = '';
+    if ($authenticatedUser) {
+        switch ($authenticatedUser->role_id) {
+            case 1:
+                $userInfo = $authenticatedUser->admin;
+                $guard='admin';
+                break;
+            case 2:
+                $userInfo = $authenticatedUser->company;
+                $guard='company';
+                break;
+            case 3:
+                $userInfo = $authenticatedUser->alumni;
+                $guard='alumni';
+                break;
         }
     }
 @endphp
-@if($authenticatedGuard && $authenticatedUser)
+@if($authenticatedUser && $userInfo)
 
 <div class="zSidebar">
     <div class="zSidebar-overlay"></div>
@@ -23,10 +34,10 @@
     <!-- Menu & Logout -->
     <div class="zSidebar-fixed">
         <ul class="zSidebar-menu" id="sidebarMenu">
-            @if($authenticatedGuard=='admin' && auth($authenticatedGuard)->user()->role_id!=USER_ROLE_INSTRUCTOR||$authenticatedGuard=='company'||$authenticatedGuard=='alumni')
-                @if($authenticatedGuard!='company')
+            @if($authenticatedUser=='admin' && auth($authenticatedUser)->user()->role_id!=USER_ROLE_INSTRUCTOR||$authenticatedUser=='company'||$authenticatedUser=='alumni')
+                @if($authenticatedUser!='company')
                     <li>
-                        <a href="{{ route($authenticatedGuard.'.home') }}"
+                        <a href="{{ route($authenticatedUser.'.home') }}"
                            class="{{ $activeHome ?? '' }} d-flex align-items-center cg-10">
                             <div class="d-flex">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20"
@@ -76,28 +87,28 @@
                              data-bs-parent="#sidebarMenu">
                             <ul class="zSidebar-submenu">
 
-                                @if($authenticatedGuard!='alumni')
+                                @if($authenticatedUser!='alumni')
                                     <li>
                                         <a class="{{ $activeJobPostCreate ?? '' }}"
-                                           href="{{ route($authenticatedGuard.'.jobs.create') }}">{{ __('Create Post') }}</a>
+                                           href="{{ route($authenticatedUser.'.jobs.create') }}">{{ __('Create Post') }}</a>
                                     </li>
-                                    @if($authenticatedGuard=='admin')
+                                    @if($authenticatedUser=='admin')
 
                                         <li>
                                             <a class="{{ $activeMyJobPostList ?? '' }}"
-                                               href="{{ route($authenticatedGuard.'.jobs.my-job-post') }}">{{ __('My Post') }}</a>
+                                               href="{{ route($authenticatedUser.'.jobs.my-job-post') }}">{{ __('My Post') }}</a>
                                         </li>
                                     @endif
                                 @endif
                                 <li>
                                     <a class="{{ $activePendingJobPostList ?? '' }}"
-                                       href="{{ route($authenticatedGuard.'.jobs.pending') }}">{{ __('Pending Jobs') }}</a>
+                                       href="{{ route($authenticatedUser.'.jobs.pending') }}">{{ __('Pending Jobs') }}</a>
                                 </li>
 
 
                                 <li>
                                     <a class="{{ $activeAllJobPostList ?? '' }}"
-                                       href="{{ route($authenticatedGuard.'.jobs.all-job-post') }}">{{ __('All Jobs') }}</a>
+                                       href="{{ route($authenticatedUser.'.jobs.all-job-post') }}">{{ __('All Jobs') }}</a>
                                 </li>
 
                             </ul>
@@ -105,7 +116,7 @@
                     </li>
 
             @endif
-            @if($authenticatedGuard=='admin' && auth('admin')->user()->role_id==USER_ROLE_ADMIN)
+            @if($authenticatedUser=='admin' && auth('admin')->user()->role_id==USER_ROLE_ADMIN)
                     <li>
                         <a href="{{ route('admin.dashboard') }}"
                            class="{{ $activeDashboard ?? '' }} d-flex align-items-center cg-10">
@@ -212,7 +223,7 @@
                         </div>
                     </li>
                     <li>
-                        <a href="{{ route($authenticatedGuard.'.index') }}"
+                        <a href="{{ route($authenticatedUser.'.index') }}"
                            class="{{ $activeAdmin ?? '' }} d-flex align-items-center cg-10">
                             <div class="d-flex">
                                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none"
@@ -297,13 +308,13 @@
                                        href="{{ route('admin.notices.categories.index') }}">{{ 'Category' }}</a></li>
 
                                 <li><a class="{{ $activeManageNotice ?? '' }}"
-                                       href="{{ route($authenticatedGuard.'.notices.index') }}">{{ 'Notice' }}</a></li>
+                                       href="{{ route($authenticatedUser.'.notices.index') }}">{{ 'Notice' }}</a></li>
                             </ul>
                         </div>
                     </li>
                 @endif
 
-                @if ($authenticatedGuard!='company'&&auth($authenticatedGuard)->user()->role_id!=USER_ROLE_INSTRUCTOR)
+                @if ($authenticatedUser!='company'&&auth($authenticatedUser)->user()->role_id!=USER_ROLE_INSTRUCTOR)
                     <li>
                         <a href="#myEvent" data-bs-toggle="collapse" role="button" aria-controls="myEvent"
                            class="d-flex align-items-center cg-10 {{ isset($showEvent) ? 'active' : 'collapsed' }}"
@@ -323,22 +334,22 @@
                         </a>
                         <div class="collapse {{ $showEvent ?? '' }}" id="myEvent" data-bs-parent="#sidebarMenu">
                             <ul class="zSidebar-submenu">
-                                @if ($authenticatedGuard=='admin')
+                                @if ($authenticatedUser=='admin')
                                     <li><a class="{{ $activeEventCategory ?? '' }}"
-                                           href="{{ route($authenticatedGuard.'.eventCategory.index') }}">{{ __('Event Category') }}</a>
+                                           href="{{ route($authenticatedUser.'.eventCategory.index') }}">{{ __('Event Category') }}</a>
                                     </li>
                                     <li><a class="{{ $activeEventCreate ?? '' }}"
-                                           href="{{ route($authenticatedGuard.'.event.create') }}">{{ __('Create Event') }}</a>
+                                           href="{{ route($authenticatedUser.'.event.create') }}">{{ __('Create Event') }}</a>
                                     </li>
                                     <li><a class="{{ $activeMyEvent ?? '' }}"
-                                           href="{{ route($authenticatedGuard.'.event.my-event') }}">{{ __('My Event') }}</a>
+                                           href="{{ route($authenticatedUser.'.event.my-event') }}">{{ __('My Event') }}</a>
                                     </li>
                                 @endif
                                 <li><a class="{{ $activeEventPending ?? '' }}"
-                                       href="{{ route($authenticatedGuard.'.event.pending') }}">{{ __('Pending Events') }}</a>
+                                       href="{{ route($authenticatedUser.'.event.pending') }}">{{ __('Pending Events') }}</a>
                                 </li>
                                 <li><a class="{{ $activeAllEvent ?? '' }}"
-                                       href="{{ route($authenticatedGuard.'.event.all') }}">{{ __('All Events') }}</a>
+                                       href="{{ route($authenticatedUser.'.event.all') }}">{{ __('All Events') }}</a>
                                 </li>
                             </ul>
                         </div>
@@ -346,7 +357,7 @@
                 @endif
 
 
-                @if($authenticatedGuard=='alumni')
+                @if($authenticatedUser=='alumni')
                     <li>
 
                         <a href="{{route('alumni.notices.index')}}"
@@ -453,7 +464,7 @@
                     </li>
                 @endif
 
-                @if($authenticatedGuard=='admin'&&auth('admin')->user()->role_id==USER_ROLE_INSTRUCTOR)
+                @if($authenticatedUser=='admin'&&auth('admin')->user()->role_id==USER_ROLE_INSTRUCTOR)
                     <li>
                         <a href="{{ route('admin.instructor.dashboard') }}"
                            class="{{ $activeDashboard ?? '' }} d-flex align-items-center cg-10">
@@ -479,9 +490,9 @@
 
                     </li>
                 @endif
-                @if($authenticatedGuard!='alumni')
+                @if($authenticatedUser!='alumni')
                     <li>
-                        <a href="{{ route($authenticatedGuard.'.profile.index') }}"
+                        <a href="{{ route($authenticatedUser.'.profile.index') }}"
                            class="{{ $activeProfile ?? '' }} d-flex align-items-center cg-10">
                             <div class="d-flex">
                                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none"

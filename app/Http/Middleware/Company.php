@@ -16,7 +16,7 @@ class Company
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('company')->check()) {
+        if (Auth::check() && Auth::user()->role_id == 3) {
             return $next($request);
         }
         return redirect()->route('auth.login');

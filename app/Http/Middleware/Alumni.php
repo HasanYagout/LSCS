@@ -16,7 +16,7 @@ class Alumni
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('alumni')->check()) {
+        if (Auth::check() && Auth::user()->role_id == 2) {
             return $next($request);
         }
         return redirect()->route('auth.login');
