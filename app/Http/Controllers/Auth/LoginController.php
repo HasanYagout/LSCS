@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Alumni;
 use App\Models\Company;
+use App\Models\User;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 
@@ -31,64 +32,29 @@ class LoginController extends Controller
     public function submit(Request $request)
     {
         // Validation based on user type
-        if ($request->user_type == 'admin') {
+
             $request->validate([
-                'email' => 'required|email|exists:admins,email',
+                'email' => 'required|email|exists:users,email',
                 'password' => 'required|min:8'
             ]);
-        } elseif ($request->user_type == 'company') {
-            $request->validate([
-                'email' => 'required|email|exists:companies,email',
-                'password' => 'required|min:8'
-            ]);
-        } elseif ($request->user_type == 'alumni') {
-            $request->validate([
-                'email' => 'required|exists:alumnis,id',
-                'password' => 'required|min:8'
-            ]);
-        }
+
+
 
         // Authenticate based on user type
-        if ($request->user_type == 'admin') {
-            $admin = Admin::where('email', $request->email)->first();
 
-            if (isset($admin) && $admin->status != 1) {
+            $user = User::where('email', $request->email)->first();
+
+            if (isset($user) && $user->status != 1) {
                 return redirect()->back()->withInput($request->only('email', 'remember'))
                     ->withErrors(['You are blocked!!, contact with admin.']);
             } else {
                 if (auth('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
                     return redirect()
                         ->route('admin.dashboard')
-                        ->with('info', 'Welcome ' . $admin->first_name);
+                        ->with('info', 'Welcome ' . $user->first_name);
                 }
             }
-        } elseif ($request->user_type == 'company') {
-            $company = Company::where('email', $request->email)->first();
 
-            if (isset($company) && $company->status != 1) {
-                return redirect()->back()->withInput($request->only('email', 'remember'))
-                    ->withErrors(['You are blocked!!, contact with admin.']);
-            } else {
-                if (auth('company')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-                    return redirect()
-                        ->route('company.jobs.all-job-post')
-                        ->with('info', 'Welcome ' . $company->name);
-                }
-            }
-        } elseif ($request->user_type == 'alumni') {
-            $alumni = Alumni::where('id', $request->email)->first();
-
-            if (isset($alumni) && $alumni->status != 1) {
-                return redirect()->back()->withInput($request->only('email', 'remember'))
-                    ->withErrors(['You are blocked!!, contact with admin.']);
-            } else {
-                if (auth('alumni')->attempt(['id' => $request->email, 'password' => $request->password], $request->remember)) {
-                    return redirect()
-                        ->route('alumni.home')
-                        ->with('info', 'Welcome ' . $alumni->first_name);
-                }
-            }
-        }
 
         return redirect()->back()->withInput($request->only('email', 'remember'))
             ->withErrors(['Credentials do not match.']);

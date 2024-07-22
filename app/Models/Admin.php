@@ -9,12 +9,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Admin extends Authenticatable
 {
     use HasFactory;
-    protected $fillable=['first_name','last_name','email','password','image'];
+    protected $fillable=['first_name','last_name','email','phone','role_id','status','password','image'];
 
     public function role()
     {
         return $this->hasOne(Roles::class, 'id', 'role_id');
 
+    }
+    public function user()
+    {
+        return $this->morphOne(User::class, 'userable');
     }
     public function imagePath()
     {

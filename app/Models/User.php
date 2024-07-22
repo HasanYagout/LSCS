@@ -21,8 +21,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'uuid',
-        'tenant_id',
+
+
         'name',
         'nick_name',
         'email',
@@ -71,7 +71,10 @@ class User extends Authenticatable
     public function alumni(){
         return $this->hasOne(Alumni::class);
     }
-
+    public function userable()
+    {
+        return $this->morphTo();
+    }
     public function role()
     {
         return $this->hasOne(Roles::class);
@@ -106,8 +109,6 @@ class User extends Authenticatable
     protected static function boot()
     {
         parent::boot();
-        self::creating(function($model){
-            $model->uuid = Str::uuid()->toString();
-        });
+
     }
 }

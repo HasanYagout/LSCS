@@ -9,6 +9,7 @@ use App\Http\Services\UserService;
 use App\Models\Admin;
 use App\Models\Alumni;
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\PassingYear;
 use App\Traits\ResponseTrait;
@@ -72,27 +73,65 @@ class AdminController extends Controller
     }
     public function store(Request $request)
     {
+
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email',
-            'mobile' => 'required|string|unique:admins|max:20',
+            'mobile' => 'required|string|unique:admins,phone|max:20',
         ]);
+        $role_id = $request->input('type');
 
-        // Store the admin
-        $admin = new Admin();
-        $admin->first_name = $request->input('first_name');
-        $admin->last_name = $request->input('last_name');
-        $admin->email = $request->input('email');
-        $admin->mobile = $request->input('mobile');
-        $admin->password = bcrypt('12345678'); // Default password hashed
-        $admin->image = ''; // Default password hashed
-        $admin->role_id=$request->input('type');
-        $admin->status=1;
-        $admin->save();
+        // Initialize the variables
+        $userable = null;
 
-        return redirect()->route('admin.index')->with('success', 'Admin added successfully!');
+        if ($role_id == 1) {
+            $userable = new Admin([
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'email' => $request->input('email'),
+                'phone' => $request->mobile,
+                'password' => bcrypt('12345678'),
+                'image' => '',
+                'role_id' => $role_id,
+                'status' => 1,
+            ]);
+        } elseif ($role_id == 2) {
+            $userable = new Alumni([
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'email' => $request->input('email'),
+                'phone' => $request->input('mobile'),
+                'password' => bcrypt('12345678'),
+                'image' => '',
+                'role_id' => $role_id,
+                'status' => 1,
+            ]);
+        } elseif ($role_id == 3) {
+            $userable = new Company([
+                'name' => $request->input('first_name'), // Assuming name is used for companies
+                'email' => $request->input('email'),
+                'phone' => $request->input('mobile'), // Assuming phone is used for companies
+                'password' => bcrypt('12345678'),
+                'image' => '',
+                'role_id' => $role_id,
+                'status' => 1,
+            ]);
+        }
+        // Save the userable entity
+        $userable->save();
+
+        // Create and save the user
+        $user = new User();
+        $user->email = $request->input('email');
+        $user->password = bcrypt('12345678');
+        $user->role_id = $role_id;
+        $user->userable()->associate($userable);
+        $user->save();
+
+        return redirect()->route('admin.index')->with('success', 'User added successfully!');
     }
+
 
 
     public function resetPassword(Request $request, $id)
