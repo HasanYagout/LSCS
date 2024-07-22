@@ -92,7 +92,7 @@ class LoginController extends Controller
             $file = $request->file('proposal');
             $extension = $file->getClientOriginalExtension();
             $fileName = $folderName . '.' . $extension;
-            $file->storeAs('public/storage/company/proposal', $fileName);
+            $file->storeAs('public/company/proposal', $fileName);
         } else {
             return redirect()->back()->withErrors(['proposal' => 'Proposal file is required'])->withInput();
         }

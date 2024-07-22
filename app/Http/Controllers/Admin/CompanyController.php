@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\PassingYear;
 use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
@@ -47,6 +48,21 @@ class CompanyController extends Controller
         $data['showCompanyManagement'] = 'show';
         $data['activeCompanyActiveList'] = 'active-color-one';
         return view('admin.company.active', $data);
+    }
+    public function showProposal($filename)
+    {
+        $path = 'public/storage/company/proposal' .'/'. $filename;
+
+//        if (!Storage::exists($path)) {
+//            abort(404);
+//        }
+        $file = Storage::get($path);
+        dd($file,$path);
+        $type = Storage::mimeType($path);
+
+        return response($file, 200)
+            ->header('Content-Type', $type)
+            ->header('Content-Disposition', 'inline; filename="' . $filename . '"');
     }
 
     public function pending(Request $request)

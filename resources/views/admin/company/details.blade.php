@@ -5,7 +5,19 @@
     @endpush
 
     @section('content')
+        <style>
 
+            .proposal-iframe {
+                height: 500px; /* Default height */
+            }
+
+            @media (min-width: 1200px) {
+                .proposal-iframe {
+                    height: 900px; /* Height for large screens */
+                }
+            }
+
+        </style>
         <!-- Page content area start -->
         <div class="p-30">
             <div class="container">
@@ -47,7 +59,7 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-lg-6">
-                        <iframe src="{{asset('public/storage/company'.'/'.$company->proposal)}}" type="application/pdf" width="100%" height="500px" ></iframe>
+                        <iframe class="proposal-iframe" src="{{asset('public/storage/company/proposal'.'/'.$company->proposal)}}" type="application/pdf" width="100%" height="500px" ></iframe>
                     </div>
                 </div>
             </div>

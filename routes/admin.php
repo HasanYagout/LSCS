@@ -52,6 +52,7 @@ Route::middleware(['web'])->group(function () {
             });
 
             Route::group(['prefix' => 'company', 'as' => 'company.'], function () {
+                Route::get('/proposal/{filename}', [CompanyController::class, 'showProposal'])->name('proposal');
                 Route::get('/', [CompanyController::class, 'all'])->name('all');
                 Route::post('update/{company}', [CompanyController::class, 'update'])->name('update');
                 Route::get('/info/{slug}', [CompanyController::class, 'details'])->name('details');
