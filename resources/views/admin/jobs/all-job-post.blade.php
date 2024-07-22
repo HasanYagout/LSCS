@@ -90,10 +90,12 @@
                             <select class="sf-select-without-search primary-form-control" name='company'
                                     id='company'>
                                 <option value="" selected>{{__('Choose')}}</option>
+                                @if(isset($company->company))
 
                                 @foreach($companies as $company)
                                     <option value="{{$company->company->name}}">{{$company->company->name}}</option>
                                 @endforeach
+                                @endif
                             </select>
                         </div>
                     </div>

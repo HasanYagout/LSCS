@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -81,7 +82,8 @@ class JobPostService
     }
 
     public function getMyJobPostList($request){
-        $query = JobPost::where('user_id', auth('admin')->id())
+        $user=Auth::user();
+        $query = JobPost::where('user_id', $user->id)
             ->where('posted_by','admin');
 
         if ($request->search['value']) {
@@ -146,18 +148,20 @@ class JobPostService
 
     public function getAllJobPostList(Request $request)
     {
-        $authUser = $this->getAuthenticatedUser(['company', 'admin']);
+        $authUser = $this->getAuthenticatedUser();
+
         $query = JobPost::with('company'); // Eager load the company relationship
         // Base query adjustments based on user type
-        $query->where(function ($q) use ($authUser, $request) {
-            if ($authUser->name == 'admin') {
+        $query->where(function ($q) use ($authUser) {
+            if ($authUser->role_id == 1) {
                 $q->where('posted_by', 'admin')
                     ->orWhere('posted_by', 'company');
             } else {
-                $q->where('user_id', $authUser->user()->id)
+                $q->where('user_id', $authUser->id)
                     ->where('posted_by', $authUser->name);
             }
         });
+
 
         // Conditionally add status filter
         if (isset($request->status) && $request->status != 'all') {
@@ -204,11 +208,12 @@ class JobPostService
         return datatables($query)
             ->addIndexColumn()
             ->addColumn('company_logo', function ($data) use ($authUser) {
-                if ($authUser->name == 'admin') {
+
+                if ($authUser->role_id == 1) {
                     if ($data->posted_by == 'company') {
-                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/image' .'/'. $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
                     } else {
-                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . auth('admin')->user()->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/image' .'/'. $authUser->admin->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
                     }
                 }
             })
@@ -230,7 +235,7 @@ class JobPostService
             </ul>';
             })
             ->addColumn('action', function ($data) use ($authUser) {
-                $auth = $authUser->user()->getTable() === 'companies' ? 'company' : 'admin';
+                $auth = $authUser->role_id == '3' ? 'company' : 'admin';
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                         <li class="d-flex gap-2">
                             <button onclick="getEditModal(\'' . route($auth . '.jobs.info', $data->slug) . '\'' . ', \'#edit-modal\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" data-bs-toggle="modal" data-bs-target="#alumniPhoneNo" title="'.__('Edit').'">
@@ -411,14 +416,9 @@ class JobPostService
     /**
      * Helper to get the authenticated user from multiple guards.
      */
-    private function getAuthenticatedUser(array $guards)
+    private function getAuthenticatedUser()
     {
-        foreach ($guards as $guard) {
-            if (auth($guard)->check()) {
-                return auth($guard);
-            }
-        }
-        return null;
+        return Auth::user();
     }
 
     public function update($oldSlug, $request)
