@@ -27,10 +27,10 @@ class   ProfileController extends Controller
                 $userInfo = $user->admin;
                 break;
             case 2:
-                $userInfo = $user->company;
+                $userInfo = $user->alumni;
                 break;
             case 3:
-                $userInfo = $user->alumni;
+                $userInfo = $user->company;
                 break;
             default:
                 abort(403, 'Unauthorized action.');
@@ -50,10 +50,11 @@ class   ProfileController extends Controller
 
     public function update(Request $request)
     {
-        $authUser = auth('admin')->user();
+
+        $authUser = Auth::user();
         try {
             DB::beginTransaction();
-            $filename = $authUser->image; // Set default to current image in case no new image is uploaded
+            $filename = $authUser->admin->image; // Set default to current image in case no new image is uploaded
 
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
@@ -64,8 +65,7 @@ class   ProfileController extends Controller
                 $image->storeAs('admin/image', $filename, 'public');
             }
 
-
-            Admin::updateOrCreate(['id' => $authUser->id],[
+            Admin::updateOrCreate(['id' => $authUser->admin->id],[
                 'first_name'=>Str::ucfirst($request['f_name']),
                 'last_name'=>Str::ucfirst($request['l_name']),
                 'image' => $filename,

@@ -44,9 +44,9 @@
                         data-bs-toggle="dropdown" aria-expanded="false">
                     @if ($authenticatedUser)
                         <div class="w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-primary-color">
-                            <img class="h-100 object-fit-cover" onerror="this.src='{{ asset('public/assets/images/no-image.jpg') }}'"
-                                 src="{{ asset('public/storage') . '/' . $role . '/'.'image'.'/' . $authenticatedUser->image }}"
-                                 alt="{{ $authenticatedUser->first_name . ' ' . $authenticatedUser->last_name }}" />
+                            <img class="h-100 object-fit-cover ratio" onerror="this.src='{{ asset('public/assets/images/no-image.jpg') }}'"
+                                 src="{{ asset('public/storage') . '/' . $role . '/'.'image'.'/' . $userInfo->image }}"
+                                 alt="{{ $userInfo->first_name . ' ' . $userInfo->last_name }}" />
                         </div>
                         <div class="text-start d-none d-sm-block">
                             <p class="fs-12 fw-400 lh-15 text-707070">{{ __('Welcome') }}</p>

@@ -58,7 +58,7 @@ class NewsService
         return datatables($query)
             ->addIndexColumn()
             ->addColumn('image', function ($data) {
-                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('/public/storage/admin/news') . '/' . $data->image . '" alt="icon" class="max-h-35 rounded avatar-xs tbl-user-image">';
+                return '<img  src="' . asset('/public/storage/admin/news') . '/' . $data->image . '" alt="icon" class="max-h-35 rounded avatar-xs tbl-user-image">';
             })
             ->addColumn('title', function ($data) {
                 return $data->title;
@@ -77,7 +77,6 @@ class NewsService
                 }
             })
             ->addColumn('action', function ($data) {
-                if (auth('admin')->user()->role_id == USER_ROLE_ADMIN) {
                     return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                 <li class="d-flex gap-2">
                     <a href="' . route('admin.news.details', $data->slug) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View">
@@ -91,13 +90,6 @@ class NewsService
                     </button>
                 </li>
             </ul>';
-                } else {
-                    return '<ul class="d-flex align-items-center cg-5 justify-content-center">
-                <li class="d-flex gap-2">
-                    <a href="' . route('news.details', $data->slug) . '" class="d-block min-w-130 text-decoration-underline fw-600 text-1b1c17">More Details</a>
-                </li>
-            </ul>';
-                }
             })
             ->rawColumns(['image', 'status', 'action'])
             ->make(true);

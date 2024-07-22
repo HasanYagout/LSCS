@@ -30,7 +30,9 @@
             { data: 'last_name', name: 'last_name', searchable: true, orderable: true },
             { data: 'graduation_year', name: 'graduation_year', searchable: false, orderable: true },
             { data: 'major', name: 'major', searchable: false, orderable: true },
-            { data: 'status', name: 'status', searchable: false, orderable: false }
+            { data: 'status', name: 'status', searchable: false, orderable: false },
+            { data: "images", searchable: false, responsivePriority: 2 },
+
         ],
         "initComplete": function( settings, json ) {
             $('.z-filter-block').html($('#search-section').html());

@@ -51,39 +51,6 @@
             </div>
 
 
-            @if(auth('admin')->user()->role_id==USER_ROLE_INSTRUCTOR)
-                <div class="pt-30">
-                    {{-- <h4 class="fs-24 fw-500 lh-34 text-black pb-16">My Job Post</h4> --}}
-                    <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
-                        <!-- Table -->
-                        <h4 class="title mb-3">{{ __('Latest Transaction Summary') }}</h4>
-                        <div class="table-responsive zTable-responsive">
-                            <table class="table zTable" id="recommendationTable">
-                                <thead>
-                                <tr>
-                                    <th scope="col">
-                                        <div>{{ __('Name') }}</div>
-                                    </th>
-                                    <th scope="col">
-                                        <div>{{ __('Purpose') }}</div>
-                                    </th>
-                                    <th scope="col">
-                                        <div>{{ __('Transaction ID') }}</div>
-                                    </th>
-                                    <th scope="col">
-                                        <div>{{ __('Payment Method') }}</div>
-                                    </th>
-                                    <th scope="col">
-                                        <div>{{ __('Date and Time') }}</div>
-                                    </th>
-
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            @endif
 
         </div>
     </div>
