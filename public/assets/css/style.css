@@ -1,12 +1,7 @@
 /*
 ------------- Table of content ----------------
 
-Template Name: zaialumni  Responsive  HTML5 Template
-Template URI: https://zaialumni.com/
-Description: zaialumni  Responsive  HTML5 Template
-Author: Gobinda Sarkar
-Author URI: https://zaialumni.com/
-Version: 1.0
+
 
 ---------------------- common content ----------
 1.body reset content
@@ -796,7 +791,7 @@ scrollUp
   font-family: "Inter Tight", sans-serif;
   font-size: 1.4rem;
   font-weight: 500;
-  color: var(--bColor);
+  color: var(--black);
   box-shadow: none;
 }
 .primary-form-group .primary-form-group-wrap .primary-form-control:focus {

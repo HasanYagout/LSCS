@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Services;
+use App\Jobs\SendJobPostEmail;
 use App\Models\Alumni;
 use App\Models\AppliedJobs;
 use App\Models\JobPost;
@@ -10,6 +11,7 @@ use App\Models\Notice;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -393,9 +395,10 @@ class JobPostService
             $jobPost->employee_status = $request->employee_status;
             $jobPost->status = JOB_STATUS_PENDING;
             $jobPost->skills = json_encode($request->skills);
-
             $jobPost->save();
             DB::commit();
+            SendJobPostEmail::dispatch($jobPost);
+            dd('da');
             session()->flash('success', 'Job Created Successfully');
             return redirect()->route('company.jobs.all-job-post');
         } catch (\Exception $e) {

@@ -1,9 +1,36 @@
+@php use Illuminate\Support\Facades\Storage; @endphp
 @extends('web.layouts.app')
 @push('title')
     {{ __('Home') }}
 @endpush
 @section('content')
 
+    <style>
+        .swiper-slide {
+            background-size: cover;
+            background-position: center;
+            height: 100%; /* Ensure the slide takes full height */
+        }
+
+        .transparent-background {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .event-slider {
+            padding: 20px;
+        }
+
+
+
+
+        .event-duration .separate {
+            font-size: 24px;
+            line-height: 1;
+            margin: 0 5px;
+        }
+
+
+    </style>
     <!-- Start Banner -->
     <section class="home-banner">
         <div class="container">
@@ -13,18 +40,7 @@
                         <h4 class="fs-74 fw-700 lh-84 text-white pb-21">{{ getOption('banner_title') }}</h4>
                         <p class="fs-18 fw-400 lh-28 text-white max-w-833 m-auto pb-29">{{ getOption('banner_description') }}
                         </p>
-                        <div class="d-flex justify-content-center align-items-center flex-wrap g-10">
-                            <a href="#about-us-section"
-                                class="align-items-center bd-c-white bd-one bd-ra-12 bg-primary-color cg-16 d-flex fs-18 fw-600 hover-bg-color-primary hover-border-color-primary hover-color-white lh-28 px-32 py-15 text-white">
-                                {{ __('About Us') }}
-                                <i class="fa-solid fa-long-arrow-right"></i>
-                            </a>
-                            <a href="{{ route('all.event') }}"
-                                class="align-items-center bd-c-white bd-one bd-ra-12 bg-primary-color cg-16 d-flex fs-18 fw-600 hover-bg-color-primary hover-border-color-primary hover-color-white lh-28 px-32 py-15 text-white">
-                                {{ __('All Events') }}
-                                <i class="fa-solid fa-long-arrow-right"></i>
-                            </a>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -69,43 +85,57 @@
 
     <!-- Start Upcoming Events -->
     @if(count($upcomingEvents))
-        <section class="upcoming-events">
+        <section>
             <div class="container position-relative">
                 <div class="row justify-content-center">
                     <div class="col-lg-10">
                         <!--  -->
                         <div class="text-center pb-37 max-w-677 m-auto">
                             <span
-                                class="d-inline-block py-15 px-25 rounded-pill bd-one bd-c-white fs-18 fw-400 lh-18 text-white mb-22">{{ __('Upcoming Events') }}</span>
-                            <h4 class="pb-18 fs-50 fw-700 lh-50 text-white">{{ __('Our Upcoming Events') }}</h4>
-                            <p class="fs-18 fw-400 lh-28 text-white">
-                                {{ __('Zaialumni is a user friendly that helps alumni easily connect and manage their activities. Alumni can sign up and get approved by submitting necessary.') }}
-                            </p>
+                                class="d-inline-block py-15 px-25 rounded-pill bd-one bd-c-white fs-18 fw-400 lh-18  mb-22">{{ __('Upcoming Events') }}</span>
+                            <h4 class="pb-18 fs-50 fw-700 lh-50 ">{{ __('Our Upcoming Events') }}</h4>
+
                         </div>
                         <!--  -->
                         <div class="swiper upcomingEvent bd-ra-25">
                             <div class="swiper-wrapper">
-                                @foreach ($upcomingEvents as $upcomingEvent)
-                                    <div class="swiper-slide">
-                                        <div class="event-slider">
+                                @foreach ($upcomingEvents as $key=> $upcomingEvent)
+                                    @php
+                                        // Define the relative path to the image
+                                        $relativePath = 'public/storage/admin/events/'.$upcomingEvent->thumbnail;
+
+                                        // Construct the full server path to the image
+                                        $serverPath = base_path($relativePath);
+
+                                        // Check if the file exists on the server
+                                        $thumbnailUrl = $upcomingEvent->thumbnail && file_exists($serverPath) ? asset($relativePath) : asset('public/assets/images/no-image.jpg');
+
+                                    @endphp
+
+                                    <div class="swiper-slide" style="background-image: url('{{ $thumbnailUrl }}');">
+                                        <div class="event-slider transparent-background">
                                             <div class="row">
-                                                <div class="col-xl-6">
+                                                <div class="col-xl-6 m-auto">
                                                     <div class="up-event-content">
-                                                        <div
-                                                            class="d-flex justify-content-center justify-content-xl-start align-items-center cg-63 pb-11">
-                                                            <p
-                                                                class="fs-18 fw-500 lh-28 text-para-color line-horizontal-event">
+                                                        <div class="d-flex justify-content-center align-items-center cg-63 pb-11">
+                                                            <p class="fs-18 fw-500 lh-28 text-white line-horizontal-event">
                                                                 {{ \Carbon\Carbon::parse($upcomingEvent->date)->format('M d, Y') }}
                                                             </p>
-                                                            <p class="fs-18 fw-500 lh-28 text-para-color">
+                                                            <p class="fs-18 fw-500 lh-28 text-white">
                                                                 {{ \Carbon\Carbon::parse($upcomingEvent->date)->format('h:i A') }}
                                                             </p>
                                                         </div>
                                                         <a href="{{ route('event.view.details', $upcomingEvent->slug) }}"
-                                                            class="d-inline-block fs-36 fw-600 lh-46 text-black-color mb-14 line-clamp-2 sf-text-ellipsis min-h-92">{{ $upcomingEvent->title }}</a>
-
+                                                           class="d-inline-block fs-36 d-block text-center fw-600 lh-46 text-secondary-color mb-14 line-clamp-2 sf-text-ellipsis min-h-92">
+                                                            {{ $upcomingEvent->title }}
+                                                        </a>
                                                         <ul class="event-duration"
                                                             data-countdown-date="{{ \Carbon\Carbon::parse($upcomingEvent->date)->format('m/d/Y H:i:s') }}">
+                                                            <li class="item">
+                                                                <h4 class="eTime" data-days></h4>
+                                                                <p class="eInfo">{{ __('Days') }}</p>
+                                                            </li>
+                                                            <li class="separate">:</li>
                                                             <li class="item">
                                                                 <h4 class="eTime" data-hours></h4>
                                                                 <p class="eInfo">{{ __('Hours') }}</p>
@@ -118,35 +148,35 @@
                                                             <li class="separate">:</li>
                                                             <li class="item">
                                                                 <h4 class="eTime" data-seconds></h4>
-                                                                <p class="eInfo">{{ __('Second') }}</p>
+                                                                <p class="eInfo">{{ __('Seconds') }}</p>
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <a href="{{ route('event.view.details', $upcomingEvent->slug) }}"
-                                                        class="up-event-img hover-scale-img-two"><img
-                                                            onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
-                                                            src="{{ asset('public/storage/admin/events').'/'.$upcomingEvent->thumbnail }}"
-                                                            alt="{{ $upcomingEvent->title }}"
-                                                            class="w-100 h-100 object-fit-cover" /></a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
                             </div>
-                            <div class="upEvent-button">
-                                <div class="swiper-button-next hover-color-white"><i class="fa-solid fa-long-arrow-right"></i></div>
-                                <div class="swiper-button-prev hover-color-white"><i class="fa-solid fa-long-arrow-left"></i></div>
-                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- End Upcoming Events -->
+                    <div class="col-lg-12">
+
+                        <div class="upEvent-button">
+                            <div class="swiper-button-next hover-color-secondary"><i class="fa-solid fa-long-arrow-right"></i></div>
+                            <div class="swiper-button-prev hover-color-secondary"><i class="fa-solid fa-long-arrow-left"></i></div>
                         </div>
                     </div>
+
                 </div>
             </div>
+
         </section>
+
     @endif
-    <!-- End Upcoming Events -->
 
     <!-- Start Stories -->
     <section class="pt-110 pb-110 position-relative">
@@ -175,7 +205,8 @@
                                         class="mb-16 min-h-68 line-clamp-2 sf-text-ellipsis fs-24 fw-500 lh-34 text-black-color">
                                         {{ $story->title }}</h4>
                                     <a href="{{ route('story.view', $story->slug) }}"
-                                        class="d-flex align-items-center cg-16 fs-18 fw-600 lh-28 text-black-color">
+                                        class="fs-18 fw-600 lh-28 text-black-color d-inline-flex align-items-center cg-16 hover-color-secondary ">
+
                                         {{ __('Know More') }}
                                         <span><i class="fa-solid fa-arrow-right"></i></span>
                                     </a>
@@ -247,14 +278,14 @@
             <!--  -->
             <div class="row rg-24">
                 @foreach ($alumnus as $alumni)
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <div class="bd-ra-25 bg-event-bg hover-scale-img">
+                    <div class="col-lg-3 col-md-4 col-sm-6 ">
+                        <div class="bd-ra-25 bg-event-bg hover-scale-img bg-primary-color">
                             <div class="bd-ra-25 overflow-hidden h-341">
-                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" class="w-100 h-100 object-fit-cover" src="{{ asset('public/storage/alumni/image') .'/'.$alumni->image}}"
+                                <img onerror="this.src='{{asset('public/assets/images/grad.jpeg')}}'" class="w-100 h-100 object-fit-cover container pd register-right rounded-5 s shadow-lg  " src="{{ asset('public/storage/alumni/image') .'/'.$alumni->image}}"
                                     alt="{{ $alumni->name }}" />
                             </div>
-                            <div class="pt-21 pb-23 px-10 text-center">
-                                <h4 class="fs-20 fw-600 lh-28 text-black-color pb-2">{{ $alumni->first_name.' '.$alumni->last_name }}</h4>
+                            <div class="pt-21 pb-23 px-10 text-center bg-primary-color bd-ra-10">
+                                <h4 class="fs-20 fw-600 lh-28 text-scroll-track pb-2">{{ $alumni->first_name.' '.$alumni->last_name }}</h4>
                                 <p class="fs-18 fw-400 lh-28 text-para-color">{{ $alumni->major }},
                                     {{ __('Batch') }} {{ $alumni->graduation_year }}</p>
                             </div>
@@ -288,30 +319,32 @@
             <div class="row rg-24 pb-50">
                 @foreach ($news as $singleNews)
                     <div class="col-lg-4 col-md-6">
-                        <div class="hover-scale-img bd-one bd-c-black-10 bd-ra-14 bg-event-bg hover-scale-img">
-                            <div class="bd-ra-14 overflow-hidden h-234 position-relative">
-                                <img class="w-100 h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/news').'/'.$singleNews->image }}"
+                        <div class="bd-c-black-10 bd-one rounded-top-4 hover-scale-img">
+                            <div class="rounded-top-4 h-234 overflow-hidden position-relative">
+                                <img class="container h-100 object-fit-cover p-0 register-right shadow-lg w-100"
+                                     onerror="this.src='{{asset('public/assets/images/ssss.jpg')}}'" src="{{ asset('public/storage/admin/news').'/'.$singleNews->image }}"
                                     alt="{{ $singleNews->title }}" />
                                 <p
-                                    class="position-absolute top-22 left-22 p-10 bd-ra-10 bg-secondary-color max-w-77 fs-16 fw-400 lh-19 text-black-color text-center">
+                                    class="position-absolute top-10 left-22 p-10 bd-ra-10 bg-primary-color max-w-77 fs-16 fw-400 lh-19 text-scroll-track text-center">
                                     {{ \Carbon\Carbon::parse($singleNews->created_at)->format('M d, Y') }}</p>
                             </div>
 
-                            <div class="pt-29 pb-34 px-25">
+                            <div class="pt-20 pb-25 px-25  shadow-lg p-3  bg-primary-color">
                                 <div class="d-flex align-items-center cg-10 pb-10">
-                                    <div class="w-30 h-30 rounded-circle overflow-hidden">
+                                    <div class="w-40 h-40 rounded-circle overflow-hidden">
                                         <img
+                                            class="object-fit-cover h-100"
                                             onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                             src="{{ asset('public/storage/admin/image').'/'.$singleNews->author->image }}"
                                             alt="{{ $singleNews->author->first_name }}" /></div>
-                                    <p class="fs-16 fw-400 lh-14 text-para-color">BY : {{ $singleNews->author->first_name }},
+                                    <p class="fs-16 fw-400 lh-14 text-secondary-color"> {{ $singleNews->author->first_name }},
                                         {{ $singleNews->category->name }}</p>
                                 </div>
                                 <h4
-                                    class="fs-24 fw-600 lh-34 text-black-color mb-25 line-clamp-2 sf-text-ellipsis min-h-68">
+                                    class="fs-24 fw-600 lh-34 text-scroll-track line-clamp-2 sf-text-ellipsis min-h-68 p-10">
                                     {{ $singleNews->title }}</h4>
                                 <a href="{{ route('news.view.details', $singleNews->slug) }}"
-                                    class="fs-18 fw-600 lh-28 text-black-color d-inline-flex align-items-center cg-16 hover-color-primary">
+                                    class="fs-18 fw-600 lh-28 text-scroll-track d-inline-flex align-items-center cg-16 hover-color-secondary bd-c-scroll-track-color bd-one bd-ra-12 p-2 ">
                                     {{ __('Read More') }}
                                     <i class="fa-solid fa-long-arrow-right"></i>
                                 </a>
@@ -322,7 +355,8 @@
             </div>
             <div class="text-center">
                 <a href="{{ route('our.news') }}"
-                    class="align-items-center bd-c-black-color bd-one bd-ra-12 bg-white cg-16 d-inline-flex fs-18 fw-600 hover-bg-color-primary hover-border-color-primary justify-content-center lh-28 px-32 py-15 text-black-color hover-color-white">
+                    class="align-items-center bd-c-white bd-one bd-ra-12 bg-primary-color cg-16 d-inline-flex fs-18 fw-600 hover-color-secondary justify-content-center lh-28 px-32 py-15 text-white">
+
                     {{ __('Explore All Blogs') }}
                     <i class="fa-solid fa-long-arrow-right"></i>
                 </a>
@@ -332,5 +366,27 @@
     <!-- End Blog -->
 @endsection
 @push('script')
-    <script></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const swiper = new Swiper('.swiper', {
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                on: {
+                    slideChange: function () {
+                        const activeSlide = this.slides[this.activeIndex];
+                        const backgroundUrl = activeSlide.style.backgroundImage;
+                        document.querySelector('.swiper').style.backgroundImage = backgroundUrl;
+                    }
+                }
+            });
+
+            // Initial background image
+            const initialSlide = document.querySelector('.swiper-slide-active');
+            const initialBackgroundUrl = initialSlide.style.backgroundImage;
+            document.querySelector('.swiper').style.backgroundImage = initialBackgroundUrl;
+        });
+    </script>
+
 @endpush

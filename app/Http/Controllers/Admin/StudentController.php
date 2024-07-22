@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Services\StudentService;
 use App\Models\Alumni;
+use App\Models\AppliedJobs;
 use App\Models\Department;
 use App\Models\Student;
+use App\Models\User;
 use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -45,8 +47,7 @@ class StudentController extends Controller
 
     public function update(Request $request)
     {
-
-        $student = Student::with('major')->where('id', $request->id)->first();
+        $student = Student::with('major')->find($request->id);
 
         if (!$student) {
             return response()->json(['success' => false, 'message' => __('Student not found')]);
@@ -54,44 +55,60 @@ class StudentController extends Controller
 
         $student->update(['is_alumni' => $request->status]);
 
-        // Check if there's an Alumni record, including soft-deleted ones
-        $alumni = Alumni::withTrashed()->where('id', $student->id)->first();
+        // Check if there's an Alumni record
+        $alumni = Alumni::where('id', $student->id)->first();
+        $user = User::where('email', $student->id)->where('role_id', 2)->first();
 
         if ($request->status) {
             // If we're setting this student as an alumni
             if (!$alumni) {
                 // No alumni record exists, create a new one
                 $alumni = new Alumni();
-            } else {
-                // Alumni record exists (possibly soft-deleted), restore it if it was soft-deleted
-                if ($alumni->trashed()) {
-                    $alumni->restore();
-                }
             }
 
             // Update or set the alumni details
             $alumni->id = $student->id;
             $alumni->first_name = $student->first_name;
             $alumni->last_name = $student->last_name;
-            $alumni->phone = $student->number;
+            $alumni->phone = $student->phone;
             $alumni->gpa = $student->gpa;
             $alumni->major = $student->major->name;
-            $alumni->graduation_year = Carbon::now()->format('o');
-            $alumni->password = Hash::make($student->id);  // Consider security implications
-            $alumni->role_id = 2;  // Ensure role_id '2' is correct
+            $alumni->graduation_year = Carbon::now()->format('Y');
             $alumni->email = $student->email;
-            $alumni->status = 1;
+            $alumni->status = 1; // Active status
             $alumni->save();
 
+            // Update or set the user details
+            if (!$user) {
+                $user = new User();
+                $user->user_id = $student->id;
+                $user->role_id = 2;
+            }
+
+            $user->email = $student->email;
+            $user->password = Hash::make($student->id);
+            $user->status = 1; // Active status
+            $user->save();
             return response()->json(['success' => true, 'message' => __('Alumni updated successfully')]);
         } else {
-            // If we're removing this student from alumni
+            // If we're setting this student as inactive alumni
             if ($alumni) {
-                $alumni->delete();  // Soft-delete the alumni record
+                $appliedJobs=AppliedJobs::where('alumni_id', $student->id)->get();
+                foreach ($appliedJobs as $job){
+                    $job->status=0;
+                }
+                $alumni->status = 0; // Inactive status
+                $alumni->save();
             }
-            return response()->json(['success' => true, 'message' => __('Alumni record removed')]);
+            if ($user) {
+                $user->status = 0; // Inactive status
+                $user->save();
+            }
+
+            return response()->json(['success' => true, 'message' => __('Alumni record deactivated')]);
         }
     }
+
 
 
 }

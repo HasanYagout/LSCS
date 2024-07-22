@@ -19,6 +19,6 @@ class Alumni
         if (Auth::guard('alumni')->check()) {
             return $next($request);
         }
-        return redirect()->route('alumni.auth.login');
+        return redirect()->route('auth.login');
     }
 }

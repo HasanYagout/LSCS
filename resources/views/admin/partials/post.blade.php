@@ -6,7 +6,7 @@
 
         <!-- User -->
         <div class="d-flex align-items-center cg-10">
-            <div class="flex-shrink-0 w-45 h-45 bd-one bd-c-cdef84 rounded-circle overflow-hidden">
+            <div class="flex-shrink-0 w-45 h-45 bd-one bd-c-primary-color rounded-circle overflow-hidden">
                 <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $post->created_by == 'admin' ? asset('public/storage/admin/' .'image'.'/'. $post->creator->image) : asset('public/storage/company/' .'image'.'/'. $post->creator->image) }}" class="w-100" alt="{{__('post')}}" />
             </div>
             <div class="">

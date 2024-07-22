@@ -30,7 +30,7 @@ class AlumniController extends Controller
         return view('admin.public-profile', $data);
     }
 
-    public function alumniListWithAdvanceFilter(Request $request)
+    public function alumniList(Request $request)
     {
 
         if ($request->ajax()){
@@ -48,7 +48,7 @@ class AlumniController extends Controller
             'graduationYears' => $graduationYears,
             'majors' => $majors,
         ];
-        return view('admin.manage_alumni.alumni-list-with-search', $data);
+        return view('admin.alumni.list', $data);
     }
 
     public function alumniPendingListWithAdvanceFilter(Request $request)
@@ -61,12 +61,12 @@ class AlumniController extends Controller
         $data['activeAlumniPendingList'] = 'active-color-one';
         $data['department'] = Department::all();
         $data['passingYear'] = PassingYear::all();
-        return view('admin.manage_alumni.alumni-pending-list-with-search', $data);
+        return view('admin.alumni.alumni-pending-list-with-search', $data);
     }
 
     public function gallery(Request $request,Alumni $alumni)
     {
-      return view('admin.manage_alumni.gallery', compact('alumni'));
+      return view('admin.alumni.gallery', compact('alumni'));
     }
 
     public function alumniChangeStatus(Request $request)

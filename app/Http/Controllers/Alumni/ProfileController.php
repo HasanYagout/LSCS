@@ -43,7 +43,9 @@ class ProfileController extends Controller
 
     public function generateCV()
     {
-        $user = auth('alumni')->user(); // Load the user with related data
+        $user=  Alumni::with('experience','education')->where('id',auth('alumni')->id())->first();
+
+
         $html = view('alumni.cvs.cv', compact('user'))->render();
 
         $mpdf = new \Mpdf\Mpdf([
@@ -56,6 +58,7 @@ class ProfileController extends Controller
             'margin_header' => 10,
             'margin_footer' => 10
         ]);
+
         $mpdf->WriteHTML($html);
         $mpdf->Output('detailed_cv.pdf', 'D'); // D - download, I - inline
     }

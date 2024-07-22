@@ -13,7 +13,7 @@ use Stancl\Tenancy\Database\Models\Domain;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -21,30 +21,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-
-
-        'name',
-        'nick_name',
         'email',
-        'mobile',
-        'email_verified_at',
-        'password',
-        'image',
-        'role',
-        'email_verification_status',
-        'phone_verification_status',
-        'google_auth_status',
-        'google2fa_secret',
-        'google_id',
-        'facebook_id',
-        'verify_token',
-        'otp',
-        'otp_expiry',
-        'show_email_in_public',
-        'show_phone_in_public',
-        'last_seen',
-        'created_by',
+        'user_id',
+        'role_id',
         'status',
+        'password'
     ];
 
     /**
@@ -68,47 +49,23 @@ class User extends Authenticatable
         'last_seen' => 'datetime'
     ];
 
-    public function alumni(){
-        return $this->hasOne(Alumni::class);
-    }
-    public function userable()
-    {
-        return $this->morphTo();
-    }
+
+
     public function role()
     {
         return $this->hasOne(Roles::class);
     }
-    public function domain(){
-        return $this->hasOne(Domain::class, 'tenant_id', 'tenant_id');
-    }
-
-    public function institutions(){
-        return $this->hasMany(UserInstitution::class, 'user_id');
-    }
-
-    public function currentMembership(){
-        return $this->hasOne(UserMembershipPlan::class, 'user_id')->where('expired_date', '>=', now())->latest();
-    }
-
-    public function unseen_message()
+    public function admin()
     {
-        return $this->hasMany(Chat::class, 'sender_id')->where(['is_seen' => STATUS_PENDING]);
+        return $this->belongsTo(Admin::class,'user_id');
     }
-
-    public function messages()
+    public function alumni()
     {
-        return $this->hasMany(Chat::class, 'receiver_id')->where('sender_id' , auth()->id());
+        return $this->belongsTo(Alumni::class,'user_id');
     }
-
-    public function currentPlan()
+    public function company()
     {
-        return $this->hasOne(UserPackage::class, 'user_id')->where('status', ACTIVE)->where('end_date', '>=', now());
+        return $this->belongsTo(Company::class,'user_id');
     }
 
-    protected static function boot()
-    {
-        parent::boot();
-
-    }
 }

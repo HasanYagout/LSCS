@@ -124,7 +124,8 @@
     <ul>
         @if($user->experience)
             @foreach($user->experience as $experience)
-                <strong>{{$experience->position}}</strong> - {{$experience->name}} ({{\Illuminate\Support\Carbon::parse($experience->start_date)->format('Y')}}-{{\Illuminate\Support\Carbon::parse($education->end_date)->format('Y') == now()->format('Y')?'present':\Illuminate\Support\Carbon::parse($education->end_date)->format('Y')}})
+
+                <strong>{{$experience->position}}</strong> - {{$experience->name}} ({{\Illuminate\Support\Carbon::parse($experience->start_date)->format('Y')}}-{{\Illuminate\Support\Carbon::parse($experience->end_date)->format('Y') == now()->format('Y')?'present':\Illuminate\Support\Carbon::parse($experience->end_date)->format('Y')}})
 
                 {!! $experience->details !!}
 

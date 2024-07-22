@@ -9,7 +9,6 @@ use App\Http\Services\UserService;
 use App\Models\Admin;
 use App\Models\Alumni;
 use App\Models\Department;
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\PassingYear;
 use App\Traits\ResponseTrait;
@@ -26,6 +25,17 @@ class AdminController extends Controller
     {
         $this->adminService = new AdminService();
 
+    }
+
+    public function email()
+    {
+        $details = [
+            'title' => 'Mail from Laravel',
+            'body' => 'This is a test email using Laravel 10.'
+        ];
+
+        Mail::to('yagouthasan3@gmail.com')->send(new TestMail($details));
+        return 'Email sent';
     }
     public function delete($id)
     {
@@ -73,65 +83,43 @@ class AdminController extends Controller
     }
     public function store(Request $request)
     {
-
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email',
             'mobile' => 'required|string|unique:admins,phone|max:20',
+            'type' => 'required|integer' // Assuming 'type' is required and must be an integer
         ]);
-        $role_id = $request->input('type');
 
-        // Initialize the variables
-        $userable = null;
+        $defaultPassword = bcrypt('12345678');
 
-        if ($role_id == 1) {
-            $userable = new Admin([
-                'first_name' => $request->input('first_name'),
-                'last_name' => $request->input('last_name'),
-                'email' => $request->input('email'),
-                'phone' => $request->mobile,
-                'password' => bcrypt('12345678'),
-                'image' => '',
-                'role_id' => $role_id,
-                'status' => 1,
-            ]);
-        } elseif ($role_id == 2) {
-            $userable = new Alumni([
+        DB::transaction(function () use ($request, $defaultPassword) {
+            // Store the admin
+
+            $admin = Admin::create([
+
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
                 'email' => $request->input('email'),
                 'phone' => $request->input('mobile'),
-                'password' => bcrypt('12345678'),
+                'password' => $defaultPassword,
                 'image' => '',
-                'role_id' => $role_id,
-                'status' => 1,
+                'role_id' => $request->input('type'),
+                'status' => 1
             ]);
-        } elseif ($role_id == 3) {
-            $userable = new Company([
-                'name' => $request->input('first_name'), // Assuming name is used for companies
+
+            // Store the user
+            User::create([
                 'email' => $request->input('email'),
-                'phone' => $request->input('mobile'), // Assuming phone is used for companies
-                'password' => bcrypt('12345678'),
-                'image' => '',
-                'role_id' => $role_id,
-                'status' => 1,
+                'password' => $defaultPassword,
+                'user_id' => $admin->id,
+                'role_id' => $request->input('type'),
+                'status' => 1
             ]);
-        }
-        // Save the userable entity
-        $userable->save();
+        });
 
-        // Create and save the user
-        $user = new User();
-        $user->email = $request->input('email');
-        $user->password = bcrypt('12345678');
-        $user->role_id = $role_id;
-        $user->userable()->associate($userable);
-        $user->save();
-
-        return redirect()->route('admin.index')->with('success', 'User added successfully!');
+        return redirect()->route('admin.index')->with('success', 'Admin added successfully!');
     }
-
 
 
     public function resetPassword(Request $request, $id)

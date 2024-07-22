@@ -1,5 +1,8 @@
 (function ($) {
     "use strict";
+    if ($.fn.dataTable.isDataTable('#allEventDataTable')) {
+        $('#allEventDataTable').DataTable().clear().destroy();
+    }
 
     $("#allEventDataTable").DataTable({
         pageLength: 10,

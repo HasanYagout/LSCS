@@ -16,11 +16,19 @@ class AdminService
     public function deleteById($id)
     {
         try {
-            $admin = Admin::where('id', $id)->firstOrFail();
-            Storage::delete('public/admin/image/' . $admin->image);
-            $admin->delete();
             DB::beginTransaction();
+
+            $admin = Admin::findOrFail($id);
+
+            // If you want to keep track of the deleted image, you may skip the deletion or move the file to a deleted folder
+            if ($admin->image) {
+                Storage::delete('public/admin/image/' . $admin->image);
+            }
+
+            $admin->delete();  // This will perform a soft delete
+
             DB::commit();
+
             $message = getMessage(DELETED_SUCCESSFULLY);
             return $this->success([], $message);
         } catch (\Exception $e) {
@@ -29,6 +37,7 @@ class AdminService
             return $this->error([], $message);
         }
     }
+
 
     public function getById($id)
     {

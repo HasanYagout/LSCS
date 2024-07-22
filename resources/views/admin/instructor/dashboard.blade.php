@@ -90,7 +90,7 @@
                         <option value="3">{{ __('Rejected') }}</option>
                         <option value="0">{{ __('Pending') }}</option>
                     </select>
-                    <button id="change-status-btn" class="bd-c-cdef84 btn hover-bd-secondary
+                    <button id="change-status-btn" class="bd-c-primary-color btn hover-bd-secondary
                   hover-color-secondary mb-3">{{ __('Change Status') }}</button>
 
                     <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">

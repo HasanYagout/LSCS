@@ -11,7 +11,7 @@
                 <i class="fa-solid fa-bars"></i></button>
         </div>
         @if(auth('admin')->check() && auth('admin')->user()->role_id == USER_ROLE_ADMIN)
-            <a href="{{ route('admin.list-search-with-filter') }}"
+            <a href="{{ route('admin.alumni.list') }}"
                class="d-none  d-sm-inline-block fs-15 fw-500 lh-25 text-white  py-10 px-26 bg-primary-color bd-ra-12 hover-bg-#002a5c">{{
             __('Find an Alumni') }}</a>
         @endif
@@ -38,8 +38,8 @@
                 <button class="dropdown-toggle p-0 border-0 bg-transparent d-flex align-items-center cg-8" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                     @if ($authenticatedUser)
-                        <div class="w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-cdef84">
-                            <img onerror="this.src='{{ asset('public/assets/images/no-image.jpg') }}'"
+                        <div class="w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-primary-color">
+                            <img class="h-100 object-fit-cover" onerror="this.src='{{ asset('public/assets/images/no-image.jpg') }}'"
                                  src="{{ asset('public/storage') . '/' . $authenticatedGuard . '/'.'image'.'/' . $authenticatedUser->image }}"
                                  alt="{{ $authenticatedUser->first_name . ' ' . $authenticatedUser->last_name }}" />
                         </div>

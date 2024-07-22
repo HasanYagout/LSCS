@@ -29,8 +29,8 @@
                         <div class="pt-30 pb-40 d-flex justify-content-between align-items-center flex-wrap rg-30">
                             <!-- User Photo ~ name -->
                             <div class="d-flex align-items-center flex-wrap g-18">
-                                <div class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-cdef84">
-                                    <img class="w-100" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
+                                <div class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-primary-color">
+                                    <img class="h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                          src="{{ asset('public/storage/admin').'/'.'image'.'/'.auth('admin')->user()->image}}"
                                          alt="{{auth('admin')->user()->first_name.' '.auth('admin')->user()->last_name}}" />
                                 </div>
@@ -86,7 +86,7 @@
                                         </li>
                                         <li>
                                             <p>{{ __('Phone') }} :</p>
-                                            <p> {{ auth('admin')->user()?->mobile }}</p>
+                                            <p> {{ auth('admin')->user()?->phone }}</p>
                                         </li>
                                         <li>
                                             <p>{{ __('Email') }} :</p>
@@ -150,7 +150,8 @@
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epPhoneNumber" class="form-label">{{ __('Phone Number')
                                                     }}</label>
-                                                    <input type="number" value="{{auth('admin')->user()->mobile}}" name="mobile"
+
+                                                    <input type="number" value="{{auth('admin')->user()->phone}}" name="mobile"
                                                            class="primary-form-control" id="epPhoneNumber"
                                                            maxlength="9"
                                                            minlength="1"

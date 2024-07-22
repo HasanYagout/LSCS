@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    if ($.fn.dataTable.isDataTable('#noticeDataTable')) {
+        $('#noticeDataTable').DataTable().clear().destroy();
+    }
+
     $("#noticeDataTable").DataTable({
         pageLength: 10,
         ordering: true,

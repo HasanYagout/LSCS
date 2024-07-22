@@ -1,12 +1,6 @@
 /*
 ------------- Table of content ----------------
 
-Template Name: Zaialumni Website Responsive  HTML5 Template
-Template URI:
-Description: Zaialumni Website Responsive  HTML5 Template
-Author: Mahmudul Hasan Sohel
-Author URI:
-Version: 1.0
 */
 /*===============================
 #.register-area
@@ -576,7 +570,7 @@ ul {
 }
 
 /* Border Color */
-.bd-c-primary-color {
+.bd-c-primary-color-color {
   border-color: var(--primary-color) !important;
 }
 
@@ -1938,7 +1932,7 @@ scrollUp
   transform: translateY(-50%);
   width: 2.4375rem;
   height: 0.0625rem;
-  background-color: var(--para-color);
+  background-color: var(--white);
 }
 
 .zPagination-one {
@@ -2072,8 +2066,8 @@ scrollUp
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgb(18, 20, 33);
-    background: linear-gradient(180deg, #002a5c 0%, #f1a527 100%);
+  /*background: rgb(18, 20, 33);*/
+  /*  background: linear-gradient(180deg, #002a5c 0%, #f1a527 100%);*/
 }
 
 .event-slider {
@@ -2087,11 +2081,11 @@ scrollUp
   }
 }
 .event-slider .up-event-img {
-  display: block;
-  max-width: 32.875rem;
-  height: 24.4375rem;
-  overflow: hidden;
-  border-radius: 1.25rem;
+    display: block;
+    max-width: 16.875rem;
+    height: 16.4375rem;
+    overflow: hidden;
+    border-radius: 1.25rem;
 }
 @media screen and (min-width: 1200px) {
   .event-slider .up-event-img {
@@ -2110,12 +2104,12 @@ scrollUp
   }
 }
 .event-duration {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1.25rem;
-  max-width: 25.4375rem;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.25rem;
+    max-width: 33.4375rem;
 }
 @media screen and (min-width: 1200px) {
   .event-duration {
@@ -2138,16 +2132,16 @@ scrollUp
   }
 }
 .event-duration .item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.25rem;
-  width: 6.5625rem;
-  height: 6rem;
-  border: 0.0625rem solid var(--text-black-10);
-  border-radius: 0.625rem;
-  background-color: var(--event-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    width: 7.5625rem;
+    height: 7rem;
+    border: 0.0625rem solid var(--text-black-10);
+    border-radius: 0.625rem;
+    background-color: var(--event-bg);
 }
 .event-duration .item .eTime {
   font-size: 1.875rem;
@@ -2165,7 +2159,7 @@ scrollUp
   font-size: 1.875rem;
   font-weight: 700;
   line-height: 1.75rem;
-  color: var(--text-black);
+  color: var(--white);
 }
 
 @media screen and (max-width: 1199px) {
@@ -2309,17 +2303,17 @@ scrollUp
   max-width: 25.4375rem;
   height: 2.9375rem;
 }
-.upEvent-button::before {
-  content: "";
-  position: absolute;
-  bottom: 1.4375rem;
-  left: 0;
-  width: 100%;
-  max-width: 17.625rem;
-  height: 0.0625rem;
-  background-color: var(--text-black-28);
-  z-index: 1;
-}
+/*.upEvent-button::before {*/
+/*  content: "";*/
+/*  position: absolute;*/
+/*  bottom: 1.4375rem;*/
+/*  left: 0;*/
+/*  width: 100%;*/
+/*  max-width: 17.625rem;*/
+/*  height: 0.0625rem;*/
+/*  background-color: var(--text-black-28);*/
+/*  z-index: 1;*/
+/*}*/
 @media screen and (max-width: 1199px) {
   .upEvent-button::before {
     display: none;
@@ -2327,14 +2321,14 @@ scrollUp
 }
 @media screen and (max-width: 1300px) {
   .upEvent-button {
-    right: 53%;
+    right: 45%;
   }
 }
 @media screen and (max-width: 1199px) {
   .upEvent-button {
     right: auto;
     left: 50%;
-    transform: translateX(-50%);
+      transform: translate(-87%, 163%);
     z-index: 1;
   }
 }
@@ -2353,11 +2347,12 @@ scrollUp
   justify-content: center;
   align-items: center;
   color: var(--text-black);
+    background-color: var(--white);
 }
 .upEvent-button .swiper-button-next:hover,
 .upEvent-button .swiper-button-prev:hover {
-  background-color: var(--primary-color);
-  border-color: var(--primary-color);
+  color: var(--secondary-color);
+
 }
 .upEvent-button .swiper-button-next::after,
 .upEvent-button .swiper-button-prev::after {
@@ -2439,11 +2434,11 @@ textarea.zForm-control {
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1.5rem;
-  color: var(--bColor);
+  color: var(--black);
   box-shadow: none;
 }
 .primary-form-group .primary-form-group-wrap .primary-form-control:focus {
-  color: var(--text-black);
+  color: var(--black);
 }
 .primary-form-group .primary-form-group-wrap .primary-form-control:hover, .primary-form-group .primary-form-group-wrap .primary-form-control:focus {
   border-color: var(--secondary-color);

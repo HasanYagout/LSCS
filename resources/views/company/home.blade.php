@@ -27,7 +27,7 @@
                             <!-- User -->
 
                             <div class="d-flex align-items-center cg-10 pb-20">
-                                <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-cdef84 rounded-circle overflow-hidden"><img
+                                <div class="flex-shrink-0 w-50 h-50 bd-one bd-c-primary-color rounded-circle overflow-hidden"><img
                                         src="{{ asset('public/storage/admin'.'/'.auth('company')->user()->image) }}"
                                         class="w-100"
                                         onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"

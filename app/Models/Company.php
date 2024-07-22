@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Company extends Authenticatable
 {
     use HasFactory;
-    protected $fillable=['status','phone','image','name','email','linkedin_url','instagram_url','facebook_url','twitter_url'];
+    protected $fillable=['status','phone','image','password','proposal','name','email','linkedin_url','instagram_url','facebook_url','twitter_url'];
     public function role()
     {
         return $this->hasOne(Roles::class, 'id', 'role_id');
@@ -30,6 +30,10 @@ class Company extends Authenticatable
     public function imagePath()
     {
         return asset('public/storage/company').'/' . $this->image;
+    }
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 
 }

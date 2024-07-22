@@ -1,6 +1,8 @@
 (function ($) {
     "use strict";
-
+    if ($.fn.dataTable.isDataTable('#instructorsDataTable')) {
+        $('#instructorsDataTable').DataTable().clear().destroy();
+    }
     var table = $("#instructorsDataTable").DataTable({
         pageLength: 10,
         ordering: true,
