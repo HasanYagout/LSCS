@@ -31,42 +31,42 @@
                             <div class="d-flex align-items-center flex-wrap g-18">
                                 <div class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-primary-color">
                                     <img class="h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
-                                         src="{{ asset('public/storage/admin').'/'.'image'.'/'.auth('admin')->user()->image}}"
-                                         alt="{{auth('admin')->user()->first_name.' '.auth('admin')->user()->last_name}}" />
+                                         src="{{ asset('public/storage/admin').'/'.'image'.'/'.$userInfo->image}}"
+                                         alt="{{$userInfo->first_name.' '.$userInfo->last_name}}" />
                                 </div>
                                 <div class="">
-                                    <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-1b1c17">{{auth('admin')->user()->first_name.' '.auth('admin')->user()->last_name}}</h4>
+                                    <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-1b1c17">{{$userInfo->first_name.' '.$userInfo->last_name}}</h4>
                                     <p class="fs-14 fw-400 lh-17 text-707070 pb-10">
-                                        {{auth('admin')->user()?->company_designation }}
+                                        {{$userInfo->company_designation }}
                                     </p>
                                 </div>
                             </div>
                             <!-- Social Link -->
                             <ul class="d-flex align-items-center cg-7">
-                                @if (auth('admin')->user()?->facebook_url != null && auth('admin')->user()?->facebook_url != '')
+                                @if ($userInfo->facebook_url != null && $userInfo->facebook_url != '')
                                     <li>
-                                        <a target="__blank" href="{{ auth('admin')->user()?->facebook_url }}"
+                                        <a target="__blank" href="{{ $userInfo->facebook_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
                                                 src="{{ asset('assets/images/icon/facebook.svg') }}" alt="" /></a>
                                     </li>
                                 @endif
-                                @if (auth('admin')->user()?->twitter_url != null && auth('admin')->user()?->twitter_url != '')
+                                @if ($userInfo->twitter_url != null && $userInfo->twitter_url != '')
                                     <li>
-                                        <a target="__blank" href="{{ auth('admin')->user()?->twitter_url }}"
+                                        <a target="__blank" href="{{ $userInfo->twitter_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
                                                 src="{{ asset('assets/images/icon/twitter.svg') }}" alt="" /></a>
                                     </li>
                                 @endif
-                                @if (auth('admin')->user()?->linkedin_url != null && auth('admin')->user()?->linkedin_url != '')
+                                @if ($userInfo->linkedin_url != null && $userInfo->linkedin_url != '')
                                     <li>
-                                        <a target="__blank" href="{{ auth('admin')->user()?->linkedin_url }}"
+                                        <a target="__blank" href="{{ $userInfo->linkedin_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
                                                 src="{{ asset('assets/images/icon/linkedin.svg') }}" alt="" /></a>
                                     </li>
                                 @endif
-                                @if (auth('admin')->user()?->instagram_url != null && auth('admin')->user()?->instagram_url != '')
+                                @if ($userInfo->instagram_url != null && $userInfo->instagram_url != '')
                                     <li>
-                                        <a target="__blank" href="{{ auth('admin')->user()?->instagram_url }}"
+                                        <a target="__blank" href="{{ $userInfo->instagram_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-two hover-border-one"><img
                                                 src="{{ asset('assets/images/icon/instagram.svg') }}" alt="" /></a>
                                     </li>
@@ -82,15 +82,15 @@
                                     <ul class="zList-one">
                                         <li>
                                             <p>{{ __('Full Name') }} :</p>
-                                            <p>{{ auth('admin')->user()->first_name.' '.auth('admin')->user()->last_name }}</p>
+                                            <p>{{ $userInfo->first_name.' '.$userInfo->last_name }}</p>
                                         </li>
                                         <li>
                                             <p>{{ __('Phone') }} :</p>
-                                            <p> {{ auth('admin')->user()?->phone }}</p>
+                                            <p> {{ $userInfo->phone }}</p>
                                         </li>
                                         <li>
                                             <p>{{ __('Email') }} :</p>
-                                            <p>{{ auth('admin')->user()?->email }}</p>
+                                            <p>{{ $userInfo->email }}</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -113,7 +113,7 @@
                                         <div class="pb-40">
                                             <div class="upload-img-box profileImage-upload">
                                                 <div class="icon"><img src="{{asset('public/assets/images/icon/edit-2.svg')}}" alt="" /></div>
-                                                <img onerror="this.src='{{ asset('public/assets/images/no-image.jpg') }}'" src="{{ asset('public/storage/admin').'/'.'image'.'/'.auth('admin')->user()->image }}" />
+                                                <img onerror="this.src='{{ asset('public/assets/images/no-image.jpg') }}'" src="{{ asset('public/storage/admin').'/'.'image'.'/'.$userInfo->image }}" />
                                                 <input type="file" name="image" id="zImageUpload" accept="image/*,video/*"
                                                        onchange="previewFile(this)" />
                                             </div>
@@ -124,7 +124,7 @@
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epFullName" class="form-label">{{ __('First Name') }}</label>
                                                     <input type="text" class="primary-form-control" id="epFullName"
-                                                           value="{{auth('admin')->user()->first_name}}" name="f_name"
+                                                           value="{{$userInfo->first_name}}" name="f_name"
                                                            placeholder="{{ __('Your First Name') }}" />
                                                 </div>
                                             </div>
@@ -134,7 +134,7 @@
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epFullName" class="form-label">{{ __('Last Name') }}</label>
                                                     <input type="text" class="primary-form-control" id="epFullName"
-                                                           value="{{auth('admin')->user()->last_name}}" name="l_name"
+                                                           value="{{$userInfo->last_name}}" name="l_name"
                                                            placeholder="{{ __('Your Last Name') }}" />
                                                 </div>
                                             </div>
@@ -151,7 +151,7 @@
                                                     <label for="epPhoneNumber" class="form-label">{{ __('Phone Number')
                                                     }}</label>
 
-                                                    <input type="number" value="{{auth('admin')->user()->phone}}" name="mobile"
+                                                    <input type="number" value="{{$userInfo->phone}}" name="mobile"
                                                            class="primary-form-control" id="epPhoneNumber"
                                                            maxlength="9"
                                                            minlength="1"
@@ -164,7 +164,7 @@
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epEmail" class="form-label">{{ __('Personal Email Address')
                                                     }}</label>
-                                                    <input type="email" value="{{auth('admin')->user()->email}}" name="email"
+                                                    <input type="email" value="{{$userInfo->email}}" name="email"
                                                            class="primary-form-control" id="epEmail"
                                                            placeholder="{{ __('Your Email') }}" />
                                                 </div>

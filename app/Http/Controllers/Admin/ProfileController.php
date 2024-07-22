@@ -19,10 +19,29 @@ class   ProfileController extends Controller
 {
     public function myProfile()
     {
+        $user = Auth::user();
+        $userInfo = null;
 
-        $data['pageTitle'] = 'Profile';
-        $data['navAccountSettingActiveClass'] = 'mm-active';
-        $data['subNavProfileActiveClass'] = 'mm-active';
+        switch ($user->role_id) {
+            case 1:
+                $userInfo = $user->admin;
+                break;
+            case 2:
+                $userInfo = $user->company;
+                break;
+            case 3:
+                $userInfo = $user->alumni;
+                break;
+            default:
+                abort(403, 'Unauthorized action.');
+        }
+
+        $data = [
+            'pageTitle' => 'Profile',
+            'navAccountSettingActiveClass' => 'mm-active',
+            'subNavProfileActiveClass' => 'mm-active',
+            'userInfo' => $userInfo,
+        ];
         return view('admin.profile.index', $data);
     }
 

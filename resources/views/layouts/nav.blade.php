@@ -3,16 +3,14 @@
     class="main-header py-10 px-30  bg-secondary-color d-flex justify-content-between align-items-center" style="background: url("{{asset('public/frontend/images/community-bg.png')}}")" data-background="{{asset('public/frontend/images/community-bg.png')}}">
 
     <div class="d-flex align-items-center cg-15" >
-
         <!-- Mobile Menu Button -->
         <div class="mobileMenu">
             <button
                 class="bd-one bd-c-ededed bd-ra-12 w-30 h-30 d-flex justify-content-center align-items-center text-707070 p-0 bg-transparent">
                 <i class="fa-solid fa-bars"></i></button>
         </div>
-        @if(auth('admin')->check() && auth('admin')->user()->role_id == USER_ROLE_ADMIN)
-            <a href="{{ route('admin.alumni.list') }}"
-               class="d-none  d-sm-inline-block fs-15 fw-500 lh-25 text-white  py-10 px-26 bg-primary-color bd-ra-12 hover-bg-#002a5c">{{
+        @if(Auth::check() && Auth::user()->role_id == USER_ROLE_ADMIN)
+            <a href="{{ route('admin.alumni.list') }}" class="d-none  d-sm-inline-block fs-15 fw-500 lh-25 text-white  py-10 px-26 bg-primary-color bd-ra-12 hover-bg-#002a5c">{{
             __('Find an Alumni') }}</a>
         @endif
     </div>
@@ -23,16 +21,23 @@
 
             <div class="dropdown headerUserDropdown">
                 @php
-                    $authenticatedGuard = null;
-                    $authenticatedUser = null;
-
-                    foreach (config('auth.guards') as $guardName => $guardConfig) {
-                        if (Auth::guard($guardName)->check()) {
-                            $authenticatedGuard = $guardName;
-                            $authenticatedUser = Auth::guard($guardName)->user();
-                            break;
-                        }
-                    }
+                    $authenticatedUser = Auth::user();
+                    if ($authenticatedUser) {
+                switch ($authenticatedUser->role_id) {
+            case 1:
+                $userInfo = $authenticatedUser->admin;
+                $role = 'admin';
+                break;
+            case 2:
+                $userInfo = $authenticatedUser->alumni;
+                $role = 'alumni';
+                break;
+            case 3:
+                $userInfo = $authenticatedUser->company;
+                $role = 'company';
+                break;
+        }
+    }
                 @endphp
 
                 <button class="dropdown-toggle p-0 border-0 bg-transparent d-flex align-items-center cg-8" type="button"
@@ -40,16 +45,16 @@
                     @if ($authenticatedUser)
                         <div class="w-42 h-42 rounded-circle overflow-hidden bd-one bd-c-primary-color">
                             <img class="h-100 object-fit-cover" onerror="this.src='{{ asset('public/assets/images/no-image.jpg') }}'"
-                                 src="{{ asset('public/storage') . '/' . $authenticatedGuard . '/'.'image'.'/' . $authenticatedUser->image }}"
+                                 src="{{ asset('public/storage') . '/' . $role . '/'.'image'.'/' . $authenticatedUser->image }}"
                                  alt="{{ $authenticatedUser->first_name . ' ' . $authenticatedUser->last_name }}" />
                         </div>
                         <div class="text-start d-none d-sm-block">
                             <p class="fs-12 fw-400 lh-15 text-707070">{{ __('Welcome') }}</p>
                             <h4 class="fs-15 fw-500 lh-18 text-1b1c17">
-                                @if ($authenticatedGuard == 'company')
-                                    {{ $authenticatedUser->name }}
+                                @if ($role == 'company')
+                                    {{ $userInfo->name }}
                                 @else
-                                    {{ $authenticatedUser->first_name }}
+                                    {{ $userInfo->first_name }}
                                 @endif
                             </h4>
                         </div>
@@ -57,9 +62,9 @@
                 </button>
 
                 <ul class="dropdown-menu dropdownItem-one">
-                    @if ($authenticatedGuard)
+                    @if ($authenticatedUser)
                         <li>
-                            <a class="d-flex align-items-center cg-8" href="{{ route($authenticatedGuard . '.profile.index') }}">
+                            <a class="d-flex align-items-center cg-8" href="{{ route($role . '.profile.index') }}">
                                 <div class="d-flex">
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M19.7274 20.4471C19.2716 19.1713 18.2672 18.0439 16.8701 17.2399C15.4729 16.4358 13.7611 16 12 16C10.2389 16 8.52706 16.4358 7.12991 17.2399C5.73276 18.0439 4.72839 19.1713 4.27259 20.4471" stroke="#707070" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"></path>

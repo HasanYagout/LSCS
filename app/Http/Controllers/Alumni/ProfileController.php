@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use PragmaRX\Google2FAQRCode\Google2FA;
@@ -30,9 +31,29 @@ class ProfileController extends Controller
 
     public function profile()
     {
+        $user = Auth::user();
+        $userInfo = null;
+
+        switch ($user->role_id) {
+            case 1:
+                $userInfo = $user->admin;
+
+                break;
+            case 2:
+                $userInfo = $user->alumni;
+                $role='alumni';
+                break;
+            case 3:
+                $userInfo = $user->company;
+                break;
+            default:
+                abort(403, 'Unauthorized action.');
+        }
+
         $data['activeProfile'] = 'active';
         $data['showProfileManagement'] = 'show';
-        $data['user'] = auth('alumni')->user();
+        $data['userInfo'] = $userInfo;
+        $data['role'] = $role;
         return view('alumni.profile',$data);
     }
 

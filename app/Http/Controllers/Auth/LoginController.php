@@ -33,11 +33,11 @@ class LoginController extends Controller
 
     public function submit(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
+//        $request->validate([
+//            'email' => 'required',
+//            'password' => 'required',
+//        ]);
+//
         $user = User::where('email', $request->email)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
@@ -50,9 +50,9 @@ class LoginController extends Controller
                     case 1:
                         return redirect()->route('admin.home');
                     case 2:
-                        return redirect()->route('company.home');
-                    case 3:
                         return redirect()->route('alumni.home');
+                     case3:
+                        return redirect()->route('company.home');
                     default:
                         Auth::logout();
                         return redirect()->route('login.form')->withErrors([

@@ -16,7 +16,7 @@
                                 data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
                                 aria-selected="true">{{ __('Profile') }}</button>
                     </li>
-                    @if(auth('alumni')->check())
+                    @if($role=='alumni')
                         <li class="nav-item" role="presentation">
                             <button class="nav-link {{ session('active_tab') == 'editProfile-tab' ? 'active' : '' }}" id="editProfile-tab" data-bs-toggle="tab"
                                     data-bs-target="#editProfile-tab-pane" type="button" role="tab"
@@ -36,19 +36,19 @@
                                 <div class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-primary-color">
                                     <img class="w-100 h-100"
                                          onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
-                                         src="{{ asset('public/storage/alumni/image').'/'.$user->image }}"
-                                         alt="{{$user->first_name.' '.$user->last_name}}"/>
+                                         src="{{ asset('public/storage/alumni/image').'/'.$userInfo->image }}"
+                                         alt="{{$userInfo->first_name.' '.$userInfo->last_name}}"/>
                                 </div>
                                 <div class="">
-                                    <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-secondary-color">{{$user->first_name.' '.$user->last_name}}</h4>
+                                    <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-secondary-color">{{$userInfo->first_name.' '.$userInfo->last_name}}</h4>
                                     <p class="fs-14 fw-400 lh-17 text-707070 pb-10"></p>
                                 </div>
                             </div>
                             <!-- Social Link -->
                             <ul class="d-flex align-items-center cg-7">
-                                @if ($user?->linkedin_url != null && $user?->linkedin_url != '')
+                                @if ($userInfo?->linkedin_url != null && $userInfo?->linkedin_url != '')
                                     <li>
-                                        <a target="__blank" href="{{ $user?->linkedin_url }}"
+                                        <a target="__blank" href="{{ $userInfo?->linkedin_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-one hover-border-one"><img
                                                 src="{{ asset('public/assets/images/icon/linkedin.svg') }}" alt=""/></a>
                                     </li>
@@ -65,25 +65,25 @@
                                                 <!-- Bio text -->
                                                 <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
                                                     <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('Profile Bio') }}</h4>
-                                                    <p class="fs-14 fw-400 lh-24 text-707070 pb-12">{!! $user?->about_me !!}</p>
+                                                    <p class="fs-14 fw-400 lh-24 text-707070 pb-12">{!! $userInfo?->about_me !!}</p>
                                                 </div>
                                                 <!-- Personal Info -->
                                                 <ul class="zList-one">
                                                     <li>
                                                         <p>{{ __('First Name') }} :</p>
-                                                        <p>{{ $user->first_name}}</p>
+                                                        <p>{{ $userInfo->first_name}}</p>
                                                     </li>
                                                     <li>
                                                         <p>{{ __('Last Name') }} :</p>
-                                                        <p>{{ $user->last_name}}</p>
+                                                        <p>{{ $userInfo->last_name}}</p>
                                                     </li>
                                                     <li>
                                                         <p>{{ __('Email') }} :</p>
-                                                        <p>{{$user->email}}</p>
+                                                        <p>{{$userInfo->email}}</p>
                                                     </li>
                                                     <li>
                                                         <p>{{ __('Phone') }} :</p>
-                                                        <p>{{$user->phone}}</p>
+                                                        <p>{{$userInfo->phone}}</p>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -93,7 +93,7 @@
                                                 <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
                                                     <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('Experience Info') }}</h4>
                                                 </div>
-                                                @foreach($user?->experience as $experience)
+                                                @foreach($userInfo?->experience as $experience)
                                                     <div class="py-20 bd-ra-10 bg-f9f9f9">
                                                         <ul class="zList-one">
                                                             <li class="p-0 lh-1 d-block">
@@ -130,7 +130,7 @@
                                                 <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
                                                     <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('Educational Info') }}</h4>
                                                 </div>
-                                                @foreach( $user?->education as $education)
+                                                @foreach( $userInfo?->education as $education)
                                                     <ul class="zList-one">
                                                         <li class="d-block">
                                                             <p class=" fs-4">{{ $education->type }}</p>
@@ -152,7 +152,7 @@
                                                 </div>
                                                 <ul class="zList-one d-flex">
                                                     @php
-                                                        $skills = json_decode($user?->skills);
+                                                        $skills = json_decode($userInfo?->skills);
                                                     @endphp
                                                     @if ($skills)
                                                         @foreach ($skills as $skill)
@@ -171,7 +171,7 @@
                                                 </div>
                                                 <div class="container">
                                                     <div class="row g-3">
-                                                        @foreach($user->cvs as $cv)
+                                                        @foreach($userInfo->cvs as $cv)
                                                             <div class="col-md-6">
                                                                 <div class="card">
                                                                     <div class="card-body">
@@ -196,7 +196,7 @@
                         </div>
                     </div>
                     <!-- Edit Profile -->
-                    @if(auth('alumni')->check())
+                    @if($role='alumni')
                         <div class="tab-pane fade {{ session('active_tab') == 'editProfile-tab' ? 'show active' : '' }}" id="editProfile-tab-pane" role="tabpanel"
                              aria-labelledby="editProfile-tab" tabindex="0">
                             <div class="max-w-840">
@@ -216,7 +216,7 @@
                                                     <div class="icon"><img src="{{asset('public/assets/images/icon/edit-2.svg')}}" alt=""/>
                                                     </div>
                                                     <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
-                                                         src="{{ asset('public/storage/alumni/image').'/'.$user->image }}"/>
+                                                         src="{{ asset('public/storage/alumni/image').'/'.$userInfo->image }}"/>
                                                     <input type="file" name="image" id="zImageUpload"
                                                            accept="image/*,video/*"
                                                            onchange="previewFile(this)"/>
@@ -228,7 +228,7 @@
                                                         <label for="epAbout" class="form-label">{{ __('About Me') }}</label>
                                                         <textarea class="primary-form-control min-h-180" id="epAbout"
                                                                   name="about_me"
-                                                                  placeholder="{{ __('Type about yourself') }}">{!! $user?->about_me !!}</textarea>
+                                                                  placeholder="{{ __('Type about yourself') }}">{!! $userInfo?->about_me !!}</textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -243,7 +243,7 @@
                                                     <div class="primary-form-group-wrap">
                                                         <label for="epPhoneNumber" class="form-label">{{ __('Phone Number')
                                                         }}</label>
-                                                        <input type="text" value="{{$user->phone}}"
+                                                        <input type="text" value="{{$userInfo->phone}}"
                                                                name="mobile"
                                                                maxlength="9"
                                                                minlength="1"
@@ -258,7 +258,7 @@
                                                     <div class="primary-form-group-wrap">
                                                         <label for="epEmail" class="form-label">{{ __('Personal Email Address')
                                                         }}</label>
-                                                        <input type="email" value="{{$user->email}}"
+                                                        <input type="email" value="{{$userInfo->email}}"
                                                                name="email"
                                                                class="primary-form-control" id="epEmail"
                                                                placeholder="{{ __('Your Email') }}"/>
@@ -271,7 +271,7 @@
                                                         <label for="epLinkedin"
                                                                class="form-label">{{ 'Linkedin Url' }}</label>
                                                         <input type="url"
-                                                               value="{{ $user?->linkedin_url }}"
+                                                               value="{{ $userInfo?->linkedin_url }}"
                                                                name="linkedin_url" class="primary-form-control"
                                                                id="epLinkedin"
                                                                placeholder="{{ __('Your Linkedin Profile Url') }}"/>
@@ -284,7 +284,7 @@
                                     <div class="pb-30">
                                         <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-20">{{ __('Education Info') }}</h4>
                                         <div class="row rg-25">
-                                            @forelse ($user->education as $education)
+                                            @forelse ($userInfo->education as $education)
                                                 <div class="education-item">
                                                     <input type="hidden" name="education[id][]" value="{{ $education->id }}">
                                                     @if ($loop->first)
@@ -384,7 +384,7 @@
                                     <div class="pb-30">
                                         <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-20">{{ __('Experience Info') }}</h4>
                                         <div class="row rg-25">
-                                            @forelse ($user->experience as $experience)
+                                            @forelse ($userInfo->experience as $experience)
                                                 <div class="experience-item">
                                                     <input type="hidden" name="experience[id][]" value="{{ $experience->id }}">
                                                     @if ($loop->first)
@@ -487,8 +487,8 @@
                                             <div class="primary-form-group-wrap">
                                                 <label for="skills" class="form-label">Skills</label>
                                                 <select class="form-control skills-select" name="skills[]" multiple="multiple">
-                                                    @if(json_decode($user->skills))
-                                                        @foreach (json_decode($user->skills) as $skill)
+                                                    @if(json_decode($userInfo->skills))
+                                                        @foreach (json_decode($userInfo->skills) as $skill)
                                                             <option value="{{ $skill }}" selected="selected">{{ $skill }}</option>
                                                         @endforeach
                                                     @endif
@@ -500,7 +500,7 @@
                                     <div class="pb-30">
                                         <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-20">{{ __('CVs Info') }}</h4>
                                         <div class="row rg-25">
-                                            @forelse ($user->cvs as $cv)
+                                            @forelse ($userInfo->cvs as $cv)
                                                 <div class="cv-item col-md-4">
                                                     <input type="hidden" name="cv[id][]" value="{{ $cv->id }}">
                                                     @if ($loop->first)

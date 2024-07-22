@@ -44,6 +44,9 @@
                                 <th class="min-w-150 w-110" scope="col">
                                     <div>{{ __('Change status') }}</div>
                                 </th>
+                                <th class="min-w-150 w-110" scope="col">
+                                    <div>{{ __('Images') }}</div>
+                                </th>
 
                             </tr>
                         </thead>
