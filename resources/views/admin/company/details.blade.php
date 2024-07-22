@@ -24,11 +24,13 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card text-center">
-                            <div class="card-header text-secondary-color  bg-primary-color  m-2">
-                                <img  onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/company' . $company->logo) }}" alt="Company Logo" class=" object-fit-cover rounded-circle">
-                                <h2 class="mb-3 mt-5">{{ $company->name }}</h2>
-                            </div>
+                            <div class=" hover-scale-img  bg-dark">
+                                <img  onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/company' . $company->logo) }}" alt="Company Logo" class=" w-100 h-100 object-fit-cover container pd register-right rounded-5 s  ">
 
+                            </div>
+                            <div class="pt-10 pb-5 px-5 text-center bg-secondary-color ">
+                                <h1 class="fs-70 fw-600 lh-28 text-primary-color pb-2">{{ $company->name }}</h1>
+                            </div>
                         </div>
 
                     </div>
@@ -39,7 +41,7 @@
                     <div class="col-lg-4">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class=" mb-2">General</h5>
+                                <h5 class=" pt-10 pb-5 px-5 text-center bg-primary-color text-scroll-track ">General</h5>
                                 <p class="card-text m-1"><strong>Email:</strong> {{ $company->email }}</p>
                                 <p class="card-text m-1"><strong>Phone:</strong> {{ $company->phone }}</p>
                             </div>
@@ -48,7 +50,7 @@
                     <div class="col-lg-4">
                         <div class="card m-1">
                             <div class="card-body m-1">
-                                <h5>Jobs</h5>
+                                <h5 class="pt-10 pb-5 px-5 text-center bg-primary-color text-scroll-track">Jobs</h5>
                                 <h1>{{count($company->jobs)}}</h1>
                             </div>
                         </div>
