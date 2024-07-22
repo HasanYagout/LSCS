@@ -407,12 +407,12 @@
                                         <div class="collapse {{ $showEvent ?? '' }}" id="myEvent" data-bs-parent="#sidebarMenu">
                                             <ul class="zSidebar-submenu">
                                                 @if ($role=='admin')
-                                                    <li><a class="{{ $activeEventCategory ?? '' }}" href="{{ route($authenticatedUser.'.eventCategory.index') }}">{{ __('Event Category') }}</a></li>
-                                                    <li><a class="{{ $activeEventCreate ?? '' }}" href="{{ route($authenticatedUser.'.event.create') }}">{{ __('Create Event') }}</a></li>
-                                                    <li><a class="{{ $activeMyEvent ?? '' }}" href="{{ route($authenticatedUser.'.event.my-event') }}">{{ __('My Event') }}</a></li>
+                                                    <li><a class="{{ $activeEventCategory ?? '' }}" href="{{ route($role.'.eventCategory.index') }}">{{ __('Event Category') }}</a></li>
+                                                    <li><a class="{{ $activeEventCreate ?? '' }}" href="{{ route($role.'.event.create') }}">{{ __('Create Event') }}</a></li>
+                                                    <li><a class="{{ $activeMyEvent ?? '' }}" href="{{ route($role.'.event.my-event') }}">{{ __('My Event') }}</a></li>
                                                 @endif
-                                                <li><a class="{{ $activeEventPending ?? '' }}" href="{{ route($authenticatedUser.'.event.pending') }}">{{ __('Pending Events') }}</a></li>
-                                                <li><a class="{{ $activeAllEvent ?? '' }}" href="{{ route($authenticatedUser.'.event.all') }}">{{ __('All Events') }}</a></li>
+                                                <li><a class="{{ $activeEventPending ?? '' }}" href="{{ route($role.'.event.pending') }}">{{ __('Pending Events') }}</a></li>
+                                                <li><a class="{{ $activeAllEvent ?? '' }}" href="{{ route($role.'.event.all') }}">{{ __('All Events') }}</a></li>
                                             </ul>
                                         </div>
                                     </li>

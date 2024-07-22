@@ -8,6 +8,7 @@ use App\Traits\ResponseTrait;
 use App\Models\FileManager;
 use Exception;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -138,9 +139,11 @@ class EventService
 
     public function myEvent($request)
     {
+        $user=Auth::user();
+
         $query = Event::select('events.*', 'event_categories.name as category_name')
             ->join('event_categories', 'events.event_category_id', '=', 'event_categories.id')
-            ->where('user_id', auth('admin')->id())
+            ->where('posted_by', $user->id)
             ->where('events.status', STATUS_ACTIVE);
         // Handle search
         // Handle ordering
