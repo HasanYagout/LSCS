@@ -38,17 +38,22 @@ class CompanyService
 
     public function all($request)
     {
-        $query = Company::where('status',STATUS_ACTIVE)
-            ->orWhere('status',STATUS_INACTIVE);
+        $query = Company::join('users', 'companies.user_id', '=', 'users.id')
+            ->select('companies.*','users.email')
+            ->where(function ($q) {
+                $q->where('users.status', STATUS_ACTIVE)
+                    ->orWhere('users.status', STATUS_INACTIVE);
+            });
 
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
             $query->where(function ($q) use ($search) {
-                $q->where('email', 'like', "%{$search}%")
-                    ->orWhere('name', 'like', "%{$search}%")
-                    ->orWhere('phone', 'like', "%{$search}%");
+                $q->where('users.email', 'like', "%{$search}%")
+                    ->orWhere('companies.name', 'like', "%{$search}%")
+                    ->orWhere('companies.phone', 'like', "%{$search}%");
             });
         }
+
         if ($request->has('order') && $request->has('columns')) {
             foreach ($request->order as $order) {
                 $orderBy = $request->columns[$order['column']]['data'];
@@ -56,7 +61,7 @@ class CompanyService
                 $query->orderBy($orderBy, $orderDirection);
             }
         } else {
-            $query->orderBy('id', 'desc');
+            $query->orderBy('companies.id', 'desc');
         }
 
         return datatables($query)
@@ -96,14 +101,16 @@ class CompanyService
 
     public function active( $request)
     {
-        $query = Company::where('status', STATUS_ACTIVE);
+        $query = Company::join('users', 'companies.user_id', '=', 'users.id')
+            ->select('companies.*','users.email')
+            ->Where('users.status', STATUS_ACTIVE);
 
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
             $query->where(function ($q) use ($search) {
-                $q->where('email', 'like', "%{$search}%")
-                    ->orWhere('name', 'like', "%{$search}%")
-                    ->orWhere('phone', 'like', "%{$search}%");
+                $q->where('users.email', 'like', "%{$search}%")
+                    ->orWhere('companies.name', 'like', "%{$search}%")
+                    ->orWhere('companies.phone', 'like', "%{$search}%");
             });
         }
 
@@ -148,13 +155,17 @@ class CompanyService
     public function pending($request)
     {
 
-        $query = Company::where('status',STATUS_INACTIVE);
+        $query = Company::join('users', 'companies.user_id', '=', 'users.id')
+            ->select('companies.*','users.email')
+            ->Where('users.status', STATUS_INACTIVE);
+
+
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
             $query->where(function ($q) use ($search) {
-                $q->where('email', 'like', "%{$search}%")
-                    ->orWhere('name', 'like', "%{$search}%")
-                    ->orWhere('phone', 'like', "%{$search}%");
+                $q->where('users.email', 'like', "%{$search}%")
+                    ->orWhere('companies.name', 'like', "%{$search}%")
+                    ->orWhere('companies.phone', 'like', "%{$search}%");
             });
         }
         if ($request->has('order') && $request->has('columns')) {

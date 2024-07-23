@@ -7,6 +7,7 @@ use App\Models\FileManager;
 use App\Traits\ResponseTrait;
 use Exception;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -87,6 +88,8 @@ class NoticeService
     public function store($request)
     {
         try {
+            $user = Auth::user();
+
             DB::beginTransaction();
             if (Notice::where('slug', getSlug($request->title))->count() > 0) {
                 $slug = getSlug($request->title) . '-' . rand(100000, 999999);
@@ -99,7 +102,7 @@ class NoticeService
             $notice->notice_category_id = $request->category_id;
             $notice->details = $request->details;
             $notice->status = $request->status;
-            $notice->created_by = auth('admin')->id();
+            $notice->created_by = $user->user_id;
             if ($request->hasFile('image')) {
                 // Get the original file extension
                 $extension = $request->image->getClientOriginalExtension();

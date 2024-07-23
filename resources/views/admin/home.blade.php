@@ -178,7 +178,7 @@
                                         <div class="d-flex align-items-center cg-10 pb-10">
                                             <div
                                                 class="flex-shrink-0 w-45 overflow-hidden h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img class="h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $job->posted_by=='company' ? asset('public/storage/company').'/'.'image'.'/'.$job->company->image :asset('public/storage/admin').'/'.'image'.'/'.$job->admin->image }}"
+                                                <img class="h-100 object-fit-cover" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $job->posted_by=='company' ? asset('public/storage/company/image').'/'.$job->company->image :asset('public/storage/admin/image').'/'.$job->admin->image }}"
                                                     alt="{{ $job->title }}" />
                                             </div>
                                             <div class="">

@@ -61,39 +61,39 @@ class StudentController extends Controller
 
         if ($request->status) {
             // If we're setting this student as an alumni
-            if (!$alumni) {
-                // No alumni record exists, create a new one
-                $alumni = new Alumni();
-            }
-
-            // Update or set the alumni details
-            $alumni->id = $student->id;
-            $alumni->first_name = $student->first_name;
-            $alumni->last_name = $student->last_name;
-            $alumni->phone = $student->phone;
-            $alumni->gpa = $student->gpa;
-            $alumni->major = $student->major->name;
-            $alumni->graduation_year = Carbon::now()->format('Y');
-            $alumni->email = $student->email;
-            $alumni->status = 1; // Active status
-            $alumni->save();
-
-            // Update or set the user details
             if (!$user) {
+                // No alumni record exists, create a new one
                 $user = new User();
-                $user->user_id = $student->id;
-                $user->role_id = 2;
             }
 
             $user->email = $student->id;
             $user->password = Hash::make($student->id);
+            $user->role_id = 2;
             $user->status = 1; // Active status
             $user->save();
+
+
+            // Update or set the user details
+            if (!$alumni) {
+                $alumni= new Alumni();
+            }
+            // Update or set the alumni details
+            $alumni->id = $student->id;
+            $alumni->first_name = $student->first_name;
+            $alumni->last_name = $student->last_name;
+            $alumni->email = $student->email;
+            $alumni->phone = $student->phone;
+            $alumni->gpa = $student->gpa;
+            $alumni->major = $student->major->name;
+            $alumni->graduation_year = Carbon::now()->format('Y');
+            $alumni->user_id = $user->id;
+            $alumni->save();
+
             return response()->json(['success' => true, 'message' => __('Alumni updated successfully')]);
         } else {
             // If we're setting this student as inactive alumni
-            if ($alumni) {
-                $appliedJobs=AppliedJobs::where('alumni_id', $student->id)->get();
+            if ($user) {
+                $appliedJobs=AppliedJobs::where('alumni_id', $user->email)->get();
                 foreach ($appliedJobs as $job){
                     $job->status=0;
                 }

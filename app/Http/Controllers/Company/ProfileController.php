@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -17,10 +18,27 @@ class ProfileController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
+        $userInfo = null;
+
+        switch ($user->role_id) {
+            case 1:
+                $userInfo = $user->admin;
+                break;
+            case 2:
+                $userInfo = $user->alumni;
+                break;
+            case 3:
+                $userInfo = $user->company;
+                break;
+            default:
+                abort(403, 'Unauthorized action.');
+        }
 
         $data['pageTitle'] = 'Profile';
         $data['navAccountSettingActiveClass'] = 'mm-active';
         $data['subNavProfileActiveClass'] = 'mm-active';
+        $data['userInfo'] = $userInfo;
         return view('company.profile.index', $data);
     }
     public function update(Request $request)

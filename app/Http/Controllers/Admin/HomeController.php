@@ -21,6 +21,7 @@ class HomeController extends BaseController
     public function index(Request $request)
     {
         $user = Auth::user();
+
         $userInfo = null;
 
         switch ($user->role_id) {

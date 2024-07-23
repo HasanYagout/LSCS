@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Company extends Authenticatable
 {
     use HasFactory;
-    protected $fillable=['status','phone','image','password','slug','proposal','name','email','linkedin_url','instagram_url','facebook_url','twitter_url'];
+    protected $fillable=['status','phone','image','slug','proposal','name','user_id','linkedin_url','instagram_url','facebook_url','twitter_url'];
     public function role()
     {
         return $this->hasOne(Roles::class, 'id', 'role_id');

@@ -69,9 +69,7 @@ class   ProfileController extends Controller
                 'first_name'=>Str::ucfirst($request['f_name']),
                 'last_name'=>Str::ucfirst($request['l_name']),
                 'image' => $filename,
-                'email' => $request['email'],
                 'phone' => $request['mobile'],
-
             ]);
 
 

@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('email');
+            $table->id(); // This creates an auto-incrementing primary key column named 'id'
+            $table->string('email')->unique();
             $table->string('password');
-            $table->foreignId('user_id');
             $table->foreignId('role_id');
             $table->integer('status');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -33,12 +33,14 @@ class LoginController extends Controller
 
     public function submit(Request $request)
     {
-//        $request->validate([
-//            'email' => 'required',
-//            'password' => 'required',
-//        ]);
-//
-        $user = User::where('email', $request->email)->first();
+        $request->validate([
+            'email' => 'required|exists:users,email',
+            'password' => 'required|min:8',
+        ]);
+
+        $user = User::where('email', $request->email)
+            ->where('status',1)
+            ->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user);
@@ -52,12 +54,12 @@ class LoginController extends Controller
                     case 2:
                         return redirect()->route('alumni.home');
                     case 3:
-                        return redirect()->route('company.home');
+                        return redirect()->route('company.jobs.all-job-post');
                     case 4:
                         return redirect()->route('admin.instructor.dashboard');
                     default:
                         Auth::logout();
-                        return redirect()->route('login.form')->withErrors([
+                        return redirect()->route('auth.login')->withErrors([
                             'email' => 'Invalid role specified.',
                         ]);
                 }
@@ -67,6 +69,11 @@ class LoginController extends Controller
                     'email' => 'Authentication failed. Please try again.',
                 ]);
             }
+        }
+        else{
+            return back()->withErrors([
+                'email' => 'You Are Blocked Contact with Admin',
+            ]);
         }
 
         return back()->withErrors([
@@ -101,25 +108,24 @@ class LoginController extends Controller
 
         $defaultPassword = Hash::make($request->password);
         DB::transaction(function () use ($request, $fileName, $defaultPassword) {
-            // Create new company record
-            $company = Company::create([
-                'name' => $request->input('name'),
-                'slug' => Str::slug($request->input('name')) . '_' . uniqid(),
-                'email' => $request->input('email'),
-                'password' => $defaultPassword,
-                'phone' => $request->input('mobile'),
-                'proposal' => $fileName,
-                'status' => STATUS_PENDING,
-            ]);
-
             // Create new user record
-            User::create([
+            $user=User::create([
                 'email' => $request->input('email'),
                 'password' => $defaultPassword,
-                'user_id' => $company->id,
                 'role_id' => 3,
                 'status' => STATUS_PENDING,
             ]);
+
+            // Create new company record
+            Company::create([
+                'name' => $request->input('name'),
+                'slug' => Str::slug($request->input('name')) . '_' . uniqid(),
+                'phone' => $request->input('mobile'),
+                'proposal' => $fileName,
+                'user_id' => $user->id,
+            ]);
+
+
         });
 
         // Redirect or return response

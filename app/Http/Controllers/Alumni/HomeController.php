@@ -21,15 +21,8 @@ class HomeController extends BaseController
     public function index(Request $request)
     {
         $user = Auth::user();
-        $userInfo = null;
 
 
-
-        $userInfo=[
-            1 => $user->admin,
-            2=> $user->alumni,
-            3=> $user->company,
-        ];
         $data = [
             'pageTitle' => __('Timeline'),
             'activeHome' => 'active',
@@ -37,11 +30,10 @@ class HomeController extends BaseController
             'latestJobs' => $this->dashboardService->getLatestJobs()->getData()->data,
             'latestNews' => $this->dashboardService->getLatestNews()->getData()->data,
             'latestNotice' => $this->dashboardService->getLatestNotice()->getData()->data,
-            'user' => auth('alumni')->user(),
-            'userInfo' => $userInfo[$user->role_id],
+            'userInfo' => $user->alumni,
             'posts' => $this->dashboardService->getPosts(),
         ];
-        return view('alumni.home', $data)->with('info','welcome'.$userInfo[$user->role_id]->first_name);
+        return view('alumni.home', $data)->with('info','welcome'.$user->alumni->first_name);
     }
 
 

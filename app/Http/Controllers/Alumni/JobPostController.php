@@ -14,6 +14,7 @@ use App\Http\Services\JobPostService;
 use App\Traits\ResponseTrait;
 use App\Http\Requests\JobPostRequest;
 use App\Http\Services\NoticeCategoryService;
+use Illuminate\Support\Facades\Auth;
 
 class JobPostController extends Controller
 {
@@ -55,7 +56,7 @@ class JobPostController extends Controller
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
-        $data['cvs']=CV::where('alumni_id',auth('alumni')->user()->id)->get();
+        $data['cvs']=CV::where('alumni_id',Auth::user()->user_id)->get();
         $data['company']=$company;
         $data['slug']=$slug;
         return view('alumni.jobs.job_post_view', $data);

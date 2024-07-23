@@ -5,6 +5,7 @@ namespace App\Http\Services;
 use App\Models\NewsCategory;
 use App\Traits\ResponseTrait;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class NewsCategoryService
@@ -56,6 +57,8 @@ class NewsCategoryService
 
     public function store($request)
     {
+        $user = Auth::user();
+
         // Generate the slug
         $slug = getSlug($request->name);
 
@@ -63,7 +66,7 @@ class NewsCategoryService
         $newsCategory = new NewsCategory();
         $newsCategory->name = $request->name;
         $newsCategory->slug = $slug;
-        $newsCategory->posted_by = auth('admin')->id();
+        $newsCategory->posted_by = $user->user_id;
         $newsCategory->status = $request->status;
         $newsCategory->save();
         return $newsCategory;
