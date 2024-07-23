@@ -59,7 +59,7 @@ class NewsService
         return datatables($query)
             ->addIndexColumn()
             ->addColumn('image', function ($data) {
-                return '<img  src="' . asset('/public/storage/admin/news') . '/' . $data->image . '" alt="icon" class="max-h-35 rounded avatar-xs tbl-user-image">';
+                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';"  src="' . asset('/public/storage/admin/news') . '/' . $data->image . '" alt="icon" class="max-h-35 rounded avatar-xs tbl-user-image">';
             })
             ->addColumn('title', function ($data) {
                 return $data->title;
