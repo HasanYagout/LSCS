@@ -100,7 +100,7 @@ class   ProfileController extends Controller
                 ->with('error', 'Validation failed.');
         }
 
-        $user = auth('admin')->user();
+        $user = Auth::user();
         if (!Hash::check($request->current_password, $user->password)) {
             session()->flash('active_tab', 'editProfile-tab');
             return redirect()->back()
@@ -119,7 +119,7 @@ class   ProfileController extends Controller
             DB::commit();
 
             // Log out the user and redirect to login page with a success message
-            auth('admin')->logout();
+            Auth::logout();
             return redirect()->route('auth.login')->with('success', 'Password updated successfully. Please log in with your new password.');
         } catch (\Exception $e) {
             DB::rollBack();

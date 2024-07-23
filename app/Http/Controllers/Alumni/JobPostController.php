@@ -32,7 +32,7 @@ class JobPostController extends Controller
         $data['showJobPostManagement'] = 'show';
         $data['activePendingJobPostList'] = 'active-color-one';
         $data['appliedJobs'] = AppliedJobs::with('job')
-            ->where('alumni_id', auth('alumni')->id())
+            ->where('alumni_id', Auth::user()->id)
             ->paginate(10); // Specify the number of items per page
         return view('alumni.jobs.pending', $data);
     }

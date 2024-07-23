@@ -14,7 +14,7 @@ class RecommendationController extends Controller
     {
         if ($request->ajax()) {
             $recommendations = Recommendation::with(['alumni', 'admin'])
-                ->where('alumni_id', auth('alumni')->id())
+                ->where('alumni_id', Auth::user()->id)
                 ->get();
 
             return datatables($recommendations)
@@ -77,7 +77,7 @@ class RecommendationController extends Controller
     public function edit(Request $request,$id)
     {
         $data['recommendations']=Recommendation::where('admin_id',$id)
-        ->where('alumni_id', auth('alumni')->id())->value('recommendation');
+        ->where('alumni_id', Auth::user()->id)->value('recommendation');
 
         return view('alumni.recommendation.view',$data);
     }

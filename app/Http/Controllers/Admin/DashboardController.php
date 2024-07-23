@@ -134,7 +134,7 @@ class DashboardController extends Controller
 
             if ($request->ajax()) {
                 $recommendation = Recommendation::with('alumni')
-                    ->where('recommendations.admin_id', auth('admin')->user()->id)
+                    ->where('recommendations.admin_id', Auth::user()->id)
                     ->join('alumnis', 'recommendations.alumni_id', '=', 'alumnis.id')
                     ->select(
                         'recommendations.*',
