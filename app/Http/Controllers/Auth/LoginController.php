@@ -51,8 +51,10 @@ class LoginController extends Controller
                         return redirect()->route('admin.home');
                     case 2:
                         return redirect()->route('alumni.home');
-                     case3:
+                    case 3:
                         return redirect()->route('company.home');
+                    case 4:
+                        return redirect()->route('admin.instructor.dashboard');
                     default:
                         Auth::logout();
                         return redirect()->route('login.form')->withErrors([
