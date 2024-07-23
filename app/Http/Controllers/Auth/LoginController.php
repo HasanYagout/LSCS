@@ -81,7 +81,7 @@ class LoginController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'mobile' => 'required|string|max:15',
-            'email' => 'required|email|max:255|unique:companies,email',
+            'email' => 'required|email|max:255|unique:users,email',
             'proposal' => 'required|file|mimes:pdf|max:2048', // Accept PDF files up to 2MB
             'password' => 'required|string|min:8|confirmed',
         ]);
