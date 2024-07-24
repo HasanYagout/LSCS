@@ -232,7 +232,7 @@ class DashboardController extends Controller
 
     public function status_update(Request $request)
     {
-        Recommendation::where('admin_id', auth('admin')->id())
+        Recommendation::where('admin_id', Auth::user()->id)
             ->whereIn('id', $request->ids)
             ->update(['status' => $request->status]);
 

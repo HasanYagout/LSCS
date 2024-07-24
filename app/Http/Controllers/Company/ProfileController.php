@@ -43,7 +43,7 @@ class ProfileController extends Controller
     }
     public function update(Request $request)
     {
-        $authUser = auth('company')->user();
+        $authUser = Auth::user()->company;
         try {
             DB::beginTransaction();
             $filename = $authUser->image; // Set default to current image in case no new image is uploaded
@@ -60,12 +60,15 @@ class ProfileController extends Controller
                 $filename = $date . '_' . $randomSlug . '_' . $randomNumber . '.' . $image->getClientOriginalExtension();
                 $image->storeAs('company/image', $filename, 'public');
             }
+            $user = Auth::user();
+
+            // Update the user's email
+            $user->update(['email' => $request->email]);
 
             // Update or create the company profile
             Company::updateOrCreate(['id' => $authUser->id], [
                 'name' => Str::ucfirst($request['name']),
                 'image' => $filename,
-                'email' => $request['email'],
                 'facebook_url' => $request['facebook_url'],
                 'twitter_url' => $request['twitter_url'],
                 'instagram_url' => $request['instagram_url'],
@@ -96,7 +99,7 @@ class ProfileController extends Controller
                 ->with('error', 'Validation failed.');
         }
 
-        $user = auth('company')->user();
+        $user = Auth::user();
         if (!Hash::check($request->current_password, $user->password)) {
             session()->flash('active_tab', 'editProfile-tab');
             return redirect()->back()
@@ -115,7 +118,7 @@ class ProfileController extends Controller
             DB::commit();
 
             // Log out the user and redirect to login page with a success message
-            auth('company')->logout();
+            Auth::logout();
             return redirect()->route('company.auth.login')->with('success', 'Password updated successfully. Please log in with your new password.');
         } catch (\Exception $e) {
             DB::rollBack();

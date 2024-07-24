@@ -142,7 +142,7 @@ class ProfileController extends Controller
         $data['title'] = __('All Job Post');
         $data['showCvManagement'] = 'show';
         $data['activeCvList'] = 'active-color-one';
-        $data['cvs']=auth('alumni')->user()->cvs;
+        $data['cvs']=Auth::user()->cvs;
 
         return view('alumni.cvs.all', $data);
     }

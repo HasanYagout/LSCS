@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Recommendation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class RecommendationController extends Controller
@@ -89,7 +90,7 @@ class RecommendationController extends Controller
             'details' => 'required|string|max:2000',
         ]);
 
-        Recommendation::create(['alumni_id'=>auth('alumni')->user()->id,
+        Recommendation::create(['alumni_id'=>Auth::user()->id,
             'admin_id'=>$request->instructor,'status'=>0]);
         return back()->with('success', 'Recommendation request submitted successfully.');
 

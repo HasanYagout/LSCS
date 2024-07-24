@@ -134,8 +134,8 @@ class AdminController extends Controller
             $admin->save();
 
             // Check if the authenticated admin is the same as the reset admin
-            if (auth('admin')->id() == $id) {
-                auth('admin')->logout();
+            if (Auth::user()->id == $id) {
+                Auth::logout();
                 // Return success response indicating logout
                 return response()->json(['message' => 'Password reset successfully. Please log in again.', 'logout' => true]);
             }

@@ -40,28 +40,28 @@
                             </div>
                             <!-- Social Link -->
                             <ul class="d-flex align-items-center cg-7">
-                                @if (auth('company')->user()?->facebook_url)
+                                @if ($userInfo->facebook_url)
                                     <li>
                                         <a target="__blank" href="{{ $userInfo->facebook_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-one hover-border-one"><img
                                                 src="{{ asset('public/assets/images/icon/facebook.svg') }}" alt="" /></a>
                                     </li>
                                 @endif
-                                @if (auth('company')->user()?->twitter_url)
+                                @if ($userInfo->twitter_url)
                                     <li>
                                         <a target="__blank" href="{{ $userInfo->twitter_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-one hover-border-one"><img
                                                 src="{{ asset('public/assets/images/icon/twitter.svg') }}" alt="" /></a>
                                     </li>
                                 @endif
-                                @if (auth('company')->user()?->linkedin_url)
+                                @if ($userInfo->linkedin_url)
                                     <li>
                                         <a target="__blank" href="{{ $userInfo->linkedin_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-one hover-border-one"><img
                                                 src="{{ asset('public/assets/images/icon/linkedin.svg') }}" alt="" /></a>
                                     </li>
                                 @endif
-                                @if (auth('company')->user()?->instagram_url)
+                                @if ($userInfo->instagram_url)
                                     <li>
                                         <a target="__blank" href="{{ $userInfo->instagram_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-one hover-border-one"><img
@@ -82,9 +82,10 @@
                                             <p>{{ __('Full Name') }} :</p>
                                             <p>{{ $userInfo->name}}</p>
                                         </li>
+
                                             <li>
                                                 <p>{{ __('Email') }} :</p>
-                                                <p>{{$userInfo->email}}</p>
+                                                <p>{{\Illuminate\Support\Facades\Auth::user()->email}}</p>
                                             </li>
 
                                             <li>
@@ -155,7 +156,7 @@
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epEmail" class="form-label">{{ __('Personal Email Address') }}</label>
-                                                    <input type="email" value="{{$userInfo->email}}" name="email"
+                                                    <input type="email" value="{{\Illuminate\Support\Facades\Auth::user()->email}}" name="email"
                                                            class="primary-form-control" id="epEmail"
                                                            placeholder="{{ __('Your Email') }}" />
                                                 </div>
@@ -165,7 +166,7 @@
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epLinkedin" class="form-label">{{ 'Linkedin Url' }}</label>
-                                                    <input type="url" value="{{ auth('company')->user()?->linkedin_url }}"
+                                                    <input type="url" value="{{ $userInfo->linkedin_url }}"
                                                            name="linkedin_url" class="primary-form-control" id="epLinkedin"
                                                            placeholder="{{ __('Your Linkedin Profile Url') }}" />
                                                 </div>
@@ -175,7 +176,7 @@
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epFacebook" class="form-label">{{ __('Facebook Url') }}</label>
-                                                    <input type="url" value="{{ auth('company')->user()?->facebook_url }}"
+                                                    <input type="url" value="{{ $userInfo->facebook_url }}"
                                                            name="facebook_url" class="primary-form-control" id="epFacebook"
                                                            placeholder="{{ __('Your Facebook Profile Url') }}" />
                                                 </div>
@@ -185,7 +186,7 @@
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epTwitter" class="form-label">{{ __('Twitter Url') }}</label>
-                                                    <input type="url" value="{{ auth('company')->user()?->twitter_url }}"
+                                                    <input type="url" value="{{ $userInfo->twitter_url }}"
                                                            name="twitter_url" class="primary-form-control" id="epTwitter"
                                                            placeholder="{{ __('Your Twitter Profile Url') }}" />
                                                 </div>
@@ -195,7 +196,7 @@
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epInstagram" class="form-label">{{ __('Instagram Url') }}</label>
-                                                    <input type="url" value="{{ auth('company')->user()?->instagram_url }}"
+                                                    <input type="url" value="{{ $userInfo->instagram_url }}"
                                                            name="instagram_url" class="primary-form-control" id="epInstagram"
                                                            placeholder="{{ __('Your Instagram Profile Url') }}" />
                                                 </div>

@@ -42,6 +42,7 @@ class   ProfileController extends Controller
             'subNavProfileActiveClass' => 'mm-active',
             'userInfo' => $userInfo,
         ];
+
         return view('admin.profile.index', $data);
     }
 
@@ -72,7 +73,11 @@ class   ProfileController extends Controller
                 'phone' => $request['mobile'],
             ]);
 
+            // Retrieve the authenticated user
+            $user = Auth::user();
 
+            // Update the user's email
+            $user->update(['email' => $request->email]);
 
             DB::commit();
             session()->flash('success', 'Profile Updated Successfully');

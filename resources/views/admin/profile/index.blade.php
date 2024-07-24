@@ -90,7 +90,7 @@
                                         </li>
                                         <li>
                                             <p>{{ __('Email') }} :</p>
-                                            <p>{{ $userInfo->email }}</p>
+                                            <p>{{ \Illuminate\Support\Facades\Auth::user()->email }}</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -164,7 +164,7 @@
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epEmail" class="form-label">{{ __('Personal Email Address')
                                                     }}</label>
-                                                    <input type="email" value="{{$userInfo->email}}" name="email"
+                                                    <input type="email" value="{{\Illuminate\Support\Facades\Auth::user()->email}}" name="email"
                                                            class="primary-form-control" id="epEmail"
                                                            placeholder="{{ __('Your Email') }}" />
                                                 </div>
