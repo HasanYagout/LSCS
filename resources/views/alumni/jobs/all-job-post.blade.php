@@ -65,32 +65,28 @@
                 </div>
             </form>
         </div>
-        <div class="row">
-            @foreach($jobs as $job)
-                <div class="col-lg-6">
-                    <div class="job-card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/').'/'.$job->posted_by.'/'.$job->company->image}}" class="rounded-circle mr-3" alt="Company Logo">
-                                <div class="mx-26">
-                                    <h5 class="mb-0 text-primary-color">{{$job->company->name}}</h5>
+                <div class="row">
+                    @foreach($jobs as $job)
+                        <div class="col-md-4 mt-30">
+                            <div class="card news-card border-dark rounded rounded">
+                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/').'/'.$job->posted_by.'/'.$job->company->image}}" alt="Company Logo">
+                                <div class="card-body">
+                                    <h5 class="card-title news-card-title">{{$job->company->name}}</h5>
                                     <small class="text-muted">{{$job->title}}</small>
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <div class="tags">
+                                            <span>{{$job->employee_status}}</span>
+                                            <span> / </span>
+                                            <span>{{$job->location}}</span>
+                                        </div>
+                                    </div>
+                                    <a href="{{route('alumni.jobs.details',['company'=>$job->user_id,'slug'=>$job->slug])}}" class="py-13 px-26 bg-secondary-color border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one" >Apply now</a>
                                 </div>
                             </div>
-                            <a href="{{route('alumni.jobs.details',['company'=>$job->user_id,'slug'=>$job->slug])}}" class="btn btn-apply">Apply now</a>
                         </div>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="tags">
-                                    <span>{{$job->employee_status}}</span>
-                                    <span>{{$job->location}}</span>
-                                </div>
 
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
-            @endforeach
         </div>
         {{$jobs->links()}}
         <!-- Repeat the above card for each job listing -->

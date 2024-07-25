@@ -678,7 +678,7 @@
                                     <input type="file" class="form-control" id="pdf" multiple name="cv[]" accept="application/pdf" required>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary" id="saveExperienceBtn">{{ __('Save CV') }}</button>
+                            <button type="submit" class="btn btn-primary mt-4" id="saveExperienceBtn">{{ __('Save CV') }}</button>
                         </form>
                     </div>
                 </div>
