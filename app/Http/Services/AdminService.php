@@ -5,6 +5,7 @@ namespace App\Http\Services;
 
 
 use App\Models\Admin;
+use App\Models\User;
 use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -46,12 +47,15 @@ class AdminService
 
     public function list( $request)
     {
-        $allAdmins = Admin::with('role')
+        $allAdmins = User::with('role','admin')
+            ->where(function ($query){
+                $query->where('role_id', 1)
+                    ->orWhere('role_id', 4);
+            })
             ->where(function ($query) {
                 $query->where('status', 1)
                     ->orWhere('status', 0);
             });
-
         // Handle search
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
@@ -81,13 +85,13 @@ class AdminService
         return datatables($allAdmins)
             ->addIndexColumn()
             ->addColumn('image', function ($data) {
-                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . $data->image) . '" alt="Admin Image" class="rounded avatar-xs max-h-35">';
+                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/image' . $data->image) . '" alt="Admin Image" class="rounded avatar-xs max-h-35">';
             })
             ->addColumn('first_name', function ($data) {
-                return $data->first_name;
+                return $data->admin->first_name;
             })
             ->addColumn('last_name', function ($data) {
-                return $data->last_name;
+                return $data->admin->last_name;
             })
             ->addColumn('email', function ($data) {
                 return $data->email;

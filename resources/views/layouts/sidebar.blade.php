@@ -15,7 +15,7 @@
                 $role = 'alumni';
                 break;
             case 3:
-                $userInfo = $authenticatedUser->alumni;
+                $userInfo = $authenticatedUser->company;
                 $role = 'company';
                 break;
         }
@@ -272,50 +272,6 @@
                                 </ul>
                             </div>
                         </li>
-                        <li>
-                            <a href="#jobPost" data-bs-toggle="collapse" role="button"
-                               aria-expanded="{{ isset($showJobPostManagement) ? 'true' : '' }}" aria-controls="jobPost"
-                               class="d-flex align-items-center cg-10 {{ isset($showJobPostManagement) ? 'active' : 'collapsed' }}">
-                                <div class="d-flex">
-                                    <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="5.20801" y="5.11185" width="14.5833" height="17.7083" rx="2" stroke="white"
-                                              stroke-opacity="0.7" stroke-width="1.5"/>
-                                        <path d="M9.375 10.3202H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                              stroke-linecap="round"/>
-                                        <path d="M9.375 14.4868H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                              stroke-linecap="round"/>
-                                        <path d="M9.375 18.6535H13.5417" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
-                                              stroke-linecap="round"/>
-                                    </svg>
-                                </div>
-                                <span class="">{{__('Manage Jobs')}}</span>
-                            </a>
-                            <div class="collapse {{ $showJobPostManagement ?? '' }}" id="jobPost" data-bs-parent="#sidebarMenu">
-                                <ul class="zSidebar-submenu">
-                                    @if($role != 'alumni')
-                                        <li>
-                                            <a class="{{ $activeJobPostCreate ?? '' }}"
-                                               href="{{ route($role.'.jobs.create') }}">{{ __('Create Post') }}</a>
-                                        </li>
-                                        @if($role == 'admin')
-                                            <li>
-                                                <a class="{{ $activeMyJobPostList ?? '' }}"
-                                                   href="{{ route($role.'.jobs.my-job-post') }}">{{ __('My Post') }}</a>
-                                            </li>
-                                        @endif
-                                    @endif
-                                    <li>
-                                        <a class="{{ $activePendingJobPostList ?? '' }}"
-                                           href="{{ route($role.'.jobs.pending') }}">{{ __('Pending Jobs') }}</a>
-                                    </li>
-                                    <li>
-                                        <a class="{{ $activeAllJobPostList ?? '' }}"
-                                           href="{{ route($role.'.jobs.all-job-post') }}">{{ __('All Jobs') }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
                     <li>
                             <a href="#manage-notice-menu" data-bs-toggle="collapse" role="button"
                                aria-expanded="{{ isset($showManageNotice) ? 'true' : 'false' }}"
@@ -357,7 +313,6 @@
                             <span class="">{{ __('Alumni') }}</span>
                         </a>
                     </li>
-
                     <li>
                         <a href="{{ route($role.'.index') }}"
                            class="{{ $activeAdmin ?? '' }} d-flex align-items-center cg-10">
@@ -388,9 +343,9 @@
                             <span class="">{{ __('Students') }}</span>
                         </a>
                     </li>
-
                 @endif
-                                @if ($role=='admin'||$role=='alumni')
+
+                @if ($role=='admin'||$role=='alumni')
                                     <li>
                                         <a href="#myEvent" data-bs-toggle="collapse" role="button" aria-controls="myEvent" class="d-flex align-items-center cg-10 {{ isset($showEvent) ? 'active' : 'collapsed' }}" aria-expanded="{{ isset($showEvent) ? 'true' : 'false' }}">
                                             <div class="d-flex">
@@ -417,6 +372,9 @@
                                         </div>
                                     </li>
                                 @endif
+
+
+
 {{--                --}}
 {{--                                @if($authenticatedUser=='admin'&&auth('admin')->user()->role_id==USER_ROLE_INSTRUCTOR)--}}
 {{--                                    <li>--}}
@@ -446,6 +404,50 @@
                                         </a>
                                     </li>
                                 @endif
+                    <li>
+                        <a href="#jobPost" data-bs-toggle="collapse" role="button"
+                           aria-expanded="{{ isset($showJobPostManagement) ? 'true' : '' }}" aria-controls="jobPost"
+                           class="d-flex align-items-center cg-10 {{ isset($showJobPostManagement) ? 'active' : 'collapsed' }}">
+                            <div class="d-flex">
+                                <svg width="25" height="26" viewBox="0 0 25 26" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="5.20801" y="5.11185" width="14.5833" height="17.7083" rx="2" stroke="white"
+                                          stroke-opacity="0.7" stroke-width="1.5"/>
+                                    <path d="M9.375 10.3202H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                          stroke-linecap="round"/>
+                                    <path d="M9.375 14.4868H15.625" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                          stroke-linecap="round"/>
+                                    <path d="M9.375 18.6535H13.5417" stroke="white" stroke-opacity="0.7" stroke-width="1.5"
+                                          stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <span class="">{{__('Manage Jobs')}}</span>
+                        </a>
+                        <div class="collapse {{ $showJobPostManagement ?? '' }}" id="jobPost" data-bs-parent="#sidebarMenu">
+                            <ul class="zSidebar-submenu">
+                                @if($role != 'alumni')
+                                    <li>
+                                        <a class="{{ $activeJobPostCreate ?? '' }}"
+                                           href="{{ route($role.'.jobs.create') }}">{{ __('Create Post') }}</a>
+                                    </li>
+                                    @if($role == 'admin')
+                                        <li>
+                                            <a class="{{ $activeMyJobPostList ?? '' }}"
+                                               href="{{ route($role.'.jobs.my-job-post') }}">{{ __('My Post') }}</a>
+                                        </li>
+                                    @endif
+                                @endif
+                                <li>
+                                    <a class="{{ $activePendingJobPostList ?? '' }}"
+                                       href="{{ route($role.'.jobs.pending') }}">{{ __('Pending Jobs') }}</a>
+                                </li>
+                                <li>
+                                    <a class="{{ $activeAllJobPostList ?? '' }}"
+                                       href="{{ route($role.'.jobs.all-job-post') }}">{{ __('All Jobs') }}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                 <li>
                     <a class="d-flex align-items-center  cg-8" href="{{ route('auth.logout') }}" id="logout-link">
                         <div class="d-flex">

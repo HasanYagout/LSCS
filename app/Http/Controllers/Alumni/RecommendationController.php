@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Recommendation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class RecommendationController extends Controller
@@ -14,7 +15,7 @@ class RecommendationController extends Controller
     {
         if ($request->ajax()) {
             $recommendations = Recommendation::with(['alumni', 'admin'])
-                ->where('alumni_id', auth('alumni')->id())
+                ->where('alumni_id', Auth::user()->id)
                 ->get();
 
             return datatables($recommendations)
@@ -77,7 +78,7 @@ class RecommendationController extends Controller
     public function edit(Request $request,$id)
     {
         $data['recommendations']=Recommendation::where('admin_id',$id)
-        ->where('alumni_id', auth('alumni')->id())->value('recommendation');
+        ->where('alumni_id', Auth::user()->id)->value('recommendation');
 
         return view('alumni.recommendation.view',$data);
     }
@@ -89,7 +90,7 @@ class RecommendationController extends Controller
             'details' => 'required|string|max:2000',
         ]);
 
-        Recommendation::create(['alumni_id'=>auth('alumni')->user()->id,
+        Recommendation::create(['alumni_id'=>Auth::user()->id,
             'admin_id'=>$request->instructor,'status'=>0]);
         return back()->with('success', 'Recommendation request submitted successfully.');
 

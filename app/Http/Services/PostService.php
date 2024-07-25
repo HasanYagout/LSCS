@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\PostComment;
 use App\Traits\ResponseTrait;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -18,18 +19,13 @@ class PostService
     {
         DB::beginTransaction();
         try {
-            // Authenticate and determine user
-            if (auth('admin')->check()) {
-                $user = auth('admin')->user();
-            } else {
-                $user = auth('company')->user();
-            }
+          $user=Auth::user();
 
             // Create new post
             $post = new Post();
             $post->body = htmlspecialchars($request->body);
             $post->slug = Str::slug(substr($request->body, 0, 40)) . rand(1000, 999999); // Assuming getSlug and getSubText are meant for this
-            $post->user_id = $user->id;
+            $post->user_id = $user->user_id;
             $post->created_by = 'admin';
             $post->save(); // Save post to generate post_id
 
@@ -49,7 +45,7 @@ class PostService
                     // Create media record
                     $post->media()->create([
                         'name' => $newFileName,
-                        'user_id' => $user->id,
+                        'user_id' => $user->user_id,
                         'post_id' => $post->id, // Correctly use the post_id from the saved post
                         'extension' => $extension, // Correctly save the file extension
                     ]);
@@ -57,9 +53,11 @@ class PostService
             }
 
             DB::commit(); // Commit the transaction
+            // Flash a success message to the session
+            session()->flash('success', 'Post has been created.');
 
-            $message = getMessage(CREATED_SUCCESSFULLY);
-            return $this->success([], $message);
+            // Redirect to a specific route or action
+            return redirect()->route('admin.home');
 
         } catch (Exception $e) {
             DB::rollBack();
@@ -68,50 +66,7 @@ class PostService
         }
     }
 
-    public function update($request)
-    {
-        DB::beginTransaction();
-        try {
 
-            $post = Post::where('created_by', auth()->id())->where('tenant_id', getTenantId())->where('slug', $request->slug)->first();
-
-            if(is_null($post)){
-                return $this->error([], __('This post not found'));
-            }
-
-            $post->body = htmlspecialchars($request->body);
-            $post->save();
-
-            //post media
-
-            $oldFiles = $request->oldFiles ?? [];
-
-            foreach($request->file ?? [] as $index => $media){
-                if ($request->hasFile('file.'.$index)) {
-
-                    $new_file = new FileManager();
-                    $uploaded = $new_file->upload('posts', $media);
-                    $newMedia = $post->media()->create([
-                        'file' => $uploaded->id,
-                        'user_id' => auth()->id(),
-                    ]);
-
-                    array_push($oldFiles, $newMedia->id);
-                }
-            }
-
-            $post->media()->whereNotIn('id', $oldFiles)->delete();
-
-            DB::commit();
-
-            $message = getMessage(UPDATED_SUCCESSFULLY);
-            return $this->success(['slug' => $post->slug], $message);
-        } catch (Exception $e) {
-            DB::rollBack();
-            $message = getErrorMessage($e, $e->getMessage());
-            return $this->error([], $message);
-        }
-    }
 
     public function getBySlug($slug)
     {

@@ -14,8 +14,7 @@ Route::group(['namespace' => 'Company', 'prefix' => 'company', 'as' => 'company.
     Route::get('/', function () {
         return redirect()->route('auth.login');
     });
-    Route::group(['middleware' => ['admin']], function () {
-    Route::get('home', [HomeController::class,'index'])->name('home');
+    Route::group(['middleware' => ['company']], function () {
     Route::get('all', [DashboardController::class,'all'])->name('all');
     Route::get('info/{id}', [DashboardController::class,'info'])->name('info');
     Route::get('proposal/{id}', [DashboardController::class,'view'])->name('view');

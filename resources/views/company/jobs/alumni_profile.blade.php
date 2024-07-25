@@ -241,7 +241,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if(auth('alumni')->check())
+                            @if(\Illuminate\Support\Facades\Auth::user()->role_id=='2'&&\Illuminate\Support\Facades\Auth::user())
                                 <button class="bd-c-afd449  bg-secondary-color btn btn-lg hover-border-one mt-3 text-primary-color " onclick="window.location='{{ route('alumni.profile.generate-cv') }}'">
                                     Generate CV
                                 </button>

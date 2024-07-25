@@ -10,6 +10,7 @@ use App\Models\Company;
 use App\Models\Event;
 use App\Models\JobPost;
 use App\Models\Recommendation;
+use App\Models\User;
 use App\Traits\General;
 use App\Traits\ResponseTrait;
 use Brian2694\Toastr\Facades\Toastr;
@@ -49,10 +50,10 @@ class DashboardController extends Controller
         $data = [
             'pageTitle' => __('Dashboard'),
             'activeDashboard' => 'active',
-            'totalAlumni' => Cache::remember('totalAlumni', 60, fn() => Alumni::count()),
-            'totalCompany' => Cache::remember('totalCompany', 60, fn() => Company::count()),
-            'totalInstructors' => Cache::remember('totalInstructors', 60, fn() => Admin::where('role_id', USER_ROLE_INSTRUCTOR)->count()),
-            'totalAdmins' => Cache::remember('totalAdmins', 60, fn() => Admin::where('role_id', USER_ROLE_ADMIN)->count()),
+            'totalAlumni' => Cache::remember('totalAlumni', 60, fn() => User::where('role_id',2)->count()),
+            'totalCompany' => Cache::remember('totalCompany', 60, fn() => User::where('role_id',3)->count()),
+            'totalInstructors' => Cache::remember('totalInstructors', 60, fn() => User::where('role_id',4)->count()),
+            'totalAdmins' => Cache::remember('totalAdmins', 60, fn() => User::where('role_id',1)->count()),
             'totalJobs' => Cache::remember('totalJobs', 60, fn() => JobPost::count()),
             'totalEvents' => Cache::remember('totalEvents', 60, fn() => Event::count()),
             'userInfo' => $userInfo,
@@ -89,7 +90,7 @@ class DashboardController extends Controller
                 [
                     'title' => __('Total Companies'),
                     'count' => Cache::remember('totalCompany', 60, fn() => Company::count()),
-                    'color' => '#00ff6c',
+                    'color' => '#17a2b8',
                     'icon' => 'bi-building',
                     'svg' => '<path d="M4 2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zM7.5 5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm2.5.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"/><path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1zm11 0H3v14h3v-2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5V15h3z"/>'
                 ],
@@ -133,7 +134,7 @@ class DashboardController extends Controller
 
             if ($request->ajax()) {
                 $recommendation = Recommendation::with('alumni')
-                    ->where('recommendations.admin_id', auth('admin')->user()->id)
+                    ->where('recommendations.admin_id', Auth::user()->id)
                     ->join('alumnis', 'recommendations.alumni_id', '=', 'alumnis.id')
                     ->select(
                         'recommendations.*',
@@ -231,7 +232,7 @@ class DashboardController extends Controller
 
     public function status_update(Request $request)
     {
-        Recommendation::where('admin_id', auth('admin')->id())
+        Recommendation::where('admin_id', Auth::user()->id)
             ->whereIn('id', $request->ids)
             ->update(['status' => $request->status]);
 

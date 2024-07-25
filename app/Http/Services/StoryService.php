@@ -7,6 +7,7 @@ use App\Traits\ResponseTrait;
 use App\Models\FileManager;
 use Brian2694\Toastr\Facades\Toastr;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -14,10 +15,7 @@ class StoryService
 {
     use ResponseTrait;
 
-    public function getById($id)
-    {
-        return Story::where('tenant_id', getTenantId())->firstOrFail($id);
-    }
+
 
     public function getBySlug($slug)
     {
@@ -26,7 +24,7 @@ class StoryService
 
     public function allActiveList($request)
     {
-        $query = Story::where('posted_by', auth('admin')->id())->where('status',STATUS_ACTIVE);
+        $query = Story::where('posted_by', Auth::user()->id)->where('status',STATUS_ACTIVE);
 
 
         if ($request->has('search') && $request->search['value'] != '') {
@@ -58,8 +56,7 @@ class StoryService
 
     public function getMyStoryList($request)
     {
-        $query = Story::where('posted_by', auth('admin')->id());
-
+        $query = Story::where('posted_by', Auth::user()->id);
 
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
@@ -88,7 +85,7 @@ class StoryService
     public function getAllStoryList($request)
     {
 
-        $query = Story::where('posted_by', auth('admin')->id());
+        $query = Story::where('posted_by', Auth::user()->id);
 
 
         if ($request->has('search') && $request->search['value'] != '') {
@@ -154,9 +151,8 @@ class StoryService
 
                 $thumbnail = $fileName; // Save only the file name to the database
             }
-
             Story::create([
-                'posted_by' => auth('admin')->id(),
+                'posted_by' => Auth::user()->id,
                 'title' => $request->title,
                 'slug' => $slug,
                 'body' => $request->body,
@@ -167,7 +163,7 @@ class StoryService
             DB::commit();
             return response()->json(['success' => true, 'message' => __(CREATED_SUCCESSFULLY)]);
         } catch (Exception $e) {
-            DB::rollBack();
+            dd($e);
             return $this->error([], getMessage(SOMETHING_WENT_WRONG));
         }
     }
@@ -184,7 +180,7 @@ class StoryService
                 $slug = getSlug($request->title);
             }
 
-            $story = Story::where('slug', $oldSlug)->where('posted_by',auth('admin')->id())->firstOrFail();
+            $story = Story::where('slug', $oldSlug)->where('posted_by',Auth::user()->id)->firstOrFail();
             $story->title = $request->title;
             $story->slug = $slug;
             $story->body = $request->body;

@@ -42,7 +42,7 @@ class JobPostService
                 'cv_id' => 'required|integer',  // Validate that cv_id is required and is an integer
             ]);
 
-            $alumniId = auth('alumni')->user()->id;
+            $alumniId = Auth::user()->user_id;
             $jobPost = JobPost::where('slug', $slug)->firstOrFail();
 
             // Check if the alumni has already applied for the job
@@ -157,12 +157,10 @@ class JobPostService
                 $q->where('posted_by', 'admin')
                     ->orWhere('posted_by', 'company');
             } else {
-                $q->where('user_id', $authUser->id)
-                    ->where('posted_by', $authUser->name);
+                $q->where('user_id', $authUser->user_id)
+                    ->where('posted_by', 'company');
             }
         });
-
-
         // Conditionally add status filter
         if (isset($request->status) && $request->status != 'all') {
             $query->where('status', $request->status);
@@ -244,7 +242,7 @@ class JobPostService
                             <button onclick="deleteItem(\'' . route($auth . '.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
                                 <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                             </button>
-                            <a href="' . route($auth . '.jobs.details', ['company' => auth('company')->id(), 'slug' => $data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+                            <a href="' . route($auth . '.jobs.details', ['company' => Auth::user()->user_id, 'slug' => $data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
                         </li>
                     </ul>';
             })
@@ -256,17 +254,17 @@ class JobPostService
 
     public function getPendingJobPostList($request){
 
-        $authUser = $this->getAuthenticatedUser(['company', 'admin']);
+        $authUser = $this->getAuthenticatedUser();
         $query = JobPost::with('company')->where('status',JOB_STATUS_APPROVED); // Eager load the company relationship
 
 // Base query adjustments based on user type
         $query->where(function($q) use ($authUser, $request) {
-            if ($authUser->name == 'admin') {
+            if ($authUser->role_id == 1) {
                 $q->where('posted_by', 'admin')
                     ->orWhere('posted_by','company');
             } else {
-                $q->where('user_id', $authUser->user()->id)
-                    ->where('posted_by', $authUser->name);
+                $q->where('user_id', $authUser->user_id)
+                    ->where('posted_by', 'company');
             }
 
         });
@@ -313,12 +311,12 @@ class JobPostService
         return datatables($query)
             ->addIndexColumn()
             ->addColumn('company_logo', function ($data) use($authUser) {
-                if ($authUser->name=='admin'){
+                if ($authUser->role_id==1){
                     if ($data->posted_by=='company'){
-                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/image' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
                     }
                     else{
-                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/' . auth('admin')->user()->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                        return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/admin/image' . $authUser->admin->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
 
                     }
                 }
@@ -355,7 +353,7 @@ class JobPostService
             return response()->json(['success' => false, 'message' => 'Job not found.']);
         }
 
-        if (auth('admin')->check() && $job->company && $job->company->status == 0) {
+        if (Auth::user() && Auth::user()->role_id==1 && $job->company && $job->company->status == 0) {
             return response()->json([
                 'success' => false,
                 'message' => 'Unable to update job status because the associated company is inactive. Please update the company status first.'
@@ -482,7 +480,7 @@ class JobPostService
     public function applied($request,$id)
     {
         $applied = AppliedJobs::with(['alumni', 'cv'])
-            ->where('company_id', auth('company')->id())
+            ->where('company_id', Auth::user()->user_id)
             ->where('job_id', $id)
             ->when($request->filled('selectedMajor') && $request->selectedMajor != "0", function ($query) use ($request) {
                 return $query->whereHas('alumni', function ($query) use ($request) {

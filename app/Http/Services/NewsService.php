@@ -7,6 +7,7 @@ use App\Models\FileManager;
 use App\Traits\ResponseTrait;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -58,7 +59,7 @@ class NewsService
         return datatables($query)
             ->addIndexColumn()
             ->addColumn('image', function ($data) {
-                return '<img  src="' . asset('/public/storage/admin/news') . '/' . $data->image . '" alt="icon" class="max-h-35 rounded avatar-xs tbl-user-image">';
+                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';"  src="' . asset('/public/storage/admin/news') . '/' . $data->image . '" alt="icon" class="max-h-35 rounded avatar-xs tbl-user-image">';
             })
             ->addColumn('title', function ($data) {
                 return $data->title;
@@ -102,6 +103,7 @@ class NewsService
 
     public function store($request)
     {
+        $user = Auth::user();
         $slug = getSlug($request->title);
         $news = new News();
         $news->title = $request->title;
@@ -109,7 +111,7 @@ class NewsService
         $news->news_category_id = $request->category_id;
         $news->details = $request->details;
         $news->status = $request->status;
-        $news->posted_by = auth('admin')->id();
+        $news->posted_by = $user->user_id;
 
         if ($request->hasFile('image')) {
             // Get the original file extension

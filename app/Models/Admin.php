@@ -11,7 +11,7 @@ class Admin extends Authenticatable
 {
     use HasFactory,SoftDeletes;
 
-    protected $fillable=['first_name','last_name','phone','role_id','status','email','password','image'];
+    protected $fillable=['first_name','last_name','phone','user_id','status','email','image'];
 
     protected $dates = ['deleted_at'];
     public function role()
@@ -34,8 +34,8 @@ class Admin extends Authenticatable
     {
         return $this->hasMany(Recommendation::class, 'admin_id');
     }
-    public function users()
+    public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }

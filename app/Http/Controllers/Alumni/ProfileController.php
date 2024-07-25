@@ -64,7 +64,7 @@ class ProfileController extends Controller
 
     public function generateCV()
     {
-        $user=  Alumni::with('experience','education')->where('id',auth('alumni')->id())->first();
+        $user=  Alumni::with('experience','education')->where('id',Auth::user()->id)->first();
 
 
         $html = view('alumni.cvs.cv', compact('user'))->render();
@@ -117,7 +117,7 @@ class ProfileController extends Controller
     public function list_cvs(Request $request){
 
         if ($request->ajax()) {
-            $cvs = CV::where('alumni_id',auth('alumni')->id())->orderBy('id','desc')->get();
+            $cvs = CV::where('alumni_id',Auth::user()->id)->orderBy('id','desc')->get();
 
             return datatables($cvs)
                 ->addIndexColumn()
@@ -142,7 +142,7 @@ class ProfileController extends Controller
         $data['title'] = __('All Job Post');
         $data['showCvManagement'] = 'show';
         $data['activeCvList'] = 'active-color-one';
-        $data['cvs']=auth('alumni')->user()->cvs;
+        $data['cvs']=Auth::user()->cvs;
 
         return view('alumni.cvs.all', $data);
     }
@@ -159,7 +159,7 @@ class ProfileController extends Controller
         $cv = new CV();
         $cv->name = $request->name;
         $cv->slug = $request->name . '_' . $uniqueId;
-        $cv->alumni_id = auth('alumni')->id();
+        $cv->alumni_id = Auth::user()->id;
         $cv->first_name = $request->fname;
         $cv->last_name = $request->lname;
         $cv->email = $request->email;
@@ -266,7 +266,7 @@ class ProfileController extends Controller
 
     public function view($slug)
     {
-        $cv = CV::where('alumni_id', auth('alumni')->id())
+        $cv = CV::where('alumni_id', Auth::user()->id)
             ->where('slug', $slug)
             ->first();
 
@@ -283,7 +283,7 @@ class ProfileController extends Controller
     public function images()
     {
 
-        $images= Alumni::where('id',auth('alumni')->id())->value('graduation_images');
+        $images= Alumni::where('id',Auth::user()->id)->value('graduation_images');
         return view('alumni.images',compact('images'));
     }
 

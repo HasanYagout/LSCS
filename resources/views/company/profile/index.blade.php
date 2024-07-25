@@ -31,39 +31,39 @@
                             <div class="d-flex align-items-center flex-wrap g-18">
                                 <div class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-primary-color">
                                     <img class="w-100 h-100" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
-                                         src="{{ asset('public/storage/company/image').'/'.auth('company')->user()->image}}"
-                                         alt="{{auth('company')->user()->name}}" />
+                                         src="{{ asset('public/storage/company/image').'/'.$userInfo->image}}"
+                                         alt="{{$userInfo->name}}" />
                                 </div>
                                 <div class="">
-                                    <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-1b1c17">{{auth('company')->user()->name}}</h4>
+                                    <h4 class="fs-24 fs-sm-20 fw-500 lh-34 text-1b1c17">{{$userInfo->name}}</h4>
                                 </div>
                             </div>
                             <!-- Social Link -->
                             <ul class="d-flex align-items-center cg-7">
-                                @if (auth('company')->user()?->facebook_url)
+                                @if ($userInfo->facebook_url)
                                     <li>
-                                        <a target="__blank" href="{{ auth('company')->user()->facebook_url }}"
+                                        <a target="__blank" href="{{ $userInfo->facebook_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-one hover-border-one"><img
                                                 src="{{ asset('public/assets/images/icon/facebook.svg') }}" alt="" /></a>
                                     </li>
                                 @endif
-                                @if (auth('company')->user()?->twitter_url)
+                                @if ($userInfo->twitter_url)
                                     <li>
-                                        <a target="__blank" href="{{ auth('company')->user()->twitter_url }}"
+                                        <a target="__blank" href="{{ $userInfo->twitter_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-one hover-border-one"><img
                                                 src="{{ asset('public/assets/images/icon/twitter.svg') }}" alt="" /></a>
                                     </li>
                                 @endif
-                                @if (auth('company')->user()?->linkedin_url)
+                                @if ($userInfo->linkedin_url)
                                     <li>
-                                        <a target="__blank" href="{{ auth('company')->user()->linkedin_url }}"
+                                        <a target="__blank" href="{{ $userInfo->linkedin_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-one hover-border-one"><img
                                                 src="{{ asset('public/assets/images/icon/linkedin.svg') }}" alt="" /></a>
                                     </li>
                                 @endif
-                                @if (auth('company')->user()?->instagram_url)
+                                @if ($userInfo->instagram_url)
                                     <li>
-                                        <a target="__blank" href="{{ auth('company')->user()->instagram_url }}"
+                                        <a target="__blank" href="{{ $userInfo->instagram_url }}"
                                            class="d-flex justify-content-center align-items-center w-48 h-48 rounded-circle bd-one bd-c-ededed bg-fafafa hover-bg-one hover-border-one"><img
                                                 src="{{ asset('public/assets/images/icon/instagram.svg') }}" alt="" /></a>
                                     </li>
@@ -80,16 +80,17 @@
                                     <ul class="zList-one">
                                         <li>
                                             <p>{{ __('Full Name') }} :</p>
-                                            <p>{{ auth('company')->user()->name}}</p>
+                                            <p>{{ $userInfo->name}}</p>
                                         </li>
+
                                             <li>
                                                 <p>{{ __('Email') }} :</p>
-                                                <p>{{auth('company')->user()->email}}</p>
+                                                <p>{{\Illuminate\Support\Facades\Auth::user()->email}}</p>
                                             </li>
 
                                             <li>
                                                 <p>{{ __('Phone') }} :</p>
-                                                <p>{{auth('company')->user()->phone}}</p>
+                                                <p>{{$userInfo->phone}}</p>
                                             </li>
 
                                     </ul>
@@ -115,7 +116,7 @@
                                         <div class="pb-40">
                                             <div class="upload-img-box profileImage-upload">
                                                 <div class="icon"><img  src="{{asset('public/assets/images/icon/edit-2.svg')}}" alt="" /></div>
-                                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/company/image').'/'.auth('company')->user()->image }}" />
+                                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/company/image').'/'.$userInfo->image }}" />
                                                 <input type="file" name="image" id="zImageUpload" accept="image/*,video/*"
                                                        onchange="previewFile(this)" />
                                             </div>
@@ -127,7 +128,7 @@
                                                     <label for="epFullName" class="form-label">{{ __('Full Name') }}</label>
                                                     <input type="text" class="primary-form-control" id="epFullName"
                                                            required
-                                                           value="{{auth('company')->user()->name}}" name="name"
+                                                           value="{{$userInfo->name}}" name="name"
                                                            placeholder="{{ __('Your Name') }}" />
                                                 </div>
                                             </div>
@@ -143,7 +144,7 @@
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epPhoneNumber" class="form-label">{{ __('Phone Number') }}</label>
-                                                    <input type="number" value="{{auth('company')->user()->phone}}" name="mobile"
+                                                    <input type="number" value="{{$userInfo->phone}}" name="mobile"
                                                            class="primary-form-control" id="epPhoneNumber"
                                                            maxlength="9"
                                                            minlength="1"
@@ -155,7 +156,7 @@
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epEmail" class="form-label">{{ __('Personal Email Address') }}</label>
-                                                    <input type="email" value="{{auth('company')->user()->email}}" name="email"
+                                                    <input type="email" value="{{\Illuminate\Support\Facades\Auth::user()->email}}" name="email"
                                                            class="primary-form-control" id="epEmail"
                                                            placeholder="{{ __('Your Email') }}" />
                                                 </div>
@@ -165,7 +166,7 @@
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epLinkedin" class="form-label">{{ 'Linkedin Url' }}</label>
-                                                    <input type="url" value="{{ auth('company')->user()?->linkedin_url }}"
+                                                    <input type="url" value="{{ $userInfo->linkedin_url }}"
                                                            name="linkedin_url" class="primary-form-control" id="epLinkedin"
                                                            placeholder="{{ __('Your Linkedin Profile Url') }}" />
                                                 </div>
@@ -175,7 +176,7 @@
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epFacebook" class="form-label">{{ __('Facebook Url') }}</label>
-                                                    <input type="url" value="{{ auth('company')->user()?->facebook_url }}"
+                                                    <input type="url" value="{{ $userInfo->facebook_url }}"
                                                            name="facebook_url" class="primary-form-control" id="epFacebook"
                                                            placeholder="{{ __('Your Facebook Profile Url') }}" />
                                                 </div>
@@ -185,7 +186,7 @@
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epTwitter" class="form-label">{{ __('Twitter Url') }}</label>
-                                                    <input type="url" value="{{ auth('company')->user()?->twitter_url }}"
+                                                    <input type="url" value="{{ $userInfo->twitter_url }}"
                                                            name="twitter_url" class="primary-form-control" id="epTwitter"
                                                            placeholder="{{ __('Your Twitter Profile Url') }}" />
                                                 </div>
@@ -195,7 +196,7 @@
                                             <div class="primary-form-group">
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epInstagram" class="form-label">{{ __('Instagram Url') }}</label>
-                                                    <input type="url" value="{{ auth('company')->user()?->instagram_url }}"
+                                                    <input type="url" value="{{ $userInfo->instagram_url }}"
                                                            name="instagram_url" class="primary-form-control" id="epInstagram"
                                                            placeholder="{{ __('Your Instagram Profile Url') }}" />
                                                 </div>

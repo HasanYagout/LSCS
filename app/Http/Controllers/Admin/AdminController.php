@@ -9,10 +9,12 @@ use App\Http\Services\UserService;
 use App\Models\Admin;
 use App\Models\Alumni;
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\PassingYear;
 use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -86,7 +88,7 @@ class AdminController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:admins,email',
+            'email' => 'required|email|unique:users,email',
             'mobile' => 'required|string|unique:admins,phone|max:20',
             'type' => 'required|integer' // Assuming 'type' is required and must be an integer
         ]);
@@ -95,27 +97,24 @@ class AdminController extends Controller
 
         DB::transaction(function () use ($request, $defaultPassword) {
             // Store the admin
+            // Store the user
+            $user=User::create([
+                'email' => $request->input('email'),
+                'password' => $defaultPassword,
+                'role_id' => $request->input('type'),
+                'status' => 1
+            ]);
 
-            $admin = Admin::create([
-
+            Admin::create([
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
-                'email' => $request->input('email'),
                 'phone' => $request->input('mobile'),
-                'password' => $defaultPassword,
                 'image' => '',
-                'role_id' => $request->input('type'),
+                'user_id' => $user->id,
                 'status' => 1
             ]);
 
-            // Store the user
-            User::create([
-                'email' => $request->input('email'),
-                'password' => $defaultPassword,
-                'user_id' => $admin->id,
-                'role_id' => $request->input('type'),
-                'status' => 1
-            ]);
+
         });
 
         return redirect()->route('admin.index')->with('success', 'Admin added successfully!');
@@ -135,8 +134,8 @@ class AdminController extends Controller
             $admin->save();
 
             // Check if the authenticated admin is the same as the reset admin
-            if (auth('admin')->id() == $id) {
-                auth('admin')->logout();
+            if (Auth::user()->id == $id) {
+                Auth::logout();
                 // Return success response indicating logout
                 return response()->json(['message' => 'Password reset successfully. Please log in again.', 'logout' => true]);
             }

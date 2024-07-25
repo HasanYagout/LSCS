@@ -3,23 +3,25 @@
 namespace App\Http\Services;
 
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class CompanyService
 {
     public function updateStatus($request,$id)
     {
-        $company = Company::with('jobs')->find($id);
-        if (!$company) {
+        $user=User::find($id);
+        $company=Company::with('jobs')->where('user_id',$id)->get();
+
+        if (!$user) {
             return response()->json(['success' => false, 'message' => 'Company not found.']);
         }
 
         // Start transaction to ensure data integrity
         DB::beginTransaction();
         try {
-            $company->status = $request->status;
-            $company->save();
-
+            $user->status = $request->status;
+            $user->save();
             // Check if the status is 0 and update all associated jobs
             if ($request->status == 0) {
                 foreach ($company->jobs as $job) {
@@ -38,17 +40,22 @@ class CompanyService
 
     public function all($request)
     {
-        $query = Company::where('status',STATUS_ACTIVE)
-            ->orWhere('status',STATUS_INACTIVE);
+        $query = Company::join('users', 'companies.user_id', '=', 'users.id')
+            ->select('companies.*','users.email','users.status')
+            ->where(function ($q) {
+                $q->where('users.status', STATUS_ACTIVE)
+                    ->orWhere('users.status', STATUS_INACTIVE);
+            });
 
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
             $query->where(function ($q) use ($search) {
-                $q->where('email', 'like', "%{$search}%")
-                    ->orWhere('name', 'like', "%{$search}%")
-                    ->orWhere('phone', 'like', "%{$search}%");
+                $q->where('users.email', 'like', "%{$search}%")
+                    ->orWhere('companies.name', 'like', "%{$search}%")
+                    ->orWhere('companies.phone', 'like', "%{$search}%");
             });
         }
+
         if ($request->has('order') && $request->has('columns')) {
             foreach ($request->order as $order) {
                 $orderBy = $request->columns[$order['column']]['data'];
@@ -56,7 +63,7 @@ class CompanyService
                 $query->orderBy($orderBy, $orderDirection);
             }
         } else {
-            $query->orderBy('id', 'desc');
+            $query->orderBy('companies.id', 'desc');
         }
 
         return datatables($query)
@@ -75,8 +82,8 @@ class CompanyService
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                 <li class="d-flex gap-2">
                     <div class="form-check form-switch">
-                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->id . '" id="toggleStatus' . $data->id . '" ' . $checked . '>
-                        <label class="form-check-label" for="toggleStatus' . $data->id . '"></label>
+                        <input class="form-check-input toggle-status" type="checkbox" data-id="' . $data->user_id . '" id="toggleStatus' . $data->user_id . '" ' . $checked . '>
+                        <label class="form-check-label" for="toggleStatus' . $data->user_id . '"></label>
                     </div>
                 </li>
             </ul>';
@@ -96,14 +103,16 @@ class CompanyService
 
     public function active( $request)
     {
-        $query = Company::where('status', STATUS_ACTIVE);
+        $query = Company::join('users', 'companies.user_id', '=', 'users.id')
+            ->select('companies.*','users.email')
+            ->Where('users.status', STATUS_ACTIVE);
 
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
             $query->where(function ($q) use ($search) {
-                $q->where('email', 'like', "%{$search}%")
-                    ->orWhere('name', 'like', "%{$search}%")
-                    ->orWhere('phone', 'like', "%{$search}%");
+                $q->where('users.email', 'like', "%{$search}%")
+                    ->orWhere('companies.name', 'like', "%{$search}%")
+                    ->orWhere('companies.phone', 'like', "%{$search}%");
             });
         }
 
@@ -148,13 +157,17 @@ class CompanyService
     public function pending($request)
     {
 
-        $query = Company::where('status',STATUS_INACTIVE);
+        $query = Company::join('users', 'companies.user_id', '=', 'users.id')
+            ->select('companies.*','users.email')
+            ->Where('users.status', STATUS_INACTIVE);
+
+
         if ($request->has('search') && $request->search['value'] != '') {
             $search = $request->search['value'];
             $query->where(function ($q) use ($search) {
-                $q->where('email', 'like', "%{$search}%")
-                    ->orWhere('name', 'like', "%{$search}%")
-                    ->orWhere('phone', 'like', "%{$search}%");
+                $q->where('users.email', 'like', "%{$search}%")
+                    ->orWhere('companies.name', 'like', "%{$search}%")
+                    ->orWhere('companies.phone', 'like', "%{$search}%");
             });
         }
         if ($request->has('order') && $request->has('columns')) {

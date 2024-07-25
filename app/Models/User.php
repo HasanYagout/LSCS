@@ -52,19 +52,21 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->hasOne(Roles::class);
+        return $this->belongsTo(Roles::class);
     }
     public function admin()
     {
-        return $this->belongsTo(Admin::class,'user_id','id');
+        return $this->hasOne(Admin::class);
     }
-    public function alumni()
-    {
-        return $this->belongsTo(Alumni::class,'user_id','id');
-    }
+
     public function company()
     {
-        return $this->belongsTo(Company::class,'user_id','id');
+        return $this->hasOne(Company::class);
+    }
+
+    public function alumni()
+    {
+        return $this->hasOne(Alumni::class);
     }
 
 }

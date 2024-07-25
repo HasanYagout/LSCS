@@ -30,7 +30,7 @@
                             <!-- User Photo ~ name -->
                             <div class="d-flex align-items-center flex-wrap g-18">
                                 <div class="flex-shrink-0 w-110 h-110 rounded-circle overflow-hidden bd-three bd-c-primary-color">
-                                    <img class="h-100 object-fit-cover " onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
+                                    <img  onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'"
                                          src="{{ asset('public/storage/admin').'/'.'image'.'/'.$userInfo->image}}"
                                          alt="{{$userInfo->first_name.' '.$userInfo->last_name}}" />
                                 </div>
@@ -90,7 +90,7 @@
                                         </li>
                                         <li>
                                             <p>{{ __('Email') }} :</p>
-                                            <p>{{ $userInfo->email }}</p>
+                                            <p>{{ \Illuminate\Support\Facades\Auth::user()->email }}</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -164,7 +164,7 @@
                                                 <div class="primary-form-group-wrap">
                                                     <label for="epEmail" class="form-label">{{ __('Personal Email Address')
                                                     }}</label>
-                                                    <input type="email" value="{{$userInfo->email}}" name="email"
+                                                    <input type="email" value="{{\Illuminate\Support\Facades\Auth::user()->email}}" name="email"
                                                            class="primary-form-control" id="epEmail"
                                                            placeholder="{{ __('Your Email') }}" />
                                                 </div>

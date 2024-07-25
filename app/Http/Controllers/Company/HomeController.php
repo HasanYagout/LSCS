@@ -23,6 +23,7 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
+        $user = Auth::user();
 
         $data['pageTitle'] = __('Timeline');
         $data['activeHome'] = 'active';
@@ -30,8 +31,8 @@ class HomeController extends Controller
         $data['latestJobs'] = $this->dashboardService->getLatestJobs()->getData()->data;
         $data['latestNews'] = $this->dashboardService->getLatestNews()->getData()->data;
         $data['latestNotice'] = $this->dashboardService->getLatestNotice()->getData()->data;
-        $data['user'] = auth('admin')->user();
         $data['posts']=$this->dashboardService->getPosts();
+        $data['userInfo']=$user->company;
 
         return view('company.home', $data);
     }
