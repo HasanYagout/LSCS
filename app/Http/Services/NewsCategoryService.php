@@ -66,7 +66,7 @@ class NewsCategoryService
         $newsCategory = new NewsCategory();
         $newsCategory->name = $request->name;
         $newsCategory->slug = $slug;
-        $newsCategory->posted_by = $user->user_id;
+        $newsCategory->posted_by = $user->id;
         $newsCategory->status = $request->status;
         $newsCategory->save();
         return $newsCategory;

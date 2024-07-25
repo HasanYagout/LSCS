@@ -181,7 +181,7 @@ class UserService
                     $cv->move(storage_path('app/public/alumni/cv'), $fileName);
 
                     CV::create([
-                        'alumni_id' => $user->user_id,
+                        'alumni_id' => $user->id,
                         'name' => $fileName,
                         'slug' => Str::slug($slug),
                     ]);

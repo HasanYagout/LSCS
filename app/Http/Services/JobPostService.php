@@ -373,8 +373,7 @@ class JobPostService
             DB::beginTransaction();
 
             // Helper to get the authenticated user from multiple guards
-            $authUser = $this->getAuthenticatedUser(['company', 'admin']);
-
+            $authUser = $this->getAuthenticatedUser();
             if (!$authUser) {
                 return redirect()->route('login')->with('error', 'Not authenticated');
             }
@@ -382,12 +381,12 @@ class JobPostService
             $slugBase = Str::slug($request->title);
             $slug = JobPost::where('slug', 'like', $slugBase . '%')->exists() ?
                 $slugBase . '-' . rand(100000, 999999) : $slugBase;
-
+            $type=$authUser->role_id==1?'admin':'company';
             $jobPost = new JobPost();
             $jobPost->title = $request->title;
             $jobPost->slug = $slug;
-            $jobPost->user_id = $authUser->user()->id;
-            $jobPost->posted_by = $authUser->name; // Use table name as a proxy for role if roles are distinct by table
+            $jobPost->user_id = $authUser->id;
+            $jobPost->posted_by = $type; // Use table name as a proxy for role if roles are distinct by table
             $jobPost->location = $request->location;
             $jobPost->post_link = $request->post_link ?: '';
             $jobPost->application_deadline = $request->application_deadline;
@@ -401,9 +400,8 @@ class JobPostService
             $jobPost->save();
             DB::commit();
             SendJobPostEmail::dispatch($jobPost);
-            dd('da');
             session()->flash('success', 'Job Created Successfully');
-            return redirect()->route('company.jobs.all-job-post');
+            return redirect()->route($type.'.jobs.all-job-post');
         } catch (\Exception $e) {
             DB::rollBack();
             session()->flash('error', 'Failed to create job: ' . $e->getMessage());

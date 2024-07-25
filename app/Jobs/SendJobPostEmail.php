@@ -33,26 +33,23 @@ class SendJobPostEmail implements ShouldQueue
      */
     public function handle(): void
     {
-//        $users = User::where('status', 1)
-//            ->whereIn('role_id', [1])
-//            ->whereNotNull('email')
-//            ->where('email', '!=', '')
-//            ->get();
-//
+
         $alumni = Alumni::whereNotNull('email')
             ->where('email', '!=', '')
             ->get();
 
 //        $recipients = $users->merge($alumni);
-        foreach ($alumni as $recipient) {
-            try {
-                Mail::to($recipient->email)->queue(new JobPostEmail($this->jobPost));
-                Log::info('Email queued for ' . $recipient->email);
+        Mail::to('yagouthasan3@gmail.com')->queue(new JobPostEmail($this->jobPost));
+//        Mail::to('yosif.yagout@gmail.com')->queue(new JobPostEmail($this->jobPost));
 
-            } catch (\Exception $e) {
-                // Log the error for debugging
-                Log::error('Failed to queue email to ' . $recipient->email . ': ' . $e->getMessage());
-            }
-        }
+//        foreach ($alumni as $recipient) {
+//            try {
+//                Mail::to($recipient->email)->queue(new JobPostEmail($this->jobPost));
+//                Log::info('Email queued for ' . $recipient->email);
+//            } catch (\Exception $e) {
+//                // Log the error for debugging
+//                Log::error('Failed to queue email to ' . $recipient->email . ': ' . $e->getMessage());
+//            }
+//        }
     }
 }

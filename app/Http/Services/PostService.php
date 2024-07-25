@@ -25,7 +25,7 @@ class PostService
             $post = new Post();
             $post->body = htmlspecialchars($request->body);
             $post->slug = Str::slug(substr($request->body, 0, 40)) . rand(1000, 999999); // Assuming getSlug and getSubText are meant for this
-            $post->user_id = $user->user_id;
+            $post->user_id = $user->id;
             $post->created_by = 'admin';
             $post->save(); // Save post to generate post_id
 
@@ -45,7 +45,7 @@ class PostService
                     // Create media record
                     $post->media()->create([
                         'name' => $newFileName,
-                        'user_id' => $user->user_id,
+                        'user_id' => $user->id,
                         'post_id' => $post->id, // Correctly use the post_id from the saved post
                         'extension' => $extension, // Correctly save the file extension
                     ]);

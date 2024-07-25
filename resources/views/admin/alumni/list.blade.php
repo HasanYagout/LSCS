@@ -29,10 +29,10 @@
                                     <div>{{ __('Student ID') }}</div>
                                 </th>
                                 <th scope="col">
-                                    <div>{{ __('First Name') }}</div>
+                                    <div>{{ __('F_Name') }}</div>
                                 </th>
                                 <th scope="col">
-                                    <div>{{ __('Last Name') }}</div>
+                                    <div>{{ __('L_Name') }}</div>
                                 </th>
                                 <th scope="col" class="min-w-100">
                                     <div>{{ __('Graduation Year') }}</div>

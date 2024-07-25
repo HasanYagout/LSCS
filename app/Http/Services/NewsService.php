@@ -111,7 +111,7 @@ class NewsService
         $news->news_category_id = $request->category_id;
         $news->details = $request->details;
         $news->status = $request->status;
-        $news->posted_by = $user->user_id;
+        $news->posted_by = $user->id;
 
         if ($request->hasFile('image')) {
             // Get the original file extension

@@ -89,7 +89,6 @@ class NoticeService
     {
         try {
             $user = Auth::user();
-
             DB::beginTransaction();
             if (Notice::where('slug', getSlug($request->title))->count() > 0) {
                 $slug = getSlug($request->title) . '-' . rand(100000, 999999);
@@ -102,7 +101,7 @@ class NoticeService
             $notice->notice_category_id = $request->category_id;
             $notice->details = $request->details;
             $notice->status = $request->status;
-            $notice->created_by = $user->user_id;
+            $notice->posted_by = $user->id;
             if ($request->hasFile('image')) {
                 // Get the original file extension
                 $extension = $request->image->getClientOriginalExtension();
@@ -128,7 +127,7 @@ class NoticeService
             return redirect()->route('admin.notices.index');
         } catch (Exception $e) {
             DB::rollBack();
-            return $this->error([], getMessage(SOMETHING_WENT_WRONG));
+            return back()->withErrors($e->getMessage());
         }
     }
 
