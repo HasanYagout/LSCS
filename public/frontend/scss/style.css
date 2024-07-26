@@ -577,6 +577,9 @@ ul {
 .bd-c-black-color {
   border-color: var(--black-color) !important;
 }
+.bd-c-white-color {
+    border-color: var(--white) !important;
+}
 
 .bd-c-para-color {
   border-color: var(--para-color) !important;
