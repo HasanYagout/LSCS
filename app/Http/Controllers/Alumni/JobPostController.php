@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use App\Http\Services\JobPostService;
 use App\Traits\ResponseTrait;
 use App\Http\Requests\JobPostRequest;
-use App\Http\Services\NoticeCategoryService;
 use Illuminate\Support\Facades\Auth;
 
 class JobPostController extends Controller
@@ -78,16 +77,29 @@ class JobPostController extends Controller
         $searchTerm = $request->input('search');
 
         // Filter jobs based on the search term
-        $data['jobs'] = JobPost::query()
-            ->where(function($query) use ($searchTerm) {
-                $query->where('title', 'LIKE', "%{$searchTerm}%")
-                    ->orWhereHas('company', function($query) use ($searchTerm) {
-                        $query->where('name', 'LIKE', "%{$searchTerm}%");
-                    })
-                    ->orWhere('location', 'LIKE', "%{$searchTerm}%");
+        $jobs = JobPost::leftJoin('companies', function($join) {
+            $join->on('job_posts.user_id', '=', 'companies.id')
+                ->where('job_posts.posted_by', '=', 'company');
+        })
+            ->leftJoin('admins', function($join) {
+                $join->on('job_posts.user_id', '=', 'admins.id')
+                    ->where('job_posts.posted_by', '=', 'admin');
             })
-            ->where('status', STATUS_ACTIVE)  // Assuming you still want to filter by status
-            ->orderBy('id', 'desc')
+            ->select('job_posts.*', 'companies.name as company_name', 'admins.first_name as admin_name')
+            ->where(function ($query) {
+                $query->where('job_posts.status', STATUS_ACTIVE)
+                    ->orWhere('job_posts.status', STATUS_INACTIVE);
+            });
+
+        if ($searchTerm) {
+            $jobs->where(function ($query) use ($searchTerm) {
+                $query->where('job_posts.title', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('companies.name', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('admins.first_name', 'LIKE', "%{$searchTerm}%");
+            });
+        }
+
+        $data['jobs'] = $jobs->orderBy('job_posts.id', 'desc')
             ->paginate(10);
 
         return view('alumni.jobs.all-job-post', $data);
