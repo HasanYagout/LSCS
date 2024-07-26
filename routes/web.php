@@ -38,6 +38,21 @@ Route::group(['namespace' => 'web'], function () {
 // alumni
     Route::get('all-alumni', [AlumniController::class, 'alumni'])->name('all.alumni');
 
+
+    Route::get('/privacy-policy', function () {
+        return view('web.privacy-policy');
+    })->name('privacy-policy');
+
+    Route::get('/cookie-policy', function () {
+        return view('web.cookie-policy');
+    })->name('cookie-policy');
+
+    Route::get('/terms-and-conditions', function () {
+        return view('web.terms-and-conditions');
+    })->name('terms-and-conditions');
+
+
+
 // event
     Route::get('all-event', [EventController::class, 'event'])->name('all.event');
     Route::get('event-view-details/{slug}', [EventController::class, 'eventDetails'])->name('event.view.details');
