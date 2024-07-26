@@ -322,7 +322,7 @@
                         <div class="bd-c-black-10 bd-one rounded-top-4 hover-scale-img">
                             <div class="rounded-top-4 h-234 overflow-hidden position-relative">
                                 <img class="container h-100 object-fit-cover p-0 register-right shadow-lg w-100"
-                                     onerror="this.src='{{asset('public/assets/images/ssss.jpg')}}'" src="{{ asset('public/storage/admin/news').'/'.$singleNews->image }}"
+                                     onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/news').'/'.$singleNews->image }}"
                                     alt="{{ $singleNews->title }}" />
                                 <p
                                     class="position-absolute top-10 left-22 p-10 bd-ra-10 bg-primary-color max-w-77 fs-16 fw-400 lh-19 text-scroll-track text-center">
