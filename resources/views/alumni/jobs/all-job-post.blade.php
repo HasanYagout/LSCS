@@ -71,7 +71,7 @@
                             <div class="card news-card border-dark rounded rounded">
                                 <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/').'/'.$job->posted_by.'/'.$job->company->image}}" alt="Company Logo">
                                 <div class="card-body">
-                                    <h5 class="card-title news-card-title">{{$job->company->name}}</h5>
+                                    <h5 class="card-title news-card-title">{{$job->posted_by=='admin'?$job->admin->first_name.' '.$job->admin->last_name:$job->company->name}}</h5>
                                     <small class="text-muted">{{$job->title}}</small>
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <div class="tags">
