@@ -13,7 +13,7 @@
                 <!-- Middle / Menu -->
                 <div class="col-lg-6 col-6">
                     <nav class="navbar navbar-expand-lg p-0">
-                        <button class="navbar-toggler menu-navbar-toggler bd-c-black-color ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                        <button class="navbar-toggler menu-navbar-toggler bd-c-white-color ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="navbar-collapse menu-navbar-collapse offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -51,7 +51,7 @@
 
                                 <div class="d-flex justify-content-start align-items-center flex-wrap g-11 pt-16">
 
-                                        <a href="{{ route('auth.login') }}" class="align-content-center bg-secondary-color mx-3 text-white btn btn-sm d-flex fw-500 h-100 px-20 py-2">{{ __('Login') }}</a>
+                                        <a href="{{ route('auth.login') }}" class="align-content-center bg-secondary-color mx-3 text-white btn btn-sm ms-0 d-flex fw-500 h-100 px-20 py-2">{{ __('Login') }}</a>
 
                                 </div>
                             </div>
