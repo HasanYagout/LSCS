@@ -49,21 +49,22 @@
                             <ul class="footer-nav">
                                 <li><a href="{{ route('our.notice') }}"
                                         class="fs-18 fw-500 lh-28 text-white-80 hover-color-white">{{__('Notice')}}</a></li>
-                                <li><a href="{{ route('pages', 'privacy_policy') }}"
+                                <li><a href="{{ route('privacy-policy') }}"
                                         class="fs-18 fw-500 lh-28 text-white-80 hover-color-white">{{ __('Privacy
                                                                                                                                                                                                                                         Policy') }}</a>
                                 </li>
                                 <li><a href="{{ route('all.event') }}"
                                         class="fs-18 fw-500 lh-28 text-white-80 hover-color-white">{{__('Events')}}</a></li>
-                                <li><a href="{{ route('pages', 'cookie_policy') }}"
+                                <li><a href="{{ route('cookie-policy') }}"
                                         class="fs-18 fw-500 lh-28 text-white-80 hover-color-white">{{ __('Cookie
                                                                                                                                                                                                                                         Policy') }}</a>
                                 </li>
                                 <li><a href="{{ route('all.stories') }}"
                                         class="fs-18 fw-500 lh-28 text-white-80 hover-color-white">{{__('Stories')}}</a>
-                                <li><a href="{{ route('pages', 'terms_condition') }}"
-                                        class="fs-18 fw-500 lh-28 text-white-80 hover-color-white">{{ __('Terms
-                                                                                                                                                                                                                                        & Condition') }}</a>
+                                <li>
+                                    <a href="{{ route('terms-and-conditions') }}" class="fs-18 fw-500 lh-28 text-white-80 hover-color-white">
+                                        {{ __('Terms & Conditions') }}
+                                    </a>
                                 </li>
                                 <li><a href="{{ route('our.news') }}"
                                         class="fs-18 fw-500 lh-28 text-white-80 hover-color-white">{{__('News')}}</a>
