@@ -16,7 +16,7 @@
             </div>
         </div>
         <!-- Edit - Delete -->
-        @if($post->user_id == \Illuminate\Support\Facades\Auth::user()->user_id)
+        @if($post->user_id == \Illuminate\Support\Facades\Auth::user()->id)
         <div class="dropdown">
             <button class="border-0 p-0 bg-transparent post-dropdown-one text-707070 dropdown-toggle" type="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
