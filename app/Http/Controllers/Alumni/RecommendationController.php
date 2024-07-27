@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Alumni;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Recommendation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -21,6 +22,7 @@ class RecommendationController extends Controller
             return datatables($recommendations)
                 ->addIndexColumn()
                 ->addColumn('name', function ($data) {
+
                     return $data->admin->first_name . ' ' . $data->admin->last_name;
                 })
                 ->addColumn('status', function ($data) {
@@ -68,7 +70,8 @@ class RecommendationController extends Controller
 
     public function create(Request $request){
         $data['title'] = __('Create Recommendation');
-        $data['admins']=Admin::where('role_id',4)->get();
+        $data['admins']=User::where('role_id',4)->get();
+
         $data['showRecommendationManagement']='show';
 
         $data['activeRequest']='active';
@@ -85,8 +88,9 @@ class RecommendationController extends Controller
 
     public function store(Request $request)
     {
+
         $request->validate([
-            'instructor' => 'required|exists:admins,id', // assuming instructors are users
+            'instructor' => 'required|exists:users,id', // assuming instructors are users
             'details' => 'required|string|max:2000',
         ]);
 
