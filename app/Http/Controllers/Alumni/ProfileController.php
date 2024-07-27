@@ -32,6 +32,7 @@ class ProfileController extends Controller
     public function profile()
     {
         $user = Auth::user();
+
         $userInfo = null;
 
         switch ($user->role_id) {
@@ -64,7 +65,7 @@ class ProfileController extends Controller
 
     public function generateCV()
     {
-        $user=  Alumni::with('experience','education')->where('id',Auth::user()->id)->first();
+        $user= Alumni::with('experience','education')->where('user_id',Auth::user()->id)->first();
 
 
         $html = view('alumni.cvs.cv', compact('user'))->render();
