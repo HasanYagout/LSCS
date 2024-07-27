@@ -41,19 +41,6 @@
     </style>
 @endpush
 @section('content')
-    @php
-        use Illuminate\Support\Facades\Auth;
-        $authenticatedGuard = null;
-        $authenticatedUser = null;
-
-        foreach (config('auth.guards') as $guardName => $guardConfig) {
-            if (Auth::guard($guardName)->check()) {
-                $authenticatedGuard = $guardName;
-                $authenticatedUser = Auth::guard($guardName)->user();
-                break;
-            }
-        }
-    @endphp
     <div class="container mt-5">
         <div class="row">
             <form action="{{ route('alumni.jobs.all-job-post') }}" method="GET" class="mb-4">

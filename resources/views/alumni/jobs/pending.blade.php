@@ -1,3 +1,4 @@
+@php use Illuminate\Support\Facades\Auth; @endphp
 @extends('layouts.app')
 
 @push('title')
@@ -6,11 +7,8 @@
 @push('style')
     <style>
         .job-card {
-            border: 1px solid #eaeaea;
             border-radius: 8px;
             margin-bottom: 20px;
-            padding: 20px;
-            border-color: #0b0b0b/* Updated shadow color */
         }
         .job-card .card-header {
             background: #fff;
@@ -29,61 +27,41 @@
             color: #000;
         }
         .job-card .tags span {
-            margin-right: 10px;
-            border: 1px solid #ff4757;
-            color: #ff4757;
-            padding: 2px 8px;
-            border-radius: 20px;
+            background-color: #edf0f3;
+            padding: 12px 15px;
+
+            border-radius: 5px;
         }
         .job-card .tags span:hover {
-            background-color: #ff4757;
+            background-color: var(--secondary-color);
             color: #fff;
         }
     </style>
 @endpush
 @section('content')
-    @php
-        use Illuminate\Support\Facades\Auth;
-        $authenticatedGuard = null;
-        $authenticatedUser = null;
 
-        foreach (config('auth.guards') as $guardName => $guardConfig) {
-            if (Auth::guard($guardName)->check()) {
-                $authenticatedGuard = $guardName;
-                $authenticatedUser = Auth::guard($guardName)->user();
-                break;
-            }
-        }
-    @endphp
     <div class="container mt-5">
+
         <div class="row">
             @foreach($appliedJobs as $jobs)
-                <div class="col-lg-6">
-                    <div class="job-card">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center">
-
-                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/').'/'.$jobs->job->posted_by.'/'.$jobs->job->company->image}}" class="rounded-circle mr-3" alt="Company Logo">
-                                <div>
-                                    <h5 class="mb-0">{{$jobs->job->company->name}}</h5>
-                                    <small class="text-muted">{{$jobs->job->title}}</small>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-lg-4">
+                    <div class="job-card card rounded-top-4">
+                    <div class="border-0 news-card rounded rounded">
+                        <img class="rounded-top-4" onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/').'/'.$jobs->posted_by.'/'.$jobs->company->image}}" alt="Company Logo">
                         <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p class="mb-0"><strong>Budget:</strong> $100 / Hours</p>
-                                    <p class="mb-0"><strong>Preferred:</strong> +2 Years Experience</p>
-                                </div>
+                            <h5 class="card-title">{{$jobs->posted_by=='admin'?$jobs->admin->first_name.' '.$jobs->admin->last_name:$jobs->company->name}}</h5>
+                            <small class="text-muted">{{$jobs->job->title}}</small>
+                            <div class="d-flex my-3 justify-content-between align-items-center mb-4">
                                 <div class="tags">
-                                    <span>Figma</span>
-                                    <span>UX Design</span>
-                                    <span>Design Thinking</span>
+                                    @foreach(json_decode($jobs->job->skills) as $skill)
+                                        <span>{{$skill}}</span>
+                                    @endforeach
                                 </div>
                             </div>
+{{--                            <a href="{{route('alumni.jobs.details',['company'=>$jobs->user_id,'slug'=>$jobs->slug])}}" class="py-13 px-26 bg-secondary-color border-0 bd-ra-12 fs-15 fw-500 lh-25 text-black hover-bg-one" >Apply now</a>--}}
                         </div>
                     </div>
+                </div>
                 </div>
             @endforeach
         </div>
