@@ -27,7 +27,7 @@ class Alumni extends Authenticatable
     }
     public function cvs()
     {
-        return $this->hasMany(CV::class, 'alumni_id','id');
+        return $this->hasMany(CV::class,'alumni_id','user_id');
     }
 
     public function experience()
