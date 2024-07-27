@@ -94,6 +94,7 @@
                             <!-- Content -->
                             <ul class="zList-five">
                                 @foreach ($latestJobs as $job)
+
                                     <li>
 
                                         <!-- Logo - User -->
@@ -136,13 +137,7 @@
                                                         alt="" /></div>
                                                 <p class="fs-14 fw-400 lh-16 text-707070">{{ $job->location }}</p>
                                             </li>
-                                            <li class="d-flex align-items-center cg-7">
-                                                <div class="d-flex"><img
 
-                                                        src="{{ asset('public/assets/images/icon/dollar-coin.svg') }}"
-                                                        alt="" />
-                                                </div>
-                                            </li>
                                         </ul>
                                         <!-- Link -->
                                         {{--                                        <a href="{{ route('alumni.jobs.details', $job->slug) }}"--}}
