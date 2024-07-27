@@ -43,13 +43,14 @@ class JobPostService
                 'cv_id' => 'required|integer',  // Validate that cv_id is required and is an integer
             ]);
 
-            $alumniId = Auth::user()->user_id;
+            $alumniId = Auth::user()->id;
             $jobPost = JobPost::where('slug', $slug)->firstOrFail();
 
             // Check if the alumni has already applied for the job
             $alreadyApplied = AppliedJobs::where('alumni_id', $alumniId)
                 ->where('job_id', $jobPost->id)
                 ->exists();
+
 
             if ($alreadyApplied) {
                 session()->flash('error', 'You have already applied for this job.');
@@ -158,8 +159,9 @@ class JobPostService
                 $q->where('posted_by', 'admin')
                     ->orWhere('posted_by', 'company');
             } else {
-                $q->where('user_id', $authUser->user_id)
+                $q->where('user_id', $authUser->company->id)
                     ->where('posted_by', 'company');
+
             }
         });
         // Conditionally add status filter
@@ -244,7 +246,7 @@ class JobPostService
                             <button onclick="deleteItem(\'' . route($auth . '.jobs.delete', $data->slug) . '\', \'jobPostAlldataTable\')" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="'.__('Delete').'">
                                 <img src="' . asset('public/assets/images/icon/delete-1.svg') . '" alt="delete">
                             </button>
-                            <a href="' . route($auth . '.jobs.details', ['company' => Auth::user()->user_id, 'slug' => $data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
+                            <a href="' . route($auth . '.jobs.details', ['company' => Auth::user()->id, 'slug' => $data->slug]) . '" class="d-flex justify-content-center align-items-center w-30 h-30 rounded-circle bd-one bd-c-ededed bg-white" title="View"><img src="' . asset('public/assets/images/icon/eye.svg') . '" alt="" /></a>
                         </li>
                     </ul>';
             })
@@ -382,13 +384,14 @@ class JobPostService
             }
             // Generate a unique slug
             $slugBase = Str::slug($request->title);
+
             $slug = JobPost::where('slug', 'like', $slugBase . '%')->exists() ?
                 $slugBase . '-' . rand(100000, 999999) : $slugBase;
             $type=$authUser->role_id==1?'admin':'company';
             $jobPost = new JobPost();
             $jobPost->title = $request->title;
             $jobPost->slug = $slug;
-            $jobPost->user_id = $authUser->id;
+            $jobPost->user_id = $authUser->role_id==1?$authUser->admin->id:$authUser->company->id;
             $jobPost->posted_by = $type; // Use table name as a proxy for role if roles are distinct by table
             $jobPost->location = $request->location;
             $jobPost->post_link = $request->post_link ?: '';
