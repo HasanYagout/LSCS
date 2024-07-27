@@ -59,9 +59,9 @@ class StoryController extends Controller
         $data['activePendingStoryList'] = 'active-color-one';
         return view('admin.stories.active', $data);
     }
-    public function store(CreateStoryRequest $request)
+    public function store(Request $request)
     {
-
+        dd($request->all());
         return $this->storyService->store($request);
     }
     public function info($slug)

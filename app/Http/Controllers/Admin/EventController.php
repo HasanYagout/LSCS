@@ -88,6 +88,7 @@ class EventController extends Controller
         $data['title'] = __('Edit Event');
         $data['categories'] = EventCategory::all();
         $data['event'] = $this->eventService->getEvent($slug);
+
         return view('admin.event.pending.edit', $data);
     }
 

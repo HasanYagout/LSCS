@@ -40,7 +40,7 @@ class DashboardController extends Controller
 
         $roleUserInfoMap = [
             1 => ['userInfo' => $user->admin, 'role' => 'admin'],
-            4 => ['userInfo' => $user->alumni, 'role' => 'instructor']
+            4 => ['userInfo' => $user->admin, 'role' => 'instructor']
         ];
 
         $userData = $roleUserInfoMap[$user->role_id] ?? abort(403, 'Unauthorized action.');

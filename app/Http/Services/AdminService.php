@@ -42,7 +42,8 @@ class AdminService
 
     public function getById($id)
     {
-        return Admin::where('id', $id)->firstOrFail();
+
+        return Admin::where('user_id', $id)->firstOrFail();
     }
 
     public function list( $request)

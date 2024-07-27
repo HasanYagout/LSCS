@@ -47,7 +47,7 @@ Route::middleware(['web'])->group(function () {
                     Route::post('/status', [DashboardController::class, 'status_update'])->name('status.update');
                 });
                 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-
+                Route::get('/profile', [ProfileController::class, 'myProfile'])->name('profile');
 
             });
 

@@ -49,8 +49,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="d-inline-flex py-13 px-26 bd-ra-12 bg-cdef84 fs-15 fw-500 lh-25 text-black mt-30 hover-bg-one border-0">{{__('Publish Now')}}</button>
-                    </div>
+                        <button type="submit" class="d-inline-flex py-13 px-26 bd-ra-12 bg-cdef84 fs-15 fw-500 lh-25 text-black mt-30 hover-bg-one border-0">{{__('Publish Now')}}</button>                    </div>
                 </form>
             </div>
         </div>
@@ -60,21 +59,19 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            console.log('dasdadsa');
-
             $('#storyForm').on('submit', function (e) {
                 e.preventDefault(); // prevent the form from submitting the traditional way
+
                 var formData = new FormData(this);
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{route('admin.stories.store')}}', // Use only one url property
+                    url: '{{route('admin.stories.store')}}',
                     data: formData,
                     contentType: false,
                     processData: false,
                     success: function (response) {
-
-                        console.log(response)
+                        console.log(response);
                         if (response.success) {
                             toastr.success(response.message);
                             setTimeout(function () {
@@ -88,16 +85,14 @@
                         var errors = xhr.responseJSON.errors;
                         if (errors) {
                             Object.values(errors).forEach(error => {
-                                toastr.error(error[0], 'Error'); // Show the first error of every array
+                                toastr.error(error[0], 'Error');
                             });
                         } else {
                             toastr.error('An unexpected error occurred.', 'Error');
                         }
                     }
                 });
-            })
+            });
         });
-
-
     </script>
 @endpush

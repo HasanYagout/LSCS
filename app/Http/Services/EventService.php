@@ -142,7 +142,7 @@ class EventService
         $user=Auth::user();
         $query = Event::select('events.*', 'event_categories.name as category_name')
             ->join('event_categories', 'events.event_category_id', '=', 'event_categories.id')
-            ->where('posted_by', $user->id)
+            ->where('user_id', $user->id)
             ->where('events.status', STATUS_ACTIVE);
         // Handle search
         // Handle ordering
@@ -222,7 +222,7 @@ class EventService
             // Assign other values to the event model's properties
             $event->date = $request->date;
             $event->description = $request->description;
-            $event->user_id = Auth::user()->user_id;
+            $event->user_id = Auth::user()->id;
 
             // Save the event model to the database
             $event->save();

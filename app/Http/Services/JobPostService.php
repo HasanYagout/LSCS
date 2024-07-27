@@ -5,6 +5,7 @@ use App\Jobs\SendJobPostEmail;
 use App\Models\Alumni;
 use App\Models\AppliedJobs;
 use App\Models\JobPost;
+use App\Models\User;
 use App\Traits\ResponseTrait;
 use App\Models\FileManager;
 use App\Models\Notice;
@@ -222,6 +223,7 @@ class JobPostService
                 return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16' . ($data->posted_by == 'admin' ? ' text-0fa958 bg-0fa958-10' : ' text-f5b40a bg-f5b40a-10') . '">' . $data->posted_by . '</p>';
             })
             ->addColumn('status', function ($data) {
+
                 $checked = $data->status ? 'checked' : '';
                 return '<ul class="d-flex align-items-center cg-5 justify-content-center">
                 <li class="d-flex gap-2">
@@ -349,11 +351,12 @@ class JobPostService
     public function changeStatus(Request $request, $id)
     {
         $job = JobPost::with('company')->find($id);
+        $user=User::find($id);
         if (!$job) {
             return response()->json(['success' => false, 'message' => 'Job not found.']);
         }
 
-        if (Auth::user() && Auth::user()->role_id==1 && $job->company && $job->company->status == 0) {
+        if (Auth::user() && Auth::user()->role_id==1 && $job->company && $user->status == 0) {
             return response()->json([
                 'success' => false,
                 'message' => 'Unable to update job status because the associated company is inactive. Please update the company status first.'

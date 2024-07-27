@@ -17,11 +17,12 @@ class Company extends Authenticatable
     }
     public function appliedJobs()
     {
-        return $this->hasMany(AppliedJobs::class, 'company_id');
+        return $this->hasMany(AppliedJobs::class);
     }
     public function jobs()
     {
-        return $this->hasMany(JobPost::class);
+        return $this->hasMany(JobPost::class, 'user_id', 'user_id')
+            ->whereIn('posted_by', ['admin', 'company']); // Adjusted to include admin and company
     }
     public function posts()
     {

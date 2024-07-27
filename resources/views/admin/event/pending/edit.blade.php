@@ -52,7 +52,7 @@
                 </div>
 
 
-                @if(auth('admin')->user()->role_id == USER_ROLE_ADMIN)
+                @if(\Illuminate\Support\Facades\Auth::user()->role_id == USER_ROLE_ADMIN)
                 <div class="col-md-6">
                     <div class="primary-form-group">
                         <div class="primary-form-group-wrap">

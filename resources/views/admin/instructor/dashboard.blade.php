@@ -4,11 +4,11 @@
 @endpush
 @section('content')
     <style>
-       svg{
-           filter: saturate(200%);
+        svg{
+            filter: saturate(200%);
 
 
-       }
+        }
         .zNews-item-one {
             transition: transform 0.3s ease;
         }
@@ -26,17 +26,11 @@
                 @foreach ($recommendations as $title => $info)
                     <div class="col-md col-sm-12">
                         <div class="rounded-3 zNews-item-one">
-                            <div class="content row" style="background-color: #363636;">
+                            <div class="content row" style="background-color: #36363608;">
                                 <div class="align-items-center col-lg-12 d-flex justify-content-between">
-                                    <h4 class="title text-white">{{ $info['count'] }}</h4>
+                                    <h4 class="title text-primary-color">{{ $info['count'] }}</h4>
                                     <div class="d-flex justify-content-between">
-                                        <div class="d-flex p-2 rounded-4" style="background-color:
-                                        @if ($title == 'Total') #b1813275;
-                                        @elseif ($title == 'Pending') #ae75c47d;
-                                        @elseif ($title == 'Confirmed') #17a2b894;
-                                        @elseif ($title == 'Rejected') #dc35457a;
-                                        @elseif ($title == 'Done') #00ff6c85;
-                                        @else #f1a52775; @endif">
+                                        <div class="d-flex p-2 rounded-4">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" style="color:
                                         @if ($title == 'Total') #f1a527;
                                         @elseif ($title == 'Pending') #ae75c4;
@@ -64,7 +58,7 @@
                                     </div>
 
                                 </div>
-                                    <h2 class=" fw-normal  mt-1 text-b7bdc6 title">{{__($title)}}</h2>
+                                <h2 class=" fw-normal  mt-1 text-primary-color title">{{__($title)}}</h2>
 
 
 
@@ -75,59 +69,59 @@
             </div>
 
 
-                <div class="pt-30">
-                    @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-                    <input type="hidden" id="recommendation_route" value="{{ route('admin.instructor.dashboard') }}">
-                    <input type="hidden" id="status_update_route"  value="{{ route('admin.instructor.recommendation.status.update') }}">
-                    <select id="status-change" class="form-control mb-3">
-                        <option value="">{{ __('Select Status') }}</option>
-                        <option value="1">{{ __('Confirmed') }}</option>
-                        <option value="2">{{ __('Done') }}</option>
-                        <option value="3">{{ __('Rejected') }}</option>
-                        <option value="0">{{ __('Pending') }}</option>
-                    </select>
-                    <button id="change-status-btn" class="bd-c-primary-color btn hover-bd-secondary
+            <div class="pt-30">
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                <input type="hidden" id="recommendation_route" value="{{ route('admin.instructor.dashboard') }}">
+                <input type="hidden" id="status_update_route"  value="{{ route('admin.instructor.recommendation.status.update') }}">
+                <select id="status-change" class="form-control mb-3">
+                    <option value="">{{ __('Select Status') }}</option>
+                    <option value="1">{{ __('Confirmed') }}</option>
+                    <option value="2">{{ __('Done') }}</option>
+                    <option value="3">{{ __('Rejected') }}</option>
+                    <option value="0">{{ __('Pending') }}</option>
+                </select>
+                <button id="change-status-btn" class="bd-c-primary-color btn hover-bd-secondary
                   hover-color-secondary mb-3">{{ __('Change Status') }}</button>
 
-                    <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
+                <div class="bg-white bd-half bd-c-ebedf0 bd-ra-25 p-30">
 
-                        <h4 class="title mb-3">{{ __('Recommendation Summary') }}</h4>
-                        <div class="table-responsive zTable-responsive">
-                            <table class="table zTable" id="recommendationTable">
-                                <thead>
-                                <tr>
-                                    <th scope="col">
-                                        <div>{{ __('check') }}</div>
-                                    </th>
-                                    <th scope="col">
-                                        <div>{{ __('ID') }}</div>
-                                    </th>
-                                    <th scope="col">
-                                        <div>{{ __('Name') }}</div>
-                                    </th>
-                                    <th scope="col">
-                                        <div>{{ __('GPA') }}</div>
-                                    </th>
-                                    <th scope="col">
-                                        <div>{{ __('Recommendations') }}</div>
-                                    </th>
-                                    <th scope="col">
-                                        <div>{{ __('Status') }}</div>
-                                    </th>
-                                    <th scope="col">
-                                        <div>{{ __('Action') }}</div>
-                                    </th>
+                    <h4 class="title mb-3">{{ __('Recommendation Summary') }}</h4>
+                    <div class="table-responsive zTable-responsive">
+                        <table class="table zTable" id="recommendationTable">
+                            <thead>
+                            <tr>
+                                <th scope="col">
+                                    <div>{{ __('check') }}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{{ __('ID') }}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{{ __('Name') }}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{{ __('GPA') }}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{{ __('Recommendations') }}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{{ __('Status') }}</div>
+                                </th>
+                                <th scope="col">
+                                    <div>{{ __('Action') }}</div>
+                                </th>
 
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
+            </div>
             <div class="modal fade" id="edit-modal" aria-hidden="true" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">

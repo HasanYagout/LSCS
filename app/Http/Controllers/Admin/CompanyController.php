@@ -8,8 +8,8 @@ use App\Http\Services\CompanyService;
 use App\Http\Services\UserService;
 use App\Models\Company;
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\PassingYear;
 use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -82,11 +82,15 @@ class CompanyController extends Controller
     }
 
 
-    public function details(Request $request,$slug)
+    public function details(Request $request, $slug)
     {
-      $data['company']=Company::with('appliedJobs','jobs')->where('slug',$slug)->firstOrFail();
-      $data['title'] = __('Company Details');
-      $data['showCompanyManagement'] = 'show';
-      return view('admin.company.details',$data);
+         $company=Company::with(['jobs' => function($query) {
+            $query->whereIn('posted_by', ['admin', 'company']);
+        }])->where('slug', $slug)->firstOrFail();
+        $data['company'] =$company;
+        $data['userInfo']=User::where('role_id',3)->where('id',$company->user_id)->firstOrFail();
+        $data['title'] = __('Company Details');
+        $data['showCompanyManagement'] = 'show';
+        return view('admin.company.details', $data);
     }
 }

@@ -7,8 +7,8 @@ use App\Http\Services\AlumniService;
 use App\Http\Services\UserService;
 use App\Models\Alumni;
 use App\Models\Department;
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\PassingYear;
 use App\Traits\ResponseTrait;
 
 class AlumniController extends Controller
@@ -64,8 +64,9 @@ class AlumniController extends Controller
         return view('admin.alumni.alumni-pending-list-with-search', $data);
     }
 
-    public function gallery(Request $request,Alumni $alumni)
+    public function gallery(Request $request,User $alumni)
     {
+
       return view('admin.alumni.gallery', compact('alumni'));
     }
 

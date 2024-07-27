@@ -26,13 +26,13 @@
            <div class="col-md-4">
                <div class="form-group">
                    <label for="phone">Phone Number</label>
-                   <input type="text" name="phone" id="phone" class="form-control" value="{{$admin->mobile}}" required>
+                   <input type="text" name="phone" id="phone" class="form-control" value="{{$admin->phone}}" required>
                </div>
            </div>
            <div class="col-md-4">
                <div class="form-group">
                    <label for="email">Email</label>
-                   <input type="email" name="email" id="email" class="form-control" value="{{$admin->email}}" required>
+                   <input type="email" name="email" id="email" class="form-control" value="{{$userInfo->email}}" required>
                </div>
            </div>
 

@@ -11,7 +11,6 @@ use App\Models\Alumni;
 use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Models\PassingYear;
 use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -49,6 +48,7 @@ class AdminController extends Controller
     {
 
         $data['admin'] = $this->adminService->getById($id);
+        $data['userInfo']=User::find($id);
 
         return view('admin.edit-form', $data);
     }
@@ -56,7 +56,7 @@ class AdminController extends Controller
     {
 
         try {
-            $admin = Admin::findOrFail($id); // Find admin by ID
+            $admin = User::findOrFail($id); // Find admin by ID
             $admin->status = $request->status; // Update status
             $admin->save(); // Save changes
 
@@ -124,7 +124,8 @@ class AdminController extends Controller
     public function resetPassword(Request $request, $id)
     {
         try {
-            $admin = Admin::findOrFail($id); // Find admin by ID
+
+            $admin = User::findOrFail($id); // Find admin by ID
 
             // Generate a new password
             $newPassword = '12345678'; // Generate your new password securely

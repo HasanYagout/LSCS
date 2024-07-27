@@ -151,6 +151,7 @@ class StoryService
 
                 $thumbnail = $fileName; // Save only the file name to the database
             }
+            
             Story::create([
                 'posted_by' => Auth::user()->id,
                 'title' => $request->title,

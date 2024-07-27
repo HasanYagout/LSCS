@@ -32,6 +32,9 @@ class   ProfileController extends Controller
             case 3:
                 $userInfo = $user->company;
                 break;
+            case 4:
+                $userInfo = $user->admin;
+                break;
             default:
                 abort(403, 'Unauthorized action.');
         }

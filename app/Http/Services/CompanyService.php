@@ -4,17 +4,20 @@ namespace App\Http\Services;
 
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CompanyService
 {
-    public function updateStatus($request,$id)
+    public function updateStatus(Request $request, $id)
     {
-        $user=User::find($id);
-        $company=Company::with('jobs')->where('user_id',$id)->get();
+        $user = User::find($id);
+        $company = Company::with(['jobs' => function($query) {
+            $query->whereIn('posted_by', ['admin', 'company']);
+        }])->where('user_id', $id)->first(); // Use first() instead of get()
 
         if (!$user) {
-            return response()->json(['success' => false, 'message' => 'Company not found.']);
+            return response()->json(['success' => false, 'message' => 'User not found.']);
         }
 
         // Start transaction to ensure data integrity
@@ -22,8 +25,9 @@ class CompanyService
         try {
             $user->status = $request->status;
             $user->save();
+
             // Check if the status is 0 and update all associated jobs
-            if ($request->status == 0) {
+            if ($request->status == 0 && $company) {
                 foreach ($company->jobs as $job) {
                     $job->status = 0;
                     $job->save();
@@ -34,6 +38,7 @@ class CompanyService
             return response()->json(['success' => true, 'message' => 'Status updated successfully, including all associated jobs.']);
         } catch (\Exception $e) {
             DB::rollBack();
+            \Log::error('Failed to update status: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Failed to update status: ' . $e->getMessage()]);
         }
     }

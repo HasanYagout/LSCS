@@ -42,7 +42,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class=" pt-10 pb-5 px-5 text-center bg-primary-color text-scroll-track ">General</h5>
-                                <p class="pt-3 text-center"><strong>Email:</strong> {{ $company->email }}</p>
+                                <p class="pt-3 text-center"><strong>Email:</strong> {{ $userInfo->email }}</p>
                                 <p class="pt-4 text-center"><strong>Phone:</strong> {{ $company->phone }}</p>
                             </div>
                         </div>

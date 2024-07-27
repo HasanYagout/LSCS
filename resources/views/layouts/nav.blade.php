@@ -36,6 +36,10 @@
             $userInfo = $authenticatedUser->company;
             $role = 'company';
             break;
+            case 4:
+            $userInfo = $authenticatedUser->admin;
+            $role = 'instructor';
+            break;
     }
 }
             @endphp
@@ -63,17 +67,20 @@
 
             <ul class="dropdown-menu dropdownItem-one">
                 @if ($authenticatedUser)
-                    <li>
-                        <a class="d-flex align-items-center cg-8" href="{{ route($role . '.profile.index') }}">
-                            <div class="d-flex">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M19.7274 20.4471C19.2716 19.1713 18.2672 18.0439 16.8701 17.2399C15.4729 16.4358 13.7611 16 12 16C10.2389 16 8.52706 16.4358 7.12991 17.2399C5.73276 18.0439 4.72839 19.1713 4.27259 20.4471" stroke="#707070" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"></path>
-                                    <circle cx="12" cy="8" r="4" stroke="#707070" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"></circle>
-                                </svg>
-                            </div>
-                            <p class="fs-14 fw-500 lh-16 text-707070">{{ __('Profile') }}</p>
-                        </a>
-                    </li>
+                    @if($role!='instructor')
+                        <li>
+                            <a class="d-flex align-items-center cg-8" href="{{ route($role . '.profile.index') }}">
+                                <div class="d-flex">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19.7274 20.4471C19.2716 19.1713 18.2672 18.0439 16.8701 17.2399C15.4729 16.4358 13.7611 16 12 16C10.2389 16 8.52706 16.4358 7.12991 17.2399C5.73276 18.0439 4.72839 19.1713 4.27259 20.4471" stroke="#707070" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"></path>
+                                        <circle cx="12" cy="8" r="4" stroke="#707070" stroke-opacity="0.7" stroke-width="1.5" stroke-linecap="round"></circle>
+                                    </svg>
+                                </div>
+                                <p class="fs-14 fw-500 lh-16 text-707070">{{ __('Profile') }}</p>
+                            </a>
+                        </li>
+                    @endif
+
                     <li>
                         <a class="d-flex align-items-center cg-8" href="{{ route('auth.logout') }}">
                             <div class="d-flex">

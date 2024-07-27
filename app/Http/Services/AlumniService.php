@@ -15,7 +15,8 @@ class AlumniService
 
     public function getAlumni( $request)
     {
-        $alumniData = Alumni::with('student'); // Initialize query and eager load student data
+        $alumniData = User::where('role_id',2)->with('alumni');
+
 
         // Filter by selected year
         if ($request->has('selectedYear') && $request->selectedYear != 0) {
@@ -52,19 +53,19 @@ class AlumniService
         return datatables($alumniData)
             ->addIndexColumn()
             ->addColumn('id', function ($data) {
-                return $data->id;
+                return $data->email;
             })
             ->addColumn('first_name', function ($data) {
-                return $data->first_name;
+                return $data->alumni->first_name;
             })
             ->addColumn('last_name', function ($data) {
-                return $data->last_name;
+                return $data->alumni->last_name;
             })
             ->addColumn('graduation_year', function ($data) {
-                return $data->graduation_year;
+                return $data->alumni->graduation_year;
             })
             ->addColumn('major', function ($data) {
-                return $data->major;
+                return $data->alumni->major;
             })
             ->addColumn('status', function ($data) {
                 $checked = $data->status ? 'checked' : '';
@@ -253,7 +254,8 @@ class AlumniService
     public function changeAlumniStatus( $request) {
         DB::beginTransaction();
         try {
-            $user = Alumni::withTrashed()->findOrFail($request->alumni_id); // Also consider trashed items
+            $user = User::findOrFail($request->alumni_id); // Also consider trashed items
+
             if ($request->status == 0) {
                 // Soft delete if status is set to '0'
                 $jobs=AppliedJobs::where('alumni_id', $request->alumni_id)->get();
@@ -285,17 +287,5 @@ class AlumniService
         }
     }
 
-    public function sendEmailNotification($status,$userData){
-        if($status == STATUS_ACTIVE){
-            $message = "Your Alumni Account Approved";
-            setCommonNotification( __('Account Approval'), $message, Null, $userData->id);
-            genericEmailNotify('',$userData,Null,'account-approval');
-        } else if($status == STATUS_REJECT){
-            $message = "Your Alumni Account Rejected";
-            setCommonNotification( __('Account Approval'), $message, Null, $userData->id);
-            genericEmailNotify('',$userData, Null,'account-rejection');
-        } else {
-        }
 
-    }
 }
