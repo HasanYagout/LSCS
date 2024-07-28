@@ -26,11 +26,11 @@ class PostController extends Controller
     public function edit(Request $request)
     {
         $data['post'] = $this->postService->getBySlug($request->slug);
-        $response['html'] = View::make('alumni.partials.post-edit', $data)->render();
+        $response['html'] = View::make('admin.partials.post-edit', $data)->render();
         return $this->success($response);
     }
 
-    public function update(PostRequest $request)
+    public function update(Request $request)
     {
         return  $this->postService->update($request);
     }

@@ -19,15 +19,14 @@ class AdminService
         try {
             DB::beginTransaction();
 
-            $admin = Admin::findOrFail($id);
-
+            $admin = User::where('id',$id);
             // If you want to keep track of the deleted image, you may skip the deletion or move the file to a deleted folder
-            if ($admin->image) {
-                Storage::delete('public/admin/image/' . $admin->image);
+            if ($admin->admin->image) {
+                Storage::delete('public/admin/image/' . $admin->admin->image);
             }
-
             $admin->delete();  // This will perform a soft delete
 
+            Admin::where('user_id', $id)->delete();
             DB::commit();
 
             $message = getMessage(DELETED_SUCCESSFULLY);

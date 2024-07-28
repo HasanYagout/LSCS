@@ -9,6 +9,7 @@ use App\Traits\ResponseTrait;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class PostService
@@ -40,7 +41,7 @@ class PostService
                     $newFileName = "{$date}_{$slug}_{$random}.{$extension}"; // New filename
 
                     // Move the file to the public disk under posts directory
-                    $path = $media->storeAs('posts', $newFileName, 'public');
+                    $media->storeAs('public/admin/posts', $newFileName, 'public'); // Store file with custom name in specified directory
 
                     // Create media record
                     $post->media()->create([
@@ -70,27 +71,111 @@ class PostService
 
     public function getBySlug($slug)
     {
-        return Post::whereSlug($slug)->with(['comments', 'likes:id', 'author', 'media.file_manager'])->withCount('replies')->first();
+        return Post::whereSlug($slug)->with(['admin'])->first();
     }
-
-    public function deleteBySlug($request)
+    public function update($request)
     {
+        // Validation rules
+        $validator = Validator::make($request->all(), [
+            'slug' => 'required|string|exists:posts,slug',
+            'body' => 'required|string',
+            'file.*' => 'nullable|mimes:jpeg,png,jpg,gif,svg,mp4,avi,mov,wmv|max:20480', // Image and video validation
+        ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
-            $post = Post::where('created_by', auth()->id())->where('tenant_id', getTenantId())->where('slug', $request->slug)->first();
+            $post = Post::where('created_by', 'admin')
+                ->where('user_id', Auth::user()->id)
+                ->where('slug', $request->slug)
+                ->first();
 
-            if(is_null($post)){
-                return $this->error([], __('This post not found'));
+            if (is_null($post)) {
+                return redirect()->route('home')->with('error', __('This post not found'));
             }
-            $post->delete();
+            $post->body = htmlspecialchars($request->body);
+            $post->save();
+
+            // Post media
+            $oldFiles = $request->oldFiles ?? [];
+
+            if ($request->hasFile('file')) {
+                foreach ($request->file('file') as $media) {
+                    $extension = $media->getClientOriginalExtension();
+                    $date = now()->format('Y-m-d');
+                    $randomNumber = rand(1000, 9999);
+
+
+                    // Remove any existing extension from the original filename
+                    $originalName = pathinfo($media->getClientOriginalName(), PATHINFO_FILENAME);
+                    $slug = Str::slug($originalName); // Ensure the original name is slugged
+
+                    $filename = "{$date}_{$slug}_{$randomNumber}.{$extension}";
+
+                    $path = $media->storeAs('public/admin/posts', $filename); // Store file with custom name
+
+                    $newMedia = $post->media()->create([
+                        'name' => $filename,
+                        'user_id' => Auth::user()->id,
+                        'extension'=>$extension
+                    ]);
+
+                    array_push($oldFiles, $newMedia->id);
+                }
+            }
+
+            $post->media()->whereNotIn('id', $oldFiles)->delete();
+
             DB::commit();
-            $message = getMessage(DELETED_SUCCESSFULLY);
-            return $this->success([], $message);
-        } catch (\Exception $e) {
+
+            $message = getMessage(UPDATED_SUCCESSFULLY);
+            return redirect()->route('admin.home')->with('success', $message);
+        } catch (Exception $e) {
             DB::rollBack();
             $message = getErrorMessage($e, $e->getMessage());
-            return $this->error([], $message);
+            return redirect()->route('admin.home')->with('error', $message);
+        }
+    }
+    public function deleteBySlug($request)
+    {
+        try {
+            DB::beginTransaction();
+
+            $post = Post::where('created_by', 'admin')
+                ->where('user_id', Auth::user()->id)
+                ->where('slug', $request->slug)
+                ->first();
+
+            if (is_null($post)) {
+                if ($request->ajax()) {
+                    return response()->json(['success' => false, 'message' => __('This post not found')], 404);
+                }
+                return redirect()->route('admin.home')->with('error', __('This post not found'));
+            }
+
+//            $post->delete();
+            DB::commit();
+            $message = getMessage('DELETED_SUCCESSFULLY');
+
+            if ($request->ajax()) {
+
+                return response()->json(['success' => true, 'message' => $message]);
+            }
+
+            return redirect()->route('admin.home')->with('success', $message);
+        } catch (Exception $e) {
+            dd($e);
+            DB::rollBack();
+            $message = getErrorMessage($e, $e->getMessage());
+
+            if ($request->ajax()) {
+                return response()->json(['success' => false, 'message' => $message], 500);
+            }
+
+            return redirect()->route('admin.home')->with('error', $message);
         }
     }
 

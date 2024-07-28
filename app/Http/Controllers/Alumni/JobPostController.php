@@ -55,6 +55,7 @@ class JobPostController extends Controller
         $data['title'] = __('Post Details');
         $data['showJobPostManagement'] = 'show';
         $data['jobPostData'] = $this->jobPostService->getBySlug($slug);
+
         $data['cvs']=CV::where('alumni_id',Auth::user()->id)->get();
         $data['company']=$company;
         $data['slug']=$slug;
@@ -62,9 +63,9 @@ class JobPostController extends Controller
     }
 
 
-    public function apply(Request $request, $company, $slug)
+    public function apply(Request $request, $slug)
     {
-       return $this->jobPostService->apply($request, $company, $slug);
+       return $this->jobPostService->apply($request, $slug);
     }
 
     public function all(Request $request)

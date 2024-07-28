@@ -39,7 +39,7 @@ class DashboardService
         return $this->success($latestPosts);
     }
     public function getPosts(){
-        $latestPosts = Post::orderBy('id', 'DESC')->with('creator')->where('status', STATUS_ACTIVE)->paginate(10);
+        $latestPosts = Post::orderBy('id', 'DESC')->with('creator','media')->where('status', STATUS_ACTIVE)->paginate(10);
         return $latestPosts;
     }
     public function getLatestNotice(){

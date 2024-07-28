@@ -22,29 +22,30 @@ class PostController extends Controller
     {
         return  $this->postService->store($request);
     }
-    
+
     public function edit(Request $request)
     {
+
         $data['post'] = $this->postService->getBySlug($request->slug);
         $response['html'] = View::make('alumni.partials.post-edit', $data)->render();
         return $this->success($response);
     }
-   
+
     public function update(PostRequest $request)
     {
         return  $this->postService->update($request);
     }
-    
+
     public function delete(Request $request)
     {
         return  $this->postService->deleteBySlug($request);
     }
-   
+
     public function likeDislike(Request $request)
     {
         return  $this->postService->likeDislike($request);
     }
-    
+
     public function getSinglePost(Request $request)
     {
         $data['posts'][] = $this->postService->getBySlug($request->slug);
@@ -75,7 +76,7 @@ class PostController extends Controller
         $request->validate([
             'body' => 'required'
         ]);
-        
+
         return  $this->postService->storeComment($request);
     }
     public function postCommentDelete(Request $request)

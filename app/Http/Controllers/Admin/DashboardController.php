@@ -135,13 +135,15 @@ class DashboardController extends Controller
             if ($request->ajax()) {
                 $recommendation = Recommendation::with('alumni')
                     ->where('recommendations.admin_id', Auth::user()->id)
-                    ->join('alumnis', 'recommendations.alumni_id', '=', 'alumnis.id')
+                    ->join('alumnis', 'recommendations.alumni_id', '=', 'alumnis.user_id')
                     ->select(
                         'recommendations.*',
                         'alumnis.id as alumni_unique_id',
                         'alumnis.first_name as alumni_first_name',
-                        'alumnis.last_name as alumni_last_name'
+                        'alumnis.last_name as alumni_last_name',
+                        'alumnis.GPA as gpa'
                     );
+
 
                 if ($request->has('search') && $request->search['value'] != '') {
                     $search = $request->search['value'];
@@ -175,13 +177,15 @@ class DashboardController extends Controller
                         return '<input type="checkbox" class="record-checkbox" value="' . $data->id . '">';
                     })
                     ->addColumn('id', function ($data) {
+
                         return $data->alumni_id;
                     })
                     ->addColumn('name', function ($data) {
+
                         return $data->alumni_first_name . ' ' . $data->alumni_last_name;
                     })
                     ->addColumn('gpa', function ($data) {
-                        return $data->alumni->GPA;
+                        return $data->gpa;
                     })
                     ->addColumn('recommendation_count', function ($data) {
                         if (!is_null($data->recommendation) && !empty($data->recommendation)) {
@@ -254,7 +258,8 @@ class DashboardController extends Controller
         if ($request->hasFile('recommendations')) {
             $files = array_filter($request->file('recommendations')); // Filter out null values
             $recommendation = Recommendation::with('alumni')->find($request->id);
-            $id = $recommendation->alumni->id;
+
+            $id = $recommendation->alumni->user_id;
 
             // Get existing recommendations and decode them
             $existingRecommendations = json_decode($recommendation->recommendation, true) ?: [];

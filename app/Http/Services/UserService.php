@@ -86,7 +86,6 @@ class UserService
             Alumni::updateOrCreate(['id' => $authUser->alumni->id],[
                 'first_name'=> $request['first_name']?? $authUser->alumni->first_name,
                 'last_name'=> $request['last_name']?? $authUser->alumni->last_name,
-                'date_of_birth' => $request['date_of_birth']?? $authUser->alumni->date_of_birth,
                 'about_me' => $request['about_me']?? $authUser->alumni->about_me,
                 'image' => $filename,
                 'email' => $request['email'],
