@@ -482,7 +482,7 @@
                                     @endif
                                     <li>
                                         <a class="{{ $activePendingJobPostList ?? '' }}"
-                                           href="{{ route($role.'.jobs.pending') }}">{{ __('Pending Jobs') }}</a>
+                                           href="{{ route($role.'.jobs.pending') }}">{{ __('Active Jobs') }}</a>
                                     </li>
                                     <li>
                                         <a class="{{ $activeAllJobPostList ?? '' }}"
