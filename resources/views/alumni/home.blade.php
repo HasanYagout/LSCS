@@ -52,9 +52,7 @@
                                                 <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/event').'/'.$event->thumbnail}}"
                                                      alt="{{ $event->title }}">
                                                 <ul class="tag d-flex flex-wrap cg-2 rg-5">
-{{--                                                    <li><a--}}
-{{--                                                            class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ eventType($event->type) }}</a>--}}
-{{--                                                    </li>--}}
+
                                                     <li><a
                                                             class="fs-12 fw-500 lh-16 text-1b1c17 px-6 bg-white rounded-pill d-flex">{{ $event->category->name }}</a>
                                                     </li>
@@ -93,6 +91,7 @@
                             </div>
                             <!-- Content -->
                             <ul class="zList-five">
+
                                 @foreach ($latestJobs as $job)
 
                                     <li>
@@ -101,9 +100,8 @@
                                         <div class="d-flex align-items-center cg-10 pb-10">
                                             <div
                                                 class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/company').'/'.$job->company->image }}"
-                                                     alt="{{ $job->title }}" />
-                                            </div>
+                                                <img  onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $job->posted_by=='company' ? asset('public/storage/company/image').'/'.$job->company->image :asset('public/storage/admin/image').'/'.$job->admin->image }}"
+                                                      alt="{{ $job->title }}" />                                            </div>
                                             <div class="">
                                                 <h4 class="fs-16 fw-500 lh-18 text-1b1c17 pb-4">{{ $job->title }}</h4>
                                                 <div class="d-flex align-items-center cg-5">
@@ -139,9 +137,10 @@
                                             </li>
 
                                         </ul>
+
                                         <!-- Link -->
-                                        {{--                                        <a href="{{ route('alumni.jobs.details', $job->slug) }}"--}}
-                                        {{--                                            class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-secondary">{{ __('More Details') }}</a>--}}
+                                        <a href="{{ route('alumni.jobs.details', $job->slug) }}"
+                                           class="fs-14 fw-500 lh-17 text-1b1c17 text-decoration-underline hover-color-secondary">{{ __('More Details') }}</a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -329,8 +328,8 @@
                                     <div class="d-flex align-items-center cg-10 pb-10">
                                         <div
                                             class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                            <img src="{{ asset('public/storage/company').'/'.$job->company->image }}"
-                                                 alt="{{ $job->title }}" />
+                                            <img  onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $job->posted_by=='company' ? asset('public/storage/company/image').'/'.$job->company->image :asset('public/storage/admin/image').'/'.$job->admin->image }}"
+                                                  alt="{{ $job->title }}" />
                                         </div>
                                         <div class="">
                                             <h4 class="fs-16 fw-500 lh-18 text-1b1c17 pb-4">{{ $job->title }}</h4>
