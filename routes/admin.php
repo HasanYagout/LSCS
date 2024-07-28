@@ -67,7 +67,7 @@ Route::middleware(['web'])->group(function () {
             });
             Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
                 Route::post('store', [PostController::class, 'store'])->name('store');
-                Route::delete('delete', [PostController::class, 'delete'])->name('delete');
+                Route::get('delete', [PostController::class, 'delete'])->name('delete');
                 Route::get('edit', [PostController::class, 'edit'])->name('edit');
                 Route::PUT('update', [PostController::class, 'update'])->name('update');
                 Route::get('single-post', [PostController::class, 'getSinglePost'])->name('single');
@@ -124,6 +124,9 @@ Route::middleware(['web'])->group(function () {
                 Route::get('all-job-post', [JobsController::class, 'all'])->name('all-job-post');
                 Route::get('my-job-post', [JobsController::class, 'myJobPost'])->name('my-job-post');
                 Route::get('details/{slug}', [JobsController::class, 'details'])->name('details');
+                Route::get('applied/{id}', [JobsController::class, 'applied'])->name('applied');
+                Route::get('alumni-profile/{id}', [JobsController::class, 'alumniProfile'])->name('alumni-profile');
+
 
 
             });
