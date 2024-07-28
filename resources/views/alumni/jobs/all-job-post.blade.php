@@ -56,7 +56,8 @@
                     @foreach($jobs as $job)
                         <div class="col-md-4 mt-30">
                             <div class="card news-card border-dark rounded rounded">
-                                <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{asset('public/storage/').'/'.$job->posted_by.'/'.$job->company->image}}" alt="Company Logo">
+                                <img  onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $job->posted_by=='company' ? asset('public/storage/company/image').'/'.$job->company->image :asset('public/storage/admin/image').'/'.$job->admin->image }}"
+                                      alt="{{ $job->title }}" />
                                 <div class="card-body">
                                     <h5 class="card-title news-card-title">{{$job->posted_by=='admin'?$job->admin->first_name.' '.$job->admin->last_name:$job->company->name}}</h5>
                                     <small class="text-muted">{{$job->title}}</small>
