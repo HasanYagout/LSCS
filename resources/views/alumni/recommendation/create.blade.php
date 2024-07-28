@@ -23,7 +23,7 @@
                         <select class="form-control @error('instructor') is-invalid @enderror" id="instructor" name="instructor">
                             <option disabled selected value="">Select an Instructor</option>
                             @foreach($admins as $admin)
-                                <option value="{{ $admin->id }}">{{ $admin->first_name . ' ' . $admin->last_name }}</option>
+                                <option value="{{ $admin->id }}">{{ $admin->admin->first_name . ' ' . $admin->admin->last_name }}</option>
                             @endforeach
                         </select>
                         @error('instructor')
