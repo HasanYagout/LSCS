@@ -173,6 +173,7 @@
                             <!-- Content -->
                             <ul class="zList-five">
                                 @foreach ($latestJobs as $job)
+
                                     <li>
                                         <!-- Logo - User -->
                                         <div class="d-flex align-items-center cg-10 pb-10">
@@ -402,8 +403,8 @@
                                     <div class="d-flex align-items-center cg-10 pb-10">
                                         <div
                                             class="flex-shrink-0 w-45 h-45 bd-one bd-c-ededed rounded-circle d-flex justify-content-center align-items-center">
-                                            <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/company').'/'.$job->company->image }}"
-                                                alt="{{ $job->title }}" />
+                                            <img  onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ $job->posted_by=='company' ? asset('public/storage/company/image').'/'.$job->company->image :asset('public/storage/admin/image').'/'.$job->admin->image }}"
+                                                  alt="{{ $job->title }}" />
                                         </div>
                                         <div class="">
                                             <h4 class="fs-16 fw-500 lh-18 text-1b1c17 pb-4">{{ $job->title }}</h4>
@@ -549,7 +550,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content zModalTwo-content">
                 <form action="{{ route('admin.posts.update') }}" id="post-edit-form" class="ajax reset" method="POST"
-                    data-handler="postUpdateResponse">
+                    data-handler="postUpdateResponse" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body zModalTwo-body" id="post-edit-modal-content">
@@ -565,7 +566,7 @@
 {{--    <input type="hidden" id="more-post-route" value="{{ route('admin.posts.more-post-load') }}">--}}
     <input type="hidden" id="delete-post-route" value="{{ route('admin.posts.delete') }}">
 {{--    <input type="hidden" id="post-like-route" value="{{ route('admin.posts.like') }}">--}}
-    <input type="hidden" id="post-edit" value="{{ route('alumni.posts.edit') }}">
+    <input type="hidden" id="post-edit" value="{{ route('admin.posts.edit') }}">
     <input type="hidden" id="post-update" value="{{ route('alumni.posts.update') }}">
 {{--    <input type="hidden" id="post-comment-store" value="{{ route('alumni.posts.comments.store') }}">--}}
     <input type="hidden" id="load-single-post" value="{{ route('alumni.posts.single') }}">
@@ -592,5 +593,5 @@
             });
         });
     </script>
-{{--    <script src="{{ asset('public/alumni/js/posts.js') }}?ver={{ env('VERSION' ,0) }}"></script>--}}
+    <script src="{{ asset('public/alumni/js/posts.js') }}?ver={{ env('VERSION' ,0) }}"></script>
 @endpush
