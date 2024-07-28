@@ -22,18 +22,15 @@ class JobPostService
 {
     use ResponseTrait;
 
-    public function getById($id)
-    {
-        return JobPost::where('tenant_id', getTenantId())->firstOrFail($id);
-    }
+
     public function getBySlug($slug)
     {
-        return JobPost::where('slug', $slug)
+        return JobPost::with('company','admin')->where('slug', $slug)
             ->with(['appliedJobs.alumni', 'appliedJobs.cv']) // Eager load alumni and cv data
             ->firstOrFail();
     }
 
-    public function apply(Request $request, $company, $slug)
+    public function apply(Request $request, $slug)
     {
         DB::beginTransaction();
 
@@ -44,7 +41,7 @@ class JobPostService
             ]);
 
             $alumniId = Auth::user()->id;
-            $jobPost = JobPost::where('slug', $slug)->firstOrFail();
+            $jobPost = JobPost::with('admin','company')->where('slug', $slug)->firstOrFail();
 
             // Check if the alumni has already applied for the job
             $alreadyApplied = AppliedJobs::where('alumni_id', $alumniId)
@@ -60,7 +57,7 @@ class JobPostService
             // Proceed with the application
             $job = new AppliedJobs();
             $job->alumni_id = $alumniId;
-            $job->company_id = $company;
+            $job->company_id = $jobPost->posted_by=='admin'?$jobPost->admin->user_id:$jobPost->company->user_id;
             $job->cv_id = $validatedData['cv_id']; // Use the validated cv_id
             $job->job_id = $jobPost->id;
             $jobPost->applied_by += 1;  // Increment the applied_by field by 1
@@ -109,7 +106,15 @@ class JobPostService
         return datatables($query)
             ->addIndexColumn()
             ->addColumn('company_logo', function ($data) {
-                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . asset('public/storage/company/' . $data->company->image) . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
+                $imagePath = '';
+
+                if ($data->posted_by == 'company') {
+                    $imagePath = $data->company && $data->company->image ? asset('public/storage/company/image/' . $data->company->image) : asset('public/assets/images/no-image.jpg');
+                } else {
+                    $imagePath = $data->admin && $data->admin->image ? asset('public/storage/admin/image/' . $data->admin->image) : asset('public/assets/images/no-image.jpg');
+                }
+
+                return '<img onerror="this.onerror=null; this.src=\'' . asset('public/assets/images/no-image.jpg') . '\';" src="' . $imagePath . '" alt="Company Logo" class="rounded avatar-xs max-h-35">';
             })
             ->addColumn('title', function ($data) {
                 return htmlspecialchars($data->title);
@@ -152,18 +157,20 @@ class JobPostService
     {
         $authUser = $this->getAuthenticatedUser();
 
-        $query = JobPost::with('company'); // Eager load the company relationship
+        $query = JobPost::with('company','admin'); // Eager load the company relationship
         // Base query adjustments based on user type
         $query->where(function ($q) use ($authUser) {
             if ($authUser->role_id == 1) {
                 $q->where('posted_by', 'admin')
                     ->orWhere('posted_by', 'company');
             } else {
-                $q->where('user_id', $authUser->company->id)
+
+                $q->where('user_id', $authUser->company->user_id)
                     ->where('posted_by', 'company');
 
             }
         });
+
         // Conditionally add status filter
         if (isset($request->status) && $request->status != 'all') {
             $query->where('status', $request->status);
@@ -219,7 +226,7 @@ class JobPostService
                 }
             })
             ->addColumn('company', function ($data) {
-                return $data->company ? $data->company->name : '';
+                return $data->company ? $data->company->name : $data->admin->first_name.' '.$data->admin->last_name;
             })
             ->addColumn('posted_by', function ($data) {
                 return '<p class="d-inline-block py-6 px-10 bd-ra-6 fs-14 fw-500 lh-16' . ($data->posted_by == 'admin' ? ' text-0fa958 bg-0fa958-10' : ' text-f5b40a bg-f5b40a-10') . '">' . $data->posted_by . '</p>';
@@ -259,7 +266,7 @@ class JobPostService
     public function getPendingJobPostList($request){
 
         $authUser = $this->getAuthenticatedUser();
-        $query = JobPost::with('company')->where('status',JOB_STATUS_APPROVED); // Eager load the company relationship
+        $query = JobPost::with('company','admin')->where('status',JOB_STATUS_APPROVED); // Eager load the company relationship
 
 // Base query adjustments based on user type
         $query->where(function($q) use ($authUser, $request) {
@@ -267,11 +274,11 @@ class JobPostService
                 $q->where('posted_by', 'admin')
                     ->orWhere('posted_by','company');
             } else {
-                $q->where('user_id', $authUser->user_id)
+                $q->where('user_id', $authUser->id)
                     ->where('posted_by', 'company');
             }
-
         });
+
 
         // Conditionally add status filter
         if (isset($request->status) && $request->status != 'all') {
@@ -391,7 +398,7 @@ class JobPostService
             $jobPost = new JobPost();
             $jobPost->title = $request->title;
             $jobPost->slug = $slug;
-            $jobPost->user_id = $authUser->role_id==1?$authUser->admin->id:$authUser->company->id;
+            $jobPost->user_id = $authUser->role_id==1?$authUser->admin->user_id:$authUser->company->user_id;
             $jobPost->posted_by = $type; // Use table name as a proxy for role if roles are distinct by table
             $jobPost->location = $request->location;
             $jobPost->post_link = $request->post_link ?: '';
@@ -484,7 +491,7 @@ class JobPostService
     public function applied($request,$id)
     {
         $applied = AppliedJobs::with(['alumni', 'cv'])
-            ->where('company_id', Auth::user()->user_id)
+            ->where('company_id', Auth::user()->id)
             ->where('job_id', $id)
             ->when($request->filled('selectedMajor') && $request->selectedMajor != "0", function ($query) use ($request) {
                 return $query->whereHas('alumni', function ($query) use ($request) {
@@ -503,7 +510,6 @@ class JobPostService
                     $query->whereBetween('GPA', [$lowerBound, $gpa]);
                 });
             });
-
         // Handle ordering
         if ($request->has('order')) {
             $columns = ['name', 'gpa', 'major', 'graduation_year', 'action'];
@@ -542,7 +548,15 @@ class JobPostService
         return datatables($appliedData)
             ->addIndexColumn()
             ->addColumn('name', function ($data) {
-                return '<a class="text-707070 text-decoration-underline" href="' . route('company.jobs.alumni-profile', ['id' => $data->alumni->id]) . '">' . $data->alumni->first_name . ' ' . $data->alumni->last_name . '</a>';
+                $url = '';
+
+                if (Auth::user()->role_id == 3) {
+                    $url = route('company.jobs.alumni-profile', ['id' => $data->alumni->user_id]);
+                } else {
+                    $url = route('admin.jobs.alumni-profile', ['id' => $data->alumni->user_id]);
+                }
+
+                return '<a class="text-707070 text-decoration-underline" href="' . $url . '">' . $data->alumni->first_name . ' ' . $data->alumni->last_name . '</a>';
             })
             ->addColumn('gpa', function ($data) {
                 return $data->alumni->GPA;
