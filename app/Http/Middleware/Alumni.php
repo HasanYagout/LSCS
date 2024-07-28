@@ -16,9 +16,17 @@ class Alumni
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role_id == 2) {
-            return $next($request);
+
+
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            if ($user->role_id == 2) {
+                return $next($request);
+            }
         }
+
         return redirect()->route('auth.login');
     }
+
 }

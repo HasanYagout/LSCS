@@ -14,11 +14,16 @@ class Admin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role_id == 1||Auth::user()->role_id==4) {
-            return $next($request);
+        if (Auth::check()) {
+            $user = Auth::user();
+
+            if ($user->role_id == 1 || $user->role_id == 4) {
+                return $next($request);
+            }
         }
+
         return redirect()->route('auth.login');
     }
 }
