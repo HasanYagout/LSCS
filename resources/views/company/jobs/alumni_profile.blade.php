@@ -210,33 +210,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="col-md-12">
-                                            <div class="py-20 mt-3 px-30 bd-ra-10 bg-f9f9f9 max-w-503 m-auto">
-                                                <div class="pb-25 mb-25 bd-b-one bd-c-ededed">
-                                                    <h4 class="fs-18 fw-500 lh-22 text-secondary-color pb-10">{{ __('CVs') }}</h4>
 
-                                                </div>
-                                                <div class="container">
-                                                    <div class="row g-3">
-
-                                                        @foreach($user->cvs as $cv)
-                                                            <div class="col-md-6">
-                                                                <div class="card">
-                                                                    <div class="card-body">
-                                                                        <embed
-                                                                            src="{{asset('public/storage/alumni/cv').'/'.$cv->name}}"
-                                                                            type="application/pdf" width="100%" height="500px">
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
 
                                     </div>
                                 </div>
