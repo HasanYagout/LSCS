@@ -156,11 +156,12 @@
         })
 
     });
-    $(document).on('click', '.delete-post-btn', function(){
+    $(document).on('click', '.delete-post-btn', function() {
         var selector = $(this);
-        var slug =  $(selector).closest('.post-main-area').find('.post-slug').val();
+        var slug = $(selector).closest('.post-main-area').find('.post-slug').val();
         var targetUrl = $('#delete-post-route').val();
         var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
         Swal.fire({
             title: 'Sure! You want to delete this?',
             text: "You won't be able to revert this!",
@@ -172,23 +173,35 @@
         }).then((result) => {
             if (result.value) {
                 $.ajax({
-                    type: 'DELETE',
+                    type: 'GET',
                     url: targetUrl,
-                    data: {'slug':slug,'_token':csrfToken},
-                    success: function (response) {
-                        toastr.success(response.message);
-
-                        if(response.status == true){
+                    data: {
+                        slug: slug,
+                        _token: csrfToken
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(response.message);
                             $(selector).closest('.post-main-area').remove();
+                            setTimeout(function() {
+                                window.location.href = '/'; // Redirect to home after showing success message
+                            }, 2000); // Adjust the timeout as needed
+                        } else {
+                            toastr.error(response.message);
                         }
                     },
-                    error: function (error) {
-                        toastr.error(error.responseJSON.message)
+                    error: function(xhr) {
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            toastr.error(xhr.responseJSON.message);
+                        } else {
+                            toastr.error('An error occurred. Please try again.');
+                        }
                     }
-                })
+                });
             }
-        })
+        });
     });
+
 
     window.loadMorePageCount = 1;
     window.postAjaxCalled = 0;
