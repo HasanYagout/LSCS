@@ -106,29 +106,9 @@
                                     </div>
                                 </div>
 
-
-
-{{--                                <div class="item">--}}
-{{--                                    <div class="primary-form-group">--}}
-{{--                                        <div class="primary-form-group-wrap">--}}
-{{--                                            <label for="is_member" class="form-label">{{__('Course')}}</label>--}}
-{{--                                            <select class="sf-select-without-search primary-form-control" name='is_member'--}}
-{{--                                                    id='is-member'>--}}
-{{--                                                <option value="-1" selected>{{__('All')}}</option>--}}
-
-{{--                                                <option value="90">90+</option>--}}
-{{--                                                <option value="80">80</option>--}}
-{{--                                                <option value="70">70</option>--}}
-{{--                                                <option value="60">60</option>--}}
-
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
                                 <button
                                     class="bg-cdef84 border-0 bd-ra-12 py-13 px-26 fs-15 fw-500 lh-25 text-black hover-bg-one advance-filter">{{__('Search Now')}}</button>
-                                <!-- <div class="item">
-                                                          </div> -->
+
                             </div>
                         </div>
                     </div>
