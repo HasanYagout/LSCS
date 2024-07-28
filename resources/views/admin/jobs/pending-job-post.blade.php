@@ -75,7 +75,7 @@
                                 <option value="" selected>{{__('Choose')}}</option>
 
                                 @foreach($companies as $company)
-                                    <option value="{{$company->company->name}}">{{$company->company->name}}</option>
+                                    <option value="{{$company->company?$company->company->name:$company->admin->first_name}}">{{$company->company?$company->company->name:$company->admin->first_name}}</option>
                                 @endforeach
                             </select>
                         </div>
