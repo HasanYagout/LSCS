@@ -85,7 +85,7 @@
             @if(in_array($media->extension ?? '', ['png', 'jpg', 'svg', 'jpeg', 'gif']))
                     <li>
                         <a href="{{ asset('public/storage/posts').'/'.$media->name }}" data-lightbox="post-gallery-{{ $post->slug }}" data-title="{{ $media->name }}">
-                            <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/posts').'/'.$media->name }}" alt="Image">
+                            <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/posts').'/'.$media->name }}" alt="Image">
                             @if($index == 2 && count($post->media) > 3)
                                 <div class='morePhotos'>+{{ count($post->media) - 3 }} more</div>
                             @endif
