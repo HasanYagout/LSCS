@@ -9,11 +9,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Admin extends Authenticatable
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
 
     protected $fillable=['first_name','last_name','phone','user_id','status','email','image'];
 
-    protected $dates = ['deleted_at'];
     public function role()
     {
         return $this->hasOne(Roles::class, 'id', 'role_id');

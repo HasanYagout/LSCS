@@ -49,20 +49,7 @@ class Post extends Model
     {
         return $this->belongsTo(Company::class, 'user_id');
     }
-    public function comments()
-    {
-        return $this->hasMany(PostComment::class)->whereNull('parent_id');
-    }
 
 
 
-    public function likes()
-    {
-        return $this->belongsToMany(User::class, 'post_like', 'post_id', 'user_id');
-    }
-
-    function replies()
-    {
-        return $this->hasMany(PostComment::class);
-    }
 }

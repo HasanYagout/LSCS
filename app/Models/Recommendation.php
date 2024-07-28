@@ -12,12 +12,12 @@ class Recommendation extends Model
 
     public function alumni()
     {
-        return $this->belongsTo(Alumni::class, 'alumni_id','id');
+        return $this->belongsTo(Alumni::class, 'alumni_id','user_id');
     }
 
     // Relationship with Admin
     public function admin()
     {
-        return $this->belongsTo(Admin::class, 'admin_id')->where('role_id', 4);
+        return $this->belongsTo(Admin::class, 'admin_id','user_id');
     }
 }

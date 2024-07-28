@@ -14,7 +14,7 @@ class News extends Model
 
 
     public function author(){
-        return $this->belongsTo(Admin::class, 'posted_by')->withTrashed();
+        return $this->belongsTo(Admin::class, 'posted_by');
     }
 
     public function category(){
