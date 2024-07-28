@@ -2,11 +2,13 @@
 <div class="pb-22 d-flex justify-content-between align-items-center">
     <!-- User -->
     <div class="d-flex align-items-center cg-10">
-        <div class="flex-shrink-0 w-45 h-45 bd-one bd-c-primary-color rounded-circle overflow-hidden"><img src="{{ asset(getFileUrl($post->author->image)) }}" alt="{{ $post->author->name }}" /></div>
+        <div class="flex-shrink-0 w-45 h-45 bd-one bd-c-primary-color rounded-circle overflow-hidden">
+            <img onerror="this.src='{{asset('public/assets/images/no-image.jpg')}}'" src="{{ asset('public/storage/admin/image').'/'.$post->admin->image}}" alt="{{ $post->admin->first_name }}" /></div>
         <div class="">
-            <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{ $post->author->name }}</h4>
+            <h4 class="fs-16 fw-500 lh-20 text-1b1c17">{{ $post->admin->first_name }}</h4>
             <p class="fs-12 fw-400 lh-15 text-707070">{{ $post->created_at->diffForHumans() }}</p>
         </div>
+
     </div>
 </div>
 <!-- Body -->
@@ -18,13 +20,14 @@
 <div class="">
     <div class="pt-18">
         <!-- Attachment preview -->
-        <div id="files-area" class="pb-10">
+        <div id="files-area" class="pb-10  overflow-auto">
             <span id="filesList2">
                 <span id="files-names2">
+
                     @foreach ($post->media as $item)
                     <span class="file-block"><span class="file-icon"><i class="fa-solid fa-file"></i></span>
                         <input type="hidden" name="oldFiles[]" value="{{ $item->id }}">
-                        <p class="name">{{ $item->file_manager->original_name }}</p>
+                        <p class="name">{{ $item->name}}</p>
                         <span class="file-delete"><i class="fa-solid fa-xmark"></i></span>
                     </span>
                     @endforeach
